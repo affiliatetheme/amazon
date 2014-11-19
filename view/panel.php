@@ -36,6 +36,19 @@
 							
 							<tr>
 								<td style="padding:25px;font-family:Verdana, Geneva, sans-serif;color:#666;">
+									<label for="amazon_country">Land (AWS)</label>
+								</td>      
+								<td style="padding:25px;font-family:Verdana, Geneva, sans-serif;color:#666;">
+									<?php $selected_amazon_country = get_option('amazon_country'); ?>
+									<select name="amazon_country" id="amazon_country" class="widefat">
+										<option value="DE" <?php if($selected_amazon_country == "DE") echo 'selected'; ?>>Deutschland</option>
+										<option value="US" <?php if($selected_amazon_country == "US") echo 'selected'; ?>>US</option>
+									</select>
+								</td>     
+							</tr>
+							
+							<tr>
+								<td style="padding:25px;font-family:Verdana, Geneva, sans-serif;color:#666;">
 									<label for="amazon_partner_id">Partner ID</label>
 								</td>      
 								<td style="padding:25px;font-family:Verdana, Geneva, sans-serif;color:#666;">
