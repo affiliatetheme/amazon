@@ -114,6 +114,9 @@ class Item
      */
     protected $_imageSet;
 
+    /**
+     * @var \DOMElement
+     */
     protected $_dom;
 
 
@@ -257,11 +260,17 @@ class Item
         return 'Keine Produktbeschreibung gefunden!';
     }
 
+    /**
+     * @return mixed
+     */
     public function getProductGroup()
     {
         return $this->ProductGroup;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBinding()
     {
         return $this->Binding;
@@ -389,9 +398,37 @@ class Item
 
     /**
      * @return ImageVariantSet
+     * @throws \Exception
      */
     public function getAllImages()
     {
-        return $this->_imageSet;
+        if ($this->hasImages()) {
+
+            //add images to imageset
+            $this->_imageSet->addDefaultImageSet($this->SmallImage, $this->MediumImage, $this->LargeImage);
+
+            return $this->_imageSet;
+        }
+
+        throw new \Exception('No images found!');
+    }
+
+    /**
+     * Check if images are available
+     *
+     * @return bool
+     */
+    public function hasImages(){
+        $check = false;
+
+        if ($this->_imageSet == null) {
+            $this->_imageSet = new ImageVariantSet();
+            $this->_imageSet->addDefaultImageSet($this->SmallImage, $this->MediumImage, $this->LargeImage);
+            $check = true;
+        } else if ($this->_imageSet != null ){
+            $check = true;
+        }
+
+        return $check;
     }
 }
