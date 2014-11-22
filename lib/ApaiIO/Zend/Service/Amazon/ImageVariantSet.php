@@ -17,29 +17,31 @@ class ImageVariantSet
      */
     protected $_images;
 
-    public function __construct(\DOMNodeList $variants)
+    public function __construct(\DOMNodeList $variants = null)
     {
-        $i = 0;
-        foreach ($variants as $variant) {
-            foreach (array('SwatchImage', 'SmallImage', 'MediumImage', 'LargeImage') as $im) {
-                //var_dump($variant->c14N(false, true));die;
+        if ($variants != null) {
+            $i = 0;
+            foreach ($variants as $variant) {
+                foreach (array('SwatchImage', 'SmallImage', 'MediumImage', 'LargeImage') as $im) {
+                    //var_dump($variant->c14N(false, true));die;
 
-                $document = new \DOMDocument('1.0', 'UTF-8');
-                $document->loadXML($variant->c14N(false, true));
+                    $document = new \DOMDocument('1.0', 'UTF-8');
+                    $document->loadXML($variant->c14N(false, true));
 
-                $xpath = new \DOMXPath($document);
-                $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
+                    $xpath = new \DOMXPath($document);
+                    $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
 
-                $result = $xpath->query("./az:ImageSet[@Category='variant']/az:$im", $document);
+                    $result = $xpath->query("./az:ImageSet[@Category='variant']/az:$im", $document);
 
-                if ($result->length == 1) {
-                    /**
-                     * @see Image
-                     */
-                    $this->_images[$i][$im] = new Image($result->item(0));
+                    if ($result->length == 1) {
+                        /**
+                         * @see Image
+                         */
+                        $this->_images[$i][$im] = new Image($result->item(0));
+                    }
                 }
+                $i++;
             }
-            $i++;
         }
     }
 
@@ -64,14 +66,31 @@ class ImageVariantSet
         return $this->_getImageCollectionByType('LargeImage');
     }
 
+    public function addDefaultImageSet(Image $smallImage = null, Image $mediumImage = null, Image $largeImage = null){
+        if($smallImage != null ) {
+            $this->_images[]['SmallImage'] = $smallImage;
+        }
+
+        if($mediumImage != null) {
+            $this->_images[]['MediumImage'] = $mediumImage;
+        }
+
+        if($largeImage != null) {
+            $this->_images[]['LargeImage'] = $largeImage;
+        }
+    }
+
 
     protected function _getImageCollectionByType($type)
     {
         $data = array();
         foreach ($this->_images as $image) {
-            $data[] = $image[$type]->Url->getUri();
+
+            if($image[$type] != null) {
+                $data[] = $image[$type]->Url->getUri();
+            }
         }
 
-        return $data;
+        return array_unique($data);
     }
 } 
