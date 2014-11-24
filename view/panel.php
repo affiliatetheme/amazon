@@ -1,7 +1,6 @@
-<div class="wrap" id="affiliatetheme-page">
+<div class="wrap" id="affiliatetheme-page" data-url="<?php echo admin_url(); ?>">
 	<div class="affiliatetheme">
 		<h1>AffiliateTheme Import » Amazon</h1>
-		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 		
 		<div id="affiliatetheme-settings" class="metabox-holder postbox">
 			<h3 class="hndle"><span>Einstellungen</span> <a href="#" class="toggle-settings">(anzeigen)</a></h3>
@@ -41,8 +40,8 @@
 								<td style="padding:25px;font-family:Verdana, Geneva, sans-serif;color:#666;">
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
 									<select name="amazon_country" id="amazon_country" class="widefat">
-										<option value="DE" <?php if($selected_amazon_country == "DE") echo 'selected'; ?>>Deutschland</option>
-										<option value="US" <?php if($selected_amazon_country == "US") echo 'selected'; ?>>US</option>
+										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>>Deutschland</option>
+										<option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>>US</option>
 									</select>
 								</td>     
 							</tr>

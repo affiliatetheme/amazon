@@ -19,3 +19,5 @@
 
 .col-xs-3{float:left;width:20%;}
 .col-xs-9{float:left;width:71%;}
+
+img.img-responsive { display: table-cell; max-width: 100%; max-height:100px; }

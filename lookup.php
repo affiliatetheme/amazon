@@ -49,7 +49,13 @@ if ($formattedResponse->hasItem()) {
 	$asin = $item->ASIN;
 	$title = $item->Title;
 	$price = $item->getAmountForAvailability();
-	//$images = $item->getAllImages()->getLargeImages();
+	$images = $item->getAllImages()->getLargeImages();
+	
+	/* DEBUG
+	echo '<pre>';
+	print_r($item);
+	echo '</pre>';
+	*/
 	
 	if("modal" === $_GET['func']) {
 		// single import			
@@ -59,6 +65,7 @@ if ($formattedResponse->hasItem()) {
 				$html .= '<div class="form-group"><label>ASIN</label> <input type="text" id="asin" name="asin" class="form-control" value="'.$asin.'" readonly/></div>';
 				$html .= '<div class="form-group"><label>Titel</label> <input type="text" id="title" name="title" class="form-control" value="'.$title.'"/></div>';
 				$html .= '<div class="form-group"><label>Preis</label> <input type="text" id="price" name="price" class="form-control" value="'.$price.'" readonly/> EUR</div>';
+				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list().'</div>';
 				$html .= get_products_multiselect_tax_form();
                 if($item->hasImages()) {
                     $images = $item->getAllImages()->getLargeImages();
@@ -74,11 +81,12 @@ if ($formattedResponse->hasItem()) {
 
                         $html .= '<div class="image" data-item="' . $i . '">';
                         $html .= '<div class="row">';
-                        $html .= '<div class="col-xs-3"><img src="' . $image . '" width="100" height="100"/></div>';
+                        $html .= '<div class="col-xs-3"><img src="' . $image . '" class="img-responsive"/></div>';
                         $html .= '<div class="col-xs-9">';
                         $html .= '<div class="form-group small"><label>Bildname</label> <input type="text" name="image[' . $i . '][filename]" data-url="' . $image . '" id="image[' . $i . '][filename]" value="' . $image_filename . '" /> .' . $image_ext . '</div>';
                         $html .= '<div class="form-group small"><label>ALT-Tag</label> <input type="text" name="image[' . $i . '][alt]" id="image[' . $i . '][alt]" value="" /></div>';
                         $html .= '<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[' . $i . '][thumb]" value="true" class="unique"/></div>';
+						$html .= '<div class="form-group small"><label>Nicht importieren</label> <input type="checkbox" name="image[' . $i . '][exclude]" value="true" class="disable-this"/></div>';
                         $html .= '<input type="hidden" name="image[' . $i . '][url]" value="' . $image . '"/>';
                         $html .= '</div>';
                         $html .= '<div class="clearfix"></div>';

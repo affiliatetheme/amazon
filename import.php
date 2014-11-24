@@ -10,6 +10,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 	$asin = $_POST['asin'];
 	$title = $_POST['title'];
 	$price = floatval($_POST['price']);
+	$rating = floatval($_POST['rating']);
 	$taxs = $_POST['tax'];
 	$images = $_POST['image'];
 	
@@ -27,6 +28,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 				update_post_meta($produkt_id, 'amazon_produkt_id', $asin);
 				update_post_meta($produkt_id, 'preis', $price);
 				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
+				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
 				
 				//taxonomie
 				if($taxs) {
@@ -47,8 +49,10 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 							$thumb = false;
 						}
 						
-						$att_id = attach_external_image($url, $produkt_id, $thumb, $filename, array('post_title' => $alt));
-						update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
+						if($image['exclude'] != "true") {
+							$att_id = attach_external_image($url, $produkt_id, $thumb, $filename, array('post_title' => $alt));
+							update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
+						}
 					}
 				}
 			}

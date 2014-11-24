@@ -197,3 +197,24 @@ function normalizeFilename($string)
 	$string = str_replace("%", "_", $string);
 	return $string;
 }
+
+//
+function get_product_rating_list() {
+	$output = '
+		<select name="rating" id="rating" class="form-control">
+			<option value="0">0 Sterne</option>
+			<option value="0.5">0.5 Sterne</option>
+			<option value="1">1 Sterne</option>
+			<option value="1.5">1.5 Sterne</option>
+			<option value="2">2 Sterne</option>
+			<option value="2.5">2.5 Sterne</option>
+			<option value="3">3 Sterne</option>
+			<option value="3.5">3.5 Sterne</option>
+			<option value="4">4 Sterne</option>
+			<option value="4.5">4.5 Sterne</option>
+			<option value="5">5 Sterne</option>
+		</select>
+	';
+	
+	return $output;
+}
