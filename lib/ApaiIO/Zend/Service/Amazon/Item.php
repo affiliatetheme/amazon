@@ -368,6 +368,10 @@ class Item
         }
 
         if ($price <= 0 || $price == '') {
+            //fix for app that are for free
+            if($price == 0 && $this->getBinding() == 'App') {
+                return 0;
+            }
             throw new \Exception('IOOS');
         } else {
             return floatval($price) / 100;
