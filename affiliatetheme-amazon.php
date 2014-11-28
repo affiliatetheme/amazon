@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: AffiliateTheme - Amazon Schnitstelle
+ * Plugin Name: AffiliateTheme - Amazon Schnittstelle
  * Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
  * Description: Dieses Plugin erweitert das Affiliatetheme um eine Amazon Schnittstelle
  * Version: 0.2
