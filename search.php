@@ -48,8 +48,6 @@ $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary'));
 $search->setPage($_GET['page']);
 
-$formattedResponse = $apaiIO->runOperation($search);
-
 /* @var $formattedResponse Amazon\ResultSet */
 $formattedResponse = $apaiIO->runOperation($search);
 
@@ -60,7 +58,7 @@ foreach ($formattedResponse as $singleItem) {
     $data['asin'] = $singleItem->ASIN;
     $data['Title'] = $singleItem->Title;
     $data['url'] = $singleItem->DetailPageURL;
-    $data['img'] = $singleItem->SmallImage->Url->getUri();
+	if($singleItem->SmallImage->Url) { $data['img'] = $singleItem->SmallImage->Url->getUri(); }
     $data['price'] = $singleItem->getUserFormattedPrice();
     $data['category'] = $singleItem->getBinding();
 

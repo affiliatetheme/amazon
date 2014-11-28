@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Affiliatetheme.de - Amazon Schnitstelle
+ * Plugin Name: AffiliateTheme - Amazon Schnitstelle
  * Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
  * Description: Dieses Plugin erweitert das Affiliatetheme um eine Amazon Schnittstelle
- * Version: 0.1
+ * Version: 0.2
  * Author: endcore Medienagentur
  * Author URI: http://endcore.com
  * License: GPL2

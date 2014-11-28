@@ -73,11 +73,12 @@
 						</tbody>
 					</table>
 				</form>
+				
+				<div id="checkConnection"></div>
 			</div>
 		</div>
 
-
-		<div id="affiliatetheme-steps" class="metabox-holder postbox amazon-api-cont">
+		<div id="affiliatetheme-import-window" class="metabox-holder postbox amazon-api-cont">
 			<h3 class="hndle"><span>Amazon durchsuchen</span></h3>
 			<div class="inside">
 				<div class="form-container">
@@ -141,11 +142,15 @@
 					<div class="clearfix"></div>
 				</div>
 				
-				<div id="page-links">
-					<a href="#" id="prev-page">« Vorherige Seite</a>
-					<a href="#" id="next-page">Nächste Seite »</a>
+				<div id="info-title">
+					
 				</div>
 				
+				<div id="page-links" style="margin-bottom:15px;">
+					<a href="#" id="prev-page" class="button">« Vorherige Seite</a>
+					<a href="#" id="next-page" class="button">Nächste Seite »</a>
+				</div>
+								
 				<table class="wp-list-table widefat fixed produkte">
 					<colgroup>
 						<col width="40">

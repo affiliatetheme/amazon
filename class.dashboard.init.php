@@ -13,19 +13,20 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			
 			//search
 			add_action( 'wp_ajax_amazon_api_search', array(&$this, 'amazon_api_search') );
-			add_action( 'wp_ajax_nopriv_amazon_api_search', array(&$this, 'amazon_api_search') );
+			//add_action( 'wp_ajax_nopriv_amazon_api_search', array(&$this, 'amazon_api_search') );
 			
 			//lookup
 			add_action( 'wp_ajax_amazon_api_lookup', array(&$this, 'amazon_api_lookup') );
-			add_action( 'wp_ajax_nopriv_amazon_api_lookup', array(&$this, 'amazon_api_lookup') );
+			//add_action( 'wp_ajax_nopriv_amazon_api_lookup', array(&$this, 'amazon_api_lookup') );
 			
 			//import
 			add_action( 'wp_ajax_amazon_api_import', array(&$this, 'amazon_api_import') );
-			add_action( 'wp_ajax_nopriv_amazon_api_import', array(&$this, 'amazon_api_import') );
+			//add_action( 'wp_ajax_nopriv_amazon_api_import', array(&$this, 'amazon_api_import') );
 			
 			//update
-			add_action( 'wp_ajax_amazon_api_update', array(&$this, 'amazon_api_update') );
-			add_action( 'wp_ajax_nopriv_amazon_api_update', array(&$this, 'amazon_api_update') );
+			//add_action( 'wp_ajax_amazon_api_update', array(&$this, 'amazon_api_update') );
+			//add_action( 'wp_ajax_nopriv_amazon_api_update', array(&$this, 'amazon_api_update') );
+			add_action( 'endcore_amazon_api_update', array(&$this, 'amazon_api_update') );			
 		} 
 		
 		/**
@@ -44,6 +45,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			register_setting('endcore_api_amazon_options', 'amazon_secret_key');
 			register_setting('endcore_api_amazon_options', 'amazon_partner_id');
 			register_setting('endcore_api_amazon_options', 'amazon_country');
+			register_setting('endcore_api_amazon_options', 'amazon_benachrichtigung');
 		}
 		
 		/*
@@ -108,6 +110,7 @@ function get_products_multiselect_tax_form() {
 						$output .= '<option value="'.$term->slug.'">'.$term->name.'</option>';
 					}
 				$output .= '</select>
+				<label></label><input type="text" name="tax['.$tax.'][]" class="form-control" placeholder="Neuen Term in \''.$taxonomy->labels->name.'\' anlegen." style="margin-left:4px;margin-top:10px;"/>
 			</div>
 			';
 		}
@@ -217,4 +220,35 @@ function get_product_rating_list() {
 	';
 	
 	return $output;
+}
+
+// send amazon notification mail
+function send_amazon_notifictaion_mail($produkt_id) {
+	$to = get_option('admin_email');
+	$sitename = get_bloginfo('name');
+	function set_html_content_type() {
+		return 'text/html';
+	}
+	
+	add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+	$body = 'Das Produkt <a href="'.get_permalink($produkt_id).'">'.get_the_title($produkt_id).'</a> ist aktuell nicht mehr bei Amazon verfügbar.';
+	wp_mail($to, $sitename.': Produkt nicht verfügbar', $body);
+	remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
+}
+
+function cron_amazon_api_update_recurrence( $schedules ) {
+	$schedules['10min'] = array(
+		'display' => __( 'Every 10 Minutes', 'textdomain' ),
+		'interval' => 600,
+	);
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'cron_amazon_api_update_recurrence' );
+
+if(get_option('amazon_public_key') != "" &&  get_option('amazon_secret_key') != "") {
+	if( !wp_next_scheduled( 'endcore_amazon_api_update' )) {
+		wp_schedule_event(time(), '10min', 'endcore_amazon_api_update');
+	}
+} else {
+	wp_clear_scheduled_hook('endcore_amazon_api_update');
 }

@@ -51,11 +51,33 @@ if($products) {
 			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '1');
 			update_post_meta($product->post_id, 'preis', $price);
 			update_post_meta($product->post_id, 'last_amazon_check', time());
-			//last erneuern
 		} catch(\Exception $e) {
 			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '0');
 			update_post_meta($product->post_id, 'last_amazon_check', time());
-			//benachrichtigung
+			
+			// action
+			switch(get_option('amazon_benachrichtigung')) {
+				case 'email':
+					send_amazon_notifictaion_mail($product->post_id);
+					break;
+					
+				case 'draft':
+					$args = array(
+						'ID'			=> $product->post_id,
+						'post_status'	=> 'draft'
+					);
+					wp_update_post($args);
+					break;
+					
+				case 'email_draft':
+					send_amazon_notifictaion_mail($product->post_id);
+					$args = array(
+						'ID'			=> $product->post_id,
+						'post_status'	=> 'draft'
+					);
+					wp_update_post($args);
+					break;
+			}
 		}
 	}
 }

@@ -38,7 +38,7 @@ $apaiIO = new ApaiIO($conf);
 
 $lookup = new Lookup();
 $lookup->setItemId($_GET['asin']);
-$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images'));
+$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews'));
 
 /* @var $formattedResponse Amazon\SingleResultSet */
 $formattedResponse = $apaiIO->runOperation($lookup);
@@ -85,9 +85,14 @@ if ($formattedResponse->hasItem()) {
                         $html .= '<div class="col-xs-9">';
                         $html .= '<div class="form-group small"><label>Bildname</label> <input type="text" name="image[' . $i . '][filename]" data-url="' . $image . '" id="image[' . $i . '][filename]" value="' . $image_filename . '" /> .' . $image_ext . '</div>';
                         $html .= '<div class="form-group small"><label>ALT-Tag</label> <input type="text" name="image[' . $i . '][alt]" id="image[' . $i . '][alt]" value="" /></div>';
-                        $html .= '<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[' . $i . '][thumb]" value="true" class="unique"/></div>';
-						$html .= '<div class="form-group small"><label>Nicht importieren</label> <input type="checkbox" name="image[' . $i . '][exclude]" value="true" class="disable-this"/></div>';
-                        $html .= '<input type="hidden" name="image[' . $i . '][url]" value="' . $image . '"/>';
+                        $html .= '<div class="row">';
+							$html .= '<div class="col-xs-6">';
+                       			$html .= '<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[' . $i . '][thumb]" value="true" class="unique"/></div>';
+							$html .= '</div><div class="col-xs-6">';
+								$html .= '<div class="form-group small"><label>Nicht importieren</label> <input type="checkbox" name="image[' . $i . '][exclude]" value="true" class="disable-this"/></div>';
+                       		$html .= '</div>';
+						$html .= '<div class="clearfix"></div></div>';
+					    $html .= '<input type="hidden" name="image[' . $i . '][url]" value="' . $image . '"/>';
                         $html .= '</div>';
                         $html .= '<div class="clearfix"></div>';
                         $html .= '</div>';

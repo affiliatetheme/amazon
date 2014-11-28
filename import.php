@@ -21,7 +21,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 				'post_status' => 'publish',
 				'post_type' => 'produkt',
 			);
-			
+						
 			$produkt_id = wp_insert_post($args);
 			if($produkt_id) {
 				//customfields

@@ -12,12 +12,14 @@
 #TB_window .form-group{margin-bottom:15px;}
 #TB_window .form-group label{display:inline-block;width:120px;}
 #TB_window .form-group input, #TB_window .form-group select{width:70%;}
-#TB_window .form-group input[type="checkbox"]{width:auto;}
 #TB_window .form-group input#price, #TB_window .form-group.small:first-of-type input{width:65%;}
+#TB_window .form-group input[type="checkbox"]{width:auto!important;}
+
 #TB_window .image .row{border-bottom:1px solid #eee;margin-bottom:15px;}
 #TB_ajaxContent{max-width:753px;min-height:94.5%;max-height: 831px}
 
 .col-xs-3{float:left;width:20%;}
 .col-xs-9{float:left;width:71%;}
+.col-xs-6{float:left;width:50%;}
 
 img.img-responsive { display: table-cell; max-width: 100%; max-height:100px; }
