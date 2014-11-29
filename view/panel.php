@@ -78,6 +78,16 @@
 			</div>
 		</div>
 
+        <?php
+            if(extension_loaded('curl') != function_exists('curl_version')):
+        ?>
+            <div class="error" id="required-by-plugin">
+                <p>Curl is required by this plugin, please activate it.</p>
+            </div>
+        <?php
+            endif;
+        ?>
+
 		<div id="affiliatetheme-import-window" class="metabox-holder postbox amazon-api-cont">
 			<h3 class="hndle"><span>Amazon durchsuchen</span></h3>
 			<div class="inside">
