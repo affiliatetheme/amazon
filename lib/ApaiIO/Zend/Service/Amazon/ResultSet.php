@@ -46,9 +46,16 @@ class ResultSet implements \SeekableIterator
      */
     public function __construct(\DOMDocument $dom)
     {
+        $az = 'http://webservices.amazon.com/AWSECommerceService/2011-08-01';
+
+        $domString = $dom->saveHTML();
+        if(strpos($domString, 'ItemSearchErrorResponse')) {
+            $az = 'http://ecs.amazonaws.com/doc/2011-08-01/';
+        }
+
         $this->_dom = $dom;
         $this->_xpath = new \DOMXPath($dom);
-        $this->_xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
+        $this->_xpath->registerNamespace('az', $az);
         $this->_results = $this->_xpath->query('//az:Item');
     }
 
@@ -74,6 +81,16 @@ class ResultSet implements \SeekableIterator
         return (int) $result->item(0)->data;
     }
 
+    /**
+     * Error message returned by response.
+     *
+     * @return string
+     */
+    public function getErrorMessage(){
+        $result = $this->_xpath->query('//az:Error/az:Message/text()');
+        return (string) $result->item(0)->data;
+    }
+    
     /**
      * Implement SeekableIterator::current()
      *
