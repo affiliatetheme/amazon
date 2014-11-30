@@ -88,7 +88,12 @@ class ResultSet implements \SeekableIterator
      */
     public function getErrorMessage(){
         $result = $this->_xpath->query('//az:Error/az:Message/text()');
-        return (string) $result->item(0)->data;
+
+        if ($result->length == 1) {
+            return (string) $result->item(0)->data;
+        }
+
+        return '';
     }
     
     /**
