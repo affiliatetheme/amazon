@@ -31,6 +31,7 @@
  */
 
 namespace ApaiIO\Zend\Service\Amazon;
+use ApaiIO\Features\CustomerReview;
 
 class Item
 {
@@ -90,6 +91,11 @@ class Item
     public $CustomerReviews = array();
 
     /**
+     * @var CustomerReview
+     */
+    public $CustomerReview;
+
+    /**
      * @var SimilarProducts[]
      */
     public $SimilarProducts = array();
@@ -135,6 +141,9 @@ class Item
         if (!$dom instanceof \DOMElement) {
             throw new Exception('Item is not a valid DOM element');
         }
+
+        //var_dump($dom->ownerDocument->saveHTML());die;
+
         $xpath = new \DOMXPath($dom->ownerDocument);
         $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
         $this->ASIN = $xpath->query('./az:ASIN/text()', $dom)->item(0)->data;
@@ -185,13 +194,9 @@ class Item
             $this->SalesRank = (int)$result->item(0)->data;
         }
 
-        $result = $xpath->query('./az:CustomerReviews/az:Review', $dom);
-        if ($result->length >= 1) {
-            foreach ($result as $review) {
-                $this->CustomerReviews[] = new CustomerReview($review);
-            }
-            $this->AverageRating = (float)$xpath->query('./az:CustomerReviews/az:AverageRating/text()', $dom)->item(0)->data;
-            $this->TotalReviews = (int)$xpath->query('./az:CustomerReviews/az:TotalReviews/text()', $dom)->item(0)->data;
+        $result = $xpath->query('./az:CustomerReviews/az:IFrameURL/text()', $dom);
+        if ($result->length == 1){
+            $this->CustomerReview = new CustomerReview($result->item(0)->data);
         }
 
         $result = $xpath->query('./az:EditorialReviews/az:*', $dom);
@@ -445,4 +450,27 @@ class Item
 
         return $check;
     }
+
+    /**
+     * @return float
+     */
+    public function getAverageRating(){
+        if ($this->CustomerReview) {
+            return $this->CustomerReview->getAverageRating();
+        }
+
+        return 0.0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalReviews(){
+        if ($this->CustomerReview) {
+            return $this->CustomerReview->getTotalReviews();
+        }
+
+        return 0;
+    }
+
 }
