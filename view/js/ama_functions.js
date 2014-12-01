@@ -198,7 +198,7 @@ jQuery(document).ready(function() {
     };
     
     var checkConnection = function() {
-        jQuery('#search-link').append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+        jQuery('#search-link').addClass('disabled').append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
         
         var value = 'Matrix'
         var cat = 'DVD';
@@ -207,7 +207,7 @@ jQuery(document).ready(function() {
         var page = '1';
         var track = value + " - " + cat + " - " + country;
         var resultContainer = jQuery('#checkConnection');
-
+		
         if (value.length < 3 && globalRequest == 1) {
             return;
         }
@@ -219,20 +219,17 @@ jQuery(document).ready(function() {
             type: 'GET',
             data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
             success: function(data){
-				console.log('yay');
             	var totalpages = data['rmessage']['totalpages'];
             	globalRequest = 0;
             	if(totalpages > 0) {
 	               
 	                resultContainer.fadeOut('fast', function() {
-	                    resultContainer.html('');
-	                 	resultContainer.append('<div id="message" class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
+	                 	resultContainer.append('<div class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
 	                    resultContainer.fadeIn('fast');
 	                });
 	            } else {
 	            	resultContainer.fadeOut('fast', function() {
-	                    resultContainer.html('');
-	                 	resultContainer.append('<div id="message" class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+	                 	resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
 	                 	jQuery('#affiliatetheme-settings .inside').slideToggle();
 	                 	var btn = jQuery('#affiliatetheme-settings  .toggle-settings');
 	                 	if(btn.html() == '(anzeigen)') {
@@ -243,12 +240,17 @@ jQuery(document).ready(function() {
 	                    resultContainer.fadeIn('fast');
 	                });
 	            }
-
+	            				
+				if(data['rmessage']['errormsg'] != "") {
+					resultContainer.append('<div class="error"><p class="error">'+data['rmessage']['errormsg']+'</p></div>');
+				}
+            
+	            jQuery('#search-link').removeClass('disabled');
+	            jQuery('.status-after').remove();
             },
 			error: function() {
 				resultContainer.fadeOut('fast', function() {
-					resultContainer.html('');
-					resultContainer.append('<div id="message" class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+					resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
 					jQuery('#affiliatetheme-settings .inside').slideToggle();
 					var btn = jQuery('#affiliatetheme-settings  .toggle-settings');
 					if(btn.html() == '(anzeigen)') {
