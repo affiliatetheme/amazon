@@ -202,22 +202,19 @@ function normalizeFilename($string)
 }
 
 //
-function get_product_rating_list() {
-	$output = '
-		<select name="rating" id="rating" class="form-control">
-			<option value="0">0 Sterne</option>
-			<option value="0.5">0.5 Sterne</option>
-			<option value="1">1 Sterne</option>
-			<option value="1.5">1.5 Sterne</option>
-			<option value="2">2 Sterne</option>
-			<option value="2.5">2.5 Sterne</option>
-			<option value="3">3 Sterne</option>
-			<option value="3.5">3.5 Sterne</option>
-			<option value="4">4 Sterne</option>
-			<option value="4.5">4.5 Sterne</option>
-			<option value="5">5 Sterne</option>
-		</select>
-	';
+function get_product_rating_list($rating = 0) {
+		
+	$output = '<select name="rating" id="rating" class="form-control">';
+	
+	for($i=0; $i<5.5; $i+= 0.5) {
+		if($rating == $i) {
+			$output .= '<option value="'.$i.'" selected>'.$i.' Sterne</option>';
+		} else {
+			$output .= '<option value="'.$i.'">'.$i.' Sterne</option>';
+		}
+	}		
+		
+	$output .= '</select>';
 	
 	return $output;
 }

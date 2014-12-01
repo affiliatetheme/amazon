@@ -167,7 +167,8 @@
 						<col width="115">
 						<col width="75">
 						<col width="200">
-						<col width="400">
+						<col width="300">
+						<col width="100">
 						<col width="100">
 						<col width="100">
 						<col width="60">
@@ -188,6 +189,9 @@
 							</th>
 							<th scope="col" id="description" class="manage-column column-description" style="">
 								<span>Beschreibung</span>
+							</th>
+							<th scope="col" id="rating" class="manage-column column-rating" style="">
+								<span>Bewertung</span>
 							</th>
 							<th scope="col" id="price" class="manage-column column-price" style="">
 								<span>Preis</span>

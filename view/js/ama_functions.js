@@ -95,7 +95,6 @@ jQuery(document).ready(function() {
 					jQuery('body table.produkte tr[data-asin='+asin+'] .check-column input[type=checkbox]').attr('disabled', 'disabled');
 					jQuery('body table.produkte tr[data-asin='+asin+'] .aktion i').removeClass('fa-plus-circle').addClass('fa-check-circle');
 		    	}
-		    	
 		    }
 		});
     };
@@ -169,6 +168,7 @@ jQuery(document).ready(function() {
 	                       	}
 	                        html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
 	                        html += '<td class="description">'+data['items'][x].edi_content+'</td>';
+	                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
 	                        html += '<td class="price">'+data['items'][x].price+'</td>';
 	                        html += '<td class="category">'+data['items'][x].category+'</td>';
 	                       	if(data['items'][x].exists == "true") {
@@ -185,7 +185,7 @@ jQuery(document).ready(function() {
                  	} else {
                  		html += '<tr class="item error" data-asin="">';
 	                        html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
-	                        html += '<td colspan="7">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
+	                        html += '<td colspan="8">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
 	                    html += '</tr>';
                  		resultContainer.append(html);
                  	} 

@@ -50,13 +50,16 @@ if ($formattedResponse->hasItem()) {
 	$title = $item->Title;
 	$price = $item->getAmountForAvailability();
 	$images = $item->getAllImages()->getLargeImages();
+	$average_rating = $item->getAverageRating();
+	$average_rating_rounded = round($average_rating / .5) * .5;
+    $total_reviews = $item->getTotalReviews();
 	
 	/* DEBUG
 	echo '<pre>';
 	print_r($item);
 	echo '</pre>';
 	*/
-	
+		
 	if("modal" === $_GET['func']) {
 		// single import			
 		$html .= '<div class="wrap">';
@@ -65,7 +68,7 @@ if ($formattedResponse->hasItem()) {
 				$html .= '<div class="form-group"><label>ASIN</label> <input type="text" id="asin" name="asin" class="form-control" value="'.$asin.'" readonly/></div>';
 				$html .= '<div class="form-group"><label>Titel</label> <input type="text" id="title" name="title" class="form-control" value="'.$title.'"/></div>';
 				$html .= '<div class="form-group"><label>Preis</label> <input type="text" id="price" name="price" class="form-control" value="'.$price.'" readonly/> EUR</div>';
-				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list().'</div>';
+				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list($average_rating_rounded).'</div>';
 				$html .= get_products_multiselect_tax_form();
                 if($item->hasImages()) {
                     $images = $item->getAllImages()->getLargeImages();
