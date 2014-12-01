@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
 			
 			jQuery(this).attr('disabled', true);
 			
-			if(current_page < max_pages) {
+			if(current_page <= max_pages) {
 				jQuery('#page').val(current_page - 1);
 			} 
 	        searchAction();
