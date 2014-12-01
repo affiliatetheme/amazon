@@ -25,27 +25,30 @@ class CustomerReview {
      */
     protected $_totalReviews = 0;
 
-    public function __construct($url){
-        $this->url = $url;
+    public function __construct($url)
+    {
+        if (ini_get('allow_url_fopen')) {
+            $this->url = $url;
 
-        $plainHtml = file_get_contents($this->url);
+            $plainHtml = file_get_contents($this->url);
 
-        $dom = new \DOMDocument();
-        @$dom->loadHTML($plainHtml);
+            $dom = new \DOMDocument();
+            @$dom->loadHTML($plainHtml);
 
-        $finder = new \DOMXPath($dom);
+            $finder = new \DOMXPath($dom);
 
-        $classname = 'crIFrameNumCustReviews';
-        $nodes = $finder->query("//*[contains(@class, '$classname')]");
+            $classname = 'crIFrameNumCustReviews';
+            $nodes = $finder->query("//*[contains(@class, '$classname')]");
 
-        $content = '';
+            $content = '';
 
-        if ($nodes->length == 1) {
-            $content .= $dom->saveXML($nodes->item(0));
-        }
+            if ($nodes->length == 1) {
+                $content .= $dom->saveXML($nodes->item(0));
+            }
 
-        if ($content) {
-            $this->_getReviewsData($content);
+            if ($content) {
+                $this->_getReviewsData($content);
+            }
         }
     }
 
