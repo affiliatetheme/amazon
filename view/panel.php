@@ -74,19 +74,33 @@
 					</table>
 				</form>
 				
-				<div id="checkConnection"></div>
+				
 			</div>
 		</div>
 
+		<div id="checkConnection"></div>
+			
         <?php
             if(extension_loaded('curl') != function_exists('curl_version')):
         ?>
             <div class="error" id="required-by-plugin">
-                <p>Curl is required by this plugin, please activate it.</p>
+                <p>Um dieses Plugin zu verwenden benötigst du cURL. <a href="http://php.net/manual/de/book.curl.php" taget="_blank">Hier</a> findest du mehr Informationen darüber. Kontaktiere im Zweifel deinen Systemadministrator.</p>
             </div>
         <?php
             endif;
         ?>
+        
+        <?php
+            if(ini_get('allow_url_fopen') == false):
+        ?>
+            <div class="error" id="required-by-plugin">
+                <p>Achtung: Du hast allow_url_fopen deaktiviert. Du benötigst diese Funktionen um das Rating von Amazon zu beziehen.</p>
+            </div>
+        <?php
+            endif;
+        ?>
+        
+        
 
 		<div id="affiliatetheme-import-window" class="metabox-holder postbox amazon-api-cont">
 			<h3 class="hndle"><span>Amazon durchsuchen</span></h3>
