@@ -160,7 +160,7 @@
 					<div class="form-group submit-group">
 						<input type="hidden" name="page" id="page" value="1">
 						<input type="hidden" name="max-pages" id="max-pages" value="">
-						<a href="#" id="search-link" class="button button-primary">Suche</a>
+						<button id="search-link" class="button button-primary">Suche</button>
 					</div>
 					
 					<div class="clearfix"></div>
@@ -171,8 +171,8 @@
 				</div>
 				
 				<div id="page-links" style="margin-bottom:15px;">
-					<a href="#" id="prev-page" class="button">« Vorherige Seite</a>
-					<a href="#" id="next-page" class="button">Nächste Seite »</a>
+					<button id="prev-page" class="button">« Vorherige Seite</button>
+					<button id="next-page" class="button">Nächste Seite »</button>
 				</div>
 								
 				<table class="wp-list-table widefat fixed produkte">

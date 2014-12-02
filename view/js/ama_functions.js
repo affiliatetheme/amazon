@@ -30,31 +30,27 @@ jQuery(document).ready(function() {
     //pagination
 	//todo: reset hidden page number on new search
     jQuery('#next-page').bind('click', function(event) {
-    	if(jQuery(this).attr('disabled') != "disabled") {
-			var current_page = parseInt(jQuery('#page').val());
-			var max_pages = parseInt(jQuery('#max-pages').val());
-			
-			jQuery(this).attr('disabled', true);
-			
-			if(current_page < max_pages) {
-				jQuery('#page').val(current_page + 1);
-			} 
-        	searchAction();
-       }
+		var current_page = parseInt(jQuery('#page').val());
+		var max_pages = parseInt(jQuery('#max-pages').val());
+		
+		jQuery(this).attr('disabled', true);
+		
+		if(current_page < max_pages) {
+			jQuery('#page').val(current_page + 1);
+		} 
+    	searchAction();
     });
     
     jQuery('#prev-page').bind('click', function(event) {
-    	if(jQuery(this).attr('disabled') !="disabled") {
-			var current_page = parseInt(jQuery('#page').val());
-			var max_pages = parseInt(jQuery('#max-pages').val());
-			
-			jQuery(this).attr('disabled', true);
-			
-			if(current_page <= max_pages) {
-				jQuery('#page').val(current_page - 1);
-			} 
-	        searchAction();
-        }
+		var current_page = parseInt(jQuery('#page').val());
+		var max_pages = parseInt(jQuery('#max-pages').val());
+		
+		jQuery(this).attr('disabled', true);
+		
+		if(current_page <= max_pages) {
+			jQuery('#page').val(current_page - 1);
+		} 
+        searchAction();
     });
 	
 	//mass import
@@ -107,7 +103,7 @@ jQuery(document).ready(function() {
     };
 
     var searchAction = function() {
-        jQuery('#search-link').append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+        jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
         
         var value = jQuery('.amazon-api-cont #search').val();
         var cat = jQuery('.amazon-api-cont #category').val();
@@ -180,7 +176,6 @@ jQuery(document).ready(function() {
 	
 	                        resultContainer.append(html);
 	                        
-	                        jQuery('#search-link .fa-spin').remove();
 	                    }
                  	} else {
                  		html += '<tr class="item error" data-asin="">';
@@ -191,6 +186,8 @@ jQuery(document).ready(function() {
                  	} 
 
                     resultContainer.fadeIn('fast');
+                    jQuery('#search-link .fa-spin').remove();
+                    jQuery('#search-link').attr('disabled', false);
                 });
 
             }
@@ -198,7 +195,7 @@ jQuery(document).ready(function() {
     };
     
     var checkConnection = function() {
-        jQuery('#search-link').addClass('disabled').append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
+        jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
         
         var value = 'Matrix'
         var cat = 'DVD';
@@ -245,7 +242,7 @@ jQuery(document).ready(function() {
 					resultContainer.append('<div class="error"><p class="error">'+data['rmessage']['errormsg']+'</p></div>');
 				}
             
-	            jQuery('#search-link').removeClass('disabled');
+	            jQuery('#search-link').attr('disabled', false);
 	            jQuery('.status-after').remove();
             },
 			error: function() {
