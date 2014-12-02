@@ -28,6 +28,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 				update_post_meta($produkt_id, 'amazon_produkt_id', $asin);
 				update_post_meta($produkt_id, 'preis', $price);
 				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
+				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
 				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
 				
 				//taxonomie
