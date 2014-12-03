@@ -316,7 +316,7 @@ class Item
      */
     public function getAmount($toDecimal = true)
     {
-        $price = '';
+        $price = 0;
 
         switch (AWS_PRICE) {
             case('new'):
@@ -338,7 +338,7 @@ class Item
                 break;
         }
 
-        return ($price > 0 && $toDecimal) ? floatval($price) / 100 : 0;
+        return ($price > 0 && $toDecimal) ? floatval($price) / 100 : $price;
     }
 
     /**
@@ -353,17 +353,17 @@ class Item
     {
         $price = $this->getAmount(false);
 
-        if ($price <= 0 || $price == '') {
+        if ($price <= 0) {
             $price = $this->Offers->Offers[0]->Price;
-            if ($price <= 0 || $price == '') {
+            if ($price <= 0) {
                 $price = $this->Offers->LowestNewPrice;
-                if ($price <= 0 || $price == '') {
+                if ($price <= 0) {
                     $price = $this->Offers->LowestUsedPrice;
-                    if ($price <= 0 || $price == '') {
+                    if ($price <= 0) {
                         $price = $this->Offers->LowestCollectiblePrice;
-                        if ($price <= 0 || $price == '') {
+                        if ($price <= 0) {
                             $price = $this->Offers->LowestRefurbishedPrice;
-                            if ($price <= 0 || $price == '') {
+                            if ($price <= 0) {
                                 $price = $this->Amount;
                             }
                         }
@@ -372,9 +372,9 @@ class Item
             }
         }
 
-        if ($price <= 0 || $price == '') {
+        if ($price <= 0) {
             //fix for app that are for free
-            if($price == 0 && $this->isFreeCategory()) {
+            if($this->isFreeCategory()) {
                 return 0;
             }
             throw new \Exception('IOOS');

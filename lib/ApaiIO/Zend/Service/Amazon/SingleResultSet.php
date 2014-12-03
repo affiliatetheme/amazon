@@ -43,10 +43,11 @@ class SingleResultSet
      */
     public function __construct(\DOMDocument $dom)
     {
+        //TODO: check error namespace as in ResultSet
+
         $this->_dom = $dom;
 
         $this->_xpath = new \DOMXPath($dom);
-
 
         $this->_xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
         $items = $this->_xpath->query('//az:Items/az:Item');
@@ -92,5 +93,20 @@ class SingleResultSet
         $valid = (string)$this->_xpath->query('./az:Items/az:Request/az:IsValid/text()')->item(0)->data;
 
         return $valid == 'True' ? true : false;
+    }
+
+    /**
+     * Error message returned by response.
+     *
+     * @return string
+     */
+    public function getErrorMessage(){
+        $result = $this->_xpath->query('//az:Error/az:Message/text()');
+
+        if ($result->length == 1) {
+            return (string) $result->item(0)->data;
+        }
+
+        return '';
     }
 }

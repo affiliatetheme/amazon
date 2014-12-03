@@ -28,18 +28,32 @@ $products = $wpdb->get_results(
 	$wpdb->prepare( "
 		SELECT pm.post_id, pm.meta_value as \"asin\", a.meta_value as \"last\" FROM {$wpdb->posts} p
 		LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-		LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id 
+		LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
 		WHERE pm.meta_key = '%s' AND a.meta_key = '%s' AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP())
 		AND p.post_type = '%s' LIMIT 0,999", 'amazon_produkt_id', 'last_amazon_check', 'produkt' 
 	)
 );
 
-print_r($products);
+$wlProducts = $wpdb->get_results(
+    $wpdb->prepare("
+        SELECT {$wpdb->posts}.ID as post_id, mt1.meta_value as asin, 0 as last FROM {$wpdb->posts}
+        LEFT JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'last_amazon_check')
+        INNER JOIN {$wpdb->postmeta} AS mt1 ON ({$wpdb->posts}.ID = mt1.post_id)
+        WHERE 1=1 AND {$wpdb->posts}.post_type = 'produkt' AND (({$wpdb->posts}.post_status = 'publish')) AND ( {$wpdb->postmeta}.post_id IS NULL
+        AND (mt1.meta_key = 'amazon_produkt_id' AND CAST(mt1.meta_value AS CHAR) != '') ) GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC
+    ")
+);
+
+$products = array_merge($products, $wlProducts);
+
+//print_r($products);die;
+
 if($products) {
 	foreach($products as $product) {
 		$lookup = new Lookup();
 		$lookup->setItemId($product->asin);
 		$lookup->setResponseGroup(array('OfferSummary', 'Offers', 'OfferFull'));
+        $lookup->setAvailability('Available');
 	
 		/* @var $formattedResponse Amazon\SingleResultSet */
 		$formattedResponse = $apaiIO->runOperation($lookup);
