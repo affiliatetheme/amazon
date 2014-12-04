@@ -53,8 +53,10 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 		/*
 		 * SCRIPTS
 		 */
-		public function menu_scripts()
+		public function menu_scripts($page)
 		{
+			if('import_page_endcore_api_amazon' != $page) return;
+			
 			wp_enqueue_script('endcore_api_amazon_functions', plugin_dir_url( __FILE__ ).'view/js/ama_functions.js', '1.0', true);
 			wp_enqueue_script('endcore_api_amazon_stuff', plugin_dir_url( __FILE__ ).'view/js/stuff.js', '1.0', true);
 			wp_enqueue_style('endcore_api_amazon_css',  plugin_dir_url( __FILE__ ).'view/css/style.css');
