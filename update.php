@@ -34,14 +34,13 @@ $products = $wpdb->get_results(
 	)
 );
 
-$wlProducts = $wpdb->get_results(
-    $wpdb->prepare("
+$wlProducts = $wpdb->get_results("
         SELECT {$wpdb->posts}.ID as post_id, mt1.meta_value as asin, 0 as last FROM {$wpdb->posts}
         LEFT JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'last_amazon_check')
         INNER JOIN {$wpdb->postmeta} AS mt1 ON ({$wpdb->posts}.ID = mt1.post_id)
-        WHERE 1=1 AND {$wpdb->posts}.post_type = 'produkt' AND (({$wpdb->posts}.post_status = 'publish')) AND ( {$wpdb->postmeta}.post_id IS NULL
+        WHERE 1=1 AND {$wpdb->posts}.post_type = 'produkt' AND ( {$wpdb->postmeta}.post_id IS NULL
         AND (mt1.meta_key = 'amazon_produkt_id' AND CAST(mt1.meta_value AS CHAR) != '') ) GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC
-    ")
+    "
 );
 
 $products = array_merge($products, $wlProducts);
@@ -65,14 +64,12 @@ if($products) {
 			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '1');
 			update_post_meta($product->post_id, 'preis', $price);
 			update_post_meta($product->post_id, 'last_amazon_check', time());
-		} catch(\Exception $e) {
-			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '0');
-			update_post_meta($product->post_id, 'last_amazon_check', time());
-			
+			wp_publish_post($product->post_id);
+		} catch(\Exception $e) {			
 			// action
 			switch(get_option('amazon_benachrichtigung')) {
 				case 'email':
-					send_amazon_notifictaion_mail($product->post_id);
+					if(get_post_meta($product->post_id, 'produkt_verfuegbarkeit', true) != "0") { send_amazon_notifictaion_mail($product->post_id); }
 					break;
 					
 				case 'draft':
@@ -81,10 +78,11 @@ if($products) {
 						'post_status'	=> 'draft'
 					);
 					wp_update_post($args);
+					
 					break;
 					
 				case 'email_draft':
-					send_amazon_notifictaion_mail($product->post_id);
+					if(get_post_meta($product->post_id, 'produkt_verfuegbarkeit', true) != "0") { send_amazon_notifictaion_mail($product->post_id); }
 					$args = array(
 						'ID'			=> $product->post_id,
 						'post_status'	=> 'draft'
@@ -92,6 +90,9 @@ if($products) {
 					wp_update_post($args);
 					break;
 			}
+			
+			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '0');
+			update_post_meta($product->post_id, 'last_amazon_check', time());
 		}
 	}
 }
