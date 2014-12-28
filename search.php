@@ -30,7 +30,7 @@ $apaiIO = new ApaiIO($conf);
 
 $search = new Search();
 $search->setCategory($_GET['category']);
-$search->setMerchantId('Amazon');
+//$search->setMerchantId('Amazon');
 $search->setKeywords($_GET['q']);
 $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary'));
