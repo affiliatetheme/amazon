@@ -300,6 +300,7 @@ class Item
                 break;
             case('refurbished'):
                 $price = $this->Offers->LowestRefurbishedFormattedPrice;
+                break;
             case('list'):
                 $price = $this->FormattedPrice;
                 break;
@@ -330,6 +331,7 @@ class Item
                 break;
             case('refurbished'):
                 $price = $this->Offers->LowestRefurbishedPrice;
+                break;
             case('list'):
                 $price = $this->Amount;
                 break;
