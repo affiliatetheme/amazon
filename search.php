@@ -51,6 +51,7 @@ foreach ($formattedResponse as $singleItem) {
     }
     $data['price'] = $singleItem->getUserFormattedPrice();
     $data['category'] = $singleItem->getBinding();
+    $data['cat_margin'] = $singleItem->getMarginForBinding();
 
     $data['average_rating'] = $singleItem->getAverageRating();
     $data['total_reviews'] = $singleItem->getTotalReviews();

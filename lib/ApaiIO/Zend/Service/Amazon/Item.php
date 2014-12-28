@@ -487,4 +487,27 @@ class Item
         return 1;
     }
 
+    public function getMarginForBinding()
+    {
+        $margin = 0;
+        $marginCategories = array(
+            'Kindle Edition' => 10,
+            'Gebundene Ausgabe' => 10,
+            'Broschiert' => 10,
+            'Taschenbuch' => 10,
+            'Wireless Phone' => 1,
+            'Elektronik' => 3,
+            'Gartenartikel' => 7,
+            'Haushaltswaren' => 7,
+            'Personal Computers' => 3,
+            'DVD' => 5,
+            'Blu-ray' => 5,
+            'Software Download' => 10
+        );
+
+        if(isset($marginCategories[$this->getBinding()])) {
+            $margin = $marginCategories[$this->getBinding()];
+        }
+        return $margin;
+    }
 }
