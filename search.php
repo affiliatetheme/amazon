@@ -56,6 +56,7 @@ foreach ($formattedResponse as $singleItem) {
     $data['total_reviews'] = $singleItem->getTotalReviews();
 
     $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
+    $data['external'] = $singleItem->isExternalProduct();
 
     global $wpdb;
     $imported = $wpdb->get_results(

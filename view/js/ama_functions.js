@@ -153,7 +153,11 @@ jQuery(document).ready(function() {
 	                        	html += '<tr class="item success" data-asin="'+data['items'][x].asin+'">';
 	                        	html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'" disabled="disabled"></th>';
 	                        } else {
-	                        	html += '<tr class="item" data-asin="'+data['items'][x].asin+'">';
+								if (data['items'][x].external == 1) {
+									html += '<tr class="item item-warning" data-asin="'+data['items'][x].asin+'">';
+								} else {
+									html += '<tr class="item" data-asin="'+data['items'][x].asin+'">';
+								}
 	                        	html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'"></th>';
 	                        }
 	                        html += '<td class="asin">'+data['items'][x].asin+'</td>';
@@ -162,7 +166,12 @@ jQuery(document).ready(function() {
 	                       	} else {
 	                       		html += '<td class="image">Kein Bild vorhanden</td>';
 	                       	}
-	                        html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+							if (data['items'][x].external == 1) {
+								html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+							} else {
+								html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+							}
+
 	                        html += '<td class="description">'+data['items'][x].edi_content+'</td>';
 	                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
 	                        html += '<td class="price">'+data['items'][x].price+'</td>';

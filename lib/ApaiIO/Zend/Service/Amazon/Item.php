@@ -258,7 +258,7 @@ class Item
     {
         if (count($this->EditorialReviews)) {
             if ($this->EditorialReviews[0]->Source == 'Product Description') {
-                return $this->EditorialReviews[0]->Content;
+                return strip_tags($this->EditorialReviews[0]->Content);
             }
         }
 
@@ -473,6 +473,18 @@ class Item
         }
 
         return 0;
+    }
+
+    /**
+     * Check if at least one offer
+     *
+     * @return int
+     */
+    public function isExternalProduct(){
+        if (count($this->Offers->Offers) >= 1) {
+            return 0;
+        }
+        return 1;
     }
 
 }
