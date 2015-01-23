@@ -50,6 +50,7 @@ foreach ($formattedResponse as $singleItem) {
         $data['img'] = $singleItem->SmallImage->Url->getUri();
     }
     $data['price'] = $singleItem->getUserFormattedPrice();
+    $data['price_amount'] = $singleItem->getAmountForAvailability();
     $data['category'] = $singleItem->getBinding();
     $data['cat_margin'] = $singleItem->getMarginForBinding();
 

@@ -175,7 +175,13 @@ jQuery(document).ready(function() {
 	                        html += '<td class="description">'+data['items'][x].edi_content+'</td>';
 	                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
 	                        html += '<td class="price">'+data['items'][x].price+'</td>';
-	                        html += '<td class="category">'+data['items'][x].category+'</td>';
+	                        html += '<td class="margin">';
+	                        if(data['items'][x].cat_margin != 0) { 
+	                        	var margin_sale = number_format((data['items'][x].price_amount/100)*data['items'][x].cat_margin, 2, ',', '.');
+	                        	html += data['items'][x].cat_margin+'%<br>(EUR '+margin_sale+' / Sale)'; 
+	                        } else { html += 'kA'; }
+	                        html += '</td>';
+	                        html += '<td class="category">'+data['items'][x].category+'</td>'; 
 	                       	if(data['items'][x].exists == "true") {
 	                       		html += '<td class="aktion"><a href="#" class="noevent" title="Importieren"><i class="fa fa-check-circle"></i></a></td>';
 		                   	} else {
@@ -278,3 +284,34 @@ jQuery(document).ready(function() {
 		});
 	});
 });
+
+/*
+ * helper functions
+ */
+ function number_format(number, decimals, dec_point, thousands_sep) {
+  number = (number + '')
+    .replace(/[^0-9+\-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + (Math.round(n * k) / k)
+        .toFixed(prec);
+    };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n))
+    .split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '')
+    .length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1)
+      .join('0');
+  }
+  return s.join(dec);
+}

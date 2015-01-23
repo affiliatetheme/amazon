@@ -188,13 +188,14 @@
 					<colgroup>
 						<col width="40">
 						<col width="115">
-						<col width="75">
+						<col width="90">
 						<col width="200">
 						<col width="300">
 						<col width="100">
 						<col width="100">
 						<col width="100">
-						<col width="60">
+						<col width="100">
+						<col width="50">
 					</colgroup>
 					<thead>
 						<tr>
@@ -219,11 +220,14 @@
 							<th scope="col" id="price" class="manage-column column-price" style="">
 								<span>Preis</span>
 							</th>
+							<th scope="col" id="margin" class="manage-column column-margin" style="">
+								<span>Provision</span>
+							</th>
 							<th scope="col" id="category" class="manage-column column-category" style="">
 								<span>Kategorie</span>
 							</th>
 							<th scope="col" id="actions" class="manage-column column-action" style="">
-								<span>Aktion</span>
+								<span></span>
 							</th>
 						</tr>
 					</thead>
@@ -233,7 +237,7 @@
 				<?php add_thickbox(); ?>
 				<div id="my-content-id" style="display:none;">
 				     <p>
-				          This is my hidden content! It will appear in ThickBox when the link is clicked.
+				          Yeah, endcore rocks!
 				     </p>
 				</div>
 			</div>
