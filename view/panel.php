@@ -79,7 +79,17 @@
 		</div>
 
 		<div id="checkConnection"></div>
-			
+
+		<?php
+			if(version_compare(PHP_VERSION, '5.3.0', '<')):
+		?>
+			<div class="error" id="required-by-plugin">
+				<p>Achtung: Um dieses Plugin zu verwenden benötigst du mindestens PHP 5.3.x. Derzeit verwendet <?php echo PHP_VERSION; ?>.</p>
+			</div>
+		<?php
+			endif;
+		?>
+
         <?php
             if(extension_loaded('curl') != function_exists('curl_version')):
         ?>
@@ -99,8 +109,7 @@
         <?php
             endif;
         ?>
-        
-        
+
 
 		<div id="affiliatetheme-import-window" class="metabox-holder postbox amazon-api-cont">
 			<h3 class="hndle"><span>Amazon durchsuchen</span></h3>
