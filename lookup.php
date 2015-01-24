@@ -112,8 +112,59 @@ if ($formattedResponse->hasItem()) {
 			$html .= '</form>';
 		$html .= '</div>';
 		echo $html;
-	} else {
-		// mass import	
+
+	} else if("quick-import" === $_GET['func']) {
+		if(!$check = get_posts('post_type=produkt&posts_per_page=1&meta_key=amazon_produkt_id&meta_value='.$asin)) {
+			$args = array(
+				'post_title' => $title,
+				'post_status' => 'publish',
+				'post_type' => 'produkt',
+			);
+						
+			$produkt_id = wp_insert_post($args);
+			if($produkt_id) {
+				//customfields
+				update_post_meta($produkt_id, 'amazon_produkt_id', $asin);
+				update_post_meta($produkt_id, 'preis', $price);
+				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
+				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
+				update_post_meta($produkt_id, 'last_amazon_check', time());
+				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
+				
+				//taxonomie
+				if($taxs) {
+					foreach($taxs as $key => $value) {
+						wp_set_object_terms($produkt_id, $value, $key, true);
+					}
+				}
+				
+				if($images) {
+					$i=0;
+					foreach($images as $image) {
+						$title = get_the_title($produkt->ID);
+						
+						if($i == 0) {
+							$thumb = true;	
+						} else {
+							$thumb = false;
+						}
+						$att_id = attach_external_image($image, $produkt_id, $thumb, $asin.'-'.$i, array('post_title' => $title));
+
+						$i++;
+					}
+				}
+			}
+			
+			
+			$output['rmessage']['success'] = 'true';
+			$output['rmessage']['post_id'] = $produkt_id;
+		} else {
+			$output['rmessage']['success'] = 'false';
+			$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
+			$output['rmessage']['post_id'] = $check[0]->ID;
+		}
+
+		echo json_encode($output);
 	}
 }
 

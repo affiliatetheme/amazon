@@ -1,4 +1,4 @@
-<div class="wrap" id="affiliatetheme-page" data-url="<?php echo admin_url(); ?>">
+<div class="wrap" id="affiliatetheme-page" data-url="<?php echo admin_url(); ?>" data-nonce="<?php echo wp_create_nonce("endcore_amazon_quick_import_wpnonce"); ?>">
 	<div class="affiliatetheme">
 		<h1>AffiliateTheme Import » Amazon</h1>
 		

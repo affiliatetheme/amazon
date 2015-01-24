@@ -59,6 +59,38 @@ jQuery(document).ready(function() {
         
        event.preventDefault();
     });
+
+    //quick import
+    jQuery('.quick-import').live('click', function(event) {
+       quickImportAction(this);
+        
+       event.preventDefault();
+    });
+
+    var quickImportAction = function(target) {
+   		jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
+   		var asin = jQuery(target).attr('data-asin');
+
+		jQuery.ajax({
+        	url: "admin-ajax.php",
+		    dataType: 'json',
+		    type: 'GET',
+		    data: {action : 'amazon_api_lookup', asin : asin, func : 'quick-import'},
+		    success: function(data){
+		    	jQuery(target).find('i').remove();
+		    	
+		    	if(data['rmessage']['success'] == "false") {
+		    		jQuery(target).after('<div class="error">'+data['rmessage']['reason']+'</div>');	    		
+		    		jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
+		    	} else if(data['rmessage']['success'] == "true") {
+		    		jQuery(target).hide();
+		    		jQuery('body table.produkte tr[data-asin='+asin+']').addClass('success');
+					jQuery('body table.produkte tr[data-asin='+asin+'] .check-column input[type=checkbox]').attr('disabled', 'disabled');
+					jQuery('body table.produkte tr[data-asin='+asin+'] .aktion i').removeClass('fa-plus-circle').addClass('fa-check-circle');
+		    	}
+		    }
+		});
+    };
     
 
     //single import
@@ -185,7 +217,7 @@ jQuery(document).ready(function() {
 	                       	if(data['items'][x].exists == "true") {
 	                       		html += '<td class="aktion"><a href="#" class="noevent" title="Importieren"><i class="fa fa-check-circle"></i></a></td>';
 		                   	} else {
-		                       	html += '<td class="aktion"><a href="'+jQuery('#affiliatetheme-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a></td>';
+		                       	html += '<td class="aktion"><a href="'+jQuery('#affiliatetheme-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
 	                       	}
 	                        html += '</tr>';
 	
