@@ -8,7 +8,7 @@
 .amazon-api-cont .error td, .amazon-api-cont .error td a{color:#c01313;}
 .amazon-api-cont #page-links{display:none;}
 
-#TB_window{max-width:783px;overflow: hidden;}
+#TB_window{max-width:783px;overflow: scroll;}
 #TB_window .form-group{margin-bottom:15px;}
 #TB_window .form-group label{display:inline-block;width:120px;}
 #TB_window .form-group input, #TB_window .form-group select{width:70%;}
