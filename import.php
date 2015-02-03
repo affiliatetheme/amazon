@@ -11,6 +11,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 	$title = $_POST['title'];
 	$price = floatval($_POST['price']);
 	$rating = floatval($_POST['rating']);
+	$rating_cnt = intval($_POST['rating_cnt']);
 	$taxs = $_POST['tax'];
 	$images = $_POST['image'];
 	
@@ -31,6 +32,7 @@ if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
 				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
 				update_post_meta($produkt_id, 'last_amazon_check', time());
 				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
+				if($rating_cnt) update_post_meta($produkt_id, 'sterne_bewertung_cnt', $rating_count);
 				
 				//taxonomie
 				if($taxs) {

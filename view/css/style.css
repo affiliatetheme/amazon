@@ -8,13 +8,13 @@
 .amazon-api-cont .error td, .amazon-api-cont .error td a{color:#c01313;}
 .amazon-api-cont #page-links{display:none;}
 
-#TB_window{max-width:783px;}
+#TB_window{max-width:783px;overflow: hidden;}
 #TB_window .form-group{margin-bottom:15px;}
 #TB_window .form-group label{display:inline-block;width:120px;}
 #TB_window .form-group input, #TB_window .form-group select{width:70%;}
 #TB_window .form-group input#price, #TB_window .form-group.small:first-of-type input{width:65%;}
 #TB_window .form-group input[type="checkbox"]{width:auto!important;}
-
+#TB_window .form-group #rating{width:200px;}
 #TB_window .image .row{border-bottom:1px solid #eee;margin-bottom:15px;}
 #TB_ajaxContent{max-width:753px;min-height:94.5%;max-height: 831px}
 
