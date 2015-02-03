@@ -107,7 +107,7 @@ if ($formattedResponse->hasItem()) {
                 }
 				$html .= '</div>';
 				$html .= '<div class="form-group">';
-					$html .= '<input type="hidden" name="_wpnonce" value="'.wp_create_nonce("endcore_amazon_import_wpnonce").'" /><input type="hidden" name="action" value="amazon_api_import" /><input type="hidden" name="mass" value="false" />';
+					$html .= '<input type="hidden" name="_wpnonce" value="'.wp_create_nonce("endcore_amazon_import_wpnonce").'" /><input type="hidden" name="rating_cnt" id="rating_cnt" value="'.$rating_cnt.'" /><input type="hidden" name="action" value="amazon_api_import" /><input type="hidden" name="mass" value="false" />';
 					$html .= '<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>';
 				$html .= '</div>';
 			$html .= '</form>';
