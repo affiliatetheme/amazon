@@ -52,6 +52,7 @@ if ($formattedResponse->hasItem()) {
 	$images = $item->getAllImages()->getLargeImages();
 	$average_rating = $item->getAverageRating();
 	$average_rating_rounded = round($average_rating / .5) * .5;
+	if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
     $total_reviews = $item->getTotalReviews();
 	
 	/* DEBUG
@@ -68,7 +69,7 @@ if ($formattedResponse->hasItem()) {
 				$html .= '<div class="form-group"><label>ASIN</label> <input type="text" id="asin" name="asin" class="form-control" value="'.$asin.'" readonly/></div>';
 				$html .= '<div class="form-group"><label>Titel</label> <input type="text" id="title" name="title" class="form-control" value="'.$title.'"/></div>';
 				$html .= '<div class="form-group"><label>Preis</label> <input type="text" id="price" name="price" class="form-control" value="'.$price.'" readonly/> EUR</div>';
-				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list($average_rating_rounded).'</div>';
+				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list($average_rating_rounded).' ('.$rating_cnt.' Bewertungen)</div>';
 				$html .= get_products_multiselect_tax_form();
                 if($item->hasImages()) {
                     $images = $item->getAllImages()->getLargeImages();
@@ -106,7 +107,7 @@ if ($formattedResponse->hasItem()) {
                 }
 				$html .= '</div>';
 				$html .= '<div class="form-group">';
-					$html .= '<input type="hidden" name="_wpnonce" value="'.wp_create_nonce("endcore_amazon_import_wpnonce").'" /><input type="hidden" name="action" value="amazon_api_import" /><input type="hidden" name="mass" value="false" />';
+					$html .= '<input type="hidden" name="_wpnonce" value="'.wp_create_nonce("endcore_amazon_import_wpnonce").'" /><input type="hidden" name="rating_cnt" id="rating_cnt" value="'.$rating_cnt.'" /><input type="hidden" name="action" value="amazon_api_import" /><input type="hidden" name="mass" value="false" />';
 					$html .= '<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>';
 				$html .= '</div>';
 			$html .= '</form>';
