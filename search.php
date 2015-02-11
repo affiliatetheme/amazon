@@ -56,6 +56,7 @@ foreach ($formattedResponse as $singleItem) {
 
     $data['average_rating'] = $singleItem->getAverageRating();
     $data['total_reviews'] = $singleItem->getTotalReviews();
+    $data['ean'] = $singleItem->getEan();
 
     $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
     $data['external'] = $singleItem->isExternalProduct();

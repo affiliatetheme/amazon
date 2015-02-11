@@ -282,6 +282,13 @@ class Item
     }
 
     /**
+     * @return mixed
+     */
+    public function getEan(){
+        return $this->EAN;
+    }
+
+    /**
      * @return string
      */
     public function getUserFormattedPrice()
