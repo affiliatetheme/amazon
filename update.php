@@ -60,6 +60,10 @@ if($products) {
 		$item = $formattedResponse->getItem();
 		
 		try {
+			if (!($item instanceof Amazon\Item)) {
+				throw new \Exception(sprintf('Item %s not found on Amazon.', $product->asin));
+			}
+
 			$price = $item->getAmountForAvailability();
 			update_post_meta($product->post_id, 'produkt_verfuegbarkeit', '1');
 			update_post_meta($product->post_id, 'preis', $price);
