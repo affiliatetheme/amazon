@@ -67,12 +67,27 @@ class Offer
     /**
      * @var string
      */
+    public $SalesPrice;
+
+    /**
+     * @var string
+     */
     public $CurrencyCode;
 
     /**
      * @var string
      */
+    public $SalesCurrencyCode;
+
+    /**
+     * @var string
+     */
     public $FormattedPrice;
+
+    /**
+     * @var string
+     */
+    public $FormattedSalesPrice;
 
     /**
      * @var string
@@ -91,6 +106,8 @@ class Offer
      */
     public function __construct(\DOMElement $dom)
     {
+        //var_dump($dom->ownerDocument->saveHTML());die;
+
         $xpath = new \DOMXPath($dom->ownerDocument);
         $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
         $merchantId = $xpath->query('./az:Merchant/az:MerchantId/text()', $dom);
@@ -116,6 +133,16 @@ class Offer
         if ($FormattedPrice->length == 1) {
             $this->FormattedPrice = (string) $xpath->query('./az:OfferListing/az:Price/az:FormattedPrice/text()', $dom)->item(0)->data;
         }
+        $SalesPrice = $xpath->query('./az:OfferListing/az:SalePrice/az:Amount', $dom);
+        if ($SalesPrice->length == 1) {
+            $this->SalesPrice = (int) $xpath->query('./az:OfferListing/az:SalePrice/az:Amount/text()', $dom)->item(0)->data;
+            $this->SalesCurrencyCode = (string) $xpath->query('./az:OfferListing/az:SalePrice/az:CurrencyCode/text()', $dom)->item(0)->data;
+        }
+        $FormattedSalesPrice = $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice', $dom);
+        if ($FormattedSalesPrice == 1) {
+            $this->FormattedSalesPrice = (string) $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice/text()', $dom)->item(0)->data;
+        }
+
         $availability = $xpath->query('./az:OfferListing/az:Availability/text()', $dom)->item(0);
         if($availability instanceof \DOMText) {
             $this->Availability = (string) $availability->data;
