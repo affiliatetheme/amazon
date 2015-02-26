@@ -209,7 +209,9 @@ jQuery(document).ready(function() {
 	                        html += '<td class="price">'+data['items'][x].price+'</td>';
 	                        html += '<td class="margin">';
 	                        if(data['items'][x].cat_margin != 0) { 
-	                        	var margin_sale = number_format((data['items'][x].price_amount/100)*data['items'][x].cat_margin, 2, ',', '.');
+	                        	var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].cat_margin;
+	                        	var margin_sale = number_format(margin_sale_val, 2, ',', '.')
+	                        	
 	                        	html += data['items'][x].cat_margin+'%<br>(EUR '+margin_sale+' / Sale)'; 
 	                        } else { html += 'kA'; }
 	                        html += '</td>';
