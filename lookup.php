@@ -130,7 +130,8 @@ if ($formattedResponse->hasItem()) {
 				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
 				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
 				update_post_meta($produkt_id, 'last_amazon_check', time());
-				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
+				if($average_rating_rounded) update_post_meta($produkt_id, 'sterne_bewertung', $average_rating_rounded);
+				if($rating_cnt) update_post_meta($produkt_id, 'sterne_bewertung_cnt', $rating_cnt);
 				
 				//taxonomie
 				if($taxs) {

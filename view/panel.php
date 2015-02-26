@@ -190,7 +190,6 @@
 						<col width="115">
 						<col width="90">
 						<col width="200">
-						<col width="300">
 						<col width="100">
 						<col width="100">
 						<col width="100">
@@ -211,9 +210,9 @@
 							<th scope="col" id="title" class="manage-column column-title" style="">
 								<span>Titel</span>
 							</th>
-							<th scope="col" id="description" class="manage-column column-description" style="">
+							<!--<th scope="col" id="description" class="manage-column column-description" style="">
 								<span>Beschreibung</span>
-							</th>
+							</th>-->
 							<th scope="col" id="rating" class="manage-column column-rating" style="">
 								<span>Bewertung</span>
 							</th>

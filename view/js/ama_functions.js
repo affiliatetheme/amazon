@@ -204,7 +204,7 @@ jQuery(document).ready(function() {
 								html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
 							}
 
-	                        html += '<td class="description">'+data['items'][x].edi_content+'</td>';
+	                        //html += '<td class="description">'+data['items'][x].edi_content+'</td>';
 	                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
 	                        html += '<td class="price">'+data['items'][x].price+'</td>';
 	                        html += '<td class="margin">';
@@ -219,7 +219,7 @@ jQuery(document).ready(function() {
 	                       	if(data['items'][x].exists == "true") {
 	                       		html += '<td class="aktion"><a href="#" class="noevent" title="Importieren"><i class="fa fa-check-circle"></i></a></td>';
 		                   	} else {
-		                       	html += '<td class="aktion"><a href="'+jQuery('#affiliatetheme-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
+		                       	html += '<td class="aktion"><a href="'+jQuery('#affiliatetheme-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
 	                       	}
 	                        html += '</tr>';
 	
