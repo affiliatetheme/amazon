@@ -20,7 +20,11 @@ class XmlToSingleResponseSet implements ResponseTransformerInterface
     public function transform($response)
     {
         $document = new \DOMDocument('1.0', 'UTF-8');
-        $document->loadXML($response);
+        //$document->loadXML($response);
+
+        if (!@$document->loadXML($response)){
+            return false;
+        }
 
         $result = new SingleResultSet($document);
 
