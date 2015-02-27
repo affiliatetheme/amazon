@@ -392,7 +392,7 @@ class Item
             if($this->isFreeCategory()) {
                 return 0;
             }
-            throw new \Exception('IOOS');
+            throw new \Exception('IOOS', 301);
         } else {
             return floatval($price) / 100;
         }

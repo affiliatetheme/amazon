@@ -61,7 +61,7 @@ if($products) {
 		
 		try {
 			if (!($item instanceof Amazon\Item)) {
-				throw new \Exception(sprintf('Item %s not found on Amazon.', $product->asin));
+				throw new \Exception(sprintf('Item %s not found on Amazon.', $product->asin), 505);
 			}
 
 			$price = $item->getAmountForAvailability();
@@ -71,6 +71,10 @@ if($products) {
 			wp_publish_post($product->post_id);
 		} catch(\Exception $e) {			
 			// action
+            if(505 === $e->getCode()) {
+                continue;
+            }
+
 			switch(get_option('amazon_benachrichtigung')) {
 				case 'email':
 					if(get_post_meta($product->post_id, 'produkt_verfuegbarkeit', true) != "0") { send_amazon_notifictaion_mail($product->post_id); }

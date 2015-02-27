@@ -32,6 +32,15 @@ use ApaiIO\Request\Util;
 class Request implements RequestInterface
 {
     /**
+     * Bad hack to avoid fast requests.
+     *
+     * @var array
+     */
+    private $requestConfig = array(
+        'requestDelay' => true
+    );
+
+    /**
      * Connection time out in seconds
      *
      * @var int
@@ -130,6 +139,10 @@ class Request implements RequestInterface
      */
     public function perform(OperationInterface $operation)
     {
+        if (true === $this->requestConfig['requestDelay']) {
+            sleep(1);
+        }
+        
         $ch = curl_init();
 
         if (false === $ch) {
