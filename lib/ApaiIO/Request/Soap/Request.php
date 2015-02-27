@@ -31,6 +31,15 @@ use ApaiIO\Request\Util;
 class Request implements RequestInterface
 {
     /**
+     * Bad hack to avoid fast requests.
+     *
+     * @var array
+     */
+    private $requestConfig = array(
+        'requestDelay' => true
+    );
+
+    /**
      * The WSDL File
      *
      * @var string
@@ -62,6 +71,10 @@ class Request implements RequestInterface
      */
     public function perform(OperationInterface $operation)
     {
+        if (true === $this->requestConfig['requestDelay']) {
+            sleep(1);
+        }
+
         $requestParams = $this->buildRequestParams($operation);
 
         $result = $this->performSoapRequest($operation, $requestParams);
