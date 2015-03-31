@@ -51,7 +51,7 @@ if($products) {
 	foreach($products as $product) {
 		$lookup = new Lookup();
 		$lookup->setItemId($product->asin);
-		$lookup->setResponseGroup(array('OfferSummary', 'Offers', 'OfferFull'));
+		$lookup->setResponseGroup(array('OfferSummary', 'Offers', 'OfferFull', 'Variations'));
         $lookup->setAvailability('Available');
 	
 		/* @var $formattedResponse Amazon\SingleResultSet */

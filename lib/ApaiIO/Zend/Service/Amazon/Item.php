@@ -86,6 +86,11 @@ class Item
     public $Offers;
 
     /**
+     * @var ItemVariantSet
+     */
+    public $ItemVariantSet;
+
+    /**
      * @var CustomerReview[]
      */
     public $CustomerReviews = array();
@@ -182,6 +187,11 @@ class Item
                  */
                 $this->$im = new Image($result->item(0));
             }
+        }
+
+        $result = $xpath->query('./az:VariationSummary', $dom);
+        if ($result->length == 1) {
+            $this->ItemVariantSet = new ItemVariantSet($dom);
         }
 
         $result = $xpath->query("./az:ImageSets/az:ImageSet[@Category='variant']", $dom);
@@ -392,6 +402,11 @@ class Item
             if($this->isFreeCategory()) {
                 return 0;
             }
+
+            if ($this->ItemVariantSet) {
+                return $this->ItemVariantSet->LowestPrice / 100;
+            }
+
             throw new \Exception('IOOS', 301);
         } else {
             return floatval($price) / 100;
