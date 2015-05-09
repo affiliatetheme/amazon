@@ -15,7 +15,7 @@ class ImageVariantSet
     /**
      * @var array
      */
-    protected $_images;
+    protected $_images = array();
 
     public function __construct(\DOMNodeList $variants = null)
     {
