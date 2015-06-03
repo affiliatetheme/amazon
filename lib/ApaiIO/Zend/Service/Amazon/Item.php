@@ -323,7 +323,7 @@ class Item
                 break;
             default:
                 $price = $this->Offers->Offers[0]->FormattedPrice;
-                if($this->Offers->Offers[0]->FormattedSalesPrice !== "") {
+                if($this->Offers->Offers[0]->FormattedSalesPrice != "") {
                     $price = $this->Offers->Offers[0]->FormattedSalesPrice;
                 }
                 break;

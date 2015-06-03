@@ -141,8 +141,6 @@ class Offer
         $FormattedSalesPrice = $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice', $dom);
         if ($FormattedSalesPrice->length == 1) {
             $this->FormattedSalesPrice = (string) $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice/text()', $dom)->item(0)->data;
-        } else {
-            $this->FormattedSalesPrice = $this->FormattedPrice;
         }
 
         $availability = $xpath->query('./az:OfferListing/az:Availability/text()', $dom)->item(0);
