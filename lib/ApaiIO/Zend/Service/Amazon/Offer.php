@@ -139,7 +139,7 @@ class Offer
             $this->SalesCurrencyCode = (string) $xpath->query('./az:OfferListing/az:SalePrice/az:CurrencyCode/text()', $dom)->item(0)->data;
         }
         $FormattedSalesPrice = $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice', $dom);
-        if ($FormattedSalesPrice == 1) {
+        if ($FormattedSalesPrice->length == 1) {
             $this->FormattedSalesPrice = (string) $xpath->query('./az:OfferListing/az:SalePrice/az:FormattedPrice/text()', $dom)->item(0)->data;
         }
 
