@@ -12,7 +12,7 @@ function at_add_amazon_as_portal( $choices ) {
  * Overwrite Product Button Text
  */
 add_filter('at_get_product_button_text', 'at_overwrite_product_button_text', 10, 2);
-function at_overwrite_product_button_text($product_portal, $short) {
+function at_overwrite_product_button_text($var = '', $product_portal = '', $short = false) {
 	if('amazon' == $product_portal) {
 		/*
 		 * @TODO: Aus Plugin Settings auslesen!
