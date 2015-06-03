@@ -238,7 +238,7 @@ if(get_option('amazon_public_key') != "" &&  get_option('amazon_secret_key') != 
 
 /*
  * PLUGIN UPDATE
- */
+
 $api_url = 'http://backend.c01313.de/api/';
 $plugin_slug = basename(dirname(__FILE__));
 
@@ -247,10 +247,10 @@ function endcore_amazon_check_update($checked_data) {
 	global $api_url, $wp_version;
 	$plugin_slug = basename(dirname(__FILE__));
 	
-	/*Comment out these two lines during testing.
-	if (empty($checked_data->checked))
-		return $checked_data;
-	*/
+	//Comment out these two lines during testing.
+	//if (empty($checked_data->checked))
+		//return $checked_data;
+
 	
 	$args = array(
 		'slug' => $plugin_slug,
@@ -311,10 +311,4 @@ function endcore_amazon_api_call($def, $action, $args) {
 	}
 	
 	return $res;
-}
-
-//dd_filter('plugins_api_result', 'aaa_result', 10, 3);
-function aaa_result($res, $action, $args) {
-	print_r($res);
-	return $res;
-}
+} */
