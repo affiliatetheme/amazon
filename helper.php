@@ -1,5 +1,32 @@
 <?php
 /*
+ * Add Amazon to "Affiliate Portal" Dropdown-List
+ */
+add_filter( 'at_add_product_portal', 'at_add_amazon_as_portal', 10, 2 );
+function at_add_amazon_as_portal( $choices ) {
+	$choices['amazon'] = 'Amazon';
+	return $choices;
+}
+
+/*
+ * Overwrite Product Button Text
+ */
+add_filter('at_get_product_button_text', 'at_overwrite_product_button_text', 10, 2);
+function at_overwrite_product_button_text($product_portal, $short) {
+	if('amazon' == $product_portal) {
+		/*
+		 * @TODO: Aus Plugin Settings auslesen!
+		 * @TODO: Wenn Produkt nicht Verfügbar ist, anpassen!
+		 * @TODO: Amazon Icon?
+		 */
+		if(true == $short)
+			return __('Jetzt kaufen', 'affilaitetheme');
+		
+		return __('Jetzt bei Amazon bestellen','affiliatetheme');
+	} 	
+}
+
+/*
  * GET A SELECT LIST FOR EACH TAXONOMY
  * @return string html code (<select>)
  */

@@ -24,3 +24,4 @@
 
 img.img-responsive { display: table-cell; max-width: 100%; max-height:100px; }
 .item-warning td { background:#fee; }
+.clearfix{clear:both;}
