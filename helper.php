@@ -27,6 +27,31 @@ function at_overwrite_product_button_text($product_portal, $short) {
 }
 
 /*
+ * Add Amazon Status Column
+ */
+add_filter('manage_edit-product_columns', 'at_add_new_amazon_columns');
+function at_add_new_amazon_columns($columns) {
+	$columns['amazon_status'] = __('Amazon Status', 'affiliatetheme');
+	
+	return $columns;
+}
+add_action('manage_product_posts_custom_column', 'at_manage_amazon_columns', 10, 2);
+function at_manage_amazon_columns($column, $post_id) {
+	switch ($column) {
+		case 'amazon_status':
+			if('amazon' == get_field('product_portal', $post_id)) {
+				if('0' == get_field('product_amazon_avail'))
+					echo '<span class="badge badge-not-avail">'.__('Nicht Verfügbar', 'affilaitetheme').'</span>';
+				else 
+					echo '<span class="badge badge-avail">'.__('Verfügbar', 'affilaitetheme').'</span>';
+			} else {
+				echo '-';
+			}
+			break;
+	}
+}
+
+/*
  * GET A SELECT LIST FOR EACH TAXONOMY
  * @return string html code (<select>)
  */
