@@ -26,6 +26,10 @@ jQuery(document).ready(function() {
     jQuery('#search-link').bind('click', function(event) {
         searchAction();
     });
+
+    jQuery('#grab-link').bind('click', function(event) {
+        grabLink(event);
+    });
         
     //pagination
 	//todo: reset hidden page number on new search
@@ -317,11 +321,38 @@ jQuery(document).ready(function() {
 			 jQuery('#next-page, #prev-page').attr('disabled', false);
 		});
 	});
+
+
+    var grabLink = function(e) {
+        jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+
+        var url = jQuery('.amazon-api-cont #search').val();
+        if (isUrlValid(url) == false && globalRequest == 1) {
+            jQuery('#grab-link .fa-spin').remove();
+            jQuery('#grab-link').attr('disabled', false);
+            return;
+        }
+
+        globalRequest = 1;
+        jQuery.ajax({
+            url: "admin-ajax.php",
+            dataType: 'json',
+            type: 'POST',
+            data: "action=amazon_api_search&url="+url,
+            success: function(data){
+            }
+        });
+        e.preventDefault();
+    };
 });
 
 /*
  * helper functions
  */
+ function isUrlValid(url) {
+     return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+ }
+
  function number_format(number, decimals, dec_point, thousands_sep) {
   number = (number + '')
     .replace(/[^0-9+\-Ee.]/g, '');
