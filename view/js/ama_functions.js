@@ -326,8 +326,8 @@ jQuery(document).ready(function() {
     var grabLink = function(e) {
         jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
-        var url = jQuery('.amazon-api-cont #search').val();
-        if (isUrlValid(url) == false && globalRequest == 1) {
+        var url = jQuery('#grabburl').val();
+        if (url.length > 1 && isUrlValid(url) == false && globalRequest == 1) {
             jQuery('#grab-link .fa-spin').remove();
             jQuery('#grab-link').attr('disabled', false);
             return;
@@ -337,8 +337,8 @@ jQuery(document).ready(function() {
         jQuery.ajax({
             url: "admin-ajax.php",
             dataType: 'json',
-            type: 'POST',
-            data: "action=amazon_api_search&url="+url,
+            type: 'GET',
+            data: "action=amazon_api_grab&url="+url,
             success: function(data){
             }
         });
