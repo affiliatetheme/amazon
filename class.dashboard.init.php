@@ -24,15 +24,17 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			//import
 			add_action( 'wp_ajax_amazon_api_import', array(&$this, 'amazon_api_import') );
 			//add_action( 'wp_ajax_nopriv_amazon_api_import', array(&$this, 'amazon_api_import') );
-			
+
+            //grab
+            add_action( 'wp_ajax_amazon_api_grab', array(&$this, 'amazon_api_grab') );
+            //add_action( 'wp_ajax_nopriv_amazon_api_grab', array(&$this, 'amazon_api_grab') );
+
 			//update
 			//add_action( 'wp_ajax_amazon_api_update', array(&$this, 'amazon_api_update') );
 			//add_action( 'wp_ajax_nopriv_amazon_api_update', array(&$this, 'amazon_api_update') );
 			add_action( 'endcore_amazon_api_update', array(&$this, 'amazon_api_update') );
 
-            //grab
-            add_action( 'wp_ajax_amazon_api_grap', array(&$this, 'amazon_api_grab') );
-		} 
+		}
 		
 		/**
 		 * hook into WP's admin_init action hook

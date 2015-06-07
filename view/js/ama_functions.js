@@ -340,6 +340,16 @@ jQuery(document).ready(function() {
             type: 'GET',
             data: "action=amazon_api_grab&url="+url,
             success: function(data){
+                var asins = data.asins;
+                jQuery.each(asins, function( index, value ) {
+                    if (index != 0) {
+                        jQuery('#grabbedasins').val(jQuery('#grabbedasins').val()+"\n"+value);
+                    }else {
+                        jQuery('#grabbedasins').val(value);
+                    }
+                });
+                jQuery('#grab-link .fa-spin').remove();
+                jQuery('#grab-link').attr('disabled', false);
             }
         });
         e.preventDefault();
