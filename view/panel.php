@@ -156,7 +156,24 @@
 									<option value="VideoGames">Videospiele</option>
 									<option value="Watches">Uhren</option>
 								</select>
-							</div>	
+							</div>
+                            <div class="form-container" style="">
+                                <form class="form-inline" method="post" action="">
+                                    <div class="form-group">
+                                        <label for="grabburl">Url</label>
+                                        <input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="Url eintragen...">
+                                    </div>
+                                    <button id="grab-link" class="button button-primary">Grab ASINs</button>
+                                </form>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="form-container">
+                                <div class="form-group">
+                                    <label for="grabbedasins" class="control-label">Suche nach ASIN's</label>
+                                    <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs hier eintragen..."></textarea>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
 							<div class="form-group submit-group">
 								<input type="hidden" name="page" id="page" value="1">
 								<input type="hidden" name="max-pages" id="max-pages" value="">
