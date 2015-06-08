@@ -1,4 +1,8 @@
 <?php
+/**
+ * helper
+ * Copyright 2015 - endcore
+ */
 /*
  * Add Amazon to "Affiliate Portal" Dropdown-List
  */
@@ -49,6 +53,45 @@ function at_manage_amazon_columns($column, $post_id) {
 			}
 			break;
 	}
+}
+
+/*
+ * Add Affilinet Fields
+ */
+add_filter( 'at_add_product_fields', 'at_add_amazon_field_portal_id', 10, 2 );
+function at_add_amazon_field_portal_id( $fields ) {
+	$new_field[] =  array (
+		'key' => 'field_553b842c246bc',
+		'label' => 'Amazon ASIN',
+		'name' => 'product_amazon_asin',
+		'type' => 'text',
+		'instructions' => '',
+		'required' => 0,
+		'conditional_logic' => array (
+			array (
+				array (
+					'field' => 'field_553b83de246bb',
+					'operator' => '==',
+					'value' => 'amazon',
+				),
+			),
+		),
+		'wrapper' => array (
+			'width' => 50,
+			'class' => '',
+			'id' => '',
+		),
+		'default_value' => '',
+		'placeholder' => '',
+		'prepend' => '',
+		'append' => '',
+		'maxlength' => '',
+		'readonly' => 0,
+		'disabled' => 0,
+	);
+
+	array_insert($fields['fields'], 6, $new_field);
+	return $fields;
 }
 
 /*

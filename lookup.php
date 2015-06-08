@@ -1,19 +1,8 @@
 <?php
-/*
-* Copyright 2013 Jan Eichhorn <exeu65@googlemail.com>
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+/**
+ * Copyright 2015 - endcore
+ * lookup
+ */
 require_once ABSPATH.'/wp-load.php';
 require_once dirname(__FILE__).'/lib/bootstrap.php';
 require_once dirname(__FILE__).'/config.php';
@@ -44,130 +33,139 @@ $lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'O
 $formattedResponse = $apaiIO->runOperation($lookup);
 
 if ($formattedResponse->hasItem()) {
+	/*
+	 * @TODO: currency, ean
+	 */
+	
 	$item = $formattedResponse->getItem();
 	
 	$asin = $item->ASIN;
 	$title = $item->Title;
+	$ean = '';
+	$currency =  '';
 	$price = $item->getAmountForAvailability();
 	$images = $item->getAllImages()->getLargeImages();
 	$average_rating = $item->getAverageRating();
+	$description = '';
 	$average_rating_rounded = round($average_rating / .5) * .5;
 	if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
     $total_reviews = $item->getTotalReviews();
 	
-	/* DEBUG
-	echo '<pre>';
-	print_r($item);
-	echo '</pre>';
-	*/
-		
-	if("modal" === $_GET['func']) {
-		// single import			
-		$html .= '<div class="wrap">';
-			$html .= '<h1>Produkt bearbeiten & Importieren</h1>';
-			$html .= '<form action="" id="import-product">';
-				$html .= '<div class="form-group"><label>ASIN</label> <input type="text" id="asin" name="asin" class="form-control" value="'.$asin.'" readonly/></div>';
-				$html .= '<div class="form-group"><label>Titel</label> <input type="text" id="title" name="title" class="form-control" value="'.$title.'"/></div>';
-				$html .= '<div class="form-group"><label>Preis</label> <input type="text" id="price" name="price" class="form-control" value="'.$price.'" readonly/> EUR</div>';
-				$html .= '<div class="form-group"><label>Bewertung</label>'.get_product_rating_list($average_rating_rounded).' ('.$rating_cnt.' Bewertungen)</div>';
-				$html .= get_products_multiselect_tax_form();
-                if($item->hasImages()) {
-                    $images = $item->getAllImages()->getLargeImages();
-
-                    $html .= '<div class="form-group"><h3>Bilder</h3>';
-                    $i = 1;
+	?>
+	<div class="container">
+		<form action="" id="import-product">
+			<div class="row">
+				<div class="form-group col-xs-12">
+					<label>Titel</label> 
+					<input type="text" id="title" name="title" class="form-control" value="<?php echo $title; ?>"/>
+				</div>
+			
+				<div class="form-group col-xs-3">
+					<label>ASIN</label> 
+					<input type="text" id="asin" name="asin" class="form-control" value="<?php echo $asin; ?>" readonly/>
+				</div>
+				
+				<div class="form-group col-xs-3">
+					<label>Bewertung</label>
+					<?php echo at_get_product_rating_list($average_rating_rounded); ?>
+				</div>
+				
+				<div class="form-group col-xs-3">
+					<label>Bewertungen</label>
+					<input type="text" id="rating_cnt" name="rating_cnt" class="form-control" value="<?php echo $rating_cnt; ?>" />
+				</div>
+				
+				<div class="form-group col-xs-3">
+					<label>Preis</label> 
+					<input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" readonly/>
+				</div>
+			</div>
+			
+			<?php 
+			/*
+			 * Description
+			 */
+			if('1' == get_option('amazon_import_description')) { ?>
+				<h3>Beschreibung</h3>
+				<textarea name="description" class="widefat product-description" rows="5"><?php echo $description; ?></textarea>
+			<?php } ?>
+			
+			<?php
+			/*
+			* Taxonomien
+			*/
+			if(get_products_multiselect_tax_form())
+				echo '<h3>Taxonomien</h3>' . get_products_multiselect_tax_form();
+				
+			
+			/*
+			* Product Image
+			*/			
+			if($item->hasImages()) {
+				$images = $item->getAllImages()->getLargeImages();
+				$i = 1;
+				?>
+				<h3>Produktbild(er)</h3>
+				<div class="row">
+					<?php
                     foreach ($images as $image) {
                         $image_info = explode('/', $image);
                         $image_info = array_pop($image_info);
                         $image_info = pathinfo($image_info);
-                        $image_filename = $image_info['filename'];
+                        $image_filename = sanitize_title($title.'-'.$i);
                         $image_ext = $image_info['extension'];
-
-                        $html .= '<div class="image" data-item="' . $i . '">';
-                        $html .= '<div class="row">';
-                        $html .= '<div class="col-xs-3"><img src="' . $image . '" class="img-responsive"/></div>';
-                        $html .= '<div class="col-xs-9">';
-                        $html .= '<div class="form-group small"><label>Bildname</label> <input type="text" name="image[' . $i . '][filename]" data-url="' . $image . '" id="image[' . $i . '][filename]" value="' . $image_filename . '" /> .' . $image_ext . '</div>';
-                        $html .= '<div class="form-group small"><label>ALT-Tag</label> <input type="text" name="image[' . $i . '][alt]" id="image[' . $i . '][alt]" value="" /></div>';
-                        $html .= '<div class="row">';
-							$html .= '<div class="col-xs-6">';
-                       			$html .= '<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[' . $i . '][thumb]" value="true" class="unique"/></div>';
-							$html .= '</div><div class="col-xs-6">';
-								$html .= '<div class="form-group small"><label>Nicht importieren</label> <input type="checkbox" name="image[' . $i . '][exclude]" value="true" class="disable-this"/></div>';
-                       		$html .= '</div>';
-						$html .= '<div class="clearfix"></div></div>';
-					    $html .= '<input type="hidden" name="image[' . $i . '][url]" value="' . $image . '"/>';
-                        $html .= '</div>';
-                        $html .= '<div class="clearfix"></div>';
-                        $html .= '</div>';
-                        $html .= '</div>';
-
+						?>
+						
+						<div class="image col-sm-4" data-item="<?php echo $i; ?>">
+							<div class="image-wrapper"><img src="<?php echo $image; ?>" class="img-responsive"/></div>
+							<div class="image-info">
+								<div class="form-group small">
+									<label>Bildname</label> <input type="text" name="image[<?php echo $i; ?>][filename]" data-url="<?php echo $image; ?>" id="image[<?php echo $i; ?>][filename]" value="<?php echo $image_filename; ?>" /> 
+									.<?php echo $image_ext; ?>
+								</div>
+								
+								<div class="form-group small">
+									<label>ALT-Tag</label> 
+									<input type="text" name="image[<?php echo $i; ?>][alt]" id="image[<?php echo $i; ?>][alt]" value="" />
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[<?php echo $i; ?>][thumb]" value="true" class="unique"/></div>
+								</div>
+								
+								<div class="col-xs-6">
+									<div class="form-group small"><label>Überspringen</label> <input type="checkbox" name="image[<?php echo $i; ?>][exclude]" value="true" class="disable-this"/></div>
+								</div>
+							</div>
+							<input type="hidden" name="image[<?php echo $i; ?>][url]" value="<?php echo $image; ?>"/>
+						</div>
+						<?php
                         $i++;
                     }
-                }
-				$html .= '</div>';
-				$html .= '<div class="form-group">';
-					$html .= '<input type="hidden" name="_wpnonce" value="'.wp_create_nonce("endcore_amazon_import_wpnonce").'" /><input type="hidden" name="rating_cnt" id="rating_cnt" value="'.$rating_cnt.'" /><input type="hidden" name="action" value="amazon_api_import" /><input type="hidden" name="mass" value="false" />';
-					$html .= '<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>';
-				$html .= '</div>';
-			$html .= '</form>';
-		$html .= '</div>';
-		echo $html;
-
-	} else if("quick-import" === $_GET['func']) {
-		if(!$check = get_posts('post_type=produkt&posts_per_page=1&meta_key=amazon_produkt_id&meta_value='.$asin)) {
-			$args = array(
-				'post_title' => $title,
-				'post_status' => 'publish',
-				'post_type' => 'produkt',
-			);
-						
-			$produkt_id = wp_insert_post($args);
-			if($produkt_id) {
-				//customfields
-				update_post_meta($produkt_id, 'amazon_produkt_id', $asin);
-				update_post_meta($produkt_id, 'preis', $price);
-				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
-				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
-				update_post_meta($produkt_id, 'last_amazon_check', time());
-				if($average_rating_rounded) update_post_meta($produkt_id, 'sterne_bewertung', $average_rating_rounded);
-				if($rating_cnt) update_post_meta($produkt_id, 'sterne_bewertung_cnt', $rating_cnt);
-				
-				//taxonomie
-				if($taxs) {
-					foreach($taxs as $key => $value) {
-						wp_set_object_terms($produkt_id, $value, $key, true);
-					}
-				}
-				
-				if($images) {
-					$i=0;
-					foreach($images as $image) {
-						$title = get_the_title($produkt->ID);
-						
-						if($i == 0) {
-							$thumb = true;	
-						} else {
-							$thumb = false;
-						}
-						$att_id = attach_external_image($image, $produkt_id, $thumb, $asin.'-'.$i, array('post_title' => $title));
-
-						$i++;
-					}
-				}
+					?>
+				</div>
+				<?php
 			}
-			
-			
-			$output['rmessage']['success'] = 'true';
-			$output['rmessage']['post_id'] = $produkt_id;
-		} else {
-			$output['rmessage']['success'] = 'false';
-			$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
-			$output['rmessage']['post_id'] = $check[0]->ID;
-		}
-
-		echo json_encode($output);
-	}
+			?>
+				
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<input type="hidden" name="currency" value="<?php echo $currency; ?>" />
+						<input type="hidden" name="url" value="<?php echo $url; ?>" />
+						<input type="hidden" name="ean" value="<?php echo $ean; ?>" />
+						<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>" />
+						<input type="hidden" name="action" value="amazon_api_import" />
+						<input type="hidden" name="mass" value="false" />
+						<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>
+					</div>
+				</div>
+			</div>	
+		</form>
+	</div>
+	<?php
 }
 
 exit();

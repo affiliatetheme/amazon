@@ -1,75 +1,161 @@
 <?php
+/**
+ * Copyright 2015 - endcore
+ * import
+ */
 require_once ABSPATH.'/wp-load.php';
+require_once dirname(__FILE__).'/lib/bootstrap.php';
+require_once dirname(__FILE__).'/config.php';
+
+use ApaiIO\ApaiIO;
+use ApaiIO\Configuration\GenericConfiguration;
+use ApaiIO\Operations\Lookup;
+use ApaiIO\Zend\Service\Amazon;
+
+global $wpdb;
 $nonce = $_POST['_wpnonce'];
 
-//echo '<pre>'; print_r($_POST); echo '</pre>'; exit();
+/*
+ * @TODO: ean, currency
+ */
 
-if ( ! wp_verify_nonce( $nonce, 'endcore_amazon_import_wpnonce' ) ) {
-	die('Security Check failed');
-} else {
-	$asin = $_POST['asin'];
-	$title = $_POST['title'];
-	$price = floatval($_POST['price']);
-	$rating = floatval($_POST['rating']);
-	$rating_cnt = $_POST['rating_cnt'];
-	$taxs = $_POST['tax'];
-	$images = $_POST['image'];
+if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 	
-	if($asin && $title && $price) {
-		if(!$check = get_posts('post_type=produkt&posts_per_page=1&meta_key=amazon_produkt_id&meta_value='.$asin)) {
-			$args = array(
-				'post_title' => $title,
-				'post_status' => 'publish',
-				'post_type' => 'produkt',
-			);
-						
-			$produkt_id = wp_insert_post($args);
-			if($produkt_id) {
-				//customfields
-				update_post_meta($produkt_id, 'amazon_produkt_id', $asin);
-				update_post_meta($produkt_id, 'preis', $price);
-				update_post_meta($produkt_id, 'link', 'http://www.amazon.de/dp/'.$asin.'/');
-				update_post_meta($produkt_id, 'produkt_verfuegbarkeit', '1');
-				update_post_meta($produkt_id, 'last_amazon_check', time());
-				if($rating) update_post_meta($produkt_id, 'sterne_bewertung', $rating);
-				if($rating_cnt) update_post_meta($produkt_id, 'sterne_bewertung_cnt', $rating_cnt);
-				
-				//taxonomie
-				if($taxs) {
-					foreach($taxs as $key => $value) {
-						wp_set_object_terms($produkt_id, $value, $key, true);
-					}
+	die('Security Check failed');
+	
+} else {
+	
+	$asin = $_POST['asin'];
+	
+	if(!$asin)
+		die();
+	
+	if($_POST['func'] == 'quick-import') {
+
+		$conf = new GenericConfiguration();
+		try {
+			$conf
+				->setCountry(AWS_COUNTRY)
+				->setAccessKey(AWS_API_KEY)
+				->setSecretKey(AWS_API_SECRET_KEY)
+				->setAssociateTag(AWS_ASSOCIATE_TAG)
+				->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
+		} catch (\Exception $e) {
+			echo $e->getMessage();
+		}
+		$apaiIO = new ApaiIO($conf);
+
+		$lookup = new Lookup();
+		$lookup->setItemId($asin);
+		$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations'));
+
+		/* @var $formattedResponse Amazon\SingleResultSet */
+		$formattedResponse = $apaiIO->runOperation($lookup);
+		
+		if ($formattedResponse->hasItem()) {
+			$item = $formattedResponse->getItem();
+			
+			$title = $item->Title;			
+			$ean = '';
+			$price = $item->getAmountForAvailability();
+			$currency = 'euro';
+			$rating = $item->getAverageRating();
+			if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
+			$taxs = array();
+			$images = array();
+			
+			if($item->getAllImages()->getLargeImages()) {	
+				$i=1;
+				foreach($item->getAllImages()->getLargeImages() as $image) {
+					$images[$i]['filename'] = sanitize_title($title.'-'.$i);
+					$images[$i]['alt'] = $title.' - '.$i;
+					$images[$i]['url'] = $image;
+					
+					if($i == 1)
+						$images[$i]['thumb'] = 'true';
+					
+					$i++;
 				}
-				
-				if($images) {
-					foreach($images as $image) {
-						$filename = trim(normalizeFilename($image['filename']));
-						$alt = $image['alt'];
-						$url = $image['url'];
-						$title = get_the_title($produkt->ID);
-						if($image['thumb'] == true) {
-							$thumb = true;
-						} else {
-							$thumb = false;
-						}
-						
-						if($image['exclude'] != "true") {
-							$att_id = attach_external_image($url, $produkt_id, $thumb, $filename, array('post_title' => $alt));
-							update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
-						}
-					}
+			}
+		}
+		
+	} else {
+		
+		$title = $_POST['title'];
+		$ean = '';
+		$price = floatval($_POST['price']);
+		$currency = 'euro';
+		$rating = floatval($_POST['rating']);
+		$rating_cnt = $_POST['rating_cnt'];
+		$taxs = $_POST['tax'];
+		$images = $_POST['image'];
+		
+	}
+		
+	if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "'"))) {
+		$args = array(
+			'post_title' => $title,
+			'post_status' => 'publish',
+			'post_type' => 'product',
+		);
+					
+		$post_id = wp_insert_post($args);
+		if($post_id) {
+			//customfields
+			update_post_meta($post_id, AWS_METAKEY_ID, $asin);
+			update_post_meta($post_id, 'last_product_price_check', '0');
+			update_post_meta($post_id, 'product_portal', 'amazon');
+			update_post_meta($post_id, 'product_price', $price);
+			update_post_meta($post_id, 'product_rating', $rating);
+			update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
+			update_post_meta($post_id, 'product_ean', $ean);
+			update_post_meta($post_id, 'product_currency', $currency);
+			update_post_meta($post_id, 'product_link', 'http://www.amazon.de/dp/'.$asin.'/'); // @TODO: an das aktuelle Land anpassen!
+							
+			//taxonomie
+			if($taxs) {
+				foreach($taxs as $key => $value) {
+					wp_set_object_terms($post_id, $value, $key, true);
 				}
 			}
 			
-			
-			$output['rmessage']['success'] = 'true';
-			$output['rmessage']['post_id'] = $produkt_id;
-		} else {
-			$output['rmessage']['success'] = 'false';
-			$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
-			$output['rmessage']['post_id'] = $check[0]->ID;
+			if($images) {
+				$attachments = array();
+				
+				foreach($images as $image) {
+					$filename = sanitize_title($image['filename']);
+					$alt = $image['alt'];
+					$url = $image['url'];
+		
+					if("true" == $image['exclude'])
+						continue;
+					
+					if("true" == $image['thumb']) {
+						$att_id = at_attach_external_image($url, $post_id, true, $filename, array('post_title' => $alt));
+						update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
+					} else {
+						$att_id = at_attach_external_image($url, $post_id, false, $filename, array('post_title' => $alt));
+						update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
+						$attachments[] = $att_id;
+					}
+				}
+				
+				if($attachments)
+					update_field('field_553b84fb117b1', $attachments, $post_id);
+			}
 		}
+		
+		at_write_api_log('amazon', $post_id, 'imported product successfully');
+		
+		$output['rmessage']['success'] = 'true';
+		$output['rmessage']['post_id'] = $post_id;
+	} else {
+		$output['rmessage']['success'] = 'false';
+		$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
+		$output['rmessage']['post_id'] = $check;
 	}
+	
+	
 }
 
 echo json_encode($output);
