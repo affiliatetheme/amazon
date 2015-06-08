@@ -86,7 +86,7 @@ class ImageVariantSet
         $data = array();
         foreach ($this->_images as $image) {
 
-            if($image[$type] != null) {
+            if(isset($image[$type]) && $image[$type] != null) {
                 $data[] = $image[$type]->Url->getUri();
             }
         }
