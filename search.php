@@ -46,7 +46,7 @@ foreach ($formattedResponse as $singleItem) {
     $data['asin'] = $singleItem->ASIN;
     $data['Title'] = $singleItem->Title;
     $data['url'] = $singleItem->DetailPageURL;
-    if ($singleItem->SmallImage->Url) {
+    if ($singleItem->SmallImage != null && $singleItem->SmallImage->Url) {
         $data['img'] = $singleItem->SmallImage->Url->getUri();
     }
     $data['price'] = $singleItem->getUserFormattedPrice();

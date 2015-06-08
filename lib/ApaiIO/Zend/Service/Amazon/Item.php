@@ -120,6 +120,9 @@ class Item
      */
     public $ListmaniaLists = array();
 
+    public $Amount;
+    public $EAN;
+
     /**
      * @var ImageVariantSet
      */
@@ -322,9 +325,15 @@ class Item
                 $price = $this->FormattedPrice;
                 break;
             default:
-                $price = $this->Offers->Offers[0]->FormattedPrice;
-                if($this->Offers->Offers[0]->FormattedSalesPrice != "") {
-                    $price = $this->Offers->Offers[0]->FormattedSalesPrice;
+
+                if ($this->Offers->Offers !== null) {
+                    $price = $this->Offers->Offers[0]->FormattedPrice;
+                    if($this->Offers->Offers[0]->FormattedSalesPrice != "") {
+                        $price = $this->Offers->Offers[0]->FormattedSalesPrice;
+                    }
+                } else {
+                    // Fallbackpreis neu ab!
+                    $price = $this->Offers->LowestNewFormattedPrice;
                 }
                 break;
         }
@@ -356,9 +365,15 @@ class Item
                 $price = $this->Amount;
                 break;
             default:
-                $price = $this->Offers->Offers[0]->Price;
-                if($this->Offers->Offers[0]->SalesPrice !== "") {
-                    $price = $this->Offers->Offers[0]->SalesPrice;
+
+                if ($this->Offers->Offers !== null) {
+                    $price = $this->Offers->Offers[0]->Price;
+                    if ($this->Offers->Offers[0]->SalesPrice !== "") {
+                        $price = $this->Offers->Offers[0]->SalesPrice;
+                    }
+                } else {
+                    //Fallbackpreis neu ab!
+                    $price = $this->Offers->LowestNewPrice;
                 }
                 break;
         }
@@ -379,7 +394,9 @@ class Item
         $price = $this->getAmount(false);
 
         if ($price <= 0) {
-            $price = $this->Offers->Offers[0]->Price;
+            if($this->Offers->Offers !== null) {
+                $price = $this->Offers->Offers[0]->Price;
+            }
             if ($price <= 0) {
                 $price = $this->Offers->LowestNewPrice;
                 if ($price <= 0) {
