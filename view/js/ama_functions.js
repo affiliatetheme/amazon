@@ -26,6 +26,10 @@ jQuery(document).ready(function() {
     jQuery('#search-link').bind('click', function(event) {
         searchAction();
     });
+
+    jQuery('#grab-link').bind('click', function(event) {
+        grabLink(event);
+    });
         
     //pagination
     jQuery('#next-page').bind('click', function(event) {
@@ -265,6 +269,7 @@ jQuery(document).ready(function() {
 	                        html += '</tr>';
 	
 	                        resultContainer.append(html);
+	                        
 	                    }
                  	} else {
                  		html += '<tr class="item error" data-asin="">';
@@ -345,6 +350,39 @@ jQuery(document).ready(function() {
 			 jQuery('#next-page, #prev-page').attr('disabled', false);
 		});
 	});
+
+
+    var grabLink = function(e) {
+        jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+
+        var url = jQuery('#grabburl').val();
+        if (url.length > 1 && isUrlValid(url) == false && globalRequest == 1) {
+            jQuery('#grab-link .fa-spin').remove();
+            jQuery('#grab-link').attr('disabled', false);
+            return;
+        }
+
+        globalRequest = 1;
+        jQuery.ajax({
+            url: "admin-ajax.php",
+            dataType: 'json',
+            type: 'GET',
+            data: "action=amazon_api_grab&url="+url,
+            success: function(data){
+                var asins = data.asins;
+                jQuery.each(asins, function( index, value ) {
+                    if (index != 0) {
+                        jQuery('#grabbedasins').val(jQuery('#grabbedasins').val()+"\n"+value);
+                    }else {
+                        jQuery('#grabbedasins').val(value);
+                    }
+                });
+                jQuery('#grab-link .fa-spin').remove();
+                jQuery('#grab-link').attr('disabled', false);
+            }
+        });
+        e.preventDefault();
+    };
 });
 
 /*
