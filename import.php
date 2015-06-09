@@ -77,6 +77,9 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 					$i++;
 				}
 			}
+
+            if('1' == get_option('amazon_import_description'))
+                $description = $item->getItemDescription();
 		}
 		
 	} else {
@@ -89,7 +92,9 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 		$rating_cnt = $_POST['rating_cnt'];
 		$taxs = $_POST['tax'];
 		$images = $_POST['image'];
-		
+
+        if('1' == get_option('amazon_import_description'))
+            $description = (isset($_POST['description']) ? $_POST['description'] : '');
 	}
 		
 	if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "'"))) {

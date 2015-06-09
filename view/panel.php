@@ -82,16 +82,20 @@
 									<input type="text" name="amazon_partner_id" value="<?php echo get_option('amazon_partner_id'); ?>" />
 								</div>
 								<div class="form-group">
-									<label for="amazon_benachrichtigung"><?php _e('Benachrichtigung', 'affiliatetheme-api'); ?></label>
-									<?php $selected_amazon_benachrichtigung = get_option('amazon_benachrichtigung'); ?>
-									<select name="amazon_benachrichtigung" id="amazon_benachrichtigung">
-										<option value="">Nichts</option>
-										<option value="email" <?php if($selected_amazon_benachrichtigung == "email") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung', 'affiliatetheme-api'); ?></option>
-										<option value="draft" <?php if($selected_amazon_benachrichtigung == "draft") echo 'selected'; ?>><?php _e('Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
-										<option value="email_draft" <?php if($selected_amazon_benachrichtigung == "email_draft") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
+									<label for="amazon_notification"><?php _e('Benachrichtigung', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_notification = get_option('amazon_notification'); ?>
+									<select name="amazon_notification" id="amazon_notification">
+										<option value=""><?php _e('Nichts', 'affiliatetheme-api'); ?></option>
+										<option value="email" <?php if($selected_amazon_notification == "email") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung', 'affiliatetheme-api'); ?></option>
+										<option value="draft" <?php if($selected_amazon_notification == "draft") echo 'selected'; ?>><?php _e('Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
+										<option value="email_draft" <?php if($selected_amazon_notification == "email_draft") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
 									</select>
 									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-api'); ?></p>
 								</div>
+                                <div class="form-group">
+                                    <label for="zanox_import_description"><?php _e('Beschreibung', 'affiliatetheme-api'); ?></label>
+                                    <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-api'); ?>
+                                </div>
 								<div class="form-group">
 									<?php submit_button(); ?>
 								</div>

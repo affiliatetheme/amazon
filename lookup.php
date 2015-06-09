@@ -46,7 +46,7 @@ if ($formattedResponse->hasItem()) {
 	$price = $item->getAmountForAvailability();
 	$images = $item->getAllImages()->getLargeImages();
 	$average_rating = $item->getAverageRating();
-	$description = '';
+	$description = $item->getItemDescription();
 	$average_rating_rounded = round($average_rating / .5) * .5;
 	if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
     $total_reviews = $item->getTotalReviews();

@@ -47,7 +47,8 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			register_setting('endcore_api_amazon_options', 'amazon_secret_key');
 			register_setting('endcore_api_amazon_options', 'amazon_partner_id');
 			register_setting('endcore_api_amazon_options', 'amazon_country');
-			register_setting('endcore_api_amazon_options', 'amazon_benachrichtigung');
+			register_setting('endcore_api_amazon_options', 'amazon_notification');
+            register_setting('endcore_api_amazon_options', 'amazon_import_description');
 		}
 		
 		/*
