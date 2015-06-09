@@ -10,7 +10,7 @@ require_once dirname(__FILE__) . '/config.php';
 
 use ApaiIO\Endcore\Grabber;
 
-$url = $_GET['url'];
+$url = $_POST['url'];
 
 if($url == '' || $url == null) {
     die();
@@ -20,7 +20,6 @@ $asins = new Grabber($url);
 $output = array(
     'asins' => $asins->getAsins()
 );
-
 
 echo json_encode($output);
 exit();

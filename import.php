@@ -30,7 +30,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 	if(!$asin)
 		die();
 	
-	if($_POST['func'] == 'quick-import') {
+	if(isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
 
 		$conf = new GenericConfiguration();
 		try {
@@ -118,44 +118,45 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 					wp_set_object_terms($post_id, $value, $key, true);
 				}
 			}
-			
-			if($images) {
-				$attachments = array();
-				
-				foreach($images as $image) {
-					$filename = sanitize_title($image['filename']);
-					$alt = $image['alt'];
-					$url = $image['url'];
-		
-					if("true" == $image['exclude'])
-						continue;
-					
-					if("true" == $image['thumb']) {
-						$att_id = at_attach_external_image($url, $post_id, true, $filename, array('post_title' => $alt));
-						update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
-					} else {
-						$att_id = at_attach_external_image($url, $post_id, false, $filename, array('post_title' => $alt));
-						update_post_meta($att_id, '_wp_attachment_image_alt', $alt);
-						$attachments[] = $att_id;
-					}
-				}
-				
-				if($attachments)
-					update_field('field_553b84fb117b1', $attachments, $post_id);
-			}
+
+            // product image
+            if($images) {
+                $attachments = array();
+
+                foreach($images as $image) {
+                    $image_filename = sanitize_title($image['filename']);
+                    $image_alt = (isset($image['alt']) ? $image['alt'] : '');
+                    $image_url = $image['url'];
+                    $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+                    $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
+
+                    if("true" == $image_exclude)
+                        continue;
+
+                    if("true" == $image_thumb) {
+                        $att_id = at_attach_external_image($image_url, $post_id, true, $image_filename, array('post_title' => $image_alt));
+                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                    } else {
+                        $att_id = at_attach_external_image($image_url, $post_id, false, $image_filename, array('post_title' => $image_alt));
+                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                        $attachments[] = $att_id;
+                    }
+
+                    if($attachments)
+                        update_field('field_553b84fb117b1', $attachments, $post_id);
+                }
+            }
+
+            at_write_api_log('amazon', $post_id, 'imported product successfully');
+
+            $output['rmessage']['success'] = 'true';
+            $output['rmessage']['post_id'] = $post_id;
 		}
-		
-		at_write_api_log('amazon', $post_id, 'imported product successfully');
-		
-		$output['rmessage']['success'] = 'true';
-		$output['rmessage']['post_id'] = $post_id;
 	} else {
 		$output['rmessage']['success'] = 'false';
 		$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
 		$output['rmessage']['post_id'] = $check;
 	}
-	
-	
 }
 
 echo json_encode($output);

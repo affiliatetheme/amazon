@@ -1,13 +1,68 @@
+var globalRequest = 0;
+
 jQuery(document).ready(function() {
-    var globalRequest = 0;
-    
+    // checkConnection
+    checkConnection();
+
+    // searchAction
+    jQuery('#search').bind('keyup', function(event) {
+        if (event.keyCode == 13) {
+            searchAction();
+        }
+    });
+    jQuery('#search-link').bind('click', function(event) {
+        searchAction();
+    });
+
+    // singleImportAction
+    jQuery('.single-import-product:not(.noevent)').live('click', function(event) {
+        singleImportAction(this);
+
+        event.preventDefault();
+    });
+
+    // quickImportAction
+    jQuery('.quick-import').live('click', function(event) {
+        var id = jQuery(this).attr('data-asin');
+
+        quickImportAction(id);
+
+        event.preventDefault();
+    });
+
+    // massImportAction
+    jQuery('.mass-import').live('click', function(event) {
+        massImportAction(this);
+
+        event.preventDefault();
+    });
+
+    // grabLink
+    jQuery('#grab-link').bind('click', function(event) {
+        grabLink(event);
+        event.preventDefault();
+    });
+
+
 	jQuery("input[type=checkbox].unique").live('click', function() {
     	jQuery("input[type=checkbox].unique").each(function() {
 			jQuery(this)[0].checked = false;
 		});
 		jQuery(this)[0].checked = true;
 	});
-	
+
+    /*
+     * Stuff
+     */
+    jQuery("input[type=checkbox].unique").live('click', function() {
+        if(jQuery("input[type=checkbox].unique").length > 1) {
+            jQuery("input[type=checkbox].unique").each(function() {
+                jQuery(this)[0].checked = false;
+            });
+            jQuery(this)[0].checked = true;
+        }
+    });
+
 	jQuery("input[type=checkbox].disable-this").live('click', function() {
 		if(jQuery(this).attr('checked')){
 			jQuery(this).closest('.image').css('opacity', '0.5');
@@ -16,23 +71,7 @@ jQuery(document).ready(function() {
 		}
 	});
 
-	//search
-    jQuery('#search').bind('keyup', function(event) {
-        if (event.keyCode == 13) {
-            searchAction();
-        }
-    });
-    
-    jQuery('#search-link').bind('click', function(event) {
-        searchAction();
-    });
-
-    jQuery('#grab-link').bind('click', function(event) {
-        grabLink(event);
-        event.preventDefault();
-    });
-        
-    //pagination
+    // pagination
     jQuery('#next-page').bind('click', function(event) {
     	if(jQuery(this).attr('disabled') != "disabled") {
 			var current_page = parseInt(jQuery('#page').val());
@@ -46,7 +85,6 @@ jQuery(document).ready(function() {
         	searchAction();
        }
     });
-    
     jQuery('#prev-page').bind('click', function(event) {
 		var current_page = parseInt(jQuery('#page').val());
 		var max_pages = parseInt(jQuery('#max-pages').val());
@@ -58,340 +96,382 @@ jQuery(document).ready(function() {
 		} 
         searchAction();
     });
-	
-	//mass import
-    jQuery('.mass-import').live('click', function(event) {
-       massImportAction(this);
 
-       event.preventDefault();
-    });
+    // clear API Log
+    jQuery('.clear-api-log').click(function(e) {
+        var btn = jQuery(this);
+        var type = jQuery(this).data('type');
+        var hash = jQuery(this).data('hash');
 
-    jQuery('.quick-import').live('click', function(event) {
-       var id = jQuery(this).attr('data-asin');
-	   
-	   quickImportAction(id);
-        
-       event.preventDefault();
-    });
+        jQuery(btn).attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
-    var quickImportAction = function(id, mass, i, max_items) {
-		mass = mass || false;
-		i = i || "1";
-		max_items = max_items || "0";
-		
-		var target = jQuery('#results .item[data-asin='+id+']').find(".action a.quick-import");
-		var ajax_loader = jQuery('.at-ajax-loader');
-   		var asin = jQuery(target).attr('data-asin');
-		var nonce = jQuery('#at-import-page').attr('data-nonce');
-		
-   		jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
-   		
-		jQuery.ajax({
-			url: ajaxurl,
-			dataType: 'json',
-			type: 'POST',
-			data: {action : 'amazon_api_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce},
-			success: function(data){
-				jQuery(target).find('i').remove();
-				
-				if(data['rmessage']['success'] == "false") {
-					jQuery(target).after('<div class="error">'+data['rmessage']['reason']+'</div>');	    		
-					jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
-				} else if(data['rmessage']['success'] == "true") {
-					jQuery(target).hide();
-					jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
-					jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
-					jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
-				}
-				
-				if(mass == true) {
-					var curr = parseInt(jQuery(ajax_loader).find('.progress-bar').attr('data-item'));
-					var procentual = (100/max_items)*curr;
-					console.log(curr+ ' / ' + procentual);
-					var procentual_fixed =  procentual.toFixed(2);
-					jQuery(ajax_loader).find('.progress-bar').css('width', procentual+'%').html(procentual_fixed+'%');
-					jQuery(ajax_loader).find('.progress-bar').attr('data-item', curr+1);
-					jQuery(ajax_loader).find('.current').html(curr+1);
-
-					if(i >= max_items) {
-						jQuery(ajax_loader).removeClass('active');
-					}
-				}
-				
-				
-			}, 
-			error : function() {
-				return
-			}
-		});		
-    };
-    
-
-    //single import
-    jQuery('.single-import-product:not(.noevent)').live('click', function(event) {
-	   singleImportAction(this);
-      
-       event.preventDefault();
-    });
-    
-   var singleImportAction = function(target) {
-   		jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
-    	var data = jQuery( 'form#import-product' ).serialize();
-		jQuery.ajax({
-        	url: ajaxurl,
-		    dataType: 'json',
-		    type: 'POST',
-		    data: data,
-		    success: function(data){
-		    	jQuery(target).find('i').remove();	
-		    	var asin = jQuery('#TB_ajaxContent #asin').val();
-		    	
-		    	if(data['rmessage']['success'] == "false") {
-		    		jQuery(target).after('<div class="error">'+data['rmessage']['reason']+'</div>');	    		
-		    		jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
-		    	} else if(data['rmessage']['success'] == "true") {
-		    		jQuery(target).hide();
-		    		jQuery(target).after('<a class="button button-primary" href="'+jQuery('#at-import-page').attr('data-url')+'post.php?post='+data['rmessage']['post_id']+'&action=edit">Produkt bearbeiten</a>');
-		    		jQuery(target).after('<div class="updated"><a href="'+jQuery('#at-import-page').attr('data-url')+'post.php?post='+data['rmessage']['post_id']+'&action=edit">Produkt</a> wurde erfolgreich angelegt.</div>');
-		    		jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
-					jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
-					jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
-		    	}
-		    }
-		});
-    };
-    
-    var massImportAction = function(target) {
-		var max_items = jQuery('#results .item:not(".success") .check-column input:checkbox:checked').length;
-    	var ajax_loader = jQuery('.at-ajax-loader');
-		
-		var i = 1;
-		
-		jQuery(ajax_loader).find('.progress-bar').attr('data-item','0').css('width', '0%').html('0%');
-		jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
-				
-		jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
-			var id = jQuery(this).val();
-			quickImportAction(id, true, i, max_items);
-			i++;
-		});
-    };
-
-    var searchAction = function() {		
-		if(jQuery('#search-link').prop('disabled')) {
-			return
-		}
-
-		var q = jQuery('#at-import-window input#search').val();
-		
-		if (q.length < 3 || globalRequest == 1) {
-            return;
-        }
-				
-        jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
-        
-        var value = jQuery('#at-import-window input#search').val();
-        var cat = jQuery('#at-import-window select#category').val();
-        var country = jQuery('#at-import-window select#amazon_country').val();
-        var page = jQuery('#at-import-window input#page').val();
-		var condition = '';
-        var track = value + " - " + cat + " - " + country;
-        var resultContainer = jQuery('#at-import-window table #results');
-
-        globalRequest = 1;
         jQuery.ajax({
             url: ajaxurl,
             dataType: 'json',
             type: 'GET',
-            data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+            data: "action=at_api_clear_log&hash="+hash+"&type="+type,
             success: function(data){
-            	var totalpages = '5';
-            	jQuery('#max-pages').val(totalpages);	
-            	if(totalpages == 1) {
-            		jQuery('#page-links').hide();
-            	} else if(totalpages > 1) {
-            		jQuery('#page-links').show();
-            		if(page == 1) { jQuery('#page-links #prev-page').hide(); } else if(page > 1) { jQuery('#page-links #prev-page').show(); }
-            		if(page >= totalpages) { jQuery('#page-links #next-page').hide(); } else { jQuery('#page-links #next-page').show(); }
-            	}
-            	
-                resultContainer.fadeOut('fast', function() {
-                    resultContainer.html('');
+                jQuery(btn).attr('disabled', false).find('i').remove();
 
-					if(data['items']) {
-	                    for (var x in data['items']) {
-	                        if (!data['items'][x].price)
-	                            data['items'][x].price = 'kA';
-	
-	                        if (!data['items'][x].img)
-	                            data['items'][x].img = 'assets/images/no.gif';
-	                            
-	                        var html = '';
-							
-							 if(data['items'][x].exists != "false") {
-	                        	html += '<tr class="item success" data-asin="'+data['items'][x].asin+'">';
-	                        	html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'" disabled="disabled"></th>';
-	                        } else {
-								if (data['items'][x].external == 1) {
-									html += '<tr class="item item-warning" data-asin="'+data['items'][x].asin+'">';
-								} else {
-									html += '<tr class="item" data-asin="'+data['items'][x].asin+'">';
-								}
-	                        	html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'"></th>';
-	                        }
-	                        html += '<td class="asin">'+data['items'][x].asin+'</td>';
-	                        if(data['items'][x].img !="assets/images/no.gif") {
-	                       	 	html += '<td class="image"><img src="'+data['items'][x].img+'"></td>';
-	                       	} else {
-	                       		html += '<td class="image">Kein Bild vorhanden</td>';
-	                       	}
-							if (data['items'][x].external == 1) {
-								html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
-							} else {
-								html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
-							}
-
-	                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
-	                        html += '<td class="price">'+data['items'][x].price+'</td>';
-	                        html += '<td class="margin">';
-	                        if(data['items'][x].cat_margin != 0) { 
-	                        	var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].cat_margin;
-	                        	var margin_sale = number_format(margin_sale_val, 2, ',', '.')
-	                        	
-	                        	html += data['items'][x].cat_margin+'%<br>(EUR '+margin_sale+' / Sale)'; 
-	                        } else { html += 'kA'; }
-	                        html += '</td>';
-	                        html += '<td class="category">'+data['items'][x].category+'</td>'; 
-	                       	if(data['items'][x].exists != "false") {
-								html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="Editieren"><i class="fa fa-edit"></i></a></td>';
-		                   	} else {
-		                       	html += '<td class="action"><a href="'+jQuery('#at-import-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
-	                       	}
-	                        html += '</tr>';
-	
-	                        resultContainer.append(html);
-	                        
-	                    }
-                 	} else {
-                 		html += '<tr class="item error" data-asin="">';
-	                        html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
-	                        html += '<td colspan="8">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
-	                    html += '</tr>';
-                 		resultContainer.append(html);
-                 	} 
-
-                    resultContainer.fadeIn('fast');
-					jQuery('#search-link').attr('disabled', false).find('fa-spin').remove();
-                });
+                if(data['status'] == 'success') {
+                    jQuery('table.apilog tbody').html('');
+                }
             },
-			error: function() {
-				jQuery('#search-link').attr('disabled', false).find('fa-spin').remove();
-			}
-        });
-		
-		globalRequest = 0;
-    };
-    
-    var checkConnection = function() {
-        jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
-        
-        var value = 'Matrix'
-        var cat = 'DVD';
-        var country = 'DE';
-        var condition = '';
-        var page = '1';
-        var track = value + " - " + cat + " - " + country;
-        var resultContainer = jQuery('#checkConnection');
-		
-        if (value.length < 3 && globalRequest == 1) {
-            return;
-        }
-
-        globalRequest = 1;
-        jQuery.ajax({
-            url: ajaxurl,
-            dataType: 'json',
-            type: 'GET',
-            data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
-            success: function(data){
-            	var totalpages = data['rmessage']['totalpages'];
-            	globalRequest = 0;
-            	if(totalpages > 0) {
-	                resultContainer.fadeOut('fast', function() {
-	                 	resultContainer.append('<div class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
-	                    resultContainer.fadeIn('fast');
-						setCurrentTab('search');
-	                });
-	            } else {
-	            	resultContainer.fadeOut('fast', function() {
-	                 	resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
-	                });
-	            }
-	            				
-				if(data['rmessage']['errormsg'] != "") {
-					resultContainer.append('<div class="error"><p class="error">'+data['rmessage']['errormsg']+'</p></div>');
-				}
-            
-	            jQuery('#search-link').attr('disabled', false);
-	            jQuery('.status-after').remove();
-            },
-			error: function() {
-				resultContainer.fadeOut('fast', function() {
-					resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
-					resultContainer.fadeIn('fast');
-				});
-			},
-        });
-    };
-    checkConnection();
-    
-    jQuery(function($) {
-		$(document).ajaxStop(function() {
-			 jQuery('#search-link .fa-spin').remove();
-			 jQuery('#next-page, #prev-page').attr('disabled', false);
-		});
-	});
-
-
-    var grabLink = function(e) {
-        jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
-
-        var url = jQuery('#grabburl').val();
-        if (url.length > 1 && isUrlValid(url) == false && globalRequest == 1) {
-            jQuery('#grab-link .fa-spin').remove();
-            jQuery('#grab-link').attr('disabled', false);
-            return;
-        }
-
-        globalRequest = 1;
-        jQuery.ajax({
-            url: ajaxurl,
-            dataType: 'json',
-            type: 'GET',
-            data: "action=amazon_api_grab&url="+url,
-            success: function(data){
-                var asins = data.asins;
-                jQuery.each(asins, function( index, value ) {
-                    if (index != 0) {
-                        jQuery('#grabbedasins').val(jQuery('#grabbedasins').val()+"\n"+value);
-                    }else {
-                        jQuery('#grabbedasins').val(value);
-                    }
-                });
-                jQuery('#grab-link .fa-spin').remove();
-                jQuery('#grab-link').attr('disabled', false);
+            error: function() {
+                jQuery(btn).attr('disabled', false).find('i').remove();
             }
         });
+
         e.preventDefault();
-    };
+    });
+
+    // api Tabs
+    jQuery("#at-api-tabs a.nav-tab").click(function(e){
+        jQuery("#at-api-tabs a").removeClass("nav-tab-active");
+        jQuery(".at-api-tab").removeClass("active");
+
+        var a = jQuery(this).attr("id").replace("-tab","");
+        jQuery("#"+a).addClass("active");
+        jQuery(this).addClass("nav-tab-active");
+    });
+
+    jQuery(document).ready(function(e) {
+        var a=window.location.hash.replace("#top#","");
+        (""==a||"#_=_"==a) &&(a=jQuery(".at-api-tab").attr("id")),jQuery('#at-api-tabs a').removeClass('nav-tab-active'),jQuery('.at-api-tab').removeClass('active'),jQuery("#"+a).addClass("active"),jQuery("#"+a+"-tab").addClass("nav-tab-active");
+    })
+
+    // Buttons
+    jQuery(function($) {
+        $(document).ajaxStop(function() {
+            jQuery('#search-link').attr('disabled', false).find('.fa-spin').remove();
+            jQuery('#next-page, #prev-page').attr('disabled', false);
+        });
+    });
 });
 
+/*
+ * Function:
+ * checkConnection
+ */
+var checkConnection = function() {
+    jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
+
+    var value = 'Matrix'
+    var cat = 'DVD';
+    var country = 'DE';
+    var condition = '';
+    var page = '1';
+    var track = value + " - " + cat + " - " + country;
+    var resultContainer = jQuery('#checkConnection');
+
+    if (value.length < 3 && globalRequest == 1) {
+        return;
+    }
+
+    globalRequest = 1;
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'GET',
+        data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+        success: function(data){
+            var totalpages = data['rmessage']['totalpages'];
+            globalRequest = 0;
+            if(totalpages > 0) {
+                resultContainer.fadeOut('fast', function() {
+                    resultContainer.append('<div class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
+                    resultContainer.fadeIn('fast');
+                    setCurrentTab('search');
+                });
+            } else {
+                resultContainer.fadeOut('fast', function() {
+                    resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+                });
+            }
+
+            if(data['rmessage']['errormsg'] != "") {
+                resultContainer.append('<div class="error"><p class="error">'+data['rmessage']['errormsg']+'</p></div>');
+            }
+
+            jQuery('.status-after').remove();
+        },
+        error: function() {
+            resultContainer.fadeOut('fast', function() {
+                resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+                resultContainer.fadeIn('fast');
+            });
+        },
+    });
+};
+
+/*
+ * Function
+ * searchAction
+ */
+var searchAction = function() {
+    if(jQuery('#search-link').prop('disabled')) {
+        return
+    }
+
+    var q = jQuery('#at-import-window input#search').val();
+
+    if (q.length < 3 || globalRequest == 1) {
+        return;
+    }
+
+    jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+
+    var value = jQuery('#at-import-window input#search').val();
+    var cat = jQuery('#at-import-window select#category').val();
+    var country = jQuery('#at-import-window select#amazon_country').val();
+    var page = jQuery('#at-import-window input#page').val();
+    var condition = '';
+    var track = value + " - " + cat + " - " + country;
+    var resultContainer = jQuery('#at-import-window table #results');
+
+    globalRequest = 1;
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'GET',
+        data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+        success: function(data){
+            var totalpages = '5';
+            jQuery('#max-pages').val(totalpages);
+            if(totalpages == 1) {
+                jQuery('#page-links').hide();
+            } else if(totalpages > 1) {
+                jQuery('#page-links').show();
+                if(page == 1) { jQuery('#page-links #prev-page').hide(); } else if(page > 1) { jQuery('#page-links #prev-page').show(); }
+                if(page >= totalpages) { jQuery('#page-links #next-page').hide(); } else { jQuery('#page-links #next-page').show(); }
+            }
+
+            resultContainer.fadeOut('fast', function() {
+                resultContainer.html('');
+
+                if(data['items']) {
+                    for (var x in data['items']) {
+                        if (!data['items'][x].price)
+                            data['items'][x].price = 'kA';
+
+                        if (!data['items'][x].img)
+                            data['items'][x].img = 'assets/images/no.gif';
+
+                        var html = '';
+
+                        if(data['items'][x].exists != "false") {
+                            html += '<tr class="item success" data-asin="'+data['items'][x].asin+'">';
+                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'" disabled="disabled"></th>';
+                        } else {
+                            if (data['items'][x].external == 1) {
+                                html += '<tr class="item item-warning" data-asin="'+data['items'][x].asin+'">';
+                            } else {
+                                html += '<tr class="item" data-asin="'+data['items'][x].asin+'">';
+                            }
+                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'"></th>';
+                        }
+                        html += '<td class="asin">'+data['items'][x].asin+'</td>';
+                        if(data['items'][x].img !="assets/images/no.gif") {
+                            html += '<td class="image"><img src="'+data['items'][x].img+'"></td>';
+                        } else {
+                            html += '<td class="image">Kein Bild vorhanden</td>';
+                        }
+                        if (data['items'][x].external == 1) {
+                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+                        } else {
+                            html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+                        }
+
+                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
+                        html += '<td class="price">'+data['items'][x].price+'</td>';
+                        html += '<td class="margin">';
+                        if(data['items'][x].cat_margin != 0) {
+                            var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].cat_margin;
+                            var margin_sale = number_format(margin_sale_val, 2, ',', '.')
+
+                            html += data['items'][x].cat_margin+'%<br>(EUR '+margin_sale+' / Sale)';
+                        } else { html += 'kA'; }
+                        html += '</td>';
+                        html += '<td class="category">'+data['items'][x].category+'</td>';
+                        if(data['items'][x].exists != "false") {
+                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="Editieren"><i class="fa fa-edit"></i></a></td>';
+                        } else {
+                            html += '<td class="action"><a href="'+jQuery('#at-import-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
+                        }
+                        html += '</tr>';
+
+                        resultContainer.append(html);
+
+                    }
+                } else {
+                    html += '<tr class="item error" data-asin="">';
+                    html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
+                    html += '<td colspan="8">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
+                    html += '</tr>';
+                    resultContainer.append(html);
+                }
+
+                resultContainer.fadeIn('fast');
+            });
+        }
+    });
+
+    globalRequest = 0;
+};
+
+/*
+ * Function
+ * singleImportAction
+ */
+var singleImportAction = function(target) {
+    jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
+    var data = jQuery( 'form#import-product' ).serialize();
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: data,
+        success: function(data){
+            jQuery(target).find('i').remove();
+            var asin = jQuery('#TB_ajaxContent #asin').val();
+
+            if(data['rmessage']['success'] == "false") {
+                jQuery(target).after('<div class="error">'+data['rmessage']['reason']+'</div>');
+                jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
+            } else if(data['rmessage']['success'] == "true") {
+                jQuery(target).hide();
+                jQuery(target).after('<a class="button button-primary" href="'+jQuery('#at-import-page').attr('data-url')+'post.php?post='+data['rmessage']['post_id']+'&action=edit"><i class="fa fa-pencil"></i> Produkt bearbeiten</a>');
+                jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
+                jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
+                jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
+            }
+        }
+    });
+};
+
+/*
+ * Function
+ * quickImportAction
+ */
+var quickImportAction = function(id, mass, i, max_items) {
+    mass = mass || false;
+    i = i || "1";
+    max_items = max_items || "0";
+
+    var target = jQuery('#results .item[data-asin='+id+']').find(".action a.quick-import");
+    var ajax_loader = jQuery('.at-ajax-loader');
+    var asin = jQuery(target).attr('data-asin');
+    var nonce = jQuery('#at-import-page').attr('data-nonce');
+
+    jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
+
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: {action : 'amazon_api_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce},
+        success: function(data){
+            jQuery(target).find('i').remove();
+
+            if(data['rmessage']['success'] == "false") {
+                jQuery(target).after('<div class="error">'+data['rmessage']['reason']+'</div>');
+                jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
+            } else if(data['rmessage']['success'] == "true") {
+                jQuery(target).hide();
+                jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
+                jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
+                jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
+            }
+
+            if(mass == true) {
+                var curr = parseInt(jQuery(ajax_loader).find('.progress-bar').attr('data-item'));
+                var procentual = (100/max_items)*curr;
+                console.log(curr+ ' / ' + procentual);
+                var procentual_fixed =  procentual.toFixed(2);
+                jQuery(ajax_loader).find('.progress-bar').css('width', procentual+'%').html(procentual_fixed+'%');
+                jQuery(ajax_loader).find('.progress-bar').attr('data-item', curr+1);
+                jQuery(ajax_loader).find('.current').html(curr+1);
+
+                if(i >= max_items) {
+                    jQuery(ajax_loader).removeClass('active');
+                }
+            }
+
+
+        },
+        error : function() {
+            return
+        }
+    });
+};
+
+/*
+ * Function
+ * massImportAction
+ */
+var massImportAction = function(target) {
+    var max_items = jQuery('#results .item:not(".success") .check-column input:checkbox:checked').length;
+    var ajax_loader = jQuery('.at-ajax-loader');
+
+    var i = 1;
+
+    jQuery(ajax_loader).find('.progress-bar').attr('data-item','0').css('width', '0%').html('0%');
+    jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
+
+    jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
+        var id = jQuery(this).val();
+        quickImportAction(id, true, i, max_items);
+        i++;
+    });
+};
+
+/*
+ * Function
+ * grabLink
+ */
+var grabLink = function(e) {
+    jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+
+    var url = jQuery('#grabburl').val();
+    if (url.length > 1 && isUrlValid(url) == false && globalRequest == 1) {
+        jQuery('#grab-link .fa-spin').remove();
+        jQuery('#grab-link').attr('disabled', false);
+        return;
+    }
+
+    globalRequest = 1;
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: "action=amazon_api_grab&url="+encodeURIComponent(url),
+        success: function(data){
+            var asins = data.asins;
+            jQuery.each(asins, function( index, value ) {
+                if (index != 0) {
+                    jQuery('#grabbedasins').val(jQuery('#grabbedasins').val()+"\n"+value);
+                }else {
+                    jQuery('#grabbedasins').val(value);
+                }
+            });
+            jQuery('#grab-link .fa-spin').remove();
+            jQuery('#grab-link').attr('disabled', false);
+        }
+    });
+    e.preventDefault();
+};
+
+/*
+ * Function
+ * isUrlValid
+ */
 function isUrlValid(url) {
     return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
 }
 
 /*
- * helper functions
+ * Function
+ * number_format
  */
 function number_format(number, decimals, dec_point, thousands_sep) {
 	number = (number + '').replace(/[^0-9+\-Ee.]/g, '');

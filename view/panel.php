@@ -157,20 +157,22 @@
 									<option value="Watches">Uhren</option>
 								</select>
 							</div>
+                            <hr>
                             <div class="form-container" style="">
                                 <form class="form-inline" method="post" action="">
                                     <div class="form-group">
-                                        <label for="grabburl">Url</label>
-                                        <input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="Url eintragen...">
+                                        <label for="grabburl"><?php _e('ASIN Grabber', 'affiliatetheme-api'); ?></label>
+                                        <input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="URL eintragen...">
+                                        <button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-api'); ?></button>
                                     </div>
-                                    <button id="grab-link" class="button button-primary">Grab ASINs</button>
+
                                 </form>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="form-container">
                                 <div class="form-group">
-                                    <label for="grabbedasins" class="control-label">Suche nach ASIN's</label>
-                                    <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs hier eintragen..."></textarea>
+                                    <label for="grabbedasins" class="control-label"><?php _e('Suche nach ASINs', 'affiliatetheme-api'); ?></label>
+                                    <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -245,7 +247,8 @@
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('API Log', 'affiliatetheme-api'); ?></span></h3>
 					<div class="inside">
-						<p><?php _e('Hier werden dir die letzten 200 Einträge der API log angezeigt', 'affiliatetheme-api'); ?>
+                        <p><?php _e('Hier werden dir die letzten 200 Einträge der API log angezeigt.', 'affiliatetheme-api'); ?></p>
+                        <p><a href="" class="clear-api-log button" data-type="amazon" data-hash="<?php echo AWS_CRON_HASH; ?>"><?php _e('Log löschen', 'affiliatetheme-api'); ?></a></p>
 						<table class="apilog">
 							<thead>
 								<tr>
@@ -284,7 +287,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- END: Settings Tab-->
+			<!-- END: API Log Tab-->
 		</div>
 	</div>
 </div>
