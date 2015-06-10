@@ -3,6 +3,24 @@
  * helper
  * Copyright 2015 - endcore
  */
+require_once dirname(__FILE__) . '/config.php';
+
+/*
+ * Hilfsfunktionen für Arrays
+ */
+function amazon_array_insert(&$array, $position, $insert) {
+    if (is_int($position)) {
+        array_splice($array, $position, 0, $insert);
+    } else {
+        $pos   = array_search($position, array_keys($array));
+        $array = array_merge(
+            array_slice($array, 0, $pos),
+            $insert,
+            array_slice($array, $pos)
+        );
+    }
+}
+
 /*
  * Add Amazon to "Affiliate Portal" Dropdown-List
  */
@@ -90,7 +108,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 		'disabled' => 0,
 	);
 
-	array_insert($fields['fields'], 6, $new_field);
+	amazon_array_insert($fields['fields'], 6, $new_field);
 	return $fields;
 }
 

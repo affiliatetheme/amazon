@@ -17,6 +17,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		{
 			require_once(sprintf("%s/class.dashboard.init.php", dirname(__FILE__)));
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
+            register_deactivation_hook( __FILE__, array(&$this, 'deactivate'));
 		} 
 
 		/**
@@ -33,7 +34,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		 */     
 		public static function deactivate()
 		{
-		    // Do nothing
+            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array('hash' => AWS_CRON_HASH));
 		} 
 	} 
 } 

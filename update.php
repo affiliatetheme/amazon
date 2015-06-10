@@ -44,7 +44,6 @@ function amazon_api_update($args = array()) {
     }
     $apaiIO = new ApaiIO($conf);
 
-    $nonce = $_POST['_wpnonce'];
     global $wpdb;
 
     $products = $wpdb->get_results(
@@ -95,7 +94,7 @@ function amazon_api_update($args = array()) {
                 }
 
                 update_post_meta($product->post_id, 'product_not_avail', '');
-                update_post_meta($product->post_id, 'last_amazon_check', time());
+                update_post_meta($product->post_id, 'last_product_price_check', time());
 
                 wp_publish_post($product->post_id);
             } catch (\Exception $e) {
