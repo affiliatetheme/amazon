@@ -93,7 +93,7 @@
 									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-api'); ?></p>
 								</div>
                                 <div class="form-group">
-                                    <label for="zanox_import_description"><?php _e('Beschreibung', 'affiliatetheme-api'); ?></label>
+                                    <label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-api'); ?></label>
                                     <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-api'); ?>
                                 </div>
 								<div class="form-group">

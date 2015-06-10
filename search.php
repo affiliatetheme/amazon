@@ -28,13 +28,20 @@ try {
 }
 $apaiIO = new ApaiIO($conf);
 
+if(isset($_POST['grabbedasins']) && ("" != $_POST['grabbedasins'])) {
+    $exploded = explode("\n", $_POST['grabbedasins']);
+    $query = implode("|", $exploded);
+} else {
+    $query = $_POST['q'];
+}
+
 $search = new Search();
-$search->setCategory($_GET['category']);
+$search->setCategory($_POST['category']);
 //$search->setMerchantId('Amazon');
-$search->setKeywords($_GET['q']);
+$search->setKeywords($query);
 $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary'));
-$search->setPage($_GET['page']);
+$search->setPage($_POST['page']);
 
 /* @var $formattedResponse Amazon\ResultSet */
 $formattedResponse = $apaiIO->runOperation($search);

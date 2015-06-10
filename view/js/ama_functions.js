@@ -175,7 +175,7 @@ var checkConnection = function() {
     jQuery.ajax({
         url: ajaxurl,
         dataType: 'json',
-        type: 'GET',
+        type: 'POST',
         data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
         success: function(data){
             var totalpages = data['rmessage']['totalpages'];
@@ -217,14 +217,12 @@ var searchAction = function() {
     }
 
     var q = jQuery('#at-import-window input#search').val();
-
-    if (q.length < 3 || globalRequest == 1) {
-        return;
-    }
+    var grabber = jQuery('#at-import-window input#grabbedasins').val();
 
     jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
     var value = jQuery('#at-import-window input#search').val();
+    var grabbedasins = jQuery('#at-import-window textarea#grabbedasins').val();
     var cat = jQuery('#at-import-window select#category').val();
     var country = jQuery('#at-import-window select#amazon_country').val();
     var page = jQuery('#at-import-window input#page').val();
@@ -236,8 +234,8 @@ var searchAction = function() {
     jQuery.ajax({
         url: ajaxurl,
         dataType: 'json',
-        type: 'GET',
-        data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+        type: 'POST',
+        data: "action=amazon_api_search&q="+value+"&grabbedasins="+grabbedasins+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
         success: function(data){
             var totalpages = '5';
             jQuery('#max-pages').val(totalpages);
