@@ -124,6 +124,11 @@ class Item
     public $EAN;
 
     /**
+     * @var array
+     */
+    public $EditorialReviews;
+
+    /**
      * @var ImageVariantSet
      */
     protected $_imageSet;
