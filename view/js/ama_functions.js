@@ -1,6 +1,9 @@
 var globalRequest = 0;
 
 jQuery(document).ready(function() {
+    // checkAdblock
+    checkAdblock();
+
     // checkConnection
     checkConnection();
 
@@ -460,6 +463,27 @@ var grabLink = function(e) {
     });
     e.preventDefault();
 };
+
+/*
+ * Function
+ * checkAdblock
+ */
+var checkAdblock = function() {
+    setTimeout(function() {
+        if(!document.getElementsByClassName) return;
+        var ads = document.getElementsByClassName('afs_ads'),
+            ad  = ads[ads.length - 1];
+
+        if(!ad
+            || ad.innerHTML.length == 0
+            || ad.clientHeight === 0) {
+            jQuery('#checkConnection').append('<div class="alert alert-danger">Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!</div>');
+        } else {
+            ad.style.display = 'none';
+        }
+
+    }, 2000);
+}
 
 /*
  * Function

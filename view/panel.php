@@ -294,4 +294,6 @@
 			<!-- END: API Log Tab-->
 		</div>
 	</div>
+
+    <div class="afs_ads">&nbsp;</div>
 </div>
