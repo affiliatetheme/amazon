@@ -95,7 +95,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
 	}
 
-    if(false == ($check = get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $asin, 'LIKE'))) {
+    if(false == ($check = at_get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $asin, 'LIKE'))) {
 
         $args = array(
             'post_title' => $title,

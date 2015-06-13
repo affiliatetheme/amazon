@@ -69,7 +69,7 @@ foreach ($formattedResponse as $singleItem) {
     $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
     $data['external'] = $singleItem->isExternalProduct();
 
-    if ($check = get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE'))
+    if ($check = at_get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE'))
         $data['exists'] = $check;
 	else
         $data['exists'] = 'false';

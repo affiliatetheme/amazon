@@ -36,8 +36,8 @@ function at_add_amazon_as_portal( $choices ) {
 /*
  * Overwrite Product Button Text
  */
-add_filter('at_get_product_button_text', 'at_overwrite_amazon_product_button_text', 99, 2);
-function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $short = false) {
+add_filter('at_get_amazon_product_button_text', 'at_overwrite_amazon_product_button_text', 10, 4);
+function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $product_shop = '', $short = false) {
     if('amazon' == $product_portal) {
 		/*
 		 * @TODO: Aus Plugin Settings auslesen!
@@ -46,7 +46,7 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
 		 */
 
 		if(true == $short)
-			return __('Jetzt kaufen', 'affilaitetheme');
+			return __('Kaufen', 'affilaitetheme');
 		
 		return __('Jetzt bei Amazon bestellen','affiliatetheme');
 	} 	
