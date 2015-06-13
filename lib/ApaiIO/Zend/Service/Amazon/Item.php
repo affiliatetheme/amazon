@@ -569,18 +569,24 @@ class Item
             $price = $this->getAmount(false);
 
             if ($price <= 0) {
-                if ($this->Offers->Offers !== null) {
+                if($this->Offers->Offers !== null) {
+                    $price = $this->Offers->Offers[0]->Price;
                     $this->_currencyCode = $this->Offers->Offers[0]->CurrencyCode;
                 }
                 if ($price <= 0) {
+                    $price = $this->Offers->LowestNewPrice;
                     $this->_currencyCode = $this->Offers->LowestNewPriceCurrency;
                     if ($price <= 0) {
+                        $price = $this->Offers->LowestUsedPrice;
                         $this->_currencyCode = $this->Offers->LowestUsedPriceCurrency;
                         if ($price <= 0) {
+                            $price = $this->Offers->LowestCollectiblePrice;
                             $this->_currencyCode = $this->Offers->LowestCollectiblePriceCurrency;
                             if ($price <= 0) {
+                                $price = $this->Offers->LowestRefurbishedPrice;
                                 $this->_currencyCode = $this->Offers->LowestRefurbishedPriceCurrency;
                                 if ($price <= 0) {
+                                    $price = $this->Amount;
                                     $this->_currencyCode = $this->CurrencyCode;
                                 }
                             }
