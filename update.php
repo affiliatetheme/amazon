@@ -46,13 +46,15 @@ function amazon_api_update($args = array()) {
 
     global $wpdb;
 
+    //AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP())
+
     $products = $wpdb->get_results(
         $wpdb->prepare("
             SELECT pm.post_id, pm.meta_value as \"asin\", a.meta_value as \"last\" FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
             LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
-            WHERE pm.meta_key = '%s' AND a.meta_key = '%s' AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP())
-            AND p.post_type = '%s' LIMIT 0,999", AWS_METAKEY_ID, 'last_product_price_check', 'product'
+            WHERE pm.meta_key LIKE '%s' AND a.meta_key = '%s'
+            AND p.post_type = '%s' LIMIT 0,999", 'product_shops_%_' . AWS_METAKEY_ID, 'last_product_price_check', 'product'
         )
     );
 
@@ -61,7 +63,7 @@ function amazon_api_update($args = array()) {
             LEFT JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'last_product_price_check')
             INNER JOIN {$wpdb->postmeta} AS mt1 ON ({$wpdb->posts}.ID = mt1.post_id)
             WHERE 1=1 AND {$wpdb->posts}.post_type = 'product' AND ( {$wpdb->postmeta}.post_id IS NULL
-            AND (mt1.meta_key = AWS_METAKEY_ID AND CAST(mt1.meta_value AS CHAR) != '') ) GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC
+            AND (mt1.meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID ."', AND CAST(mt1.meta_value AS CHAR) != '') ) GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC
         "
     );
 
@@ -86,17 +88,23 @@ function amazon_api_update($args = array()) {
                     throw new \Exception(sprintf('Item %s not found on Amazon.', $product->asin), 505);
                 }
 
-                $old_price = get_post_meta($product->post_id, 'product_price', true);
-                $price = $item->getAmountForAvailability();
+                $product_shops = get_field('product_shops', $product->post_id);
+                $product_index = getRepeaterRowID($product_shops, 'amazon_asin', $product->asin);
 
-                if(update_post_meta($product->post_id, 'product_price', $price, $old_price)) {
-                    at_write_api_log('amazon', $product->post_id, 'updated price from ' . $old_price . ' to ' . $price);
+                if(false !== $product_index) {
+                    /*
+                     * @TODO: Verfügbarkeit prüfen, was tun?
+                     */
+                    $old_price = $product_shops[$product_index]['price'];
+                    $price = $item->getAmountForAvailability();
+
+                    if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price', $price, $old_price)) {
+                        at_write_api_log('amazon', $product->post_id, 'updated price from ' . $old_price . ' to ' . $price);
+                    }
+
+                    update_post_meta($product->post_id, 'last_product_price_check', time());
+                    wp_publish_post($product->post_id);
                 }
-
-                update_post_meta($product->post_id, 'product_not_avail', '');
-                update_post_meta($product->post_id, 'last_product_price_check', time());
-
-                wp_publish_post($product->post_id);
             } catch (\Exception $e) {
                 // action
                 if (505 === $e->getCode()) {

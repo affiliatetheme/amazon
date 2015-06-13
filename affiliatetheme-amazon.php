@@ -17,6 +17,8 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		{
 			require_once(sprintf("%s/class.dashboard.init.php", dirname(__FILE__)));
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
+
+            register_activation_hook( __FILE__, array(&$this, 'activate'));
             register_deactivation_hook( __FILE__, array(&$this, 'deactivate'));
 		} 
 
@@ -25,8 +27,25 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		 */
 		public static function activate()
 		{
-			
-		
+            /*
+             * Amazon als Shop anlegen
+             */
+            if(post_type_exists('shop')) {
+                global $wpdb;
+
+                if(false == (get_amazon_shop_id())) {
+                    $args = array(
+                        'post_status'           => 'publish',
+                        'post_type'             => 'shop',
+                        'post_title'            => 'Amazon'
+                    );
+                    $shop_id = wp_insert_post($args);
+
+                    if($shop_id) {
+                        add_post_meta($shop_id, 'unique_identifier', 'amazon');
+                    }
+                }
+            }
 		} 
 
 		/**

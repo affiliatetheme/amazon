@@ -36,14 +36,15 @@ function at_add_amazon_as_portal( $choices ) {
 /*
  * Overwrite Product Button Text
  */
-add_filter('at_get_product_button_text', 'at_overwrite_product_button_text', 10, 2);
-function at_overwrite_product_button_text($var = '', $product_portal = '', $short = false) {
-	if('amazon' == $product_portal) {
+add_filter('at_get_product_button_text', 'at_overwrite_amazon_product_button_text', 99, 2);
+function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $short = false) {
+    if('amazon' == $product_portal) {
 		/*
 		 * @TODO: Aus Plugin Settings auslesen!
 		 * @TODO: Wenn Produkt nicht Verfügbar ist, anpassen!
 		 * @TODO: Amazon Icon?
 		 */
+
 		if(true == $short)
 			return __('Jetzt kaufen', 'affilaitetheme');
 		
@@ -111,8 +112,21 @@ function at_add_amazon_field_portal_id( $fields ) {
 		'disabled' => 0,
 	);
 
-    amazon_array_insert($fields['fields'][1]['sub_fields'], 5, $new_field);
+    amazon_array_insert($fields['fields'][2]['sub_fields'], 5, $new_field);
 	return $fields;
+}
+
+/*
+ * Liefert die ID des Amazon Shops
+ */
+function get_amazon_shop_id() {
+    global $wpdb;
+
+    if($shop_id = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'unique_identifier' AND meta_value = 'amazon' LIMIT 0,1")) {
+        return $shop_id;
+    }
+
+    return false;
 }
 
 /*

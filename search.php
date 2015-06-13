@@ -69,18 +69,7 @@ foreach ($formattedResponse as $singleItem) {
     $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
     $data['external'] = $singleItem->isExternalProduct();
 
-    global $wpdb;	
-	$check = $wpdb->get_var(
-        $wpdb->prepare("
-			SELECT p.ID FROM {$wpdb->postmeta} pm
-			LEFT JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-			WHERE pm.meta_key = '%s'
-			AND pm.meta_value = %s
-			AND p.post_type = '%s'
-		", AWS_METAKEY_ID, $singleItem->ASIN, 'product')
-    );
-	
-    if ($check) 
+    if ($check = get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE'))
         $data['exists'] = $check;
 	else
         $data['exists'] = 'false';

@@ -84,7 +84,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
         $title = $_POST['title'];
         $ean = $_POST['ean'];
         $price = floatval($_POST['price']);
-        $currency = 'euro';
+        $currency = $_POST['currency'];
         $url = $_POST['url'];
 		$rating = floatval($_POST['rating']);
 		$rating_cnt = $_POST['rating_cnt'];
@@ -95,7 +95,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
 	}
 
-    if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "' LIMIT 0,1"))) {
+    if(false == ($check = get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $asin, 'LIKE'))) {
 
         $args = array(
             'post_title' => $title,
@@ -113,13 +113,15 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             update_post_meta($post_id, 'product_rating', $rating);
             update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
 
-            $shop_info = array(
-                'price'     => $price,
-                'currency'  => $currency,
-                'portal'    => 'amazon',
-                'link'      => $url,
+            $shop_info[] = array(
+                'price'         => $price,
+                'currency'      => $currency,
+                'portal'        => 'amazon',
+                'amazon_asin'   => $asin,
+                'shop'          => (get_amazon_shop_id() ? get_amazon_shop_id() : ''),
+                'link'          => $url,
             );
-            update_field('field_557c01ea87000', $shops_info, $post_id);
+            update_field('field_557c01ea87000', $shop_info, $post_id);
 
             //taxonomie
             if($taxs) {
