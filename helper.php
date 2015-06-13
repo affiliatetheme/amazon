@@ -81,7 +81,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 	$new_field[] =  array (
 		'key' => 'field_553b842c246bc',
 		'label' => 'Amazon ASIN',
-		'name' => 'product_amazon_asin',
+		'name' => 'amazon_asin',
 		'type' => 'text',
 		'instructions' => '',
 		'required' => 0,
@@ -95,7 +95,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 			),
 		),
 		'wrapper' => array (
-			'width' => 50,
+			'width' => 25,
 			'class' => '',
 			'id' => '',
 		),
@@ -108,7 +108,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 		'disabled' => 0,
 	);
 
-	amazon_array_insert($fields['fields'], 6, $new_field);
+	amazon_array_insert($fields['fields'][1]['sub_fields'], 5, $new_field);
 	return $fields;
 }
 

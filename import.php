@@ -97,7 +97,8 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
 	}
 		
-	if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "'"))) {
+	if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "' LIMIT 0,1"))) {
+
 		$args = array(
 			'post_title' => $title,
 			'post_status' => 'publish',
@@ -106,17 +107,22 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 					
 		$post_id = wp_insert_post($args);
 		if($post_id) {
+
 			//customfields
 			update_post_meta($post_id, AWS_METAKEY_ID, $asin);
 			update_post_meta($post_id, 'last_product_price_check', '0');
-			update_post_meta($post_id, 'product_portal', 'amazon');
-			update_post_meta($post_id, 'product_price', $price);
-			update_post_meta($post_id, 'product_rating', $rating);
-			update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
-			update_post_meta($post_id, 'product_ean', $ean);
-			update_post_meta($post_id, 'product_currency', $currency);
-			update_post_meta($post_id, 'product_link', 'http://www.amazon.de/dp/'.$asin.'/'); // @TODO: an das aktuelle Land anpassen!
-							
+            update_post_meta($post_id, 'product_ean', $ean);
+            update_post_meta($post_id, 'product_rating', $rating);
+            update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
+
+            $shop_info = array(
+                'price'     => $price,
+                'currency'  => $currency,
+                'portal'    => 'amazon',
+                'link'      => 'http://www.amazon.de/dp/'.$asin.'/',
+            );
+            update_field('field_557c01ea87000', $shops_info, $post_id);
+
 			//taxonomie
 			if($taxs) {
 				foreach($taxs as $key => $value) {
@@ -157,10 +163,13 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $output['rmessage']['success'] = 'true';
             $output['rmessage']['post_id'] = $post_id;
 		}
+
 	} else {
+
 		$output['rmessage']['success'] = 'false';
 		$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
 		$output['rmessage']['post_id'] = $check;
+
 	}
 }
 
