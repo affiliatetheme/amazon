@@ -560,4 +560,9 @@ class Item
         }
         return $margin;
     }
+
+    public function getUrl()
+    {
+        return $this->DetailPageURL;
+    }
 }
