@@ -8,8 +8,8 @@ require_once dirname(__FILE__) . '/config.php';
 /*
  * Hilfsfunktionen für Arrays
  */
-function amazon_array_insert(&$array, $position, $insert) {
-    if (is_int($position)) {
+function amazon_array_insert($array, $position, $insert) {
+    if (is_int($position) && is_array($array)) {
         array_splice($array, $position, 0, $insert);
     } else {
         $pos   = array_search($position, array_keys($array));
