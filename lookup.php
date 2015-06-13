@@ -34,16 +34,17 @@ $formattedResponse = $apaiIO->runOperation($lookup);
 
 if ($formattedResponse->hasItem()) {
 	/*
-	 * @TODO: currency, ean
+	 * @TODO: ean
 	 */
 	
 	$item = $formattedResponse->getItem();
-	
+
+    $title = $item->Title;
 	$asin = $item->ASIN;
-	$title = $item->Title;
-	$ean = '';
-	$currency =  '';
+	$ean = $item->getEan();
 	$price = $item->getAmountForAvailability();
+    $currency = '';
+    $url = $item->getUrl();
 	$images = $item->getAllImages()->getLargeImages();
 	$average_rating = $item->getAverageRating();
 	$description = $item->getItemDescription();

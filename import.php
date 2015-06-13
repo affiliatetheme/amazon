@@ -20,74 +20,76 @@ $nonce = $_POST['_wpnonce'];
  */
 
 if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
-	
-	die('Security Check failed');
-	
+
+    die('Security Check failed');
+
 } else {
-	
-	$asin = $_POST['asin'];
-	
-	if(!$asin)
-		die();
-	
-	if(isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
 
-		$conf = new GenericConfiguration();
-		try {
-			$conf
-				->setCountry(AWS_COUNTRY)
-				->setAccessKey(AWS_API_KEY)
-				->setSecretKey(AWS_API_SECRET_KEY)
-				->setAssociateTag(AWS_ASSOCIATE_TAG)
-				->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-		} catch (\Exception $e) {
-			echo $e->getMessage();
-		}
-		$apaiIO = new ApaiIO($conf);
+    $asin = $_POST['asin'];
 
-		$lookup = new Lookup();
-		$lookup->setItemId($asin);
-		$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations'));
+    if(!$asin)
+        die();
 
-		/* @var $formattedResponse Amazon\SingleResultSet */
-		$formattedResponse = $apaiIO->runOperation($lookup);
-		
-		if ($formattedResponse->hasItem()) {
-			$item = $formattedResponse->getItem();
-			
-			$title = $item->Title;			
-			$ean = '';
-			$price = $item->getAmountForAvailability();
-			$currency = 'euro';
-			$rating = $item->getAverageRating();
-			if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
-			$taxs = array();
-			$images = array();
-			
-			if($item->getAllImages()->getLargeImages()) {	
-				$i=1;
-				foreach($item->getAllImages()->getLargeImages() as $image) {
-					$images[$i]['filename'] = sanitize_title($title.'-'.$i);
-					$images[$i]['alt'] = $title.' - '.$i;
-					$images[$i]['url'] = $image;
-					
-					if($i == 1)
-						$images[$i]['thumb'] = 'true';
-					
-					$i++;
-				}
-			}
+    if(isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
+
+        $conf = new GenericConfiguration();
+        try {
+            $conf
+                ->setCountry(AWS_COUNTRY)
+                ->setAccessKey(AWS_API_KEY)
+                ->setSecretKey(AWS_API_SECRET_KEY)
+                ->setAssociateTag(AWS_ASSOCIATE_TAG)
+                ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        $apaiIO = new ApaiIO($conf);
+
+        $lookup = new Lookup();
+        $lookup->setItemId($asin);
+        $lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations'));
+
+        /* @var $formattedResponse Amazon\SingleResultSet */
+        $formattedResponse = $apaiIO->runOperation($lookup);
+
+        if ($formattedResponse->hasItem()) {
+            $item = $formattedResponse->getItem();
+
+            $title = $item->Title;
+            $ean = $item->getEan();
+            $price = $item->getAmountForAvailability();
+            $url = $item->getUrl();
+            $currency = 'euro';
+            $rating = $item->getAverageRating();
+            if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
+            $taxs = array();
+            $images = array();
+
+            if($item->getAllImages()->getLargeImages()) {
+                $i=1;
+                foreach($item->getAllImages()->getLargeImages() as $image) {
+                    $images[$i]['filename'] = sanitize_title($title.'-'.$i);
+                    $images[$i]['alt'] = $title.' - '.$i;
+                    $images[$i]['url'] = $image;
+
+                    if($i == 1)
+                        $images[$i]['thumb'] = 'true';
+
+                    $i++;
+                }
+            }
 
             if('1' == get_option('amazon_import_description'))
                 $description = $item->getItemDescription();
-		}
-		
-	} else {
-		
-		$title = $_POST['title'];
-		$ean = '';
-		$price = floatval($_POST['price']);
-		$currency = 'euro';
+        }
+
+    } else {
+
+        $title = $_POST['title'];
+        $ean = '';
+        $price = floatval($_POST['price']);
+        $currency = 'euro';
+        $url = $_POST['url'];
 		$rating = floatval($_POST['rating']);
 		$rating_cnt = $_POST['rating_cnt'];
 		$taxs = $_POST['tax'];
@@ -96,21 +98,21 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
         if('1' == get_option('amazon_import_description'))
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
 	}
-		
-	if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "' LIMIT 0,1"))) {
 
-		$args = array(
-			'post_title' => $title,
-			'post_status' => 'publish',
-			'post_type' => 'product',
-		);
-					
-		$post_id = wp_insert_post($args);
-		if($post_id) {
+    if(false == ($check = $wpdb->get_var("SELECT post_id FROM $wpdb->postmeta WHERE meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID . "' AND meta_value = '" . $asin . "' LIMIT 0,1"))) {
 
-			//customfields
-			update_post_meta($post_id, AWS_METAKEY_ID, $asin);
-			update_post_meta($post_id, 'last_product_price_check', '0');
+        $args = array(
+            'post_title' => $title,
+            'post_status' => 'publish',
+            'post_type' => 'product',
+        );
+
+        $post_id = wp_insert_post($args);
+        if($post_id) {
+
+            //customfields
+            update_post_meta($post_id, AWS_METAKEY_ID, $asin);
+            update_post_meta($post_id, 'last_product_price_check', '0');
             update_post_meta($post_id, 'product_ean', $ean);
             update_post_meta($post_id, 'product_rating', $rating);
             update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
@@ -119,16 +121,16 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
                 'price'     => $price,
                 'currency'  => $currency,
                 'portal'    => 'amazon',
-                'link'      => 'http://www.amazon.de/dp/'.$asin.'/',
+                'link'      => $url,
             );
             update_field('field_557c01ea87000', $shops_info, $post_id);
 
-			//taxonomie
-			if($taxs) {
-				foreach($taxs as $key => $value) {
-					wp_set_object_terms($post_id, $value, $key, true);
-				}
-			}
+            //taxonomie
+            if($taxs) {
+                foreach($taxs as $key => $value) {
+                    wp_set_object_terms($post_id, $value, $key, true);
+                }
+            }
 
             // product image
             if($images) {
@@ -162,15 +164,15 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 
             $output['rmessage']['success'] = 'true';
             $output['rmessage']['post_id'] = $post_id;
-		}
+        }
 
-	} else {
+    } else {
 
-		$output['rmessage']['success'] = 'false';
-		$output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
-		$output['rmessage']['post_id'] = $check;
+        $output['rmessage']['success'] = 'false';
+        $output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
+        $output['rmessage']['post_id'] = $check;
 
-	}
+    }
 }
 
 echo json_encode($output);
