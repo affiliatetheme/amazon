@@ -10,11 +10,13 @@ jQuery(document).ready(function() {
     // searchAction
     jQuery('#search').bind('keyup', function(event) {
         if (event.keyCode == 13) {
+            jQuery('#at-import-window input#page').val('1');
             searchAction();
         }
     });
     
     jQuery('#search-link').bind('click', function(event) {
+        jQuery('#at-import-window input#page').val('1');
         searchAction();
     });
 
