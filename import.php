@@ -56,7 +56,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $item = $formattedResponse->getItem();
 
             $title = $item->Title;
-            $ean = '';
+            $ean = $item->getEan();
             $price = $item->getAmountForAvailability();
             $url = $item->getUrl();
             $currency = 'euro';
