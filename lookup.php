@@ -43,7 +43,7 @@ if ($formattedResponse->hasItem()) {
 	$asin = $item->ASIN;
 	$ean = $item->getEan();
 	$price = $item->getAmountForAvailability();
-    $currency = '';
+    $currency = $item->getCurrencyCode();
     $url = $item->getUrl();
 	$images = $item->getAllImages()->getLargeImages();
 	$average_rating = $item->getAverageRating();
