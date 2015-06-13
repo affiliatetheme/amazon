@@ -15,10 +15,6 @@ use ApaiIO\Zend\Service\Amazon;
 global $wpdb;
 $nonce = $_POST['_wpnonce'];
 
-/*
- * @TODO: ean, currency
- */
-
 if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 
     die('Security Check failed');
@@ -59,7 +55,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             $ean = $item->getEan();
             $price = $item->getAmountForAvailability();
             $url = $item->getUrl();
-            $currency = 'euro';
+            $currency = $item->getCurrencyCode();
             $rating = $item->getAverageRating();
             if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
             $taxs = array();
@@ -86,7 +82,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
     } else {
 
         $title = $_POST['title'];
-        $ean = '';
+        $ean = $_POST['ean'];
         $price = floatval($_POST['price']);
         $currency = 'euro';
         $url = $_POST['url'];

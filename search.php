@@ -58,6 +58,7 @@ foreach ($formattedResponse as $singleItem) {
     }
     $data['price'] = $singleItem->getUserFormattedPrice();
     $data['price_amount'] = $singleItem->getAmountForAvailability();
+    $data['currency'] = $singleItem->getCurrencyCode();
     $data['category'] = $singleItem->getBinding();
     $data['cat_margin'] = $singleItem->getMarginForBinding();
 

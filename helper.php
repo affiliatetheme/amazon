@@ -8,8 +8,11 @@ require_once dirname(__FILE__) . '/config.php';
 /*
  * Hilfsfunktionen für Arrays
  */
-function amazon_array_insert($array, $position, $insert) {
-    if (is_int($position) && is_array($array)) {
+function amazon_array_insert(&$array, $position, $insert) {
+    if(!is_array($array))
+        return;
+
+    if (is_int($position)) {
         array_splice($array, $position, 0, $insert);
     } else {
         $pos   = array_search($position, array_keys($array));
@@ -79,7 +82,7 @@ function at_manage_amazon_columns($column, $post_id) {
 add_filter( 'at_add_product_fields', 'at_add_amazon_field_portal_id', 10, 2 );
 function at_add_amazon_field_portal_id( $fields ) {
 	$new_field[] =  array (
-		'key' => 'field_553b842c246bc',
+		'key' => 'field_553b75842c246bc',
 		'label' => 'Amazon ASIN',
 		'name' => 'amazon_asin',
 		'type' => 'text',
@@ -108,7 +111,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 		'disabled' => 0,
 	);
 
-	amazon_array_insert($fields['fields'][1]['sub_fields'], 5, $new_field);
+    amazon_array_insert($fields['fields'][1]['sub_fields'], 5, $new_field);
 	return $fields;
 }
 
