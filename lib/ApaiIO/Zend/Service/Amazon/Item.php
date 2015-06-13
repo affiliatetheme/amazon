@@ -123,6 +123,8 @@ class Item
     public $Amount;
     public $EAN;
 
+    protected $_currencyCode;
+
     /**
      * @var array
      */
@@ -559,6 +561,36 @@ class Item
             $margin = $marginCategories[$this->getBinding()];
         }
         return $margin;
+    }
+
+    public function getCurrencyCode()
+    {
+        if ($this->_currencyCode == null) {
+            $price = $this->getAmount(false);
+
+            if ($price <= 0) {
+                if ($this->Offers->Offers !== null) {
+                    $this->_currencyCode = $this->Offers->Offers[0]->CurrencyCode;
+                }
+                if ($price <= 0) {
+                    $this->_currencyCode = $this->Offers->LowestNewPriceCurrency;
+                    if ($price <= 0) {
+                        $this->_currencyCode = $this->Offers->LowestUsedPriceCurrency;
+                        if ($price <= 0) {
+                            $this->_currencyCode = $this->Offers->LowestCollectiblePriceCurrency;
+                            if ($price <= 0) {
+                                $this->_currencyCode = $this->Offers->LowestRefurbishedPriceCurrency;
+                                if ($price <= 0) {
+                                    $this->_currencyCode = $this->CurrencyCode;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->_currencyCode;
     }
 
     public function getUrl()
