@@ -46,14 +46,12 @@ function amazon_api_update($args = array()) {
 
     global $wpdb;
 
-    //AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP())
-
     $products = $wpdb->get_results(
         $wpdb->prepare("
             SELECT pm.post_id, pm.meta_value as \"asin\", a.meta_value as \"last\" FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
             LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
-            WHERE pm.meta_key LIKE '%s' AND a.meta_key = '%s'
+            WHERE pm.meta_key LIKE '%s' AND a.meta_key = '%s' AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP())
             AND p.post_type = '%s' LIMIT 0,999", 'product_shops_%_' . AWS_METAKEY_ID, 'last_product_price_check', 'product'
         )
     );
@@ -89,7 +87,7 @@ function amazon_api_update($args = array()) {
                 }
 
                 $product_shops = get_field('product_shops', $product->post_id);
-                $product_index = getRepeaterRowID($product_shops, 'amazon_asin', $product->asin);
+                $product_index = getRepeaterRowID($product_shops, AWS_METAKEY_ID, $product->asin);
 
                 if(false !== $product_index) {
                     /*
