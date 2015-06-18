@@ -3,7 +3,7 @@
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
  * Plugin URI: http://www.endcore.com
  * Description: Dieses Plugin erweitert das Affiliatetheme um eine Amazon Schnittstelle
- * Version: 0.3.4
+ * Version: 0.0.1
  * Author: endcore Medienagentur
  * Author URI: http://endcore.com
  * License: GPL2

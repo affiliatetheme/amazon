@@ -112,7 +112,7 @@ function at_add_amazon_field_portal_id( $fields ) {
 		'disabled' => 0,
 	);
 
-    amazon_array_insert($fields['fields'][2]['sub_fields'], 5, $new_field);
+    amazon_array_insert($fields['fields'][4]['sub_fields'], 7, $new_field);
 	return $fields;
 }
 
