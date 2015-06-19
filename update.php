@@ -97,7 +97,7 @@ function amazon_api_update($args = array()) {
                     $price = $item->getAmountForAvailability();
 
                     if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price', $price, $old_price)) {
-                        update_post_meta($product->post_id, 'product_shops_'.$product_index.'_old_price', $old_price);
+                        update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price_old', $old_price);
                         at_write_api_log('amazon', $product->post_id, 'updated price from ' . $old_price . ' to ' . $price);
                     }
 
