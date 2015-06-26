@@ -38,12 +38,16 @@ function at_add_amazon_as_portal( $choices ) {
  */
 add_filter('at_get_amazon_product_button_text', 'at_overwrite_amazon_product_button_text', 10, 4);
 function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $product_shop = '', $short = false) {
+    global $post;
+
     if('amazon' == $product_portal) {
 		/*
 		 * @TODO: Aus Plugin Settings auslesen!
-		 * @TODO: Wenn Produkt nicht Verfügbar ist, anpassen!
 		 * @TODO: Amazon Icon?
 		 */
+
+        if('1' == get_post_meta($post->ID, 'product_not_avail', true))
+            return __('Nicht Verfügbar', 'affiliatetheme'); // @TODO: Mit in die Plugin Settings aufnehmen!
 
 		if(true == $short)
 			return __('Kaufen', 'affilaitetheme');
@@ -54,14 +58,15 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
 
 /*
  * Add Amazon Status Column
+ * @TODO: Überarbeiten!
  */
-add_filter('manage_edit-product_columns', 'at_add_new_amazon_columns');
+//add_filter('manage_edit-product_columns', 'at_add_new_amazon_columns');
 function at_add_new_amazon_columns($columns) {
 	$columns['amazon_status'] = __('Amazon Status', 'affiliatetheme');
 	
 	return $columns;
 }
-add_action('manage_product_posts_custom_column', 'at_manage_amazon_columns', 10, 2);
+//add_action('manage_product_posts_custom_column', 'at_manage_amazon_columns', 10, 2);
 function at_manage_amazon_columns($column, $post_id) {
 	switch ($column) {
 		case 'amazon_status':
@@ -130,17 +135,77 @@ function get_amazon_shop_id() {
 }
 
 /*
- * SEND NOTIFICATION MAIL IF PRODUCT IS NOT AVAILABLE
- * @param int $produt_id
-function send_amazon_notifictaion_mail($produkt_id) {
-	$to = get_option('admin_email');
-	$sitename = get_bloginfo('name');
-	function set_html_content_type() {
-		return 'text/html';
-	}
-	
-	add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-	$body = 'Das Produkt <a href="'.get_permalink($produkt_id).'">'.get_the_title($produkt_id).'</a> ist aktuell nicht mehr bei Amazon verfügbar.';
-	wp_mail($to, $sitename.': Produkt nicht verfügbar', $body);
-	remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
-} */
+ * Notification Mail Option
+ */
+function set_product_notification($post_id) {
+    $products = (get_option('at_amazon_notification_items') ? get_option('at_amazon_notification_items') : array());
+
+    if(!is_array($products))
+        return;
+
+    $products[] = $post_id;
+    $products = array_unique($products);
+
+    update_option('at_amazon_notification_items', $products);
+}
+
+function remove_product_notification($post_id) {
+    $products = (get_option('at_amazon_notification_items') ? get_option('at_amazon_notification_items') : array());
+
+    if(!is_array($products))
+        return;
+
+    var_dump($products);
+
+    if(($key = array_search($post_id, $products)) !== false) {
+        unset($products[$key]);
+    }
+
+    var_dump($products);
+
+    update_option('at_amazon_notification_items', $products);
+}
+
+/*
+ * Send Notification Mail
+ *
+ */
+if(get_option('amazon_notification') == "email" ||  get_option('amazon_notification') == "email_draft") {
+    if( !wp_next_scheduled( 'affiliatetheme_send_amazon_notification_mail')) {
+        wp_schedule_event(time(), 'daily', 'affiliatetheme_send_amazon_notification_mail');
+    }
+} else {
+    wp_clear_scheduled_hook('affiliatetheme_send_amazon_notification_mail');
+}
+add_action('wp_ajax_at_send_amazon_notification_mail', 'at_send_amazon_notification_mail');
+add_action('affiliatetheme_send_amazon_notification_mail', 'at_send_amazon_notification_mail');
+function at_send_amazon_notification_mail($produkt_id) {
+    $products = (get_option('at_amazon_notification_items') ? get_option('at_amazon_notification_items') : array());
+    $to = get_option('admin_email');
+    $sitename = get_bloginfo('name');
+
+    if(!is_array($products) || empty($products))
+        return;
+
+    if($products) {
+        $product_table = '';
+        foreach($products as $item) {
+            $product_table .= '
+                <tr>
+                    <td style="padding: 5px; border-top: 1px solid #eee;">' . $item . '</td>
+                    <td style="padding: 5px; border-top: 1px solid #eee;"><a href="' . get_permalink($item). '" target="_blank">' . get_the_title($item). '</a></td>
+                    <td style="padding: 5px; border-top: 1px solid #eee;">' . get_product_last_update($item) . '</td>
+                </tr>
+            ';
+        }
+
+        $body = file_get_contents(__DIR__ . '/view/email.html');
+        $body = str_replace('%%BLOGNAME%%', $sitename, $body);
+        $body = str_replace('%%BLOGURL%%', '<a href="' . home_url() . '" target="_blank">' . home_url('') . '</a>', $body);
+        $body = str_replace('%%PRODUCTS%%', $product_table, $body);
+        $body = str_replace('%%AMAZON_API_SETTINGS_URL%%', admin_url("admin.php?page=endcore_api_amazon"), $body);
+
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($to, $sitename.': Nicht verfügbare Produkte', $body, $headers);
+    }
+}

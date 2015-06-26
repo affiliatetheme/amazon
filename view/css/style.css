@@ -1,0 +1,26 @@
+.amazon-api-cont .form-container{margin-bottom:15px;border-bottom:1px solid #ddd;padding-bottom:15px;}
+.amazon-api-cont .form-group{float:left;margin-right:30px;}
+.amazon-api-cont .form-group label{font-size:14px;display:inline-block;margin-right:15px;}
+.amazon-api-cont .aktion i{font-size:19px;}
+.amazon-api-cont .success{background:#F1F7E7;}
+.amazon-api-cont .success td,.amazon-api-cont .success td a{color:#7AB317;}
+.amazon-api-cont .error{background:#ECB8B8;}
+.amazon-api-cont .error td, .amazon-api-cont .error td a{color:#c01313;}
+.amazon-api-cont #page-links{display:none;}
+
+#TB_window{max-width:783px;overflow: scroll;}
+#TB_window .form-group{margin-bottom:15px;}
+#TB_window .form-group label{display:inline-block;width:120px;}
+#TB_window .form-group input, #TB_window .form-group select{width:70%;}
+#TB_window .form-group input#price, #TB_window .form-group.small:first-of-type input{width:65%;}
+#TB_window .form-group input[type="checkbox"]{width:auto!important;}
+#TB_window .form-group #rating{width:200px;}
+#TB_window .image .row{border-bottom:1px solid #eee;margin-bottom:15px;}
+#TB_ajaxContent{max-width:753px;min-height:94.5%;max-height: 831px}
+
+.col-xs-3{float:left;width:20%;}
+.col-xs-9{float:left;width:71%;}
+.col-xs-6{float:left;width:50%;}
+
+img.img-responsive { display: table-cell; max-width: 100%; max-height:100px; }
+.item-warning td { background:#fee; }
