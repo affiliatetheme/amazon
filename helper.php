@@ -52,7 +52,7 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
 		if(true == $short)
 			return __('Kaufen', 'affilaitetheme');
 		
-		return __('Jetzt bei Amazon bestellen','affiliatetheme');
+		return __('Jetzt bei Amazon kaufen','affiliatetheme');
 	} 	
 }
 
