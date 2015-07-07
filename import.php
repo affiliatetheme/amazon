@@ -99,7 +99,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
 
         $args = array(
             'post_title' => $title,
-            'post_status' => 'publish',
+            'post_status' => (get_option('amazon_post_status') ? get_option('amazon_post_status') : 'publish'),
             'post_type' => 'product',
         );
 

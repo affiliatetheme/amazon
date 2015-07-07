@@ -93,6 +93,15 @@
 									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-api'); ?></p>
 								</div>
                                 <div class="form-group">
+                                    <label for="amazon_post_status"><?php _e('Produktstatus', 'affiliatetheme-api'); ?></label>
+                                    <?php $selected_amazon_post_status = get_option('amazon_post_status'); ?>
+                                    <select name="amazon_post_status" id="amazon_post_status">
+                                        <option value="publish"><?php _e('Veröffentlicht', 'affiliatetheme-api'); ?></option>
+                                        <option value="draft" <?php if($selected_amazon_post_status == "draft") echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-api'); ?></option>
+                                    </select>
+                                    <p class="form-hint"><?php _e('Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen.', 'affiliatetheme-api'); ?></p>
+                                </div>
+                                <div class="form-group">
                                     <label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-api'); ?></label>
                                     <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-api'); ?>
                                 </div>
