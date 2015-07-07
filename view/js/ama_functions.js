@@ -153,6 +153,15 @@ jQuery(document).ready(function() {
             jQuery('#next-page, #prev-page').attr('disabled', false);
         });
     });
+
+    // select, deselect all checkboxes
+    jQuery('body').on('click', '.select-all', function() {
+        if (jQuery(this).is(':checked')) {
+            jQuery('div.product-images .disable-this').attr('checked', true);
+        } else {
+            jQuery('div.product-images .disable-this').attr('checked', false);
+        }
+    });
 });
 
 /*
@@ -390,7 +399,7 @@ var quickImportAction = function(id, mass, i, max_items) {
             if(mass == true) {
                 var curr = parseInt(jQuery(ajax_loader).find('.progress-bar').attr('data-item'));
                 var procentual = (100/max_items)*curr;
-                console.log(curr+ ' / ' + procentual);
+                //console.log(curr+ ' / ' + procentual);
                 var procentual_fixed =  procentual.toFixed(2);
                 jQuery(ajax_loader).find('.progress-bar').css('width', procentual+'%').html(procentual_fixed+'%');
                 jQuery(ajax_loader).find('.progress-bar').attr('data-item', curr+1);

@@ -106,8 +106,8 @@ if ($formattedResponse->hasItem()) {
 				$images = $item->getAllImages()->getLargeImages();
 				$i = 1;
 				?>
-				<h3>Produktbild(er)</h3>
-				<div class="row">
+				<h3>Produktbild(er) <small class="alignright"><input type="checkbox" name="selectall" class="select-all"/> Alle Bilder überspringen</small></h3>
+				<div class="row product-images">
 					<?php
                     foreach ($images as $image) {
                         $image_info = explode('/', $image);
