@@ -79,6 +79,7 @@ foreach ($formattedResponse as $singleItem) {
         $output['items'][] = $data;
 
     } catch (\Exception $e) {
+        at_write_api_log('amazon', 'system', $e->getMessage());
         continue;
     }
 }
