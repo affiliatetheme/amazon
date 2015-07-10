@@ -10,13 +10,16 @@
  */ 
 if(!class_exists('AffiliateTheme_Amazon')) {
 	class AffiliateTheme_Amazon {
-		/**
+		/**affiliatetheme-amazon
 		 * Construct the plugin object
 		 */
 		public function __construct()
 		{
 			require_once(sprintf("%s/class.dashboard.init.php", dirname(__FILE__)));
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
+
+            require_once(sprintf("%s/wp-updates-plugin.php", dirname(__FILE__)));
+            new WPUpdatesPluginUpdater_1189( 'http://wp-updates.com/api/2/plugin', plugin_basename(__FILE__));
 
             register_activation_hook( __FILE__, array(&$this, 'activate'));
             register_deactivation_hook( __FILE__, array(&$this, 'deactivate'));
