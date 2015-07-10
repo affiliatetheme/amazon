@@ -48,33 +48,39 @@ $formattedResponse = $apaiIO->runOperation($search);
 
 /* @var $singleItem Amazon\Item */
 foreach ($formattedResponse as $singleItem) {
-    $data = array();
+    try {
+        $data = array();
 
-    $data['asin'] = $singleItem->ASIN;
-    $data['Title'] = $singleItem->Title;
-    $data['url'] = $singleItem->DetailPageURL;
-    if ($singleItem->SmallImage != null && $singleItem->SmallImage->Url) {
-        $data['img'] = $singleItem->SmallImage->Url->getUri();
+        $data['asin'] = $singleItem->ASIN;
+        $data['Title'] = $singleItem->Title;
+        $data['url'] = $singleItem->DetailPageURL;
+        if ($singleItem->SmallImage != null && $singleItem->SmallImage->Url) {
+            $data['img'] = $singleItem->SmallImage->Url->getUri();
+        }
+        $data['price'] = $singleItem->getUserFormattedPrice();
+        $data['price_amount'] = $singleItem->getAmountForAvailability();
+        $data['currency'] = $singleItem->getCurrencyCode();
+        $data['category'] = $singleItem->getBinding();
+        $data['cat_margin'] = $singleItem->getMarginForBinding();
+
+        $data['average_rating'] = $singleItem->getAverageRating();
+        $data['total_reviews'] = $singleItem->getTotalReviews();
+        $data['ean'] = $singleItem->getEan();
+
+        $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
+        $data['external'] = $singleItem->isExternalProduct();
+
+        if ($check = at_get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE')) {
+            $data['exists'] = $check;
+        } else {
+            $data['exists'] = 'false';
+        }
+
+        $output['items'][] = $data;
+
+    } catch (\Exception $e) {
+        continue;
     }
-    $data['price'] = $singleItem->getUserFormattedPrice();
-    $data['price_amount'] = $singleItem->getAmountForAvailability();
-    $data['currency'] = $singleItem->getCurrencyCode();
-    $data['category'] = $singleItem->getBinding();
-    $data['cat_margin'] = $singleItem->getMarginForBinding();
-
-    $data['average_rating'] = $singleItem->getAverageRating();
-    $data['total_reviews'] = $singleItem->getTotalReviews();
-    $data['ean'] = $singleItem->getEan();
-
-    $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
-    $data['external'] = $singleItem->isExternalProduct();
-
-    if ($check = at_get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE'))
-        $data['exists'] = $check;
-	else
-        $data['exists'] = 'false';
-
-    $output['items'][] = $data;
 }
 
 $output['rmessage']['totalpages'] = $formattedResponse->totalPages();
