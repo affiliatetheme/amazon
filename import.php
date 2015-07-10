@@ -101,6 +101,7 @@ if ( ! wp_verify_nonce( $nonce, 'at_amazon_import_wpnonce' ) ) {
             'post_title' => $title,
             'post_status' => (get_option('amazon_post_status') ? get_option('amazon_post_status') : 'publish'),
             'post_type' => 'product',
+            'post_content' => ($description ? $description : '')
         );
 
         $post_id = wp_insert_post($args);
