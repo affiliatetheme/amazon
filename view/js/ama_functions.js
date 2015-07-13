@@ -90,6 +90,8 @@ jQuery(document).ready(function() {
 			}
         	searchAction();
        }
+
+       event.preventDefault();
     });
     jQuery('.prev-page').bind('click', function(event) {
 		var current_page = parseInt(jQuery('#page').val());
@@ -101,6 +103,8 @@ jQuery(document).ready(function() {
 			jQuery('#page').val(current_page - 1);
 		} 
         searchAction();
+
+        event.preventDefault();
     });
 
     // clear API Log
