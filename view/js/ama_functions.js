@@ -443,6 +443,12 @@ var massImportAction = function(target) {
  * grabLink
  */
 var grabLink = function(e) {
+    if(jQuery('#grabburl').val().length < 5)
+        return;
+
+    if(jQuery('#grab-link').prop('disabled'))
+        return
+
     jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
     var url = jQuery('#grabburl').val();
@@ -467,6 +473,10 @@ var grabLink = function(e) {
                     jQuery('#grabbedasins').val(value);
                 }
             });
+            jQuery('#grab-link .fa-spin').remove();
+            jQuery('#grab-link').attr('disabled', false);
+        },
+        error: function(data) {
             jQuery('#grab-link .fa-spin').remove();
             jQuery('#grab-link').attr('disabled', false);
         }
