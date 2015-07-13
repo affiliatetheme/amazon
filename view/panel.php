@@ -199,9 +199,9 @@
 				
 						<div id="info-title"></div>
 						
-						<div id="page-links" style="margin-bottom:15px;">
-							<button id="prev-page" class="button">« <?php _e('Vorherige Seite', 'affiliatetheme-api'); ?></button>
-							<button id="next-page" class="button"><?php _e('Nächste Seite', 'affiliatetheme-api'); ?> »</button>
+						<div class="page-links" style="margin-bottom:15px;">
+							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-api'); ?></button>
+							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-api'); ?> »</button>
 						</div>
 										
 						<table class="wp-list-table widefat fixed products">
@@ -243,6 +243,11 @@
 							</tfoot>
 							<tbody id="results"></tbody>
 						</table>
+
+						<div class="page-links" style="margin-top:15px;">
+							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-api'); ?></button>
+							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-api'); ?> »</button>
+						</div>
 						
 						<?php add_thickbox(); ?>
 						<div id="my-content-id" style="display:none;">

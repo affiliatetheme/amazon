@@ -78,7 +78,7 @@ jQuery(document).ready(function() {
 	});
 
     // pagination
-    jQuery('#next-page').bind('click', function(event) {
+    jQuery('.next-page').bind('click', function(event) {
     	if(jQuery(this).attr('disabled') != "disabled") {
 			var current_page = parseInt(jQuery('#page').val());
 			var max_pages = parseInt(jQuery('#max-pages').val());
@@ -91,7 +91,7 @@ jQuery(document).ready(function() {
         	searchAction();
        }
     });
-    jQuery('#prev-page').bind('click', function(event) {
+    jQuery('.prev-page').bind('click', function(event) {
 		var current_page = parseInt(jQuery('#page').val());
 		var max_pages = parseInt(jQuery('#max-pages').val());
 		
@@ -150,7 +150,7 @@ jQuery(document).ready(function() {
     jQuery(function($) {
         $(document).ajaxStop(function() {
             jQuery('#search-link').attr('disabled', false).find('.fa-spin').remove();
-            jQuery('#next-page, #prev-page').attr('disabled', false);
+            jQuery('.next-page, .prev-page').attr('disabled', false);
         });
     });
 
@@ -252,11 +252,11 @@ var searchAction = function() {
             var totalpages = '5';
             jQuery('#max-pages').val(totalpages);
             if(totalpages == 1) {
-                jQuery('#page-links').hide();
+                jQuery('.page-links').hide();
             } else if(totalpages > 1) {
-                jQuery('#page-links').show();
-                if(page == 1) { jQuery('#page-links #prev-page').hide(); } else if(page > 1) { jQuery('#page-links #prev-page').show(); }
-                if(page >= totalpages) { jQuery('#page-links #next-page').hide(); } else { jQuery('#page-links #next-page').show(); }
+                jQuery('.page-links').show();
+                if(page == 1) { jQuery('.page-links .prev-page').hide(); } else if(page > 1) { jQuery('.page-links .prev-page').show(); }
+                if(page >= totalpages) { jQuery('.page-links .next-page').hide(); } else { jQuery('.page-links .next-page').show(); }
             }
 
             resultContainer.fadeOut('fast', function() {
