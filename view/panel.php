@@ -49,6 +49,7 @@
 			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-api'); ?></a>
 			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-api'); ?></a>
 			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-api'); ?></a>
+			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-api'); ?></a>
 		</h2>
 		
 		<div class="tabwrapper">
@@ -306,6 +307,38 @@
 				</div>
 			</div>
 			<!-- END: API Log Tab-->
+
+			<!-- START: Settings Tab-->
+			<div id="buttons" class="at-api-tab">
+				<div id="at-import-settings" class="metabox-holder postbox">
+					<h3 class="hndle"><span><?php _e('Buttons', 'affiliatetheme-api'); ?></span></h3>
+					<div class="inside">
+						<form action="options.php" method="post" id="<?php echo $plugin_button_options; ?>_form" name="<?php echo $plugin_button_options; ?>_form">
+							<?php settings_fields($plugin_button_options); ?>
+							<?php do_settings_sections( $plugin_button_options ); ?>
+							<p class="hint">Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kasst du diese hier angeben.</p>
+							<div class="form-container">
+								<div class="form-group">
+									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-api'); ?></label>
+									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : 'Kaufen'); ?>" />
+								</div>
+								<div class="form-group">
+									<label for="amazon_buy_button"><?php _e('Kaufen Button', 'affiliatetheme-api'); ?></label>
+									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : 'Jetzt bei Amazon kaufen'); ?>" />
+								</div>
+								<div class="form-group">
+									<label for="amazon_not_avail_button"><?php _e('Nicht Verfügbar', 'affiliatetheme-api'); ?></label>
+									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : 'Nicht Verfügbar'); ?>" />
+								</div>
+								<div class="form-group">
+									<?php submit_button(); ?>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- END: Settings Tab-->
 		</div>
 	</div>
 

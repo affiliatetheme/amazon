@@ -51,6 +51,10 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			register_setting('endcore_api_amazon_options', 'amazon_notification');
             register_setting('endcore_api_amazon_options', 'amazon_post_status');
             register_setting('endcore_api_amazon_options', 'amazon_import_description');
+
+			register_setting('endcore_api_amazon_button_options', 'amazon_buy_short_button');
+			register_setting('endcore_api_amazon_button_options', 'amazon_buy_button');
+			register_setting('endcore_api_amazon_button_options', 'amazon_not_avail_button');
 		}
 		
 		/*
@@ -68,6 +72,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 		 */
 		public function menu_dashboard() {
 			$plugin_options = 'endcore_api_amazon_options';
+			$plugin_button_options = 'endcore_api_amazon_button_options';
 			
 			require_once(sprintf("%s/view/panel.php", dirname(__FILE__)));
 		} 

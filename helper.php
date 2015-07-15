@@ -42,17 +42,20 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
 
     if('amazon' == $product_portal) {
 		/*
-		 * @TODO: Aus Plugin Settings auslesen!
 		 * @TODO: Amazon Icon?
 		 */
 
+        $buy_short_button = (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : 'Kaufen');
+        $buy_button = (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : 'Jetzt bei Amazon kaufen');
+        $not_avail_button = (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : 'Nicht Verfügbar');
+
         if('1' == get_post_meta($post->ID, 'product_not_avail', true))
-            return __('Nicht Verfügbar', 'affiliatetheme'); // @TODO: Mit in die Plugin Settings aufnehmen!
+            return __($not_avail_button, 'affiliatetheme');
 
 		if(true == $short)
-			return __('Kaufen', 'affilaitetheme');
+			return __($buy_short_button, 'affilaitetheme');
 		
-		return __('Jetzt bei Amazon kaufen','affiliatetheme');
+		return __($buy_button,'affiliatetheme');
 	} 	
 }
 
@@ -155,13 +158,9 @@ function remove_product_notification($post_id) {
     if(!is_array($products))
         return;
 
-    var_dump($products);
-
     if(($key = array_search($post_id, $products)) !== false) {
         unset($products[$key]);
     }
-
-    var_dump($products);
 
     update_option('at_amazon_notification_items', $products);
 }

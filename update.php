@@ -17,7 +17,7 @@ if(get_option('amazon_public_key') != "" &&  get_option('amazon_secret_key') != 
         wp_schedule_event(time(), 'hourly', 'affiliatetheme_amazon_api_update', $args = array('hash' => AWS_CRON_HASH));
     }
 } else {
-    wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => AWS_CRON_HASH));
+
 }
 
 add_action('wp_ajax_amazon_api_update', 'amazon_api_update');
@@ -28,8 +28,11 @@ function amazon_api_update($args = array()) {
     $hash = AWS_CRON_HASH;
     $check_hash = ($args ? $args : (isset($_GET['hash']) ? $_GET['hash'] : ''));
 
-    if($check_hash != $hash)
+    if($check_hash != $hash) {
+        wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => $check_hash));
+
         die('Security check failed.');
+    }
 
     $conf = new GenericConfiguration();
     try {
