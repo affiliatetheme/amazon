@@ -308,7 +308,7 @@
 			</div>
 			<!-- END: API Log Tab-->
 
-			<!-- START: Settings Tab-->
+			<!-- START: Buttons Tab-->
 			<div id="buttons" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('Buttons', 'affiliatetheme-api'); ?></span></h3>
@@ -316,7 +316,7 @@
 						<form action="options.php" method="post" id="<?php echo $plugin_button_options; ?>_form" name="<?php echo $plugin_button_options; ?>_form">
 							<?php settings_fields($plugin_button_options); ?>
 							<?php do_settings_sections( $plugin_button_options ); ?>
-							<p class="hint">Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kasst du diese hier angeben.</p>
+							<p class="hint">Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst du diese hier angeben.</p>
 							<div class="form-container">
 								<div class="form-group">
 									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-api'); ?></label>
@@ -338,7 +338,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- END: Settings Tab-->
+			<!-- END: Buttons Tab-->
 		</div>
 	</div>
 
