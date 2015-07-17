@@ -63,11 +63,11 @@
 							<?php do_settings_sections( $plugin_options ); ?>
 							<div class="form-container">
 								<div class="form-group">
-									<label for="amazon_public_key"><?php _e('Public Key', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-api'); ?></label>
 									<input type="text" name="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
 								</div>
 								<div class="form-group">	
-									<label for="amazon_secret_key"><?php _e('Secret Key', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-api'); ?></label>
 									<input type="text" name="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
 								</div>
 								<div class="form-group">

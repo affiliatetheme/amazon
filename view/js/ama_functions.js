@@ -203,9 +203,9 @@ var checkConnection = function() {
                     setCurrentTab('search');
                 });
             } else {
-                resultContainer.fadeOut('fast', function() {
+               // resultContainer.fadeOut('fast', function() {
                     resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
-                });
+                //});
             }
 
             if(data['rmessage']['errormsg'] != "") {
@@ -215,10 +215,10 @@ var checkConnection = function() {
             jQuery('.status-after').remove();
         },
         error: function() {
-            resultContainer.fadeOut('fast', function() {
+            //resultContainer.fadeOut('fast', function() {
                 resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
                 resultContainer.fadeIn('fast');
-            });
+            //});
         },
     });
 };
