@@ -43,6 +43,7 @@ if ($formattedResponse->hasItem()) {
 	$asin = $item->ASIN;
 	$ean = $item->getEan();
 	$price = $item->getAmountForAvailability();
+	$price_list = $item->getAmountListPrice();
     $currency = $item->getCurrencyCode();
     $url = $item->getUrl();
 	$images = $item->getAllImages()->getLargeImages();
@@ -61,23 +62,28 @@ if ($formattedResponse->hasItem()) {
 					<input type="text" id="title" name="title" class="form-control" value="<?php echo $title; ?>"/>
 				</div>
 			
-				<div class="form-group col-xs-3">
+				<div class="form-group col-xs-4">
 					<label>ASIN</label> 
 					<input type="text" id="asin" name="asin" class="form-control" value="<?php echo $asin; ?>" readonly/>
 				</div>
 				
-				<div class="form-group col-xs-3">
+				<div class="form-group col-xs-4">
 					<label>Bewertung</label>
 					<?php echo at_get_product_rating_list($average_rating_rounded); ?>
 				</div>
 				
-				<div class="form-group col-xs-3">
+				<div class="form-group col-xs-4">
 					<label>Bewertungen</label>
 					<input type="text" id="rating_cnt" name="rating_cnt" class="form-control" value="<?php echo $rating_cnt; ?>" />
 				</div>
 				
-				<div class="form-group col-xs-3">
-					<label>Preis</label> 
+				<div class="form-group col-xs-6">
+					<label>Listenpreis</label>
+					<input type="text" id="price_list" name="price_list" class="form-control" value="<?php echo $price_list; ?>" readonly/>
+				</div>
+
+				<div class="form-group col-xs-6">
+					<label>Preis</label>
 					<input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" readonly/>
 				</div>
 			</div>

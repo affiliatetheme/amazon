@@ -58,8 +58,9 @@ foreach ($formattedResponse as $singleItem) {
             $data['img'] = $singleItem->SmallImage->Url->getUri();
         }
         $data['price'] = $singleItem->getUserFormattedPrice();
+        $data['price_list'] = ($singleItem->getFormattedListPrice() ? $singleItem->getFormattedListPrice() : 'kA');
         $data['price_amount'] = $singleItem->getAmountForAvailability();
-        $data['currency'] = $singleItem->getCurrencyCode();
+        $data['currency'] = ($singleItem->getCurrencyCode() ? $singleItem->getCurrencyCode() : 'EUR');
         $data['category'] = $singleItem->getBinding();
         $data['cat_margin'] = $singleItem->getMarginForBinding();
 

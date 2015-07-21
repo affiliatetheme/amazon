@@ -54,6 +54,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             $title = $item->Title;
             $ean = $item->getEan();
             $price = $item->getAmountForAvailability();
+            $price_list = $item->getAmountListPrice();
             $url = $item->getUrl();
             $currency = $item->getCurrencyCode();
             $rating = $item->getAverageRating();
@@ -85,6 +86,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         $title = $_POST['title'];
         $ean = $_POST['ean'];
         $price = floatval($_POST['price']);
+        $price_list = $_POST['price_list'];
         $currency = $_POST['currency'];
         $url = $_POST['url'];
         $rating = floatval($_POST['rating']);
@@ -117,6 +119,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
             $shop_info[] = array(
                 'price' => $price,
+                'price_old' => ($price_list ? $price_list : ''),
                 'currency' => $currency,
                 'portal' => 'amazon',
                 'amazon_asin' => $asin,

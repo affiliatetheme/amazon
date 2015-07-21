@@ -300,7 +300,7 @@ var searchAction = function() {
                         }
 
                         html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
-                        html += '<td class="price">'+data['items'][x].price+'</td>';
+                        html += '<td class="price">'+data['items'][x].price+'<br>(UVP: ' + data['items'][x].price_list + ')</td>';
                         html += '<td class="margin">';
                         if(data['items'][x].cat_margin != 0) {
                             var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].cat_margin;
