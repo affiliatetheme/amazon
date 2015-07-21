@@ -604,4 +604,30 @@ class Item
     {
         return $this->DetailPageURL;
     }
+
+    public function getFormattedListPrice()
+    {
+        if (isset($this->FormattedPrice)) {
+            return $this->FormattedPrice;
+        }
+        return null;
+    }
+
+    public function getAmountListPrice()
+    {
+        if (isset($this->Amount)) {
+            return floatval($this->Amount) / 100;
+        }
+
+        return null;
+    }
+
+    public function getCurrencyListPrice()
+    {
+        if (isset($this->CurrencyCode)) {
+            return $this->CurrencyCode;
+        }
+
+        return null;
+    }
 }
