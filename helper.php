@@ -125,6 +125,30 @@ function at_add_amazon_field_portal_id( $fields ) {
 }
 
 /*
+ * Tabs für Kundenmeinungen (Amazon Link!)
+ */
+add_filter( 'at_product_tabs_nav', 'at_add_amazon_product_tabs_nav', 10, 2 );
+function at_add_amazon_product_tabs_nav($content, $post_id) {
+    if('1' != get_option('amazon_show_reviews')) {
+        return false;
+    }
+
+    $partner_tag = get_option('amazon_partner_id');
+    $product_shops = get_field('product_shops', $post_id);
+    $shop_id = getRepeaterRowID($product_shops, 'portal', 'amazon', false);
+    $asin = $product_shops[$shop_id]['amazon_asin'];
+    $url = 'http://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+
+    if(!$asin) {
+        return false;
+    }
+
+    $content .= '<li><a href="' . $url . '" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme') . '</a></li>';
+
+    echo $content;
+}
+
+/*
  * Liefert die ID des Amazon Shops
  */
 function get_amazon_shop_id() {

@@ -107,6 +107,10 @@
                                     <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-api'); ?>
                                 </div>
 								<div class="form-group">
+									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-api'); ?></label>
+									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-api'); ?>
+								</div>
+								<div class="form-group">
 									<?php submit_button(); ?>
 								</div>
 							</div>
