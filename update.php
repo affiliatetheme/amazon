@@ -104,7 +104,10 @@ function amazon_api_update($args = array()) {
                     update_post_meta($product->post_id, 'last_product_price_check', time());
                     update_post_meta($product->post_id, 'product_not_avail', '0');
                     remove_product_notification($product->post_id);
-                    wp_publish_post($product->post_id);
+
+                    if(get_option('amazon_notification') == 'draft' || get_option('amazon_notification') == 'email_draft') {
+                        wp_publish_post($product->post_id);
+                    }
                 }
             } catch (\Exception $e) {
                 update_post_meta($product->post_id, 'last_product_price_check', time());
