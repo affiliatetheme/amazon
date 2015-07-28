@@ -109,6 +109,8 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
         $post_id = wp_insert_post($args);
         if ($post_id) {
+            //fix rating
+            $rating = round($rating*2) / 2;
 
             //customfields
             update_post_meta($post_id, AWS_METAKEY_ID, $asin);
