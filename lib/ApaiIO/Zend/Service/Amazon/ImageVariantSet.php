@@ -17,7 +17,7 @@ class ImageVariantSet
      */
     protected $_images = array();
 
-    public function __construct(\DOMNodeList $variants = null)
+    public function __construct(\DOMNodeList $variants = null, $category = 'variant')
     {
         if ($variants != null) {
             $i = 0;
@@ -31,7 +31,7 @@ class ImageVariantSet
                     $xpath = new \DOMXPath($document);
                     $xpath->registerNamespace('az', 'http://webservices.amazon.com/AWSECommerceService/2011-08-01');
 
-                    $result = $xpath->query("./az:ImageSet[@Category='variant']/az:$im", $document);
+                    $result = $xpath->query("./az:ImageSet[@Category='$category']/az:$im", $document);
 
                     if ($result->length == 1) {
                         /**
@@ -67,17 +67,21 @@ class ImageVariantSet
     }
 
     public function addDefaultImageSet(Image $smallImage = null, Image $mediumImage = null, Image $largeImage = null){
+
+        $defaultSet = array();
+
         if($smallImage != null ) {
-            $this->_images[]['SmallImage'] = $smallImage;
+            $defaultSet['SmallImage'] = $smallImage;
         }
 
         if($mediumImage != null) {
-            $this->_images[]['MediumImage'] = $mediumImage;
+            $defaultSet['MediumImage'] = $mediumImage;
         }
 
         if($largeImage != null) {
-            $this->_images[]['LargeImage'] = $largeImage;
+            $defaultSet['LargeImage'] = $largeImage;
         }
+        array_unshift($this->_images, $defaultSet);
     }
 
 

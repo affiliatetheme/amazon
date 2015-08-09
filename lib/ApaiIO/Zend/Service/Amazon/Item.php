@@ -137,6 +137,11 @@ class Item
     protected $_imageSet;
 
     /**
+     * @var array
+     */
+    protected $_imageSets = array();
+
+    /**
      * @var \DOMElement
      */
     protected $_dom;
@@ -191,7 +196,8 @@ class Item
         }
 
         foreach (array('SmallImage', 'MediumImage', 'LargeImage') as $im) {
-            $result = $xpath->query("./az:ImageSets/az:ImageSet[position() = 1]/az:$im", $dom);
+            //$result = $xpath->query("./az:ImageSets/az:ImageSet[position() = 1]/az:$im", $dom);
+            $result = $xpath->query("./az:$im", $dom);
             if ($result->length == 1) {
                 /**
                  * @see Image
@@ -478,8 +484,12 @@ class Item
     {
         if ($this->hasImages()) {
 
+            //var_dump($this->LargeImage);die;
+
             //add images to imageset
             $this->_imageSet->addDefaultImageSet($this->SmallImage, $this->MediumImage, $this->LargeImage);
+
+            //var_dump($this->_imageSets);die;
 
             return $this->_imageSet;
         }
