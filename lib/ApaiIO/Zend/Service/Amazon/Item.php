@@ -528,6 +528,18 @@ class Item
     }
 
     /**
+     * @return string
+     */
+    public function getRatingUrl()
+    {
+        if ($this->CustomerReview) {
+            return $this->CustomerReview->getUrl();
+        }
+
+        return '';
+    }
+
+    /**
      * @return int
      */
     public function getTotalReviews(){

@@ -25,6 +25,14 @@ class CustomerReview {
      */
     protected $_totalReviews = 0;
 
+    /**
+     * @var string
+     */
+    protected $url;
+
+    /**
+     * @param $url
+     */
     public function __construct($url)
     {
         if (ini_get('allow_url_fopen')) {
@@ -88,5 +96,10 @@ class CustomerReview {
 
     public function getTotalReviews(){
         return $this->_totalReviews;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 } 

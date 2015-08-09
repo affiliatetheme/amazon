@@ -47,6 +47,7 @@ if ($formattedResponse->hasItem()) {
     $currency = $item->getCurrencyCode();
     $url = $item->getUrl();
 	$images = $item->getAllImages()->getLargeImages();
+    $ratingUrl = $item->getRatingUrl();
 	$average_rating = $item->getAverageRating();
 	$description = $item->getItemDescription();
 	$average_rating_rounded = round($average_rating / .5) * .5;
