@@ -140,7 +140,7 @@ if ($formattedResponse->hasItem()) {
 							
 							<div class="row">
 								<div class="col-xs-6">
-									<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[<?php echo $i; ?>][thumb]" value="true" class="unique"/></div>
+									<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[<?php echo $i; ?>][thumb]" value="true" class="unique" <?php if($i==1) echo 'checked'; ?>/></div>
 								</div>
 								
 								<div class="col-xs-6">
@@ -168,6 +168,8 @@ if ($formattedResponse->hasItem()) {
 						<input type="hidden" name="action" value="amazon_api_import" />
 						<input type="hidden" name="mass" value="false" />
 						<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>
+						<button type="submit" id="tb-close" class="button" onclick="self.parent.tb_remove();return false">Schließen</button>
+						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>	

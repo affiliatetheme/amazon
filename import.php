@@ -27,7 +27,6 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         die();
 
     if (isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
-
         $conf = new GenericConfiguration();
         try {
             $conf
@@ -80,9 +79,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             if ('1' == get_option('amazon_import_description'))
                 $description = $item->getItemDescription();
         }
-
     } else {
-
         $title = $_POST['title'];
         $ean = $_POST['ean'];
         $price = floatval($_POST['price']);
