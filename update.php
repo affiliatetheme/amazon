@@ -76,7 +76,7 @@ function amazon_api_update($args = array()) {
         foreach ($products as $product) {
             $lookup = new Lookup();
             $lookup->setItemId($product->asin);
-            $lookup->setResponseGroup(array('OfferSummary', 'Offers', 'OfferFull', 'Variations'));
+            $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations'));
             $lookup->setAvailability('Available');
 
             /* @var $formattedResponse Amazon\SingleResultSet */
@@ -95,10 +95,15 @@ function amazon_api_update($args = array()) {
                 if(false !== $product_index) {
                     $old_price = $product_shops[$product_index]['price'];
                     $price = $item->getAmountForAvailability();
+                    $old_link = $product_shops[$product_index]['link'];
+                    $link = $item->getUrl();
 
                     if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price', $price, $old_price)) {
-                        //update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price_old', $old_price);
                         at_write_api_log('amazon', $product->post_id, 'updated price from ' . $old_price . ' to ' . $price);
+                    }
+
+                    if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_link', $link, $old_link)) {
+                        at_write_api_log('amazon', $product->post_id, 'changed amazon url');
                     }
 
                     update_post_meta($product->post_id, 'last_product_price_check', time());
