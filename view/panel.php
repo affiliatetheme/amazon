@@ -63,15 +63,15 @@
 							<?php do_settings_sections( $plugin_options ); ?>
 							<div class="form-container">
 								<div class="form-group">
-									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-api'); ?> <sup>*</sup></label>
 									<input type="text" name="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
 								</div>
 								<div class="form-group">	
-									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-api'); ?> <sup>*</sup></label>
 									<input type="text" name="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
 								</div>
 								<div class="form-group">
-									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-api'); ?> <sup>*</sup></label>
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
 									<select name="amazon_country" id="amazon_country">
 										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>>Deutschland</option>
@@ -79,8 +79,9 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_partner_id"><?php _e('Partner ID', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_partner_id"><?php _e('Partner Tag', 'affiliatetheme-api'); ?> <sup>*</sup></label>
 									<input type="text" name="amazon_partner_id" value="<?php echo get_option('amazon_partner_id'); ?>" />
+									<p class="form-hint"><?php _e('Damit die Produkt-Links dem richtigen Partner zugeordnet werden, trage hier deinen Partner Tag ein (z.B. superaffiliate-21).<br><strong>Wichtiger Hinweis:</strong> Wenn du diese Partner ID im späteren Verlauf änderst, werden alle Links in der Datenbank nach und nach mit dem neuen Partner Tag ausgestattet.', 'affiliatetheme-api'); ?></p>
 								</div>
 								<div class="form-group">
 									<label for="amazon_notification"><?php _e('Benachrichtigung', 'affiliatetheme-api'); ?></label>
@@ -320,19 +321,22 @@
 						<form action="options.php" method="post" id="<?php echo $plugin_button_options; ?>_form" name="<?php echo $plugin_button_options; ?>_form">
 							<?php settings_fields($plugin_button_options); ?>
 							<?php do_settings_sections( $plugin_button_options ); ?>
-							<p class="hint">Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst du diese hier angeben.</p>
+							<p class="hint">
+								Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst du diese hier angeben.<br>
+								Falls du das Amazon-Icon verwenden willst, nutze hierfür <mark><?php echo htmlentities('<i class="fa fa-amazon"></i>'); ?></mark>
+							</p>
 							<div class="form-container">
 								<div class="form-group">
 									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-api'); ?></label>
-									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : 'Kaufen'); ?>" />
+									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? htmlentities(get_option('amazon_buy_short_button')) : 'Kaufen'); ?>" />
 								</div>
 								<div class="form-group">
 									<label for="amazon_buy_button"><?php _e('Kaufen Button', 'affiliatetheme-api'); ?></label>
-									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : 'Jetzt bei Amazon kaufen'); ?>" />
+									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? htmlentities(get_option('amazon_buy_button')) : 'Jetzt bei Amazon kaufen'); ?>" />
 								</div>
 								<div class="form-group">
 									<label for="amazon_not_avail_button"><?php _e('Nicht Verfügbar', 'affiliatetheme-api'); ?></label>
-									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : 'Nicht Verfügbar'); ?>" />
+									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? htmlentities(get_option('amazon_not_avail_button')) : 'Nicht Verfügbar'); ?>" />
 								</div>
 								<div class="form-group">
 									<?php submit_button(); ?>
