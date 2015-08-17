@@ -22,6 +22,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 } else {
 
     $asin = $_POST['asin'];
+    $description = '';
 
     if (!$asin)
         die();
@@ -88,7 +89,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         $url = $_POST['url'];
         $rating = floatval($_POST['rating']);
         $rating_cnt = $_POST['rating_cnt'];
-        $taxs = $_POST['tax'];
+        $taxs = isset($_POST['tax']) ? $_POST['tax'] : '';
         $images = $_POST['image'];
 
         if ('1' == get_option('amazon_import_description'))
