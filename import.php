@@ -112,7 +112,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
             //customfields
             update_post_meta($post_id, AWS_METAKEY_ID, $asin);
-            update_post_meta($post_id, 'last_product_price_check', time());
+            update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
             update_post_meta($post_id, 'product_ean', $ean);
             update_post_meta($post_id, 'product_rating', $rating);
             update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);

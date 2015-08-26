@@ -50,22 +50,29 @@ function amazon_api_update($args = array()) {
     global $wpdb;
 
     $products = $wpdb->get_results(
-        $wpdb->prepare("
-            SELECT pm.post_id, pm.meta_value as \"asin\", a.meta_value as \"last\" FROM {$wpdb->posts} p
-            LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
-            LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
-            WHERE pm.meta_key LIKE '%s' AND a.meta_key = '%s' AND a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) AND pm.meta_value != ''
-            AND p.post_type = '%s' LIMIT 0,999", 'product_shops_%_' . AWS_METAKEY_ID, 'last_product_price_check', 'product'
+        $wpdb->prepare(
+            "
+                SELECT DISTINCT p.ID FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
+                LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
+                WHERE a.meta_key = '%s' AND (a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) OR a.meta_id IS NULL) AND pm.meta_key LIKE '%s' AND p.post_type = '%s'
+                LIMIT 0,999
+            ",
+            AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
         )
     );
 
-    $wlProducts = $wpdb->get_results("
-            SELECT {$wpdb->posts}.ID as post_id, mt1.meta_value as asin, 0 as last FROM {$wpdb->posts}
-            LEFT JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id AND {$wpdb->postmeta}.meta_key = 'last_product_price_check')
-            INNER JOIN {$wpdb->postmeta} AS mt1 ON ({$wpdb->posts}.ID = mt1.post_id)
-            WHERE 1=1 AND {$wpdb->posts}.post_type = 'product' AND ( {$wpdb->postmeta}.post_id IS NULL
-            AND (mt1.meta_key LIKE 'product_shops_%_" . AWS_METAKEY_ID ."' AND CAST(mt1.meta_value AS CHAR) != '') ) GROUP BY {$wpdb->posts}.ID ORDER BY {$wpdb->posts}.post_date DESC
-        "
+    $wlProducts = $wpdb->get_results(
+        $wpdb->prepare(
+            "
+                SELECT DISTINCT p.ID FROM {$wpdb->posts} p
+                LEFT JOIN {$wpdb->postmeta} pm1 ON (p.ID = pm1.post_id AND pm1.meta_key = '%s')
+                INNER JOIN {$wpdb->postmeta} pm2 ON (p.ID = pm2.post_id AND pm2.meta_key LIKE '%s')
+                WHERE pm1.meta_key IS NULL AND pm2.meta_value != '' AND p.post_type = '%s'
+                LIMIT 0,999
+            ",
+            AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
+        )
     );
 
     $products = array_merge($products, $wlProducts);
@@ -74,83 +81,96 @@ function amazon_api_update($args = array()) {
 
     if ($products) {
         foreach ($products as $product) {
-            $lookup = new Lookup();
-            $lookup->setItemId($product->asin);
-            $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations'));
-            $lookup->setAvailability('Available');
-
-            /* @var $formattedResponse Amazon\SingleResultSet */
-            $formattedResponse = $apaiIO->runOperation($lookup);
-            /* @var $item Amazon\Item */
-            $item = $formattedResponse->getItem();
-
             try {
-                if (!($item instanceof Amazon\Item)) {
-                    throw new \Exception(sprintf('Item %s not found on Amazon.', $product->asin), 505);
-                }
+                // ProductShops
+                $shops = (get_field('product_shops', $product->ID) ? get_field('product_shops', $product->ID) : array());
+                if($shops) {
+                    foreach($shops as $key => $val) {
+                        if($val['portal'] == 'amazon') { // check if amazon product
+                            try {
+                                // amazon item
+                                $lookup = new Lookup();
+                                $lookup->setItemId($val[AWS_METAKEY_ID]);
+                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations'));
+                                $lookup->setAvailability('Available');
+                                $formattedResponse = $apaiIO->runOperation($lookup);
+                                $item = $formattedResponse->getItem();
 
-                $product_shops = get_field('product_shops', $product->post_id);
-                $product_index = getRepeaterRowID($product_shops, AWS_METAKEY_ID, $product->asin);
+                                if (!($item instanceof Amazon\Item)) {
+                                    throw new \Exception(sprintf('Item %s not found on Amazon.', $val[AWS_METAKEY_ID]), 505);
+                                }
 
-                if(false !== $product_index) {
-                    $old_price = $product_shops[$product_index]['price'];
-                    $price = $item->getAmountForAvailability();
-                    $old_link = $product_shops[$product_index]['link'];
-                    $link = $item->getUrl();
+                                if($item) {
+                                    $old_price = ($val['price'] ? $val['price'] : '');
+                                    $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
+                                    $old_link = ($val['link'] ? $val['link'] : '');
+                                    $link = ($item->getUrl() ? $item->getUrl() : '');
 
-                    if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_price', $price, $old_price)) {
-                        at_write_api_log('amazon', $product->post_id, 'updated price from ' . $old_price . ' to ' . $price);
+                                    // update price
+                                    if ($price != $old_price) {
+                                        $shops[$key]['price'] = $price;
+                                        at_write_api_log('amazon', $product->ID, '(' . $key . ') updated price from ' . $old_price . ' to ' . $price);
+                                    }
+
+                                    // update url
+                                    if ($link != $old_link) {
+                                        $shops[$key]['link'] = $link;
+                                        at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon url');
+                                    }
+                                }
+
+                                update_post_meta($product->ID, 'product_not_avail', '0');
+                                remove_product_notification($product->ID);
+
+                                if(get_option('amazon_notification') == 'draft' || get_option('amazon_notification') == 'email_draft') {
+                                    wp_publish_post($product->ID);
+                                }
+                            } catch (\Exception $e) { // produkt nicht verfügbar
+                                update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
+
+                                // action
+                                if (505 === $e->getCode()) {
+                                    at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?)');
+                                    continue;
+                                }
+
+                                if(!update_post_meta($product->ID, 'product_not_avail', '1'))
+                                    continue;
+
+                                at_write_api_log('amazon', $product->ID, 'product not available');
+
+                                switch (get_option('amazon_notification')) {
+                                    case 'email':
+                                        set_product_notification($product->ID);
+                                        break;
+
+                                    case 'draft':
+                                        $args = array(
+                                            'ID' => $product->ID,
+                                            'post_status' => 'draft'
+                                        );
+                                        wp_update_post($args);
+
+                                        break;
+
+                                    case 'email_draft':
+                                        set_product_notification($product->ID);
+                                        $args = array(
+                                            'ID' => $product->ID,
+                                            'post_status' => 'draft'
+                                        );
+                                        wp_update_post($args);
+                                        break;
+                                }
+                            }
+                        }
                     }
 
-                    if(update_post_meta($product->post_id, 'product_shops_'.$product_index.'_link', $link, $old_link)) {
-                        at_write_api_log('amazon', $product->post_id, 'changed amazon url');
-                    }
-
-                    update_post_meta($product->post_id, 'last_product_price_check', time());
-                    update_post_meta($product->post_id, 'product_not_avail', '0');
-                    remove_product_notification($product->post_id);
-
-                    if(get_option('amazon_notification') == 'draft' || get_option('amazon_notification') == 'email_draft') {
-                        wp_publish_post($product->post_id);
-                    }
+                    update_field('product_shops', $shops, $product->ID);
+                    update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
                 }
             } catch (\Exception $e) {
-                update_post_meta($product->post_id, 'last_product_price_check', time());
-
-                // action
-                if (505 === $e->getCode()) {
-                    at_write_api_log('amazon', $product->post_id, 'error (no/incorrect asin?)');
-                    continue;
-                }
-
-                if(!update_post_meta($product->post_id, 'product_not_avail', '1'))
-                    continue;
-
-                at_write_api_log('amazon', $product->post_id, 'product not available');
-
-                switch (get_option('amazon_notification')) {
-                    case 'email':
-                        set_product_notification($product->post_id);
-                        break;
-
-                    case 'draft':
-                        $args = array(
-                            'ID' => $product->post_id,
-                            'post_status' => 'draft'
-                        );
-                        wp_update_post($args);
-
-                        break;
-
-                    case 'email_draft':
-                        set_product_notification($product->post_id);
-                        $args = array(
-                            'ID' => $product->post_id,
-                            'post_status' => 'draft'
-                        );
-                        wp_update_post($args);
-                        break;
-                }
+                continue;
             }
         }
     }

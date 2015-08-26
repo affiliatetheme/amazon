@@ -382,7 +382,7 @@ var quickImportAction = function(id, mass, i, max_items) {
 
     jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
 
-    jQuery.ajax({
+    jQuery.ajaxQueue({
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
@@ -403,7 +403,7 @@ var quickImportAction = function(id, mass, i, max_items) {
             if(mass == true) {
                 var curr = parseInt(jQuery(ajax_loader).find('.progress-bar').attr('data-item'));
                 var procentual = (100/max_items)*curr;
-                //console.log(curr+ ' / ' + procentual);
+                console.log(curr+ ' / ' + procentual);
                 var procentual_fixed =  procentual.toFixed(2);
                 jQuery(ajax_loader).find('.progress-bar').css('width', procentual+'%').html(procentual_fixed+'%');
                 jQuery(ajax_loader).find('.progress-bar').attr('data-item', curr+1);
@@ -413,8 +413,6 @@ var quickImportAction = function(id, mass, i, max_items) {
                     jQuery(ajax_loader).removeClass('active');
                 }
             }
-
-
         },
         error : function() {
             return
@@ -432,7 +430,7 @@ var massImportAction = function(target) {
 
     var i = 1;
 
-    jQuery(ajax_loader).find('.progress-bar').attr('data-item','0').css('width', '0%').html('0%');
+    jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%');
     jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
 
     jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
@@ -572,3 +570,21 @@ function setCurrentTab(item) {
 		jQuery("#"+item+"-tab").addClass("nav-tab-active");
 	}
 }
+
+/*
+ * Function
+ * jQuery Queue
+ */
+(function($) {
+    var ajaxQueue = $({});
+    $.ajaxQueue = function(ajaxOpts) {
+        var oldComplete = ajaxOpts.complete;
+        ajaxQueue.queue(function(next) {
+            ajaxOpts.complete = function() {
+                if (oldComplete) oldComplete.apply(this, arguments);
+                next();
+            };
+            $.ajax(ajaxOpts);
+        });
+    };
+})(jQuery);
