@@ -5,7 +5,11 @@ jQuery(document).ready(function() {
     checkAdblock();
 
     // checkConnection
-    checkConnection();
+    if (jQuery('#amazon_public_key').val().length > 0 && jQuery('#amazon_secret_key').val().length > 0) {
+        checkConnection();
+    } else {
+        return;
+    }
 
     // searchAction
     jQuery('#search').bind('keyup', function(event) {
