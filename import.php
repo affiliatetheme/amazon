@@ -91,6 +91,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         $rating_cnt = $_POST['rating_cnt'];
         $taxs = isset($_POST['tax']) ? $_POST['tax'] : '';
         $images = $_POST['image'];
+        $exists = $_POST['ex_page_id'];
 
         if ('1' == get_option('amazon_import_description'))
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
@@ -98,14 +99,19 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
     if (false == ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $asin, 'LIKE'))) {
 
-        $args = array(
-            'post_title' => $title,
-            'post_status' => (get_option('amazon_post_status') ? get_option('amazon_post_status') : 'publish'),
-            'post_type' => 'product',
-            'post_content' => ($description ? $description : '')
-        );
+        if ($exists != ''){
+            $post_id = $exists;
+        } else {
+            $args = array(
+                'post_title' => $title,
+                'post_status' => (get_option('amazon_post_status') ? get_option('amazon_post_status') : 'publish'),
+                'post_type' => 'product',
+                'post_content' => ($description ? $description : '')
+            );
 
-        $post_id = wp_insert_post($args);
+            $post_id = wp_insert_post($args);
+        }
+
         if ($post_id) {
             //fix rating
             $rating = round($rating*2) / 2;

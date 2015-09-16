@@ -105,7 +105,12 @@ if ($formattedResponse->hasItem()) {
 			if(get_products_multiselect_tax_form())
 				echo '<h3>Taxonomien</h3>' . get_products_multiselect_tax_form();
 				
-			
+			/*
+			 * Existrierende Produkte
+			 */
+			if(at_get_existing_products())
+                echo '<h3>Existierendes Produkt aktualisieren</h3>' . at_get_existing_products();
+
 			/*
 			* Product Image
 			*/			
