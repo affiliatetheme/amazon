@@ -91,7 +91,7 @@ function amazon_api_update($args = array()) {
                                 // amazon item
                                 $lookup = new Lookup();
                                 $lookup->setItemId($val[AWS_METAKEY_ID]);
-                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations'));
+                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank'));
                                 $lookup->setAvailability('Available');
                                 $formattedResponse = $apaiIO->runOperation($lookup);
                                 $item = $formattedResponse->getItem();

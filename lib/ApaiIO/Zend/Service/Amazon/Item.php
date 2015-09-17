@@ -652,4 +652,9 @@ class Item
 
         return null;
     }
+
+    public function getSalesRank()
+    {
+        return $this->SalesRank;
+    }
 }

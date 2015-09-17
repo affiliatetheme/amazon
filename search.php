@@ -40,7 +40,7 @@ $search->setCategory($_POST['category']);
 //$search->setMerchantId('Amazon');
 $search->setKeywords($query);
 $search->setAvailability('Available');
-$search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary'));
+$search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
 $search->setPage($_POST['page']);
 
 /* @var $formattedResponse Amazon\ResultSet */

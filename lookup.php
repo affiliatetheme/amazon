@@ -27,7 +27,7 @@ $apaiIO = new ApaiIO($conf);
 
 $lookup = new Lookup();
 $lookup->setItemId($_GET['asin']);
-$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations'));
+$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations', 'SalesRank'));
 
 /* @var $formattedResponse Amazon\SingleResultSet */
 $formattedResponse = $apaiIO->runOperation($lookup);
