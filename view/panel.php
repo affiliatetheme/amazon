@@ -76,15 +76,15 @@
 									<select name="amazon_country" id="amazon_country">
 										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>>Deutschland</option>
 										<option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>>US</option>
-										<option value="com" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>>Canada</option>
-										<option value="com" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>>United Kingdom</option>
-										<option value="com" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>>France</option>
-										<option value="com" <?php if($selected_amazon_country == "it") echo 'selected'; ?>>Italia</option>
-										<option value="com" <?php if($selected_amazon_country == "es") echo 'selected'; ?>>Espania</option>
-										<option value="com" <?php if($selected_amazon_country == "in") echo 'selected'; ?>>India</option>
-										<option value="com" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>>Japan</option>
-										<option value="com" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>>China</option>
-										<option value="com" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>>Brazil</option>
+										<option value="ca" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>>Canada</option>
+										<option value="co.uk" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>>United Kingdom</option>
+										<option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>>France</option>
+										<option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>>Italia</option>
+										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>>Espania</option>
+										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>>India</option>
+										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>>Japan</option>
+										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>>China</option>
+										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>>Brazil</option>
 									</select>
 								</div>
 								<div class="form-group">
