@@ -201,6 +201,8 @@
                                 <div class="form-group">
                                     <label for="grabbedasins" class="control-label"><?php _e('Suche nach ASINs', 'affiliatetheme-api'); ?></label>
                                     <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
+                                    <textarea id="leavedasins" cols="30" rows="10" placeholder="Fehlende ASINs..." class="hidden"></textarea>
+                                    <button class="button button-small" id="asinsremlist" title="hide/show remaining">&lt;&gt;</button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

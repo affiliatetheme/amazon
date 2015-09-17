@@ -1,4 +1,6 @@
 var globalRequest = 0;
+var asinContainer = new Array();
+
 
 jQuery(document).ready(function() {
     // checkAdblock
@@ -149,6 +151,10 @@ jQuery(document).ready(function() {
         jQuery(this).addClass("nav-tab-active");
     });
 
+    jQuery("#asinsremlist").click(function(e){
+        jQuery("#leavedasins").toggle("hidden");
+    });
+
     jQuery(document).ready(function(e) {
         var a=window.location.hash.replace("#top#","");
         (""==a||"#_=_"==a) &&(a=jQuery(".at-api-tab").attr("id")),jQuery('#at-api-tabs a').removeClass('nav-tab-active'),jQuery('.at-api-tab').removeClass('active'),jQuery("#"+a).addClass("active"),jQuery("#"+a+"-tab").addClass("nav-tab-active");
@@ -272,6 +278,8 @@ var searchAction = function() {
 
                 if(data['items']) {
                     for (var x in data['items']) {
+                        removeItemFromList(data['items'][x].asin);
+
                         if (!data['items'][x].price)
                             data['items'][x].price = 'kA';
 
@@ -340,6 +348,22 @@ var searchAction = function() {
     globalRequest = 0;
 };
 
+
+function removeItemFromList(asin) {
+
+    asinContainer.push(asin);
+    replaced = jQuery('#at-import-window textarea#grabbedasins').val();
+
+    for (var rAsin in asinContainer) {
+        console.log(asinContainer[rAsin]);
+
+        replaced = replaced.replace(asinContainer[rAsin], '');
+    }
+
+    replaced = replaced.replace(new RegExp('^\s*[\r\n]','gm'), "");
+
+    jQuery("#leavedasins").val(replaced);
+}
 /*
  * Function
  * singleImportAction
