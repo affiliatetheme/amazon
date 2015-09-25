@@ -143,7 +143,7 @@ function at_add_amazon_product_tabs_nav($content, $post_id) {
         return false;
     }
 
-    $content .= '<li><a href="' . $url . '" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme') . '</a></li>';
+    $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme') . '</a></li>';
 
     echo $content;
 }
