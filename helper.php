@@ -213,6 +213,11 @@ function at_send_amazon_notification_mail($produkt_id) {
     if($products) {
         $product_table = '';
         foreach($products as $item) {
+            if(!get_post_status($item)) {
+                remove_product_notification($item);
+                continue;
+            }
+
             $product_table .= '
                 <tr>
                     <td style="padding: 5px; border-top: 1px solid #eee;">' . $item . '</td>
