@@ -389,6 +389,7 @@ var singleImportAction = function(target) {
                 jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
                 jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
                 jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
+                jQuery('body table.products tr[data-asin=' + asin + '] .action .quick-import').remove();
             }
         }
     });
