@@ -105,6 +105,8 @@ function amazon_api_update($args = array()) {
                                     $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
                                     $old_link = ($val['link'] ? $val['link'] : '');
                                     $link = ($item->getUrl() ? $item->getUrl() : '');
+                                    $old_salesrank = (isset($val['salesrank']) ? $val['salesrank'] : '0');
+                                    $salesrank = $item->getSalesRank();
 
                                     // update price
                                     if ($price != $old_price) {
@@ -116,6 +118,12 @@ function amazon_api_update($args = array()) {
                                     if ($link != $old_link) {
                                         $shops[$key]['link'] = $link;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon url');
+                                    }
+
+                                    // update salesrank
+                                    if ($salesrank != $old_salesrank && $salesrank != "") {
+                                        $shops[$key]['salesrank'] = $salesrank;
+                                        at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
                                     }
                                 }
 

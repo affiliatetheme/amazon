@@ -351,7 +351,6 @@ var searchAction = function() {
 
 
 function removeItemFromList(asin) {
-
     asinContainer.push(asin);
     replaced = jQuery('#at-import-window textarea#grabbedasins').val();
 
