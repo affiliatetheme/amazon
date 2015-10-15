@@ -321,7 +321,7 @@ var searchAction = function() {
                             html += data['items'][x].cat_margin+'%<br>('+data['items'][x].currency+' '+margin_sale+' / Sale)';
                         } else { html += 'kA'; }
                         html += '</td>';
-                        html += '<td class="category">'+data['items'][x].category+'</td>';
+                        html += '<td class="category">' + (data['items'][x].category != null ? data['items'][x].category : '-') + '</td>';
                         if(data['items'][x].exists != "false") {
                             html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="Editieren"><i class="fa fa-edit"></i></a></td>';
                         } else {
