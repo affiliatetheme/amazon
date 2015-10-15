@@ -330,7 +330,7 @@ var searchAction = function() {
                         html += '</tr>';
 
                         resultContainer.append(html);
-
+                        jQuery('table.products tfoot .taxonomy-select').fadeIn();
                     }
                 } else {
                     html += '<tr class="item error" data-asin="">';
@@ -338,6 +338,7 @@ var searchAction = function() {
                     html += '<td colspan="8">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
                     html += '</tr>';
                     resultContainer.append(html);
+                    jQuery('table.products tfoot .taxonomy-select').fadeOut();
                 }
 
                 resultContainer.fadeIn('fast');
@@ -408,6 +409,30 @@ var quickImportAction = function(id, mass, i, max_items) {
     var ajax_loader = jQuery('.at-ajax-loader');
     var asin = jQuery(target).attr('data-asin');
     var nonce = jQuery('#at-import-page').attr('data-nonce');
+    var data = {action : 'amazon_api_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce};
+    var tax_data = {};
+
+    /*
+     * Check Taxonomies
+     */
+    var taxonomy_selects = jQuery('table.products tfoot .taxonomy-select');
+    if(taxonomy_selects.length) {
+        var tax_data = {};
+        jQuery(taxonomy_selects).find('select').each(function(item) {
+            var key = jQuery(this).attr('name');
+            var value = jQuery(this).val();
+            tax_data[key] = value;
+        });
+        jQuery(taxonomy_selects).find('input').each(function(item) {
+            var key = jQuery(this).attr('name');
+            var value = jQuery(this).val();
+
+            if(value != undefined) {
+                tax_data[key] = value;
+            }
+        });
+        jQuery.extend(data, tax_data);
+    }
 
     jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
 
@@ -415,7 +440,7 @@ var quickImportAction = function(id, mass, i, max_items) {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: {action : 'amazon_api_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce},
+        data: data,
         success: function(data){
             jQuery(target).find('i').remove();
 
@@ -617,3 +642,11 @@ function setCurrentTab(item) {
         });
     };
 })(jQuery);
+
+/*
+ * Select2 for Taxonomy-Selects
+ */
+jQuery(document).ready(function() {
+    jQuery("table.products tfoot .taxonomy-select select").select2();
+    jQuery("table.products tfoot .taxonomy-select .col-xs-6").unwrap().removeClass('col-xs-6');
+});

@@ -255,7 +255,14 @@
 							</thead>
 							<tfoot>
 								<tr>
-									<td colspan="8"><a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-api'); ?></a></td>
+									<td colspan="9">
+										<?php
+										if(get_products_multiselect_tax_form())
+											echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form() . '</div>';
+										?>
+										<div class="clearfix"></div>
+										<a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-api'); ?></a>
+									</td>
 								</tr>
 							</tfoot>
 							<tbody id="results"></tbody>
@@ -363,3 +370,18 @@
 
     <div class="afs_ads">&nbsp;</div>
 </div>
+
+<style>
+	table.products tfoot .taxonomy-select{display:none;}
+	table.products tfoot .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; margin: 10px !important; border: 1px solid #eee;  }
+	@media(min-width: 1200px) { table.products tfoot .taxonomy-select .form-group { width: 20%; } }
+	@media (min-width: 961px) and (max-width: 1199px) { table.products tfoot .taxonomy-select .form-group { width: 27%; } }
+	@media (min-width: 783px) and (max-width: 960px) { table.products tfoot .taxonomy-select .form-group { width: 43%; } }
+	@media (max-width: 782px) { table.products tfoot .taxonomy-select .form-group { width: 100% !important; min-width: 300px; } }
+	@media (max-width: 400px) { table.products tfoot .taxonomy-select .form-group { min-width: 220px; } }
+	table.products tfoot .taxonomy-select label { display: block; font-weight: 600; margin-bottom: 5px; } }
+	table.products tfoot .taxonomy-select .select2-container { width: 100%; }
+	table.products tfoot .taxonomy-select input { display: block !important; width: 100% !important; max-width: auto; min-width: 0 !important; }
+	table.products tfoot .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
+	table.products tfoot .taxonomy-select select + label { display: none !important; }
+</style>

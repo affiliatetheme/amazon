@@ -60,7 +60,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             $rating = $item->getAverageRating();
             if ($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews();
             else : $rating_cnt = 0; endif;
-            $taxs = array();
+            $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
             $images = array();
 
             if ($item->getAllImages()->getLargeImages()) {
@@ -89,7 +89,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         $url = $_POST['url'];
         $rating = floatval($_POST['rating']);
         $rating_cnt = $_POST['rating_cnt'];
-        $taxs = isset($_POST['tax']) ? $_POST['tax'] : '';
+        $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
         $images = $_POST['image'];
         $exists = $_POST['ex_page_id'];
 
