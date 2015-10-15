@@ -373,7 +373,7 @@
 
 <style>
 	table.products tfoot .taxonomy-select{display:none;}
-	table.products tfoot .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; margin: 10px !important; border: 1px solid #eee;  }
+	table.products tfoot .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
 	@media(min-width: 1200px) { table.products tfoot .taxonomy-select .form-group { width: 20%; } }
 	@media (min-width: 961px) and (max-width: 1199px) { table.products tfoot .taxonomy-select .form-group { width: 27%; } }
 	@media (min-width: 783px) and (max-width: 960px) { table.products tfoot .taxonomy-select .form-group { width: 43%; } }

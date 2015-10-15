@@ -426,7 +426,7 @@ var quickImportAction = function(id, mass, i, max_items) {
             var key = jQuery(this).attr('name');
             var value = jQuery(this).val();
 
-            if(value != undefined) {
+            if(value != undefined && key != undefined) {
                 tax_data[key] = value;
             }
         });

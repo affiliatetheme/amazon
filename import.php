@@ -140,6 +140,18 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             //taxonomie
             if ($taxs) {
                 foreach ($taxs as $key => $value) {
+                    if(is_array($value)) {
+                        foreach ($value as $k => $v) {
+                            if (strpos($v, ',') !== false) {
+                                $value[$k] = '';
+                                $exploded = explode(',', $v);
+
+                                $value = array_merge($value, $exploded);
+                            }
+                        }
+                    }
+
+                    $value = array_filter($value);
                     wp_set_object_terms($post_id, $value, $key, true);
                 }
             }
