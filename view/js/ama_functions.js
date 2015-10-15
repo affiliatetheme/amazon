@@ -458,7 +458,7 @@ var massImportAction = function(target) {
 
     var i = 1;
 
-    jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%');
+    jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%').attr('data-item', '1');
     jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
 
     jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
