@@ -91,7 +91,7 @@ function amazon_api_update($args = array()) {
                                 // amazon item
                                 $lookup = new Lookup();
                                 $lookup->setItemId($val[AWS_METAKEY_ID]);
-                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank'));
+                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Reviews'));
                                 $lookup->setAvailability('Available');
                                 $formattedResponse = $apaiIO->runOperation($lookup);
                                 $item = $formattedResponse->getItem();
@@ -125,6 +125,18 @@ function amazon_api_update($args = array()) {
                                         $shops[$key]['salesrank'] = $salesrank;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
                                     }
+                                }
+
+                                //update rating
+                                if(get_option('amazon_update_rating') == '1') {
+                                    $rating = $item->getAverageRating();
+                                    $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
+
+                                    //fix rating
+                                    $rating = round($rating*2) / 2;
+
+                                    update_post_meta($product->ID, 'product_rating', $rating);
+                                    update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
                                 }
 
                                 update_post_meta($product->ID, 'product_not_avail', '0');

@@ -48,11 +48,11 @@ if ($formattedResponse->hasItem()) {
     $currency = $item->getCurrencyCode();
     $url = $item->getUrl();
 	$images = $item->getAllImages()->getLargeImages();
+	$description = $item->getItemDescription();
     $ratingUrl = $item->getRatingUrl();
 	$average_rating = $item->getAverageRating();
-	$description = $item->getItemDescription();
 	$average_rating_rounded = round($average_rating / .5) * .5;
-	if($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews(); else : $rating_cnt = 0; endif;
+	$rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
     $total_reviews = $item->getTotalReviews();
 	
 	?>

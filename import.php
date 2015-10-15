@@ -59,8 +59,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             $url = $item->getUrl();
             $currency = $item->getCurrencyCode();
             $rating = $item->getAverageRating();
-            if ($item->getTotalReviews()): $rating_cnt = $item->getTotalReviews();
-            else : $rating_cnt = 0; endif;
+            $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
             $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
             $images = array();
 

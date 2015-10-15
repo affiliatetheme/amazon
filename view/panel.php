@@ -64,11 +64,11 @@
 							<div class="form-container">
 								<div class="form-group">
 									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-api'); ?> <sup>*</sup></label>
-									<input type="text" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
+									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
 								</div>
 								<div class="form-group">	
 									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-api'); ?> <sup>*</sup></label>
-									<input type="text" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
+									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
 								</div>
 								<div class="form-group">
 									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-api'); ?> <sup>*</sup></label>
@@ -121,7 +121,12 @@
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-api'); ?>
 								</div>
 								<div class="form-group">
-									<?php submit_button(); ?>
+									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-api'); ?></label>
+									<input type="checkbox" name="amazon_update_rating" id="amazon_update_rating" value="1" <?php if('1' == get_option('amazon_update_rating')) echo 'checked'; ?>> <?php _e('Bewertungen automatisch aktualisieren', 'affiliatetheme-api'); ?>
+									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird dieses <u>überschrieben!</u>', 'affiliatetheme-api'); ?></p>
+								</div>
+									<div class="form-group">
+										<?php submit_button(); ?>
 								</div>
 							</div>
 						</form>
