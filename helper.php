@@ -227,6 +227,9 @@ function at_send_amazon_notification_mail($produkt_id) {
             ';
         }
 
+        if(!$product_table)
+            exit;
+
         $body = file_get_contents(__DIR__ . '/view/email.html');
         $body = str_replace('%%BLOGNAME%%', $sitename, $body);
         $body = str_replace('%%BLOGURL%%', '<a href="' . home_url() . '" target="_blank">' . home_url('') . '</a>', $body);
