@@ -43,8 +43,14 @@ $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
 $search->setPage($_POST['page']);
 
-if($_POST['category'] != 'All')
+$sortCategories = array(
+    'All', 'Outlet'
+);
+
+if(!in_array($_POST['category'], $sortCategories)){
     $search->setSort('price');
+}
+
 
 /* @var $formattedResponse Amazon\ResultSet */
 $formattedResponse = $apaiIO->runOperation($search);
@@ -83,6 +89,7 @@ foreach ($formattedResponse as $singleItem) {
         $output['items'][] = $data;
 
     } catch (\Exception $e) {
+        //$output['items'][] = $e->getMessage();
         at_write_api_log('amazon', 'system', $e->getMessage());
         continue;
     }
