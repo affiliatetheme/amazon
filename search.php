@@ -37,11 +37,14 @@ if(isset($_POST['grabbedasins']) && ("" != $_POST['grabbedasins'])) {
 
 $search = new Search();
 $search->setCategory($_POST['category']);
-//$search->setMerchantId('Amazon');
+$search->setMerchantId('Amazon');
 $search->setKeywords($query);
 $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
 $search->setPage($_POST['page']);
+
+if($_POST['category'] != 'All')
+    $search->setSort('price');
 
 /* @var $formattedResponse Amazon\ResultSet */
 $formattedResponse = $apaiIO->runOperation($search);

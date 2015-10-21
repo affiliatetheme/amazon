@@ -62,6 +62,20 @@ class Search extends AbstractOperation
     }
 
     /**
+     * Sets the Sort Param
+     *
+     * @param string $param
+     *
+     * @return \ApaiIO\Operations\Search
+     */
+    public function setSort($sort)
+    {
+        $this->parameter['Sort'] = $sort;
+
+        return $this;
+    }
+
+    /**
      * Sets the resultpage to a specified value
      * Allows to browse resultsets which have more than one page
      *
