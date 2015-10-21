@@ -321,26 +321,26 @@
 															<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
 																<div class="row">
 																	<div class="form-group">
-																		<label for="post_status">Beitragsstatus</label>
+																		<label for="post_status"><?php _e('Beitragsstatus', 'affiliatetheme-api'); ?></label>
 																		<select name="post_status">
-																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>>Veröffentlichen</option>
-																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>>Entwurf</option>
+																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>><?php _e('Veröffentlichen', 'affiliatetheme-api'); ?></option>
+																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-api'); ?></option>
 																		</select>
 																	</div>
 
 																	<div class="form-group">
-																		<label for="images">Bilder importieren</label>
+																		<label for="images"><?php _e('Bilder importieren', 'affiliatetheme-api'); ?></label>
 																		<select name="images">
-																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>>Ja</option>
-																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>>Nein</option>
+																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-api'); ?></option>
+																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-api'); ?></option>
 																		</select>
 																	</div>
 
 																	<div class="form-group">
-																		<label for="description">Beschreibung importieren</label>
+																		<label for="description"><?php _e('Beschreibung importieren', 'affiliatetheme-api'); ?></label>
 																		<select name="description">
-																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>>Ja</option>
-																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>>Nein</option>
+																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-api'); ?></option>
+																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-api'); ?></option>
 																		</select>
 																	</div>
 																</div>
@@ -358,7 +358,7 @@
 																?>
 
 																<div class="row">
-																	<button type="submit" class="button button-primary">Speichern</button>
+																	<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-api'); ?></button>
 																</div>
 
 																<div id="form-messages"></div>
@@ -387,6 +387,47 @@
 
 						<form id="add-new-keyword">
 							<input name="keyword" class="form-control" placeholder="Suchbegriff" />
+							<select name="category" class="form-control">
+								<option value="Apparel">Apparel</option>
+								<option value="Automotive">Automotive</option>
+								<option value="Baby">Baby</option>
+								<option value="Blended">Blended</option>
+								<option value="Beauty">Beauty</option>
+								<option value="Books">Bücher</option>
+								<option value="Classical">Classical</option>
+								<option value="DVD">DVD</option>
+								<option value="Electronics">Elektronik</option>
+								<option value="ForeignBooks">Foreign Books</option>
+								<option value="Grocery">Grocery</option>
+								<option value="HealthPersonalCare">Health Personal Care</option>
+								<option value="HomeGarden">HomeGarden</option>
+								<option value="Jewelry">Juwelen</option>
+								<option value="KindleStore">Kindle Store</option>
+								<option value="Kitchen">Küche</option>
+								<option value="Lighting">Beleuchtung</option>
+								<option value="Luggage">Luggage</option>
+								<option value="Magazines">Magazine</option>
+								<option value="Marketplace">Marketplace</option>
+								<option value="MP3Downloads">MP3 Downloads</option>
+								<option value="MobileApps">Mobileapps</option>
+								<option value="Music">Musik</option>
+								<option value="MusicalInstruments">Musikinstrumente</option>
+								<option value="MusicTracks">Lieder</option>
+								<option value="OfficeProducts">Büro Produkte</option>
+								<option value="OutdoorLiving">Outdoor living</option>
+								<option value="Outlet">Outlet</option>
+								<option value="PCHardware">PC Hardware</option>
+								<option value="Photo">Foto</option>
+								<option value="Software">Software</option>
+								<option value="SoftwareVideoGames">Software Videospiele</option>
+								<option value="SportingGoods">Sporting goods</option>
+								<option value="Tools">Werkzeuge</option>
+								<option value="Toys">Spielzeuge</option>
+								<option value="VHS">VHS</option>
+								<option value="Video">Videos</option>
+								<option value="VideoGames">Videospiele</option>
+								<option value="Watches">Uhren</option>
+							</select>
 							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-api'); ?></button>
 						</form>
 

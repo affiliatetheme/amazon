@@ -39,14 +39,15 @@ function amazon_feed_cron() {
     /*
      * Iterate between feed items
      */
-    foreach($feed as $k => $v) {
-        if($v['keyword'] == '' || $v['keyword'] == 'undefined')
+    foreach($feed as $item) {
+        if($item->keyword == '' || $item->keyword == 'undefined')
             continue;
 
-        $keyword = $v['keyword'];
+        $keyword = $item->keyword;
+        $category = $item->category;
 
         $search = new Search();
-        $search->setCategory('All');
+        $search->setCategory($category);
         $search->setKeywords($keyword);
         $search->setAvailability('Available');
         $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
@@ -162,9 +163,8 @@ function amazon_feed_cron() {
             }
         }
 
-        $feed[$k]['last_message'] = sprintf(__('Suche ausgeführt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s'));
-        $feed[$k]['last_update'] = time();
-
+        //$feed[$k]['last_message'] = sprintf(__('Suche ausgeführt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s'));
+        //$feed[$k]['last_update'] = time();
     }
     update_option('at_amazon_feed_items', serialize($feed));
 

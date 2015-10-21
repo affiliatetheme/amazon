@@ -262,8 +262,8 @@ function at_amazon_feed_read() {
 /*
  * Feed: Add Keyword
  */
-function at_amazon_feed_write($keyword) {
-    if(!$keyword)
+function at_amazon_feed_write($keyword, $category) {
+    if(!$keyword || !$category)
         return;
 
     global $wpdb;
@@ -272,6 +272,7 @@ function at_amazon_feed_write($keyword) {
         AWS_FEED_TABLE,
         array(
             'keyword'       => $keyword,
+            'category'      => $category,
             'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s')),
             'post_status'   => 'publish'
         ),
@@ -288,13 +289,14 @@ function at_amazon_feed_write($keyword) {
 add_action('wp_ajax_at_amazon_feed_write_ajax', 'at_amazon_feed_write_ajax');
 function at_amazon_feed_write_ajax() {
     $keyword = (isset($_POST['keyword']) ? $_POST['keyword'] : '');
+    $category = (isset($_POST['category']) ? $_POST['category'] : '');
 
-    if(!$keyword) {
+    if(!$keyword || !$category) {
         echo json_encode(array('status' => 'error'));
         exit;
     }
 
-    at_amazon_feed_write($keyword);
+    at_amazon_feed_write($keyword, $category);
 
     echo json_encode(array('status' => 'ok'));
     exit;

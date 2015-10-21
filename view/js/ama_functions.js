@@ -570,12 +570,13 @@ var FeedWriteItem = function(e) {
     jQuery('#add-new-keyword button').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
     jQuery('#feed-messages').html('');
 
-    var keyword = jQuery('#add-new-keyword input').val();
+    var keyword = jQuery('#add-new-keyword input[name=keyword]').val();
+    var category = jQuery('#add-new-keyword select[name=category]').val();
     jQuery.ajax({
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=at_amazon_feed_write_ajax&keyword="+encodeURIComponent(keyword),
+        data: "action=at_amazon_feed_write_ajax&keyword=" + encodeURIComponent(keyword) + "&category" + encodeURIComponent(category),
         success: function(data){
             var status = data.status;
             if(status == 'ok') {

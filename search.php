@@ -37,7 +37,6 @@ if(isset($_POST['grabbedasins']) && ("" != $_POST['grabbedasins'])) {
 
 $search = new Search();
 $search->setCategory($_POST['category']);
-//$search->setMerchantId('Amazon');
 $search->setKeywords($query);
 $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
@@ -50,7 +49,6 @@ $formattedResponse = $apaiIO->runOperation($search);
 foreach ($formattedResponse as $singleItem) {
     try {
         $data = array();
-
         $data['asin'] = $singleItem->ASIN;
         $data['Title'] = $singleItem->Title;
         $data['url'] = $singleItem->DetailPageURL;
@@ -63,14 +61,11 @@ foreach ($formattedResponse as $singleItem) {
         $data['currency'] = ($singleItem->getCurrencyCode() ? $singleItem->getCurrencyCode() : 'EUR');
         $data['category'] = $singleItem->getBinding();
         $data['cat_margin'] = $singleItem->getMarginForBinding();
-
         $data['average_rating'] = $singleItem->getAverageRating();
         $data['total_reviews'] = $singleItem->getTotalReviews();
         $data['ean'] = $singleItem->getEan();
-
         $data['edi_content'] = DotDotText::truncate($singleItem->getItemDescription());
         $data['external'] = $singleItem->isExternalProduct();
-
         if ($check = at_get_product_id_by_metakey('product_shops_%_'.AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE')) {
             $data['exists'] = $check;
         } else {
@@ -78,7 +73,6 @@ foreach ($formattedResponse as $singleItem) {
         }
 
         $output['items'][] = $data;
-
     } catch (\Exception $e) {
         at_write_api_log('amazon', 'system', $e->getMessage());
         continue;
