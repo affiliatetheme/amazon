@@ -5,6 +5,8 @@
  */
 require_once ABSPATH.'/wp-load.php';
 
+global $wpdb;
+
 define('AWS_COUNTRY', get_option('amazon_country'));
 define('AWS_API_KEY', get_option('amazon_public_key'));
 define('AWS_API_SECRET_KEY', get_option('amazon_secret_key'));
@@ -13,3 +15,4 @@ define('AWS_PRICE', 'default');
 define('AWS_METAKEY_ID', 'amazon_asin');
 define('AWS_METAKEY_LAST_UPDATE', 'last_product_price_check');
 define('AWS_CRON_HASH', md5(get_option('amazon_public_key') . get_option('amazon_secret_key')));
+define('AWS_FEED_TABLE', $wpdb->prefix . 'aws_feed');

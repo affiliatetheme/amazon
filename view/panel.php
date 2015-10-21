@@ -48,6 +48,7 @@
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
 			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-api'); ?></a>
 			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-api'); ?></a>
+			<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-api'); ?></a>
 			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-api'); ?></a>
 			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-api'); ?></a>
 		</h2>
@@ -288,9 +289,115 @@
 				</div>
 			</div>
 			<!-- END: Search Tab -->
-			
+
+			<!-- START: API Feed -->
+			<div id="feed" class="at-api-tab">
+				<div id="at-import-settings" class="metabox-holder postbox">
+					<h3 class="hndle"><span><?php _e('Feed', 'affiliatetheme-api'); ?></span></h3>
+					<div class="inside">
+						<p><?php _e('Du kannst bestimmte Suchbegriffe hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-api'); ?></p>
+						<table class="feed">
+							<tbody>
+								<?php
+								$feed_itmes = at_amazon_feed_read();
+								if($feed_itmes) {
+									foreach($feed_itmes as $item) {
+										$curr_status = $item->status;
+										$change_status = ($item->status == '1' ? '0' : '1');
+										?>
+										<tr class="item closed" data-id="<?php echo $item->id; ?>">
+											<td>
+												<table>
+													<tr>
+														<td><div class="handle"></div></td>
+														<td><?php echo $item->keyword; ?></td>
+														<td><?php echo $item->last_message; ?></td>
+														<td><?php echo at_amazon_feed_status_label($item->status); ?></td>
+														<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-api') : __('aktivieren', 'affiliatetheme-api')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-api'); ?></a></td>
+													</tr>
+
+													<tr class="inside">
+														<td colspan="5">
+															<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
+																<div class="row">
+																	<div class="form-group">
+																		<label for="post_status">Beitragsstatus</label>
+																		<select name="post_status">
+																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>>Veröffentlichen</option>
+																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>>Entwurf</option>
+																		</select>
+																	</div>
+
+																	<div class="form-group">
+																		<label for="images">Bilder importieren</label>
+																		<select name="images">
+																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>>Ja</option>
+																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>>Nein</option>
+																		</select>
+																	</div>
+
+																	<div class="form-group">
+																		<label for="description">Beschreibung importieren</label>
+																		<select name="description">
+																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>>Ja</option>
+																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>>Nein</option>
+																		</select>
+																	</div>
+																</div>
+
+																<?php
+																if(get_products_multiselect_tax_form()) {
+																	if($item->tax) {
+																		$taxonomies = unserialize($item->tax);
+																	} else {
+																		$taxonomies = array();
+																	}
+
+																	echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form(false, $taxonomies) . '</div>';
+																}
+																?>
+
+																<div class="row">
+																	<button type="submit" class="button button-primary">Speichern</button>
+																</div>
+
+																<div id="form-messages"></div>
+															</form>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<?php
+									}
+								} else {
+									?>
+									<tr>
+										<td colspan="4">
+											<?php _e('Es wurde bisher kein Suchbegriff hinterlegt', 'affiliatetheme-api'); ?>
+										</td>
+									</tr>
+									<?php
+								}
+								?>
+							</tbody>
+						</table>
+
+						<hr>
+
+						<form id="add-new-keyword">
+							<input name="keyword" class="form-control" placeholder="Suchbegriff" />
+							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-api'); ?></button>
+						</form>
+
+						<div id="feed-messages"></div>
+					</div>
+				</div>
+			</div>
+			<!-- END: API Log Tab-->
+
 			<!-- START: API Log Tab-->
-			<div id="apilog" class="at-api-tab active">
+			<div id="apilog" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('API Log', 'affiliatetheme-api'); ?></span></h3>
 					<div class="inside">
@@ -378,15 +485,20 @@
 
 <style>
 	table.products tfoot .taxonomy-select{display:none;}
-	table.products tfoot .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
-	@media(min-width: 1200px) { table.products tfoot .taxonomy-select .form-group { width: 20%; } }
-	@media (min-width: 961px) and (max-width: 1199px) { table.products tfoot .taxonomy-select .form-group { width: 27%; } }
-	@media (min-width: 783px) and (max-width: 960px) { table.products tfoot .taxonomy-select .form-group { width: 43%; } }
-	@media (max-width: 782px) { table.products tfoot .taxonomy-select .form-group { width: 100% !important; min-width: 300px; } }
-	@media (max-width: 400px) { table.products tfoot .taxonomy-select .form-group { min-width: 220px; } }
-	table.products tfoot .taxonomy-select label { display: block; font-weight: 600; margin-bottom: 5px; } }
-	table.products tfoot .taxonomy-select .select2-container { width: 100%; }
-	table.products tfoot .taxonomy-select input { display: block !important; width: 100% !important; max-width: auto; min-width: 0 !important; }
-	table.products tfoot .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
-	table.products tfoot .taxonomy-select select + label { display: none !important; }
+	table .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
+	@media(min-width: 1200px) { table .taxonomy-select .form-group { width: 20%; } }
+	@media (min-width: 961px) and (max-width: 1199px) { table .taxonomy-select .form-group { width: 27%; } }
+	@media (min-width: 783px) and (max-width: 960px) { table .taxonomy-select .form-group { width: 43%; } }
+	@media (max-width: 782px) { table .taxonomy-select .form-group { width: 100% !important; min-width: 300px; } }
+	@media (max-width: 400px) { table .taxonomy-select .form-group { min-width: 220px; } }
+	table .taxonomy-select label { display: block; font-weight: 600; margin-bottom: 5px; } }
+	table .taxonomy-select .select2-container { width: 100%; }
+	table .taxonomy-select input { display: block !important; width: 100% !important; max-width: auto; min-width: 0 !important; }
+	table .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
+	table .taxonomy-select select + label { display: none !important; }
+
+	table.feed .item .handle{cursor: pointer;width: 27px;height: 30px;}
+	table.feed .item .handle:before {right: 12px;font: 400 20px/1 dashicons;speak: none;display: inline-block;padding: 8px 10px;top: 0;position: relative;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;content: '\f142';}
+	table.feed .item.closed .handle:before {content: '\f140';}
+	table.feed .item.closed .inside{display:none;}
 </style>

@@ -240,3 +240,184 @@ function at_send_amazon_notification_mail($produkt_id) {
         wp_mail($to, $sitename.': Nicht verfügbare Produkte', $body, $headers);
     }
 }
+
+/*
+ * Feed: Read
+ */
+function at_amazon_feed_read() {
+    global $wpdb;
+
+    $feed = $wpdb->get_results (
+        "
+        SELECT * FROM " . AWS_FEED_TABLE . "
+        "
+    );
+
+    if($feed)
+        return $feed;
+
+    return;
+}
+
+/*
+ * Feed: Add Keyword
+ */
+function at_amazon_feed_write($keyword) {
+    if(!$keyword)
+        return;
+
+    global $wpdb;
+
+    $status = $wpdb->insert(
+        AWS_FEED_TABLE,
+        array(
+            'keyword'       => $keyword,
+            'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s')),
+            'post_status'   => 'publish'
+        ),
+        array(
+            '%s',
+            '%s',
+            '%s'
+        )
+    );
+
+    return $status;
+}
+
+add_action('wp_ajax_at_amazon_feed_write_ajax', 'at_amazon_feed_write_ajax');
+function at_amazon_feed_write_ajax() {
+    $keyword = (isset($_POST['keyword']) ? $_POST['keyword'] : '');
+
+    if(!$keyword) {
+        echo json_encode(array('status' => 'error'));
+        exit;
+    }
+
+    at_amazon_feed_write($keyword);
+
+    echo json_encode(array('status' => 'ok'));
+    exit;
+}
+
+/*
+ * Feed: Status Label
+ */
+function at_amazon_feed_status_label($status) {
+    switch($status) {
+        case '1':
+            return __('aktiv', 'affilatetheme-api');
+
+        case '0':
+            return __('inaktiv', 'affiliatetheme-api');
+    }
+
+    return;
+}
+
+/*
+ * Feed: Change Status
+ */
+function at_amazon_feed_change_status($id, $status) {
+    if($id == 'undefined')
+        return;
+
+    global $wpdb;
+
+    $status = $wpdb->update(
+        AWS_FEED_TABLE,
+        array(
+            'status'    => $status,
+        ),
+        array( 'id' => $id ),
+        array(
+            '%d'	// value2
+        ),
+        array( '%d' )
+    );
+
+    return $status;
+}
+
+add_action('wp_ajax_at_amazon_feed_change_status_ajax', 'at_amazon_feed_change_status_ajax');
+function at_amazon_feed_change_status_ajax() {
+    $id = (isset($_POST['id']) ? $_POST['id'] : '');
+    $status = (isset($_POST['status']) ? $_POST['status'] : '');
+
+    if(at_amazon_feed_change_status($id, $status)) {
+        echo json_encode(array('status' => 'ok'));
+        exit;
+    }
+
+    echo json_encode(array('status' => 'error'));
+    exit;
+}
+
+/*
+ * Feed: Change Settings
+ */
+function at_amazon_feed_change_settings($id, $data) {
+    if($id == 'undefined')
+        return;
+
+    global $wpdb;
+
+    $status = $wpdb->update(
+        AWS_FEED_TABLE,
+        $data,
+        array( 'id' => $id )
+    );
+    
+    return $status;
+}
+
+add_action('wp_ajax_at_amazon_feed_change_settings_ajax', 'at_amazon_feed_change_settings_ajax');
+function at_amazon_feed_change_settings_ajax() {
+    $id = (isset($_POST['id']) ? $_POST['id'] : '');
+
+    $data = $_POST;
+
+    unset($data['id']);
+    unset($data['action']);
+
+    if(isset($data['tax'])) {
+        $tax_data = serialize($data['tax']);
+        $data['tax'] = $tax_data;
+    }
+
+    if(at_amazon_feed_change_settings($id, $data)) {
+        echo json_encode(array('status' => 'ok'));
+        exit;
+    }
+
+    echo json_encode(array('status' => 'error'));
+    exit;
+}
+
+/*
+ * Feed: Delete Keyword
+ */
+function at_amazon_feed_delete($id) {
+    if($id == 'undefined' || !$id)
+        return;
+
+    global $wpdb;
+
+    $status = $wpdb->delete(AWS_FEED_TABLE, array('id' => $id));
+
+    return $status;
+}
+
+add_action('wp_ajax_at_amazon_feed_delete_ajax', 'at_amazon_feed_delete_ajax');
+function at_amazon_feed_delete_ajax() {
+    $id = (isset($_POST['id']) ? $_POST['id'] : '');
+
+    if(at_amazon_feed_delete($id)) {
+        echo json_encode(array('status' => 'ok'));
+        exit;
+    }
+
+    echo json_encode(array('status' => 'error'));
+    exit;
+}
+

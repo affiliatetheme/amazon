@@ -55,6 +55,26 @@ jQuery(document).ready(function() {
         event.preventDefault();
     });
 
+    // FeedWriteItem
+    jQuery('#add-new-keyword button').bind('click', function(event) {
+        FeedWriteItem(event);
+        event.preventDefault();
+    });
+
+    // FeedDeleteItem
+    jQuery('table.feed .delete-keyword').bind('click', function(event) {
+        var id = jQuery(this).attr('data-id');
+        FeedDeleteItem(event, id);
+        event.preventDefault();
+    });
+
+    // FeedChangeStatus
+    jQuery('table.feed .change-status').bind('click', function(event) {
+        var id = jQuery(this).attr('data-id');
+        var status = jQuery(this).attr('data-status');
+        FeedChangeStatus(event, id, status);
+        event.preventDefault();
+    });
 
 	jQuery("input[type=checkbox].unique").live('click', function() {
     	jQuery("input[type=checkbox].unique").each(function() {
@@ -541,6 +561,100 @@ var grabLink = function(e) {
 
 /*
  * Function
+ * FeedWriteItem
+ */
+var FeedWriteItem = function(e) {
+    if(jQuery('#add-new-keyword input').val().length < 1)
+        return;
+
+    jQuery('#add-new-keyword button').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+    jQuery('#feed-messages').html('');
+
+    var keyword = jQuery('#add-new-keyword input').val();
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: "action=at_amazon_feed_write_ajax&keyword="+encodeURIComponent(keyword),
+        success: function(data){
+            var status = data.status;
+            if(status == 'ok') {
+                jQuery('#feed-messages').html('<div class="alert alert-success"><strong>' + keyword + '</strong> erfolgreich hinzugefügt.</div>');
+                location.reload();
+            } else {
+                jQuery('#feed-messages').html('<div class="alert alert-error"><strong>' + keyword + '<strong> konnte nicht hinzugefügt werden.</div>');
+            }
+            jQuery('#add-new-keyword button .fa-spin').remove();
+            jQuery('#add-new-keyword button').attr('disabled', false);
+        },
+        error: function(data) {
+            jQuery('#add-new-keyword button .fa-spin').remove();
+            jQuery('#add-new-keyword button').attr('disabled', false);
+        }
+    });
+    e.preventDefault();
+};
+
+/*
+ * Function
+ * FeedDeleteItem
+ */
+var FeedDeleteItem = function(e, id) {
+    jQuery('#feed-messages').html('');
+
+    if(id == 'undefined') {
+        return;
+    }
+
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: "action=at_amazon_feed_delete_ajax&id=" + id,
+        success: function(data){
+            var status = data.status;
+            if(status == 'ok') {
+                jQuery('#feed-messages').html('<div class="alert alert-success">Eintrag erfolgreich gelöscht.</div>');
+                location.reload();
+            } else {
+                jQuery('#feed-messages').html('<div class="alert alert-error">Eintrag konnte nicht gelöscht werden.</div>');
+            }
+        }
+    });
+    e.preventDefault();
+};
+
+/*
+ * Function
+ * FeedChangeStatus
+ */
+var FeedChangeStatus = function(e, id, status) {
+    jQuery('#feed-messages').html('');
+
+    if(id == 'undefined') {
+        return;
+    }
+
+    jQuery.ajax({
+        url: ajaxurl,
+        dataType: 'json',
+        type: 'POST',
+        data: "action=at_amazon_feed_change_status_ajax&id=" + id + "&status=" + status,
+        success: function(data){
+            var status = data.status;
+            if(status == 'ok') {
+                jQuery('#feed-messages').html('<div class="alert alert-success">Eintrag erfolgreich aktualisiert.</div>');
+                location.reload();
+            } else {
+                jQuery('#feed-messages').html('<div class="alert alert-error">Eintrag konnte nicht aktualisiert werden.</div>');
+            }
+        }
+    });
+    e.preventDefault();
+};
+
+/*
+ * Function
  * checkAdblock
  */
 var checkAdblock = function() {
@@ -646,6 +760,82 @@ function setCurrentTab(item) {
  * Select2 for Taxonomy-Selects
  */
 jQuery(document).ready(function() {
-    jQuery("table.products tfoot .taxonomy-select select").select2();
-    jQuery("table.products tfoot .taxonomy-select .col-xs-6").unwrap().removeClass('col-xs-6');
+    jQuery("table .taxonomy-select select").select2();
+    jQuery("table .taxonomy-select .col-xs-6").unwrap().removeClass('col-xs-6');
 });
+
+/*
+ * Feed Functions
+ */
+jQuery(document).ready(function() {
+    jQuery('table.feed .handle').click(function() {
+        jQuery(this).closest('table').find('.inside').slideToggle("fast", function() {
+            jQuery(this).closest('.item').toggleClass('closed');
+        });
+    });
+
+    jQuery('table.feed form.edit-feed-item').submit(function(e) {
+        var form = jQuery(this);
+        var action = 'at_amazon_feed_change_settings_ajax';
+        var id = jQuery(this).closest('.item').attr('data-id');
+        var post_status = jQuery(this).find('select[name=post_status]').val();
+        var images = jQuery(this).find('select[name=images]').val();
+        var description = jQuery(this).find('select[name=description]').val();
+        var data = {action : action, id : id, post_status : post_status, images : images, description : description};
+        var tax_data = {};
+
+        /*
+         * Check Taxonomies
+         */
+        var taxonomy_selects = jQuery(this).find('.taxonomy-select');
+        if(taxonomy_selects.length) {
+            var tax_data = {};
+            jQuery(taxonomy_selects).find('select').each(function(item) {
+                var key = jQuery(this).attr('name');
+                var value = jQuery(this).val();
+                tax_data[key] = value;
+            });
+            jQuery(taxonomy_selects).find('input').each(function(item) {
+                var key = jQuery(this).attr('name');
+                var value = jQuery(this).val();
+
+                if(value != undefined && key != undefined) {
+                    tax_data[key] = value;
+                }
+            });
+            jQuery.extend(data, tax_data);
+        }
+
+        jQuery(form).find('#form-messages').html('');
+        jQuery(form).find('button').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+
+        jQuery.ajaxQueue({
+            url: ajaxurl,
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            success: function(data){
+                var status = data.status;
+
+                if(status == 'ok') {
+                    jQuery(form).find('#form-messages').html('<div class="alert alert-success">Eintrag erfolgreich aktualisiert.</div>');
+                    location.reload();
+                } else {
+                    jQuery(form).find('#form-messages').html('<div class="alert alert-error">Eintrag konnte nicht aktualisiert werden.</div>');
+                }
+
+                jQuery(form).find('.fa-spin').remove();
+                jQuery(form).find('button').attr('disabled', false);
+            },
+            error : function() {
+                jQuery(form).find('.fa-spin').remove();
+                jQuery(form).find('button').attr('disabled', false);
+
+                return false;
+            },
+        });
+
+        return false;
+    });
+});
+

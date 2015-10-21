@@ -13,6 +13,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			require_once(sprintf("%s/helper.php", dirname(__FILE__)));
             require_once(sprintf("%s/update.php", dirname(__FILE__)));
+			require_once(sprintf("%s/feed.php", dirname(__FILE__)));
 		
 			//search
 			add_action( 'wp_ajax_amazon_api_search', array(&$this, 'amazon_api_search') );
@@ -27,8 +28,8 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			//add_action( 'wp_ajax_nopriv_amazon_api_import', array(&$this, 'amazon_api_import') );
 
             //grab
-            add_action( 'wp_ajax_amazon_api_grab', array(&$this, 'amazon_api_grab') );
-            //add_action( 'wp_ajax_nopriv_amazon_api_grab', array(&$this, 'amazon_api_grab') );
+			add_action( 'wp_ajax_amazon_api_grab', array(&$this, 'amazon_api_grab') );
+			//add_action( 'wp_ajax_nopriv_amazon_api_grab', array(&$this, 'amazon_api_grab') );
 
 		}
 		
