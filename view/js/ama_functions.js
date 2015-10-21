@@ -576,7 +576,7 @@ var FeedWriteItem = function(e) {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=at_amazon_feed_write_ajax&keyword=" + encodeURIComponent(keyword) + "&category" + encodeURIComponent(category),
+        data: "action=at_amazon_feed_write_ajax&keyword=" + encodeURIComponent(keyword) + "&category=" + encodeURIComponent(category),
         success: function(data){
             var status = data.status;
             if(status == 'ok') {
@@ -782,7 +782,8 @@ jQuery(document).ready(function() {
         var post_status = jQuery(this).find('select[name=post_status]').val();
         var images = jQuery(this).find('select[name=images]').val();
         var description = jQuery(this).find('select[name=description]').val();
-        var data = {action : action, id : id, post_status : post_status, images : images, description : description};
+        var category = jQuery(this).find('select[name=category]').val();
+        var data = {action : action, id : id, post_status : post_status, images : images, description : description, category : category};
         var tax_data = {};
 
         /*

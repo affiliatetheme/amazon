@@ -25,6 +25,70 @@ function amazon_array_insert(&$array, $position, $insert) {
 }
 
 /*
+ * Amazon SearchIndex
+ */
+function at_aws_search_index_list($html = true, $current = array()) {
+    $items = array(
+        'Apparel' => 'Apparel',
+        'Automotive' => 'Automotive',
+        'Baby' => 'Baby',
+        'Blended' => 'Blended',
+        'Beauty' => 'Beauty',
+        'Books' => 'Bücher',
+        'Classical' => 'Classical',
+        'DVD' => 'DVD',
+        'Electronics' => 'Elektronik',
+        'ForeignBooks' => 'Foreign Books',
+        'Grocery' => 'Grocery',
+        'HealthPersonalCare' => 'Health Personal Care',
+        'HomeGarden' => 'HomeGarden',
+        'Jewelry' => 'Juwelen',
+        'KindleStore' => 'Kindle Store',
+        'Kitchen' => 'Küche',
+        'Lighting' => 'Beleuchtung',
+        'Luggage' => 'Luggage',
+        'Magazines' => 'Magazine',
+        'Marketplace' => 'Marketplace',
+        'MP3Downloads' => 'MP3 Downloads',
+        'MobileApps' => 'Mobileapps',
+        'Music' => 'Musik',
+        'MusicalInstruments' => 'Musikinstrumente',
+        'MusicTracks' => 'Lieder',
+        'OfficeProducts' => 'Büro Produkte',
+        'OutdoorLiving' => 'Outdoor living',
+        'Outlet' => 'Outlet',
+        'PCHardware' => 'PC Hardware',
+        'Photo' => 'Foto',
+        'Software' => 'Software',
+        'SoftwareVideoGames' => 'Software Videospiele',
+        'SportingGoods' => 'Sporting goods',
+        'Tools' => 'Werkzeuge',
+        'Toys' => 'Spielzeuge',
+        'VHS' => 'VHS',
+        'Video' => 'Videos',
+        'VideoGames' => 'Videospiele',
+        'Watches' => 'Uhren',
+    );
+
+    $output = '';
+
+    if($html == true) {
+        $output .= '<select name="category" class="form-control">';
+
+        foreach($items as $k => $v) {
+            $selected = ($k == $current ? 'selected' : '');
+            $output .= '<option value="' . $k  . '" ' . $selected . '>' . $v . '</option>';
+        }
+
+        $output .= '</select>';
+    } else {
+        $output = $items;
+    }
+
+    return $output;
+}
+
+/*
  * Add Amazon to "Affiliate Portal" Dropdown-List
  */
 add_filter( 'at_add_product_portal', 'at_add_amazon_as_portal', 10, 2 );
