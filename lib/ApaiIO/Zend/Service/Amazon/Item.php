@@ -123,6 +123,7 @@ class Item
     public $Amount;
     public $EAN;
     public $Binding;
+    protected $CurrencyCode;
 
     protected $_currencyCode;
 
@@ -438,7 +439,12 @@ class Item
                 return $this->ItemVariantSet->LowestPrice / 100;
             }
 
-            throw new \Exception('IOOS: ' . $this->ASIN, 301);
+            if (!$this->isExternalProduct()) {
+                throw new \Exception('IOOS: ' . $this->ASIN, 301);
+            } else {
+                return '';
+            }
+
         } else {
             return floatval($price) / 100;
         }
