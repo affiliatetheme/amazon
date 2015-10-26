@@ -27,7 +27,7 @@ function amazon_array_insert(&$array, $position, $insert) {
 /*
  * Amazon SearchIndex
  */
-function at_aws_search_index_list($html = true, $current = array()) {
+function at_aws_search_index_list($html = true, $first_all = true, $current = array()) {
     $items = array(
         'Apparel' => 'Apparel',
         'Automotive' => 'Automotive',
@@ -69,6 +69,14 @@ function at_aws_search_index_list($html = true, $current = array()) {
         'VideoGames' => 'Videospiele',
         'Watches' => 'Uhren',
     );
+
+    if($first_all == true) {
+        $item = array(
+            'All' => 'Alle Kategorien'
+        );
+
+        $items = array_merge($item, $items);
+    }
 
     $output = '';
 

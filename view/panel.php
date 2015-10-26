@@ -305,7 +305,7 @@
 
 																	<div class="form-group">
 																		<label for="category"><?php _e('Kategorie', 'affiliatetheme-api'); ?></label>
-																		<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, $item->category); ?>
+																		<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false, $item->category); ?>
 																	</div>
 																</div>
 
@@ -351,7 +351,7 @@
 
 						<form id="add-new-keyword">
 							<input name="keyword" class="form-control" placeholder="Suchbegriff" />
-							<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(); ?>
+							<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); ?>
 							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-api'); ?></button>
 						</form>
 
