@@ -81,7 +81,7 @@ function at_aws_search_index_list($html = true, $first_all = true, $current = ar
     $output = '';
 
     if($html == true) {
-        $output .= '<select name="category" class="form-control">';
+        $output .= '<select name="category" id="category" class="form-control">';
 
         foreach($items as $k => $v) {
             $selected = ($k == $current ? 'selected' : '');

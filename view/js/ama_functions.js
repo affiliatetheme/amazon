@@ -262,16 +262,16 @@ var searchAction = function() {
         return
     }
 
-    var q = jQuery('#at-import-window input#search').val();
-    var grabber = jQuery('#at-import-window input#grabbedasins').val();
+    var q = jQuery('.tabwrapper .at-api-tab#search #search input#search').val();
+    var grabber = jQuery('.tabwrapper .at-api-tab#search #search input#grabbedasins').val();
 
     jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
-    var value = jQuery('#at-import-window input#search').val();
-    var grabbedasins = jQuery('#at-import-window textarea#grabbedasins').val();
-    var cat = jQuery('#at-import-window select#category').val();
-    var country = jQuery('#at-import-window select#amazon_country').val();
-    var page = jQuery('#at-import-window input#page').val();
+    var value = jQuery('.tabwrapper .at-api-tab#search input#search').val();
+    var grabbedasins = jQuery('.tabwrapper .at-api-tab#search textarea#grabbedasins').val();
+    var cat = jQuery('.tabwrapper .at-api-tab#search select#category').val();
+    var country = jQuery('.tabwrapper .at-api-tab#search select#amazon_country').val();
+    var page = jQuery('.tabwrapper .at-api-tab#search input#page').val();
     var condition = '';
     var track = value + " - " + cat + " - " + country;
     var resultContainer = jQuery('#at-import-window table #results');
@@ -434,7 +434,7 @@ var quickImportAction = function(id, mass, i, max_items) {
     /*
      * Check Taxonomies
      */
-    var taxonomy_selects = jQuery('table.products tfoot .taxonomy-select');
+    var taxonomy_selects = jQuery('.tabwrapper .at-api-tab#search table.products tfoot .taxonomy-select');
     if(taxonomy_selects.length) {
         var tax_data = {};
         jQuery(taxonomy_selects).find('select').each(function(item) {
@@ -446,12 +446,19 @@ var quickImportAction = function(id, mass, i, max_items) {
             var key = jQuery(this).attr('name');
             var value = jQuery(this).val();
 
-            if(value != undefined && key != undefined) {
-                tax_data[key] = value;
+            if(value.length != 0 && key != undefined) {
+                if(jQuery.isArray(tax_data[key])) {
+                    tax_data[key].push(value);
+                } else {
+                    tax_data[key] = value;
+                }
             }
         });
+
         jQuery.extend(data, tax_data);
     }
+
+    return false;
 
     jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
 
@@ -570,8 +577,8 @@ var FeedWriteItem = function(e) {
     jQuery('#add-new-keyword button').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
     jQuery('#feed-messages').html('');
 
-    var keyword = jQuery('#add-new-keyword input[name=keyword]').val();
-    var category = jQuery('#add-new-keyword select[name=category]').val();
+    var keyword = jQuery('#feed #add-new-keyword input[name=keyword]').val();
+    var category = jQuery('#feed #add-new-keyword select[name=category]').val();
     jQuery.ajax({
         url: ajaxurl,
         dataType: 'json',
