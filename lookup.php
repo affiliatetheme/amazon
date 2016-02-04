@@ -61,7 +61,7 @@ if ($formattedResponse->hasItem()) {
 			<div class="row">
 				<div class="form-group col-xs-12">
 					<label>Titel</label> 
-					<input type="text" id="title" name="title" class="form-control" value="<?php echo $title; ?>"/>
+					<input type="text" id="title" name="title" class="form-control" value="<?php echo esc_html($title); ?>"/>
 				</div>
 			</div>
 			<div class="row">

@@ -117,17 +117,17 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
 		 * @TODO: Amazon Icon?
 		 */
 
-        $buy_short_button = (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : 'Kaufen');
-        $buy_button = (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : 'Jetzt bei Amazon kaufen');
-        $not_avail_button = (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : 'Nicht Verfügbar');
+        $buy_short_button = (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : __('Kaufen', 'affiliatetheme-amazon'));
+        $buy_button = (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : __('Jetzt bei Amazon kaufen', 'affiliatetheme-amazon'));
+        $not_avail_button = (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : __('Nicht Verfügbar', 'affiliatetheme-amazon'));
 
         if('1' == get_post_meta($post->ID, 'product_not_avail', true))
-            return __($not_avail_button, 'affiliatetheme');
+            return __($not_avail_button, 'affiliatetheme-amazon');
 
 		if(true == $short)
-			return __($buy_short_button, 'affilaitetheme');
+			return __($buy_short_button, 'affiliatetheme-amazon');
 		
-		return __($buy_button,'affiliatetheme');
+		return __($buy_button,'affiliatetheme-amazon');
 	} 	
 }
 
@@ -137,7 +137,7 @@ function at_overwrite_amazon_product_button_text($var = '', $product_portal = ''
  */
 //add_filter('manage_edit-product_columns', 'at_add_new_amazon_columns');
 function at_add_new_amazon_columns($columns) {
-	$columns['amazon_status'] = __('Amazon Status', 'affiliatetheme');
+	$columns['amazon_status'] = __('Amazon Status', 'affiliatetheme-amazon');
 	
 	return $columns;
 }
@@ -147,9 +147,9 @@ function at_manage_amazon_columns($column, $post_id) {
 		case 'amazon_status':
 			if('amazon' == get_field('product_portal', $post_id)) {
 				if('0' == get_field('product_amazon_avail'))
-					echo '<span class="badge badge-not-avail">'.__('Nicht Verfügbar', 'affilaitetheme').'</span>';
+					echo '<span class="badge badge-not-avail">'.__('Nicht Verfügbar', 'affiliatetheme-amazon').'</span>';
 				else 
-					echo '<span class="badge badge-avail">'.__('Verfügbar', 'affilaitetheme').'</span>';
+					echo '<span class="badge badge-avail">'.__('Verfügbar', 'affiliatetheme-amazon').'</span>';
 			} else {
 				echo '-';
 			}
@@ -215,7 +215,7 @@ function at_add_amazon_product_tabs_nav($content, $post_id) {
         return false;
     }
 
-    $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme') . '</a></li>';
+    $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme-amazon') . '</a></li>';
 
     echo $content;
 }
@@ -309,7 +309,7 @@ function at_send_amazon_notification_mail($produkt_id) {
         $body = str_replace('%%AMAZON_API_SETTINGS_URL%%', admin_url("admin.php?page=endcore_api_amazon"), $body);
 
         $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($to, $sitename.': Nicht verfügbare Produkte', $body, $headers);
+        wp_mail($to, $sitename . ': Nicht verfügbare Produkte', $body, $headers);
     }
 }
 
@@ -345,7 +345,7 @@ function at_amazon_feed_write($keyword, $category) {
         array(
             'keyword'       => $keyword,
             'category'      => $category,
-            'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s')),
+            'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-amazon'), date('d.m.Y G:i:s')),
             'post_status'   => 'publish'
         ),
         array(
@@ -380,10 +380,10 @@ function at_amazon_feed_write_ajax() {
 function at_amazon_feed_status_label($status) {
     switch($status) {
         case '1':
-            return __('aktiv', 'affilatetheme-api');
+            return __('aktiv', 'affiliatetheme-amazon');
 
         case '0':
-            return __('inaktiv', 'affiliatetheme-api');
+            return __('inaktiv', 'affiliatetheme-amazon');
     }
 
     return;
