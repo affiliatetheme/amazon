@@ -457,7 +457,7 @@ var quickImportAction = function(id, mass, i, max_items) {
 
         jQuery.extend(data, tax_data);
     }
-    
+
     jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
 
     jQuery.ajaxQueue({

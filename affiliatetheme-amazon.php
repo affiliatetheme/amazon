@@ -18,9 +18,6 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 			require_once(sprintf("%s/class.dashboard.init.php", dirname(__FILE__)));
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
 
-            require_once(sprintf("%s/wp-updates-plugin.php", dirname(__FILE__)));
-            new WPUpdatesPluginUpdater_1189( 'http://wp-updates.com/api/2/plugin', plugin_basename(__FILE__));
-
             register_activation_hook( __FILE__, array(&$this, 'activate'));
             register_deactivation_hook( __FILE__, array(&$this, 'deactivate'));
 		} 
@@ -86,4 +83,32 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 if(class_exists('AffiliateTheme_Amazon'))
 {
 	$affiliatetheme_amazon = new AffiliateTheme_Amazon();
+}
+
+/**
+ *  Plugin Updater
+ */
+require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+$plugin_data = get_plugin_data(__FILE__);
+$plugin_version = $plugin_data['Version'];
+
+define( 'AT_AMAZON_STORE_URL', 'http://affiliatetheme.io' );
+define( 'AT_AMAZON_ITEM_NAME', 'Amazon Schnittstelle' );
+define( 'AT_AMAZON_ITEM_ID', 19554 );
+define( 'AT_AMAZON_VERSION', $plugin_version);
+
+if( !class_exists( 'AT_Amazon_Plugin_Updater' ) ) {
+    include( dirname( __FILE__ ) . '/updater/AT_Amazon_Plugin_Updater.php' );
+}
+
+add_action( 'admin_init', 'at_amazon_plugin_updater', 0 );
+function at_amazon_plugin_updater() {
+    $license_key = '5a282e7e5109995cbae9d582936f6d7b';
+    $updater = new AT_Amazon_Plugin_Updater( AT_AMAZON_STORE_URL, __FILE__, array(
+            'version' 	=> AT_AMAZON_VERSION,
+            'license' 	=> $license_key,
+            'item_name' => AT_AMAZON_ITEM_NAME,
+            'author' 	=> 'endcore Medienagentur'
+        )
+    );
 }
