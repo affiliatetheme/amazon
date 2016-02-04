@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
- * Plugin URI: http://www.affiliatetheme.io
+ * Plugin URI: http://affiliatetheme.io
  * Description: Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle
  * Version: 1.1.0
  * Author: endcore Medienagentur
