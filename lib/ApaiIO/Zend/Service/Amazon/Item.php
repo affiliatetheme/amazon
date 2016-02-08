@@ -597,7 +597,7 @@ class Item
         if ($this->_currencyCode == null) {
             $price = $this->getAmount(false);
 
-            if ($price <= 0) {
+            if ($price >= 0) {
                 if($this->Offers->Offers !== null) {
                     $price = $this->Offers->Offers[0]->Price;
                     $this->_currencyCode = $this->Offers->Offers[0]->CurrencyCode;
@@ -625,7 +625,7 @@ class Item
             }
         }
 
-        return $this->_currencyCode;
+        return strtolower($this->_currencyCode);
     }
 
     public function getUrl()
