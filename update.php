@@ -100,6 +100,10 @@ function amazon_api_update($args = array()) {
                                     throw new \Exception(sprintf('Item %s not found on Amazon.', $val[AWS_METAKEY_ID]), 505);
                                 }
 
+                                if($item->getAmountForAvailability() === '') {
+                                    throw new \Exception(sprintf('Item %s not available.', $val[AWS_METAKEY_ID]), 506);
+                                }
+
                                 if($item) {
                                     $old_price = ($val['price'] ? $val['price'] : '');
                                     $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
