@@ -163,7 +163,7 @@ function amazon_feed_cron() {
             }
         }
 
-        //$feed[$k]['last_message'] = sprintf(__('Suche ausgeführt: %s', 'affiliatetheme-api'), date('d.m.Y G:i:s'));
+        //$feed[$k]['last_message'] = sprintf(__('Suche ausgeführt: %s', 'affiliatetheme-amazon'), date('d.m.Y G:i:s'));
         //$feed[$k]['last_update'] = time();
     }
     update_option('at_amazon_feed_items', serialize($feed));

@@ -6,6 +6,14 @@
 require_once dirname(__FILE__) . '/config.php';
 
 /*
+ * Lade Sprachdateien
+ */
+add_action('plugins_loaded', 'at_aws_load_textdomain');
+function at_aws_load_textdomain() {
+    load_plugin_textdomain( 'affiliatetheme-amazon', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+}
+
+/*
  * Hilfsfunktionen für Arrays
  */
 function amazon_array_insert(&$array, $position, $insert) {
@@ -209,7 +217,18 @@ function at_add_amazon_product_tabs_nav($content, $post_id) {
     $product_shops = get_field('product_shops', $post_id);
     $shop_id = getRepeaterRowID($product_shops, 'portal', 'amazon', false);
     $asin = $product_shops[$shop_id]['amazon_asin'];
+    $link = $product_shops[$shop_id]['link'];
     $url = 'http://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+
+    // Überpüfe den Amazon Marktplatz
+    if($link) {
+        preg_match_all("/\\.[a-z]{2,3}(\\.[a-z]{2,3})?/m", $link, $amazon_tld);
+        if($amazon_tld) {
+            if($tld = $amazon_tld[0][1]) {
+                $url = 'http://www.amazon' . $tld . '/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+            }
+        }
+     }
 
     if(!$asin) {
         return false;

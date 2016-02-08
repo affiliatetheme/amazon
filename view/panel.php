@@ -46,33 +46,33 @@
         ?>
 		
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
-			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-api'); ?></a>
-			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-api'); ?></a>
-			<!--<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-api'); ?></a>-->
-			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-api'); ?></a>
-			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-api'); ?></a>
+			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></a>
+			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-amazon'); ?></a>
+			<!--<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-amazon'); ?></a>-->
+			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-amazon'); ?></a>
+			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-amazon'); ?></a>
 		</h2>
 		
 		<div class="tabwrapper">
 			<!-- START: Settings Tab-->
 			<div id="settings" class="at-api-tab active">
 				<div id="at-import-settings" class="metabox-holder postbox">
-					<h3 class="hndle"><span><?php _e('Einstellungen', 'affiliatetheme-api'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
 						<form action="options.php" method="post" id="<?php echo $plugin_options; ?>_form" name="<?php echo $plugin_options; ?>_form">
 							<?php settings_fields($plugin_options); ?>
 							<?php do_settings_sections( $plugin_options ); ?>
 							<div class="form-container">
 								<div class="form-group">
-									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-api'); ?> <sup>*</sup></label>
+									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
 								</div>
 								<div class="form-group">	
-									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-api'); ?> <sup>*</sup></label>
+									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
 								</div>
 								<div class="form-group">
-									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-api'); ?> <sup>*</sup></label>
+									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
 									<select name="amazon_country" id="amazon_country">
 										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>>Deutschland</option>
@@ -89,42 +89,42 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_partner_id"><?php _e('Partner Tag', 'affiliatetheme-api'); ?> <sup>*</sup></label>
+									<label for="amazon_partner_id"><?php _e('Partner Tag', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="text" name="amazon_partner_id" value="<?php echo get_option('amazon_partner_id'); ?>" />
-									<p class="form-hint"><?php _e('Damit die Produkt-Links dem richtigen Partner zugeordnet werden, trage hier deinen Partner Tag ein (z.B. superaffiliate-21).<br><strong>Wichtiger Hinweis:</strong> Wenn du diese Partner ID im späteren Verlauf änderst, werden alle Links in der Datenbank nach und nach mit dem neuen Partner Tag ausgestattet.', 'affiliatetheme-api'); ?></p>
+									<p class="form-hint"><?php _e('Damit die Produkt-Links dem richtigen Partner zugeordnet werden, trage hier deinen Partner Tag ein (z.B. superaffiliate-21).<br><strong>Wichtiger Hinweis:</strong> Wenn du diese Partner ID im späteren Verlauf änderst, werden alle Links in der Datenbank nach und nach mit dem neuen Partner Tag ausgestattet.', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group">
-									<label for="amazon_notification"><?php _e('Benachrichtigung', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_notification"><?php _e('Benachrichtigung', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_notification = get_option('amazon_notification'); ?>
 									<select name="amazon_notification" id="amazon_notification">
-										<option value=""><?php _e('Nichts', 'affiliatetheme-api'); ?></option>
-										<option value="email" <?php if($selected_amazon_notification == "email") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung', 'affiliatetheme-api'); ?></option>
-										<option value="draft" <?php if($selected_amazon_notification == "draft") echo 'selected'; ?>><?php _e('Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
-										<option value="email_draft" <?php if($selected_amazon_notification == "email_draft") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Produkt als Entwurf setzen', 'affiliatetheme-api'); ?></option>
+										<option value=""><?php _e('Nichts', 'affiliatetheme-amazon'); ?></option>
+										<option value="email" <?php if($selected_amazon_notification == "email") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung', 'affiliatetheme-amazon'); ?></option>
+										<option value="draft" <?php if($selected_amazon_notification == "draft") echo 'selected'; ?>><?php _e('Produkt als Entwurf setzen', 'affiliatetheme-amazon'); ?></option>
+										<option value="email_draft" <?php if($selected_amazon_notification == "email_draft") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Produkt als Entwurf setzen', 'affiliatetheme-amazon'); ?></option>
 									</select>
-									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-api'); ?></p>
+									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-amazon'); ?></p>
 								</div>
                                 <div class="form-group">
-                                    <label for="amazon_post_status"><?php _e('Produktstatus', 'affiliatetheme-api'); ?></label>
+                                    <label for="amazon_post_status"><?php _e('Produktstatus', 'affiliatetheme-amazon'); ?></label>
                                     <?php $selected_amazon_post_status = get_option('amazon_post_status'); ?>
                                     <select name="amazon_post_status" id="amazon_post_status">
-                                        <option value="publish"><?php _e('Veröffentlicht', 'affiliatetheme-api'); ?></option>
-                                        <option value="draft" <?php if($selected_amazon_post_status == "draft") echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-api'); ?></option>
+                                        <option value="publish"><?php _e('Veröffentlicht', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="draft" <?php if($selected_amazon_post_status == "draft") echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-amazon'); ?></option>
                                     </select>
-                                    <p class="form-hint"><?php _e('Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen.', 'affiliatetheme-api'); ?></p>
+                                    <p class="form-hint"><?php _e('Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen.', 'affiliatetheme-amazon'); ?></p>
                                 </div>
                                 <div class="form-group">
-                                    <label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-api'); ?></label>
-                                    <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-api'); ?>
+                                    <label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-amazon'); ?></label>
+                                    <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-amazon'); ?>
                                 </div>
 								<div class="form-group">
-									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-api'); ?></label>
-									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-api'); ?>
+									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
+									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
 								</div>
 								<div class="form-group">
-									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-api'); ?></label>
-									<input type="checkbox" name="amazon_update_rating" id="amazon_update_rating" value="1" <?php if('1' == get_option('amazon_update_rating')) echo 'checked'; ?>> <?php _e('Bewertungen automatisch aktualisieren', 'affiliatetheme-api'); ?>
-									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird dieses <u>überschrieben!</u>', 'affiliatetheme-api'); ?></p>
+									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
+									<input type="checkbox" name="amazon_update_rating" id="amazon_update_rating" value="1" <?php if('1' == get_option('amazon_update_rating')) echo 'checked'; ?>> <?php _e('Bewertungen automatisch aktualisieren', 'affiliatetheme-amazon'); ?>
+									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird dieses <u>überschrieben!</u>', 'affiliatetheme-amazon'); ?></p>
 								</div>
 									<div class="form-group">
 										<?php submit_button(); ?>
@@ -139,24 +139,24 @@
 			<!-- START: Search Tab-->
 			<div id="search" class="at-api-tab">
 				<div id="at-import-window" class="metabox-holder postbox">
-					<h3 class="hndle"><span><?php _e('Amazon durchsuchen', 'affiliatetheme-api'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Amazon durchsuchen', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
 						<div class="form-container">
 							<div class="form-group">
-								<label for="search"><?php _e('Suche', 'affiliatetheme-api'); ?></label>
+								<label for="search"><?php _e('Suche', 'affiliatetheme-amazon'); ?></label>
 								<input type="text" name="search" id="search">
 							</div>
 							<div class="form-group">
-								<label><?php _e('Kategorie', 'affiliatetheme-api'); ?></label>
+								<label><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
 								<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(); ?>
 							</div>
                             <hr>
                             <div class="form-container" style="">
                                 <form class="form-inline" method="post" action="">
                                     <div class="form-group">
-                                        <label for="grabburl"><?php _e('ASIN Grabber', 'affiliatetheme-api'); ?></label>
+                                        <label for="grabburl"><?php _e('ASIN Grabber', 'affiliatetheme-amazon'); ?></label>
                                         <input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="URL eintragen...">
-                                        <button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-api'); ?></button>
+                                        <button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-amazon'); ?></button>
                                     </div>
 
                                 </form>
@@ -164,7 +164,7 @@
                             </div>
                             <div class="form-container">
                                 <div class="form-group">
-                                    <label for="grabbedasins" class="control-label"><?php _e('Suche nach ASINs', 'affiliatetheme-api'); ?></label>
+                                    <label for="grabbedasins" class="control-label"><?php _e('Suche nach ASINs', 'affiliatetheme-amazon'); ?></label>
                                     <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
                                     <textarea id="leavedasins" cols="30" rows="10" placeholder="Fehlende ASINs..." class="hidden"></textarea>
                                     <button class="button button-small" id="asinsremlist" title="hide/show remaining">&lt;&gt;</button>
@@ -174,7 +174,7 @@
 							<div class="form-group submit-group">
 								<input type="hidden" name="page" id="page" value="1">
 								<input type="hidden" name="max-pages" id="max-pages" value="">
-								<button id="search-link" class="button button-primary"><?php _e('Suche', 'affiliatetheme-api'); ?></button>
+								<button id="search-link" class="button button-primary"><?php _e('Suche', 'affiliatetheme-amazon'); ?></button>
 							</div>
 						</div>
 					
@@ -182,8 +182,8 @@
 						<div id="info-title"></div>
 						
 						<div class="page-links" style="margin-bottom:15px;">
-							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-api'); ?></button>
-							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-api'); ?> »</button>
+							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-amazon'); ?></button>
+							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-amazon'); ?> »</button>
 						</div>
 										
 						<table class="wp-list-table widefat fixed products">
@@ -193,25 +193,25 @@
 										<label class="screen-reader-text" for="cb-select-all-1">Alle auswählen</label><input id="cb-select-all-1" type="checkbox">
 									</th>
 									<th scope="col" id="asin" class="manage-column column-asin">
-										<span><?php _e('ASIN', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('ASIN', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="image" class="manage-column column-image">
-										<span><?php _e('Vorschau', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Vorschau', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="title" class="manage-column column-title">
-										<span><?php _e('Titel', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Titel', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="rating" class="manage-column column-rating">
-										<span><?php _e('Bewertung', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Bewertung', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="price" class="manage-column column-price">
-										<span><?php _e('Preis', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Preis', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="margin" class="manage-column column-margin">
-										<span><?php _e('Provision', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Provision', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="category" class="manage-column column-category">
-										<span><?php _e('Kategorie', 'affiliatetheme-api'); ?></span>
+										<span><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></span>
 									</th>
 									<th scope="col" id="actions" class="manage-column column-action">
 										<span></span>
@@ -226,7 +226,7 @@
 											echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form() . '</div>';
 										?>
 										<div class="clearfix"></div>
-										<a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-api'); ?></a>
+										<a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-amazon'); ?></a>
 									</td>
 								</tr>
 							</tfoot>
@@ -234,8 +234,8 @@
 						</table>
 
 						<div class="page-links" style="margin-top:15px;">
-							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-api'); ?></button>
-							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-api'); ?> »</button>
+							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-amazon'); ?></button>
+							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-amazon'); ?> »</button>
 						</div>
 						
 						<?php add_thickbox(); ?>
@@ -252,9 +252,9 @@
 			<!-- START: API Feed -->
 			<div id="feed" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
-					<h3 class="hndle"><span><?php _e('Feed', 'affiliatetheme-api'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Feed', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
-						<p><?php _e('Du kannst bestimmte Suchbegriffe hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-api'); ?></p>
+						<p><?php _e('Du kannst bestimmte Suchbegriffe hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-amazon'); ?></p>
 						<table class="feed">
 							<tbody>
 								<?php
@@ -272,7 +272,7 @@
 														<td><?php echo $item->keyword; ?></td>
 														<td><?php echo $item->last_message; ?></td>
 														<td><?php echo at_amazon_feed_status_label($item->status); ?></td>
-														<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-api') : __('aktivieren', 'affiliatetheme-api')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-api'); ?></a></td>
+														<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-amazon') : __('aktivieren', 'affiliatetheme-amazon')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-amazon'); ?></a></td>
 													</tr>
 
 													<tr class="inside">
@@ -280,31 +280,31 @@
 															<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
 																<div class="row">
 																	<div class="form-group">
-																		<label for="post_status"><?php _e('Beitragsstatus', 'affiliatetheme-api'); ?></label>
+																		<label for="post_status"><?php _e('Beitragsstatus', 'affiliatetheme-amazon'); ?></label>
 																		<select name="post_status">
-																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>><?php _e('Veröffentlichen', 'affiliatetheme-api'); ?></option>
-																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-api'); ?></option>
+																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>><?php _e('Veröffentlichen', 'affiliatetheme-amazon'); ?></option>
+																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-amazon'); ?></option>
 																		</select>
 																	</div>
 
 																	<div class="form-group">
-																		<label for="images"><?php _e('Bilder importieren', 'affiliatetheme-api'); ?></label>
+																		<label for="images"><?php _e('Bilder importieren', 'affiliatetheme-amazon'); ?></label>
 																		<select name="images">
-																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-api'); ?></option>
-																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-api'); ?></option>
+																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-amazon'); ?></option>
+																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-amazon'); ?></option>
 																		</select>
 																	</div>
 
 																	<div class="form-group">
-																		<label for="description"><?php _e('Beschreibung importieren', 'affiliatetheme-api'); ?></label>
+																		<label for="description"><?php _e('Beschreibung importieren', 'affiliatetheme-amazon'); ?></label>
 																		<select name="description">
-																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-api'); ?></option>
-																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-api'); ?></option>
+																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-amazon'); ?></option>
+																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-amazon'); ?></option>
 																		</select>
 																	</div>
 
 																	<div class="form-group">
-																		<label for="category"><?php _e('Kategorie', 'affiliatetheme-api'); ?></label>
+																		<label for="category"><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
 																		<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false, $item->category); ?>
 																	</div>
 																</div>
@@ -322,7 +322,7 @@
 																?>
 
 																<div class="row">
-																	<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-api'); ?></button>
+																	<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-amazon'); ?></button>
 																</div>
 
 																<div id="form-messages"></div>
@@ -338,7 +338,7 @@
 									?>
 									<tr>
 										<td colspan="4">
-											<?php _e('Es wurde bisher kein Suchbegriff hinterlegt', 'affiliatetheme-api'); ?>
+											<?php _e('Es wurde bisher kein Suchbegriff hinterlegt', 'affiliatetheme-amazon'); ?>
 										</td>
 									</tr>
 									<?php
@@ -352,7 +352,7 @@
 						<form id="add-new-keyword">
 							<input name="keyword" class="form-control" placeholder="Suchbegriff" />
 							<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); ?>
-							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-api'); ?></button>
+							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
 						</form>
 
 						<div id="feed-messages"></div>
@@ -364,16 +364,16 @@
 			<!-- START: API Log Tab-->
 			<div id="apilog" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
-					<h3 class="hndle"><span><?php _e('API Log', 'affiliatetheme-api'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('API Log', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
-                        <p><?php _e('Hier werden dir die letzten 200 Einträge der API log angezeigt.', 'affiliatetheme-api'); ?></p>
-                        <p><a href="" class="clear-api-log button" data-type="amazon" data-hash="<?php echo AWS_CRON_HASH; ?>"><?php _e('Log löschen', 'affiliatetheme-api'); ?></a></p>
+                        <p><?php _e('Hier werden dir die letzten 200 Einträge der API log angezeigt.', 'affiliatetheme-amazon'); ?></p>
+                        <p><a href="" class="clear-api-log button" data-type="amazon" data-hash="<?php echo AWS_CRON_HASH; ?>"><?php _e('Log löschen', 'affiliatetheme-amazon'); ?></a></p>
 						<table class="apilog">
 							<thead>
 								<tr>
-									<th><?php _e('Datum', 'affiliatetheme-api') ?></th>
-									<th><?php _e('Typ', 'affiliatetheme-api') ?></th>
-									<th><?php _e('Nachricht', 'affiliatetheme-api') ?></th>
+									<th><?php _e('Datum', 'affiliatetheme-amazon') ?></th>
+									<th><?php _e('Typ', 'affiliatetheme-amazon') ?></th>
+									<th><?php _e('Nachricht', 'affiliatetheme-amazon') ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -411,7 +411,7 @@
 			<!-- START: Buttons Tab-->
 			<div id="buttons" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
-					<h3 class="hndle"><span><?php _e('Buttons', 'affiliatetheme-api'); ?></span></h3>
+					<h3 class="hndle"><span><?php _e('Buttons', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
 						<form action="options.php" method="post" id="<?php echo $plugin_button_options; ?>_form" name="<?php echo $plugin_button_options; ?>_form">
 							<?php settings_fields($plugin_button_options); ?>
@@ -422,15 +422,15 @@
 							</p>
 							<div class="form-container">
 								<div class="form-group">
-									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-amazon'); ?></label>
 									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? htmlentities(get_option('amazon_buy_short_button')) : 'Kaufen'); ?>" />
 								</div>
 								<div class="form-group">
-									<label for="amazon_buy_button"><?php _e('Kaufen Button', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_buy_button"><?php _e('Kaufen Button', 'affiliatetheme-amazon'); ?></label>
 									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? htmlentities(get_option('amazon_buy_button')) : 'Jetzt bei Amazon kaufen'); ?>" />
 								</div>
 								<div class="form-group">
-									<label for="amazon_not_avail_button"><?php _e('Nicht Verfügbar', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_not_avail_button"><?php _e('Nicht Verfügbar', 'affiliatetheme-amazon'); ?></label>
 									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? htmlentities(get_option('amazon_not_avail_button')) : 'Nicht Verfügbar'); ?>" />
 								</div>
 								<div class="form-group">
