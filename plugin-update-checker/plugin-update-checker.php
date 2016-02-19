@@ -231,6 +231,7 @@ class PluginUpdateChecker_2_2 {
 		$pluginInfo = null;
 		if ( !is_wp_error($result) && isset($result['response']['code']) && ($result['response']['code'] == 200) && !empty($result['body']) ){
 			$pluginInfo = PluginInfo_2_2::fromJson($result['body'], $this->debugMode);
+			if(!$pluginInfo) return;
 			$pluginInfo->filename = $this->pluginFile;
 			$pluginInfo->slug = $this->slug;
 		} else if ( $this->debugMode ) {
