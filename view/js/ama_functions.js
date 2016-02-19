@@ -505,8 +505,12 @@ var quickImportAction = function(id, mass, i, max_items) {
 var massImportAction = function(target) {
     var max_items = jQuery('#results .item:not(".success") .check-column input:checkbox:checked').length;
     var ajax_loader = jQuery('.at-ajax-loader');
-
     var i = 1;
+
+    // break if no product checked
+    if(max_items < 1) {
+        return false;
+    }
 
     jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%').attr('data-item', '1');
     jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
