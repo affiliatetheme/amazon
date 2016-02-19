@@ -166,7 +166,7 @@ function at_manage_amazon_columns($column, $post_id) {
 }
 
 /*
- * Add Affilinet Fields
+ * Add Amazon Fields
  */
 add_filter( 'at_add_product_fields', 'at_add_amazon_field_portal_id', 10, 2 );
 function at_add_amazon_field_portal_id( $fields ) {

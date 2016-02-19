@@ -121,13 +121,42 @@
 									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
 								</div>
+								<h3><?php _e('Einstellungen für den Update-Prozess', 'affiliatetheme-api'); ?></h3>
+								<div class="form-group">
+									<label for="amazon_update_ean"><?php _e('EAN', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_update_ean = get_option('amazon_update_ean'); ?>
+									<select name="amazon_update_ean" id="amazon_update_ean">
+										<option value="yes" <?php if($selected_amazon_update_ean == 'yes' || $selected_amazon_update_ean == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_ean == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="amazon_update_price"><?php _e('Preise', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_update_price = get_option('amazon_update_price'); ?>
+									<select name="amazon_update_price" id="amazon_update_price">
+										<option value="yes" <?php if($selected_amazon_update_price == 'yes' || $selected_amazon_update_price == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_price == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="amazon_update_url"><?php _e('URL', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_update_url = get_option('amazon_update_url'); ?>
+									<select name="amazon_update_url" id="amazon_update_url">
+										<option value="yes" <?php if($selected_amazon_update_url == 'yes' || $selected_amazon_update_url == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_url == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+									</select>
+								</div>
 								<div class="form-group">
 									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
-									<input type="checkbox" name="amazon_update_rating" id="amazon_update_rating" value="1" <?php if('1' == get_option('amazon_update_rating')) echo 'checked'; ?>> <?php _e('Bewertungen automatisch aktualisieren', 'affiliatetheme-amazon'); ?>
-									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird dieses <u>überschrieben!</u>', 'affiliatetheme-amazon'); ?></p>
+									<?php $selected_amazon_update_rating = get_option('amazon_update_rating'); ?>
+									<select name="amazon_update_rating" id="amazon_update_rating">
+										<option value="yes" <?php if($selected_amazon_update_rating == 'yes' || $selected_amazon_update_rating == '1') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_rating == 'no' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+									</select>
+									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <span style="color:#c01313"><strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird diese <u>überschrieben!</u></span>', 'affiliatetheme-amazon'); ?></p>
 								</div>
-									<div class="form-group">
-										<?php submit_button(); ?>
+								<div class="form-group">
+									<?php submit_button(); ?>
 								</div>
 							</div>
 						</form>

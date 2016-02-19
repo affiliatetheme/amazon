@@ -105,6 +105,8 @@ function amazon_api_update($args = array()) {
                                 }
 
                                 if($item) {
+                                    $old_ean = get_post_meta($product->ID, 'product_ean', true);
+                                    $ean = $item->getEan();
                                     $old_price = ($val['price'] ? $val['price'] : '');
                                     $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
                                     $old_link = ($val['link'] ? $val['link'] : '');
@@ -112,27 +114,33 @@ function amazon_api_update($args = array()) {
                                     $old_salesrank = (isset($val['salesrank']) ? $val['salesrank'] : '0');
                                     $salesrank = $item->getSalesRank();
 
+                                    // update ean
+                                    if($ean && $ean != $old_ean && get_option('amazon_update_ean') != 'no') {
+                                        update_post_meta($product->ID, 'product_ean', $ean);
+                                        at_write_api_log('amazon', $product->ID, '(' . $key . ') updated ean from ' . $old_ean . ' to ' . $ean);
+                                    }
+
                                     // update price
-                                    if ($price != $old_price) {
+                                    if ($price != $old_price && get_option('amazon_update_price') != 'no') {
                                         $shops[$key]['price'] = $price;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') updated price from ' . $old_price . ' to ' . $price);
                                     }
 
                                     // update url
-                                    if ($link != $old_link) {
+                                    if ($link != $old_link && get_option('amazon_update_url') != 'no') {
                                         $shops[$key]['link'] = $link;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon url');
                                     }
 
                                     // update salesrank
                                     if ($salesrank != $old_salesrank && $salesrank != "") {
-                                        $shops[$key]['salesrank'] = $salesrank;
+                                        update_post_meta($product->ID, 'amazon_salesrank_' . $key, $salesrank);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
                                     }
                                 }
 
                                 //update rating
-                                if(get_option('amazon_update_rating') == '1') {
+                                if(get_option('amazon_update_rating') == 'yes' || get_option('amazon_update_rating') == '1') {
                                     $rating = $item->getAverageRating();
                                     $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 
