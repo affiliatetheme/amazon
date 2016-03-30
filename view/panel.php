@@ -84,6 +84,7 @@
 										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>>Espania</option>
 										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>>India</option>
 										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>>Japan</option>
+										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>>Mexiko</option>
 										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>>China</option>
 										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>>Brazil</option>
 									</select>
