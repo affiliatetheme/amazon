@@ -293,7 +293,7 @@ if(get_option('amazon_notification') == "email" ||  get_option('amazon_notificat
 }
 add_action('wp_ajax_at_send_amazon_notification_mail', 'at_send_amazon_notification_mail');
 add_action('affiliatetheme_send_amazon_notification_mail', 'at_send_amazon_notification_mail');
-function at_send_amazon_notification_mail($produkt_id) {
+function at_send_amazon_notification_mail() {
     $products = (get_option('at_amazon_notification_items') ? get_option('at_amazon_notification_items') : array());
     $to = get_option('admin_email');
     $sitename = get_bloginfo('name');
@@ -304,15 +304,24 @@ function at_send_amazon_notification_mail($produkt_id) {
     if($products) {
         $product_table = '';
         foreach($products as $item) {
-            if(!get_post_status($item)) {
+            if(!get_post_status($item) || get_post_status($item) == 'trash') {
                 remove_product_notification($item);
                 continue;
             }
 
+            switch(get_post_status($item)) {
+                case 'publish':
+                    $status = __('Online', 'affiliatetheme-api');
+                    break;
+
+                default:
+                    $status = __('Entwurf', 'affiliatetheme-api');
+            }
+
             $product_table .= '
                 <tr>
-                    <td style="padding: 5px; border-top: 1px solid #eee;">' . $item . '</td>
-                    <td style="padding: 5px; border-top: 1px solid #eee;"><a href="' . get_permalink($item). '" target="_blank">' . get_the_title($item). '</a></td>
+                    <td style="padding: 5px; border-top: 1px solid #eee;min-width:30px;">' . $item . '</td>
+                    <td style="padding: 5px; border-top: 1px solid #eee;"><a href="' . get_permalink($item). '" target="_blank">' . get_the_title($item). ' (' . $status . ')</a></td>
                     <td style="padding: 5px; border-top: 1px solid #eee;">' . get_product_last_update($item) . '</td>
                 </tr>
             ';
