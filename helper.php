@@ -116,27 +116,37 @@ function at_add_amazon_as_portal( $choices ) {
 /*
  * Overwrite Product Button Text
  */
-add_filter('at_get_amazon_product_button_text', 'at_overwrite_amazon_product_button_text', 10, 4);
-function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $product_shop = '', $short = false) {
+add_filter('at_product_api_button_short_text', 'at_overwrite_amazon_product_button_short_text', 12, 5);
+function at_overwrite_amazon_product_button_short_text($var = '', $product_portal = '', $product_shop = '', $pos = '', $short = false) {
     global $post;
 
-    if('amazon' == $product_portal) {
-		/*
-		 * @TODO: Amazon Icon?
-		 */
-
+    if('amazon' == $product_portal && 'buy' == $pos) {
         $buy_short_button = (get_option('amazon_buy_short_button') ? get_option('amazon_buy_short_button') : __('Kaufen', 'affiliatetheme-amazon'));
+        $not_avail_button = (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : __('Nicht Verfügbar', 'affiliatetheme-amazon'));
+
+        if('1' == get_post_meta($post->ID, 'product_not_avail', true))
+            return $not_avail_button;
+
+        return $buy_short_button;
+    }
+
+    return $var;
+}
+add_filter('at_product_api_button_text', 'at_overwrite_amazon_product_button_text', 12, 5);
+function at_overwrite_amazon_product_button_text($var = '', $product_portal = '', $product_shop = '', $pos = '', $short = false) {
+    global $post;
+
+    if('amazon' == $product_portal && 'buy' == $pos) {
         $buy_button = (get_option('amazon_buy_button') ? get_option('amazon_buy_button') : __('Jetzt bei Amazon kaufen', 'affiliatetheme-amazon'));
         $not_avail_button = (get_option('amazon_not_avail_button') ? get_option('amazon_not_avail_button') : __('Nicht Verfügbar', 'affiliatetheme-amazon'));
 
         if('1' == get_post_meta($post->ID, 'product_not_avail', true))
-            return __($not_avail_button, 'affiliatetheme-amazon');
+            return $not_avail_button;
 
-		if(true == $short)
-			return __($buy_short_button, 'affiliatetheme-amazon');
-		
-		return __($buy_button,'affiliatetheme-amazon');
-	} 	
+        return $buy_button;
+    }
+
+    return $var;
 }
 
 /*
