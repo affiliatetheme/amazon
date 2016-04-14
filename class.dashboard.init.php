@@ -90,7 +90,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 		 * add a menu
 		 */		
 		public function add_submenu_page()	{
-			add_submenu_page('endcore_api_dashboard', 'Amazon', 'Amazon', 'administrator', 'endcore_api_amazon', array(&$this, 'menu_dashboard'));
+			add_submenu_page('endcore_api_dashboard', 'Amazon', 'Amazon', apply_filters('at_set_import_dashboard_capabilities', 'administrator'), 'endcore_api_amazon', array(&$this, 'menu_dashboard'));
 		} 
 		
 		/**
