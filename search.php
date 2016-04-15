@@ -50,7 +50,6 @@ if(!in_array($_POST['category'], $sortCategories)){
     $search->setSort('price');
 }
 
-
 /* @var $formattedResponse Amazon\ResultSet */
 $formattedResponse = $apaiIO->runOperation($search);
 
