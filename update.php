@@ -31,7 +31,7 @@ function amazon_api_update($args = array()) {
     if($check_hash != $hash) {
         wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => $check_hash));
 
-        //die('Security check failed.');
+        die('Security check failed.');
     }
 
     $conf = new GenericConfiguration();
