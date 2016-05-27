@@ -31,7 +31,7 @@ function amazon_api_update($args = array()) {
     if($check_hash != $hash) {
         wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => $check_hash));
 
-        die('Security check failed.');
+        //die('Security check failed.');
     }
 
     $conf = new GenericConfiguration();
@@ -91,7 +91,7 @@ function amazon_api_update($args = array()) {
                                 // amazon item
                                 $lookup = new Lookup();
                                 $lookup->setItemId($val[AWS_METAKEY_ID]);
-                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Reviews'));
+                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Reviews', 'Images'));
                                 $lookup->setAvailability('Available');
                                 $formattedResponse = $apaiIO->runOperation($lookup);
                                 $item = $formattedResponse->getItem();
@@ -111,7 +111,7 @@ function amazon_api_update($args = array()) {
                                     $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
                                     $old_link = ($val['link'] ? $val['link'] : '');
                                     $link = ($item->getUrl() ? $item->getUrl() : '');
-                                    $old_salesrank = (isset($val['salesrank']) ? $val['salesrank'] : '0');
+                                    $old_salesrank = get_post_meta($product->ID, 'amazon_salesrank_'. $key, true);
                                     $salesrank = $item->getSalesRank();
 
                                     // update ean
@@ -136,6 +136,89 @@ function amazon_api_update($args = array()) {
                                     if ($salesrank != $old_salesrank && $salesrank != "") {
                                         update_post_meta($product->ID, 'amazon_salesrank_' . $key, $salesrank);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
+                                    }
+
+                                    // update external images
+                                    if(get_option('amazon_images_external') == '1' && get_option('amazon_update_external_images') == '1') {
+                                        $images = array();
+
+                                        if ($item->getAllImages()->getLargeImages()) {
+                                            $i = 1;
+                                            foreach ($item->getAllImages()->getLargeImages() as $image) {
+                                                $images[$i]['filename'] = sanitize_title(get_the_title($product->ID) . '-' . $i);
+                                                $images[$i]['alt'] = get_the_title($product->ID) . ' - ' . $i;
+                                                $images[$i]['url'] = $image;
+
+                                                if ($i == 1) {
+                                                    $images[$i]['thumb'] = 'true';
+                                                }
+
+                                                $i++;
+                                            }
+                                        }
+
+                                        if ($images) {
+                                            $attachments = array();
+                                            $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
+
+                                            foreach ($images as $image) {
+                                                $image_filename = substr(sanitize_title($image['filename']), 0, 30);
+                                                $image_alt = (isset($image['alt']) ? $image['alt'] : '');
+                                                $image_url = $image['url'];
+                                                $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+
+                                                // skip if image already exists as post thumbnail
+                                                if($image_url == $_thumbnail_ext_url) {
+                                                    continue;
+                                                }
+
+                                                // load images form extern
+                                                if ("true" == $image_thumb) {
+                                                    if($_thumbnail_ext_url == '') {
+                                                        update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
+                                                        update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
+                                                    }
+                                                } else {
+                                                    $attachments[] = array(
+                                                        'url' => $image_url,
+                                                        'alt' => $image_alt,
+                                                        'hide' => ''
+                                                    );
+                                                }
+                                            }
+
+                                            if($attachments) {
+                                                $product_gallery_external = get_field('product_gallery_external', $product->ID);
+
+                                                // set old attributes for hide
+                                                $i = 0;
+                                                foreach ($attachments as $item) {
+                                                    if ($product_gallery_external) {
+                                                        foreach ($product_gallery_external as $old_item) {
+                                                            if ($item['url'] == $old_item['url']) {
+                                                                if ($old_item['hide'] == '1') {
+                                                                    $attachments[$i]['hide'] = '1';
+                                                                }
+
+                                                                if ($old_item['alt'] != '') {
+                                                                    $attachments[$i]['alt'] = $old_item['alt'];
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    $i++;
+                                                }
+
+                                                update_field('field_57486088e1f0d', $attachments, $product->ID);
+
+                                                if (count($product_gallery_external) == count($attachments)) {
+                                                    // do nothing
+                                                } else {
+                                                    at_write_api_log('amazon', $product->ID, '(' . $key . ') updates external images  from ' . count($product_gallery_external) . ' to ' . count($attachments));
+                                                }
+                                            }
+                                        }
                                     }
                                 }
 

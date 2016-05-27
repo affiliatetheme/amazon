@@ -157,6 +157,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
             // product image
             if ($images) {
+                $amazon_images_external = get_option('amazon_images_external');
                 $attachments = array();
 
                 foreach ($images as $image) {
@@ -166,20 +167,41 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
                     $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
-                    if ("true" == $image_exclude)
-                        continue;
-
-                    if ("true" == $image_thumb) {
-                        $att_id = at_attach_external_image($image_url, $post_id, true, $image_filename, array('post_title' => $image_alt));
-                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                    if($amazon_images_external) {
+                        // load images form extern
+                        if ("true" == $image_thumb) {
+                            update_post_meta($post_id, '_thumbnail_ext_url', $image_url);
+                            update_post_meta($post_id, '_thumbnail_id', 'by_url' );
+                        } else {
+                            $attachments[] = array(
+                                'url' => $image_url,
+                                'alt' => $image_alt,
+                                'hide' => ("true" == $image_exclude ? '1' : '')
+                            );
+                        }
                     } else {
-                        $att_id = at_attach_external_image($image_url, $post_id, false, $image_filename, array('post_title' => $image_alt));
-                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
-                        $attachments[] = $att_id;
-                    }
+                        // load images in local database
+                        if ("true" == $image_exclude) {
+                            continue;
+                        }
 
-                    if ($attachments)
+                        if ("true" == $image_thumb) {
+                            $att_id = at_attach_external_image($image_url, $post_id, true, $image_filename, array('post_title' => $image_alt));
+                            update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                        } else {
+                            $att_id = at_attach_external_image($image_url, $post_id, false, $image_filename, array('post_title' => $image_alt));
+                            update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                            $attachments[] = $att_id;
+                        }
+                    }
+                }
+
+                if ($attachments) {
+                    if($amazon_images_external) {
+                        update_field('field_57486088e1f0d', $attachments, $post_id);
+                    } else {
                         update_field('field_553b84fb117b1', $attachments, $post_id);
+                    }
                 }
             }
 

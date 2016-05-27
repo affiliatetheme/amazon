@@ -114,10 +114,15 @@
                                     </select>
                                     <p class="form-hint"><?php _e('Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen.', 'affiliatetheme-amazon'); ?></p>
                                 </div>
+								<div class="form-group">
+									<label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-amazon'); ?></label>
+									<input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-amazon'); ?>
+								</div>
                                 <div class="form-group">
-                                    <label for="amazon_import_description"><?php _e('Beschreibung', 'affiliatetheme-amazon'); ?></label>
-                                    <input type="checkbox" name="amazon_import_description" id="amazon_import_description" value="1" <?php if('1' == get_option('amazon_import_description')) echo 'checked'; ?>> <?php _e('Produktbeschreibung importieren', 'affiliatetheme-amazon'); ?>
-                                </div>
+                                    <label for="amazon_images_external"><?php _e('Externe Produktbilder', 'affiliatetheme-amazon'); ?></label>
+                                    <input type="checkbox" name="amazon_images_external" id="amazon_images_external" value="1" <?php if('1' == get_option('amazon_images_external')) echo 'checked'; ?>> <?php _e('Produktbilder von extern einbinden', 'affiliatetheme-amazon'); ?>
+                                	<p class="form-hint"><?php _e('Mit dieser Option werden die Produktbilder nicht auf den eigenen Server heruntergeladen sondern direkt über Amazon eingebunden.', 'affiliatetheme-amazon'); ?></p>
+								</div>
 								<div class="form-group">
 									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
@@ -145,6 +150,14 @@
 									<select name="amazon_update_url" id="amazon_update_url">
 										<option value="yes" <?php if($selected_amazon_update_url == 'yes' || $selected_amazon_update_url == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
 										<option value="no" <?php if($selected_amazon_update_url == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="amazon_update_external_images"><?php _e('Externe Bilder', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_update_external_images = get_option('amazon_update_external_images'); ?>
+									<select name="amazon_update_external_images" id="amazon_update_external_images">
+										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
 									</select>
 								</div>
 								<div class="form-group">

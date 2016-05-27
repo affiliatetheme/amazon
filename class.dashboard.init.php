@@ -52,10 +52,12 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			register_setting('endcore_api_amazon_options', 'amazon_notification');
             register_setting('endcore_api_amazon_options', 'amazon_post_status');
             register_setting('endcore_api_amazon_options', 'amazon_import_description');
+			register_setting('endcore_api_amazon_options', 'amazon_images_external');
 			register_setting('endcore_api_amazon_options', 'amazon_show_reviews');
 			register_setting('endcore_api_amazon_options', 'amazon_update_ean');
 			register_setting('endcore_api_amazon_options', 'amazon_update_price');
 			register_setting('endcore_api_amazon_options', 'amazon_update_url');
+			register_setting('endcore_api_amazon_options', 'amazon_update_external_images');
 			register_setting('endcore_api_amazon_options', 'amazon_update_rating');
 
 			register_setting('endcore_api_amazon_button_options', 'amazon_buy_short_button');
