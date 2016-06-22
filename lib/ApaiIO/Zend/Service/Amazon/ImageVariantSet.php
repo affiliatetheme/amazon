@@ -53,17 +53,41 @@ class ImageVariantSet
 
     public function getSmallImages()
     {
-        return $this->_getImageCollectionByType('SmallImage');
+        $images = $this->_getImageCollectionByType('SmallImage');
+        if(is_ssl() && $images) {
+            foreach($images as $k => $v) {
+                if(strpos($v, 'https://') !== 0) {
+                    $images[$k] = str_replace('http://ecx.images-amazon.com/images/', 'https://images-na.ssl-images-amazon.com/images/', $v);
+                }
+            }
+        }
+        return $images;
     }
 
     public function getMediumImages()
     {
-        return $this->_getImageCollectionByType('MediumImage');
+        $images = $this->_getImageCollectionByType('MediumImage');
+        if(is_ssl() && $images) {
+            foreach($images as $k => $v) {
+                if(strpos($v, 'https://') !== 0) {
+                    $images[$k] = str_replace('http://ecx.images-amazon.com/images/', 'https://images-na.ssl-images-amazon.com/images/', $v);
+                }
+            }
+        }
+        return $images;
     }
 
     public function getLargeImages()
     {
-        return $this->_getImageCollectionByType('LargeImage');
+        $images = $this->_getImageCollectionByType('LargeImage');
+        if(is_ssl() && $images) {
+            foreach($images as $k => $v) {
+                if(strpos($v, 'https://') !== 0) {
+                    $images[$k] = str_replace('http://ecx.images-amazon.com/images/', 'https://images-na.ssl-images-amazon.com/images/', $v);
+                }
+            }
+        }
+        return $images;
     }
 
     public function addDefaultImageSet(Image $smallImage = null, Image $mediumImage = null, Image $largeImage = null){
