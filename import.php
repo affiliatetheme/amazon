@@ -213,6 +213,8 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                 }
             }
 
+            do_action('amazon_import_product', $post_id, $item);
+
             at_write_api_log('amazon', $post_id, 'imported product successfully');
 
             $output['rmessage']['success'] = 'true';
