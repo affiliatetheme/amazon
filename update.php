@@ -139,12 +139,13 @@ function amazon_api_update($args = array()) {
                                     }
 
                                     // update external images
-                                    if(get_option('amazon_images_external') == '1' && get_option('amazon_update_external_images') == '1') {
+                                    if(get_option('amazon_images_external') == '1' && get_option('amazon_update_external_images') == 'yes') {
                                         $images = array();
+                                        $amazon_images = $item->getAllImages()->getMediumImages();
 
-                                        if ($item->getAllImages()->getLargeImages()) {
+                                        if ($amazon_images) {
                                             $i = 1;
-                                            foreach ($item->getAllImages()->getLargeImages() as $image) {
+                                            foreach ($amazon_images as $image) {
                                                 $images[$i]['filename'] = sanitize_title(get_the_title($product->ID) . '-' . $i);
                                                 $images[$i]['alt'] = get_the_title($product->ID) . ' - ' . $i;
                                                 $images[$i]['url'] = $image;
@@ -174,9 +175,16 @@ function amazon_api_update($args = array()) {
 
                                                 // load images form extern
                                                 if ("true" == $image_thumb) {
+                                                    // check if thumbnail does not exist
                                                     if($_thumbnail_ext_url == '') {
                                                         update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
                                                         update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
+                                                    } else {
+                                                        // check if ssl is available and image is ssl
+                                                        if(is_ssl() && strpos($_thumbnail_ext_url, 'https://') !== 0) {
+                                                            update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
+                                                            update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
+                                                        }
                                                     }
                                                 } else {
                                                     $attachments[] = array(
@@ -192,16 +200,24 @@ function amazon_api_update($args = array()) {
 
                                                 // set old attributes for hide
                                                 $i = 0;
-                                                foreach ($attachments as $item) {
+                                                foreach ($attachments as $attachment) {
                                                     if ($product_gallery_external) {
-                                                        foreach ($product_gallery_external as $old_item) {
-                                                            if ($item['url'] == $old_item['url']) {
-                                                                if ($old_item['hide'] == '1') {
+                                                        foreach ($product_gallery_external as $k => $v) {
+                                                            // fix ssl
+                                                            if(is_ssl() && strpos($product_gallery_external[$k]['url'], 'https://') !== 0) {
+                                                                $product_gallery_external[$k]['url'] = str_replace('http://ecx.images-amazon.com/images/', 'https://images-na.ssl-images-amazon.com/images/', $v);
+                                                            }
+
+                                                            if ($attachment['url'] == $product_gallery_external[$k]['url']) {
+                                                                // overwrite url, fix damaged images
+                                                                $attachments[$i]['url'] = $product_gallery_external[$k]['url'];
+
+                                                                if ($product_gallery_external[$k]['hide'] == '1') {
                                                                     $attachments[$i]['hide'] = '1';
                                                                 }
 
-                                                                if ($old_item['alt'] != '') {
-                                                                    $attachments[$i]['alt'] = $old_item['alt'];
+                                                                if ($product_gallery_external[$k]['alt'] != '') {
+                                                                    $attachments[$i]['alt'] = $product_gallery_external[$k]['alt'];
                                                                 }
                                                             }
                                                         }
