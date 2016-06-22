@@ -227,11 +227,13 @@ function amazon_api_update($args = array()) {
                                     $rating = $item->getAverageRating();
                                     $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 
-                                    //fix rating
-                                    $rating = round($rating*2) / 2;
+                                    if($rating && $rating > 0) {
+                                        //fix rating
+                                        $rating = round($rating * 2) / 2;
 
-                                    update_post_meta($product->ID, 'product_rating', $rating);
-                                    update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
+                                        update_post_meta($product->ID, 'product_rating', $rating);
+                                        update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
+                                    }
                                 }
 
                                 update_post_meta($product->ID, 'product_not_avail', '0');
