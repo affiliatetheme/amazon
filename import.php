@@ -108,7 +108,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
     if (false == ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $asin, 'LIKE'))) {
 
-        if ($exists != ''){
+        if ($exists) {
             $post_id = $exists;
         } else {
             $args = array(
@@ -123,7 +123,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
         if ($post_id) {
             //fix rating
-            $rating = round($rating*2) / 2;
+            $rating = round($rating * 2) / 2;
 
             //customfields
             update_post_meta($post_id, AWS_METAKEY_ID, $asin);
@@ -131,6 +131,10 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             update_post_meta($post_id, 'product_ean', $ean);
             update_post_meta($post_id, 'product_rating', $rating);
             update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
+
+            if($exists) {
+                $shop_info = get_field('field_557c01ea87000', $post_id);
+            }
 
             $shop_info[] = array(
                 'price' => $price,
@@ -147,7 +151,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             //taxonomie
             if ($taxs) {
                 foreach ($taxs as $key => $value) {
-                    if(is_array($value)) {
+                    if (is_array($value)) {
                         foreach ($value as $k => $v) {
                             if (strpos($v, ',') !== false) {
                                 $value[$k] = '';
@@ -175,11 +179,11 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                     $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
                     $amazon_images_external = get_option('amazon_images_external');
-                    if($amazon_images_external) {
+                    if ($amazon_images_external) {
                         // load images form extern
                         if ("true" == $image_thumb) {
                             update_post_meta($post_id, '_thumbnail_ext_url', $image_url);
-                            update_post_meta($post_id, '_thumbnail_id', 'by_url' );
+                            update_post_meta($post_id, '_thumbnail_id', 'by_url');
                         } else {
                             $attachments[] = array(
                                 'url' => $image_url,
@@ -205,7 +209,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                 }
 
                 if ($attachments) {
-                    if($amazon_images_external) {
+                    if ($amazon_images_external) {
                         update_field('field_57486088e1f0d', $attachments, $post_id);
                     } else {
                         update_field('field_553b84fb117b1', $attachments, $post_id);
@@ -213,10 +217,9 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                 }
             }
 
-            do_action('at_amazon_import_product', $post_id, $item);
-
             at_write_api_log('amazon', $post_id, 'imported product successfully');
 
+            do_action('at_amazon_import_product', $post_id, $item);
             $output['rmessage']['success'] = 'true';
             $output['rmessage']['post_id'] = $post_id;
         }
