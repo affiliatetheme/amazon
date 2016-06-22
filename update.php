@@ -111,7 +111,7 @@ function amazon_api_update($args = array()) {
                                     $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
                                     $old_link = ($val['link'] ? $val['link'] : '');
                                     $link = ($item->getUrl() ? $item->getUrl() : '');
-                                    $old_salesrank = get_post_meta($product->ID, 'amazon_salesrank_'. $key, true);
+                                    $old_salesrank = get_post_meta($product->ID, 'amazon_salesrank_' . $key, true);
                                     $salesrank = $item->getSalesRank();
 
                                     // update ean
