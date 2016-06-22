@@ -47,14 +47,22 @@ if ($formattedResponse->hasItem()) {
 	$salesrank = $item->getSalesRank();
     $currency = $item->getCurrencyCode();
     $url = $item->getUrl();
-	$images = $item->getAllImages()->getLargeImages();
 	$description = $item->getItemDescription();
     $ratingUrl = $item->getRatingUrl();
 	$average_rating = $item->getAverageRating();
 	$average_rating_rounded = round($average_rating / .5) * .5;
 	$rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
     $total_reviews = $item->getTotalReviews();
-	
+
+	// crawl images
+	$amazon_images_external = get_option('amazon_images_external');
+	if($amazon_images_external) {
+		$images = $item->getAllImages()->getMediumImages();
+	} else {
+		$images = $item->getAllImages()->getLargeImages();
+	}
+
+	at_debug($amazon_images_external);
 	?>
 	<div class="container">
 		<form action="" id="import-product">
@@ -122,8 +130,7 @@ if ($formattedResponse->hasItem()) {
 			/*
 			* Product Image
 			*/			
-			if($item->hasImages()) {
-				$images = $item->getAllImages()->getLargeImages();
+			if($images) {
 				$i = 1;
 				?>
 				<h3>Produktbild(er) <small class="alignright"><input type="checkbox" name="selectall" class="select-all"/> Alle Bilder überspringen</small></h3>

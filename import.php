@@ -63,9 +63,17 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
             $images = array();
 
-            if ($item->getAllImages()->getLargeImages()) {
+            // crawl images
+            $amazon_images_external = get_option('amazon_images_external');
+            if($amazon_images_external) {
+                $amazon_images = $item->getAllImages()->getMediumImages();
+            } else {
+                $amazon_images = $item->getAllImages()->getLargeImages();
+            }
+
+            if ($amazon_images) {
                 $i = 1;
-                foreach ($item->getAllImages()->getLargeImages() as $image) {
+                foreach ($amazon_images as $image) {
                     $images[$i]['filename'] = sanitize_title($title . '-' . $i);
                     $images[$i]['alt'] = $title . ' - ' . $i;
                     $images[$i]['url'] = $image;
@@ -157,7 +165,6 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
             // product image
             if ($images) {
-                $amazon_images_external = get_option('amazon_images_external');
                 $attachments = array();
 
                 foreach ($images as $image) {
@@ -167,6 +174,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
                     $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
+                    $amazon_images_external = get_option('amazon_images_external');
                     if($amazon_images_external) {
                         // load images form extern
                         if ("true" == $image_thumb) {
