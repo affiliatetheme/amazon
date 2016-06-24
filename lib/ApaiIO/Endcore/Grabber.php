@@ -82,7 +82,12 @@ class Grabber
         $re = "/\\/dp\\/([A-Za-z0-9]*)\\//";
         if (preg_match($re, $url, $matches)) {
             return $matches[1];
+        } else {
+            $url_arr = explode('dp/', $url);
+
+            return end($url_arr);
         }
+
         return '';
     }
 
