@@ -583,7 +583,15 @@ class Item
             'Personal Computers' => 3,
             'DVD' => 5,
             'Blu-ray' => 5,
-            'Software Download' => 10
+            'Software Download' => 10,
+            'Baumarkt' => 5,
+            'Werkzeug' => 5,
+            'Spielzeug' => 5,
+            'Uhr' => 10,
+            'Schuhe' => 10,
+            'Schmuck' => 10,
+            'Kleidung' => 10,
+            'Textilien' => 10
         );
 
         if(isset($marginCategories[$this->getBinding()])) {
