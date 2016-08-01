@@ -53,6 +53,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
             register_setting('endcore_api_amazon_options', 'amazon_post_status');
             register_setting('endcore_api_amazon_options', 'amazon_import_description');
 			register_setting('endcore_api_amazon_options', 'amazon_images_external');
+			register_setting('endcore_api_amazon_options', 'amazon_images_external_size');
 			register_setting('endcore_api_amazon_options', 'amazon_show_reviews');
 			register_setting('endcore_api_amazon_options', 'amazon_update_ean');
 			register_setting('endcore_api_amazon_options', 'amazon_update_price');
