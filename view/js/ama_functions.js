@@ -784,14 +784,6 @@ jQuery(document).ready(function() {
         });
     });
 
-    jQuery('#amazon_images_external').click(function() {
-        if(jQuery(this).is(':checked')) {
-            jQuery('.toggle_amazon_images_external').show();
-        } else {
-            jQuery('.toggle_amazon_images_external').hide();
-        }
-    });
-
     jQuery('table.feed form.edit-feed-item').submit(function(e) {
         var form = jQuery(this);
         var action = 'at_amazon_feed_change_settings_ajax';
