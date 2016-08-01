@@ -13,7 +13,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			require_once(sprintf("%s/helper.php", dirname(__FILE__)));
             require_once(sprintf("%s/update.php", dirname(__FILE__)));
-			require_once(sprintf("%s/feed.php", dirname(__FILE__)));
+			//require_once(sprintf("%s/feed.php", dirname(__FILE__)));
 		
 			//search
 			add_action( 'wp_ajax_amazon_api_search', array(&$this, 'amazon_api_search') );
@@ -53,6 +53,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
             register_setting('endcore_api_amazon_options', 'amazon_post_status');
             register_setting('endcore_api_amazon_options', 'amazon_import_description');
 			register_setting('endcore_api_amazon_options', 'amazon_images_external');
+			register_setting('endcore_api_amazon_options', 'amazon_images_external_size');
 			register_setting('endcore_api_amazon_options', 'amazon_show_reviews');
 			register_setting('endcore_api_amazon_options', 'amazon_update_ean');
 			register_setting('endcore_api_amazon_options', 'amazon_update_price');
@@ -74,7 +75,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			wp_enqueue_script('at-select2', plugin_dir_url( __FILE__ ).'view/js/select2.min.js', '1.0', true);
 			wp_enqueue_style('at-select2', plugin_dir_url( __FILE__ ).'view/css/select2.min.css');
-			wp_enqueue_script('at-amazon-functions', plugin_dir_url( __FILE__ ).'view/js/ama_functions.js', '1.0', true);
+			wp_enqueue_script('at-amazon-functions', plugin_dir_url( __FILE__ ).'view/js/ama_functions.js', '1.1', true);
 		}
 
 		/**

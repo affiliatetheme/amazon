@@ -36,18 +36,49 @@ if(isset($_POST['grabbedasins']) && ("" != $_POST['grabbedasins'])) {
 }
 
 $search = new Search();
-$search->setCategory($_POST['category']);
-$search->setKeywords($query);
 $search->setAvailability('Available');
 $search->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'SalesRank'));
 $search->setPage($_POST['page']);
 
-$sortCategories = array(
-    'All', 'Outlet'
-);
+// set searchindex
+$search->setCategory($_POST['category']);
 
-if(!in_array($_POST['category'], $sortCategories)){
-    $search->setSort('price');
+// set keywords
+if($query) {
+    $search->setKeywords($query);
+}
+
+// set title
+if(isset($_POST['title']) && $_POST['title'] != 'undefined' && $_POST['category'] != 'All') {
+    $search->setTitle($_POST['title']);
+}
+
+// set sort
+if(isset($_POST['sort']) && $_POST['sort'] != 'undefined') {
+    if(at_aws_search_check_allowed_sort($_POST['category'])) {
+        $search->setSort($_POST['sort']);
+    }
+}
+
+// set merchant
+if(isset($_POST['merchant']) && $_POST['merchant'] != 'undefined') {
+    $search->setMerchantId($_POST['merchant']);
+}
+
+// set min_price
+if(isset($_POST['min_price']) && $_POST['min_price'] != 'undefined' && $_POST['min_price'] != '') {
+    if(at_aws_search_check_allowed_param('MinimumPrice', $_POST['category'])) {
+        $price = $_POST['min_price'] * 100;
+        $search->setMinimumPrice($price);
+    }
+}
+
+// set max_price
+if(isset($_POST['max_price']) && $_POST['max_price'] != 'undefined' && $_POST['max_price'] != '') {
+    if(at_aws_search_check_allowed_param('MaximumPrice', $_POST['category'])) {
+        $price = $_POST['max_price'] * 100;
+        $search->setMaximumPrice($price);
+    }
 }
 
 /* @var $formattedResponse Amazon\ResultSet */

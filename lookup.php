@@ -66,7 +66,7 @@ if ($formattedResponse->hasItem()) {
 		<form action="" id="import-product">
 			<div class="row">
 				<div class="form-group col-xs-12">
-					<label><?php _e('Titel', 'affiliatetheme-amazon'); ?></label>
+					<label><?php _e('Titel', 'affiliatetheme-api'); ?></label>
 					<input type="text" id="title" name="title" class="form-control" value="<?php echo esc_html($title); ?>"/>
 				</div>
 			</div>
@@ -77,28 +77,28 @@ if ($formattedResponse->hasItem()) {
 				</div>
 				
 				<div class="form-group col-xs-4">
-					<label>Bewertung</label>
+					<label><?php _e('Bewertung', 'affiliatetheme-amazon'); ?></label>
 					<?php echo at_get_product_rating_list($average_rating_rounded); ?>
 				</div>
 				
 				<div class="form-group col-xs-4">
-					<label>Bewertungen</label>
+					<label><?php _e('Bewertungen', 'affiliatetheme-api'); ?></label>
 					<input type="text" id="rating_cnt" name="rating_cnt" class="form-control" value="<?php echo $rating_cnt; ?>" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-4">
-					<label>SalesRank</label>
+					<label><?php _e('SalesRank', 'affiliatetheme-amazon'); ?></label>
 					<input type="text" id="salesrank" name="salesrank" class="form-control" value="<?php echo $salesrank; ?>" readonly/>
 				</div>
 				
 				<div class="form-group col-xs-4">
-					<label>Listenpreis</label>
+					<label><?php _e('Listenpreis', 'affiliatetheme-api'); ?></label>
 					<input type="text" id="price_list" name="price_list" class="form-control" value="<?php echo $price_list; ?>" readonly/>
 				</div>
 
 				<div class="form-group col-xs-4">
-					<label>Preis</label>
+					<label><?php _e('Preis', 'affiliatetheme-api'); ?></label>
 					<input type="text" id="price" name="price" class="form-control" value="<?php echo $price; ?>" readonly/>
 				</div>
 			</div>
@@ -108,7 +108,7 @@ if ($formattedResponse->hasItem()) {
 			 * Description
 			 */
 			if('1' == get_option('amazon_import_description')) { ?>
-				<h3>Beschreibung</h3>
+				<h3><?php _e('Beschreibung', 'affiliatetheme-api'); ?></h3>
 				<textarea name="description" class="widefat product-description" rows="5"><?php echo $description; ?></textarea>
 			<?php } ?>
 			
@@ -117,13 +117,14 @@ if ($formattedResponse->hasItem()) {
 			* Taxonomien
 			*/
 			if(get_products_multiselect_tax_form())
-				echo '<h3>Taxonomien</h3>' . get_products_multiselect_tax_form();
+				echo '<h3>' . __('Taxonomien'. 'affiliatetheme-api') . '</h3>' . get_products_multiselect_tax_form();
 				
 			/*
 			 * Existrierende Produkte
 			 */
 			if(at_get_existing_products())
-                echo '<h3>Existierendes Produkt aktualisieren</h3>' . at_get_existing_products();
+                echo '<h3>' . __('Existierendes Produkt aktualisieren', 'affiliatetheme-api') . '</h3>' . at_get_existing_products();
+				echo '<p>' . __('Mit der Auswahl eines Produktes, wird dieses Amazon Produkt einem bestehenden Produkt angehängt, somit kannst du einen Preisvergleich der Anbieter erstellen.', 'affiliatetheme-amazon') . '</p>';
 
 			/*
 			* Product Image
@@ -131,7 +132,7 @@ if ($formattedResponse->hasItem()) {
 			if($images) {
 				$i = 1;
 				?>
-				<h3>Produktbild(er) <small class="alignright"><input type="checkbox" name="selectall" class="select-all"/> Alle Bilder überspringen</small></h3>
+				<h3><?php _e('Produktbild(er)', 'affiliatetheme-api'); ?> <small class="alignright"><input type="checkbox" name="selectall" class="select-all"/> <?php _e('Alle Bilder überspringen', 'affiliatetheme-api'); ?></small></h3>
 				<div class="row product-images">
 					<?php
                     foreach ($images as $image) {
@@ -146,23 +147,23 @@ if ($formattedResponse->hasItem()) {
 							<div class="image-wrapper"><img src="<?php echo $image; ?>" class="img-responsive"/></div>
 							<div class="image-info">
 								<div class="form-group small">
-									<label>Bildname</label> <input type="text" name="image[<?php echo $i; ?>][filename]" data-url="<?php echo $image; ?>" id="image[<?php echo $i; ?>][filename]" value="<?php echo $image_filename; ?>" /> 
+									<label><?php _e('Bildname', 'affiliatetheme-api'); ?></label> <input type="text" name="image[<?php echo $i; ?>][filename]" data-url="<?php echo $image; ?>" id="image[<?php echo $i; ?>][filename]" value="<?php echo $image_filename; ?>" />
 									.<?php echo $image_ext; ?>
 								</div>
 								
 								<div class="form-group small">
-									<label>ALT-Tag</label> 
+									<label><?php _e('ALT-Tag', 'affiliatetheme-api'); ?></label>
 									<input type="text" name="image[<?php echo $i; ?>][alt]" id="image[<?php echo $i; ?>][alt]" value="" />
 								</div>
 							</div>
 							
 							<div class="row">
 								<div class="col-xs-6">
-									<div class="form-group small"><label>Artikelbild</label> <input type="checkbox" name="image[<?php echo $i; ?>][thumb]" value="true" class="unique" <?php if($i==1) echo 'checked'; ?>/></div>
+									<div class="form-group small"><label><?php _e('Artikelbild', 'affiliatetheme-api'); ?></label> <input type="checkbox" name="image[<?php echo $i; ?>][thumb]" value="true" class="unique" <?php if($i==1) echo 'checked'; ?>/></div>
 								</div>
 								
 								<div class="col-xs-6">
-									<div class="form-group small"><label>Überspringen</label> <input type="checkbox" name="image[<?php echo $i; ?>][exclude]" value="true" class="disable-this"/></div>
+									<div class="form-group small"><label><?php _e('Überspringen', 'affiliatetheme-api'); ?></label> <input type="checkbox" name="image[<?php echo $i; ?>][exclude]" value="true" class="disable-this"/></div>
 								</div>
 							</div>
 							<input type="hidden" name="image[<?php echo $i; ?>][url]" value="<?php echo $image; ?>"/>
@@ -185,8 +186,8 @@ if ($formattedResponse->hasItem()) {
 						<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>" />
 						<input type="hidden" name="action" value="amazon_api_import" />
 						<input type="hidden" name="mass" value="false" />
-						<button type="submit" id="import" name="import" class="single-import-product button button-primary">Importieren</button>
-						<button type="submit" id="tb-close" class="button" onclick="self.parent.tb_remove();return false">Schließen</button>
+						<button type="submit" id="import" name="import" class="single-import-product button button-primary"><?php _e('Importieren', 'affiliatetheme-api'); ?></button>
+						<button type="submit" id="tb-close" class="button" onclick="self.parent.tb_remove();return false"><?php _e('Schließen', 'affiliatetheme-api'); ?></button>
 						<div class="clearfix"></div>
 					</div>
 				</div>

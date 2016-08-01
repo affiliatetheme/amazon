@@ -61,32 +61,36 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             $rating = $item->getAverageRating();
             $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
             $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
+
+            $amazon_images = array();
             $images = array();
 
             // crawl images
             $amazon_images_external = get_option('amazon_images_external');
             if($amazon_images_external) {
-                $images = $item->getExternalImages();
+                $amazon_images = $item->getExternalImages();
             } else {
-                $images = $item->getAllImages()->getLargeImages();
+                $amazon_images = $item->getAllImages()->getLargeImages();
             }
 
             if ($amazon_images) {
-                $i = 1;
+                $c = 1;
                 foreach ($amazon_images as $image) {
-                    $images[$i]['filename'] = sanitize_title($title . '-' . $i);
-                    $images[$i]['alt'] = $title . ' - ' . $i;
-                    $images[$i]['url'] = $image;
+                    $images[$c]['filename'] = sanitize_title($title . '-' . $i);
+                    $images[$c]['alt'] = $title . ' - ' . $i;
+                    $images[$c]['url'] = $image;
 
-                    if ($i == 1)
-                        $images[$i]['thumb'] = 'true';
+                    if ($c == 1) {
+                        $images[$c]['thumb'] = 'true';
+                    }
 
-                    $i++;
+                    $c++;
                 }
             }
 
-            if ('1' == get_option('amazon_import_description'))
+            if ('1' == get_option('amazon_import_description')) {
                 $description = $item->getItemDescription();
+            }
         }
     } else {
         $title = $_POST['title'];
@@ -143,7 +147,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                 'portal' => 'amazon',
                 'amazon_asin' => $asin,
                 'amazon_salesrank' => $salesrank,
-                'shop' => (get_amazon_shop_id() ? get_amazon_shop_id() : ''),
+                'shop' => (at_aws_get_amazon_shop_id() ? at_aws_get_amazon_shop_id() : ''),
                 'link' => $url,
             );
             update_field('field_557c01ea87000', $shop_info, $post_id);
@@ -178,7 +182,6 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
                     $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
-                    $amazon_images_external = get_option('amazon_images_external');
                     if ($amazon_images_external) {
                         // load images form extern
                         if ("true" == $image_thumb) {
@@ -227,7 +230,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
     } else {
 
         $output['rmessage']['success'] = 'false';
-        $output['rmessage']['reason'] = 'Dieses Produkt existiert bereits.';
+        $output['rmessage']['reason'] = __('Dieses Produkt existiert bereits.', 'affiliatetheme-amazon');
         $output['rmessage']['post_id'] = $check;
 
     }

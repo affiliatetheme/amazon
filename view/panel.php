@@ -198,34 +198,82 @@
 					<div class="inside">
 						<div class="form-container">
 							<div class="form-group">
-								<label for="search"><?php _e('Suche', 'affiliatetheme-amazon'); ?></label>
+								<label for="search"><?php _e('Suche nach Keyword(s)', 'affiliatetheme-amazon'); ?></label>
 								<input type="text" name="search" id="search">
+							</div>
+							<div class="form-group form-dynamic-field" style="display:none;" data-hide-on="All">
+								<label for="search"><?php _e('Suche nach Titel', 'affiliatetheme-amazon'); ?></label>
+								<input type="text" name="title" id="title">
 							</div>
 							<div class="form-group">
 								<label><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
 								<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(); ?>
 							</div>
-                            <hr>
-                            <div class="form-container" style="">
-                                <form class="form-inline" method="post" action="">
-                                    <div class="form-group">
-                                        <label for="grabburl"><?php _e('ASIN Grabber', 'affiliatetheme-amazon'); ?></label>
-                                        <input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="URL eintragen...">
-                                        <button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-amazon'); ?></button>
-                                    </div>
+							<div class="form-container" style="margin-top:30px;">
+								<div class="form-group">
+									<h3 class="hndle" style="margin:0 -10px">
+										<?php _e('Erweiterte Suche', 'affiliatetheme-amazon'); ?>
+										<a href="#" class="form-toggle" data-hide-text="<?php _e('- ausblenden', 'affiliatetheme-amazon'); ?>" data-show-text="<?php _e('+ anzeigen', 'affiliatetheme-amazon'); ?>"><?php _e('+ anzeigen', 'affiliatetheme-amazon'); ?></a>
+									</h3>
+								</div>
 
-                                </form>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="form-container">
-                                <div class="form-group">
-                                    <label for="grabbedasins" class="control-label"><?php _e('Suche nach ASINs', 'affiliatetheme-amazon'); ?></label>
-                                    <textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
-                                    <textarea id="leavedasins" cols="30" rows="10" placeholder="Fehlende ASINs..." class="hidden"></textarea>
-                                    <button class="button button-small" id="asinsremlist" title="hide/show remaining">&lt;&gt;</button>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
+								<div class="form-toggle-item" style="display:none;">
+									<p><?php _e('Die meisten Filtermöglichkeiten sind nur für bestimmte Kategorien möglich, nicht für "Alle Kategorien"', 'affiliatetheme-amazon'); ?></p>
+									<div class="form-group">
+										<label><?php _e('Merchant', 'affiliatetheme-amazon'); ?></label>
+										<select name="merchant" id="merchant">
+											<option value="All" selected><?php _e('Alle', 'affiliatetheme-amazon'); ?></option>
+											<option value="Amazon" ><?php _e('Amazon', 'affiliatetheme-amazon'); ?></option>
+										</select>
+									</div>
+									<div class="form-group form-dynamic-field" data-hide-on="All" style="display:none">
+										<label><?php _e('Sortieren nach', 'affiliatetheme-amazon'); ?></label>
+										<select name="sort" id="sort">
+											<?php $search_allowed_sort = at_aws_search_allowed_sort(); ?>
+											<option value="" selected><?php _e('Sortierung wählen', 'affiliatetheme-amazon'); ?></option>
+											<option value="-price" class="form-dynamic-field" data-hide-on="<?php echo $search_allowed_sort; ?>"><?php _e('Preis (Absteigend)', 'affiliatetheme-amazon'); ?></option>
+											<option value="price" class="form-dynamic-field" data-hide-on="<?php echo $search_allowed_sort; ?>"><?php _e('Preis (Aufsteigend)', 'affiliatetheme-amazon'); ?></option>
+										</select>
+									</div>
+									<?php $search_allowed_min_price = at_aws_search_allowed_param('MinimumPrice'); ?>
+									<div class="form-group form-dynamic-field" data-hide-on="<?php echo $search_allowed_min_price; ?>" style="display:none">
+										<label><?php _e('Minimaler Preis', 'affiliatetheme-amazon'); ?></label>
+										<input type="number" name="min_price" id="min_price" />
+									</div>
+									<?php $search_allowed_max_price = at_aws_search_allowed_param('MaximumPrice'); ?>
+									<div class="form-group form-dynamic-field" data-hide-on="<?php echo $search_allowed_max_price; ?>" style="display:none">
+										<label><?php _e('Maximaler Preis', 'affiliatetheme-amazon'); ?></label>
+										<input type="number" name="max_price" id="max_price" />
+									</div>
+								</div>
+							</div>
+							<div class="form-container" style="margin-top:30px;margin-bottom:30px;">
+								<div class="form-group">
+									<h3 class="hndle" style="margin:0 -10px">
+										<?php _e('ASIN Grabber', 'affiliatetheme-amazon'); ?>
+										<a href="#" class="form-toggle" data-hide-text="<?php _e('- ausblenden', 'affiliatetheme-amazon'); ?>" data-show-text="<?php _e('+ anzeigen', 'affiliatetheme-amazon'); ?>"><?php _e('+ anzeigen', 'affiliatetheme-amazon'); ?></a>
+									</h3>
+								</div>
+
+								<div class="form-toggle-item" style="display:none;">
+									<form class="form-inline" method="post" action="">
+										<div class="form-group">
+											<input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="URL eintragen...">
+											<button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-amazon'); ?></button>
+										</div>
+
+									</form>
+									<div class="clearfix"></div>
+
+									<div class="form-group">
+										<textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
+										<textarea id="leavedasins" cols="30" rows="10" placeholder="Fehlende ASINs..." class="hidden"></textarea>
+										<button class="button button-small" id="asinsremlist" title="hide/show remaining">&lt;&gt;</button>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+
 							<div class="form-group submit-group">
 								<input type="hidden" name="page" id="page" value="1">
 								<input type="hidden" name="max-pages" id="max-pages" value="">
@@ -506,6 +554,7 @@
 </div>
 
 <style>
+
 	table.products tfoot .taxonomy-select{display:none;}
 	table .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
 	@media(min-width: 1200px) { table .taxonomy-select .form-group { width: 20%; } }

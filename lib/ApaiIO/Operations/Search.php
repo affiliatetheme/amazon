@@ -34,6 +34,20 @@ class Search extends AbstractOperation
     }
 
     /**
+     * Sets the merchantid
+     *
+     * @param string $merchantid
+     *
+     * @return \ApaiIO\Operations\Search
+     */
+    public function setMerchantId($merchantid)
+    {
+        $this->parameter['MerchantId'] = $merchantid;
+
+        return $this;
+    }
+
+    /**
      * Sets the amazon category
      *
      * @param string $category
@@ -57,6 +71,20 @@ class Search extends AbstractOperation
     public function setKeywords($keywords)
     {
         $this->parameter['Keywords'] = $keywords;
+
+        return $this;
+    }
+
+    /**
+     * Sets the titlte
+     *
+     * @param string $title
+     *
+     * @return \ApaiIO\Operations\Search
+     */
+    public function setTitle($title)
+    {
+        $this->parameter['Title'] = $title;
 
         return $this;
     }

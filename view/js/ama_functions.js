@@ -175,6 +175,22 @@ jQuery(document).ready(function() {
         jQuery("#leavedasins").toggle("hidden");
     });
 
+    jQuery(".form-toggle").click(function(e){
+        var button = jQuery(this);
+        var item = jQuery(this).closest('.form-container').find('.form-toggle-item');
+
+        if(item) {
+            jQuery(item).toggle("fast", function() {
+                if(jQuery(item).is(':visible')) {
+                    jQuery(button).html(jQuery(button).data('hide-text'));
+                } else {
+                    jQuery(button).html(jQuery(button).data('show-text'));
+                }
+            });
+        }
+
+    });
+
     jQuery(document).ready(function(e) {
         var a=window.location.hash.replace("#top#","");
         (""==a||"#_=_"==a) &&(a=jQuery(".at-api-tab").attr("id")),jQuery('#at-api-tabs a').removeClass('nav-tab-active'),jQuery('.at-api-tab').removeClass('active'),jQuery("#"+a).addClass("active"),jQuery("#"+a+"-tab").addClass("nav-tab-active");
@@ -262,9 +278,6 @@ var searchAction = function() {
         return
     }
 
-    var q = jQuery('.tabwrapper .at-api-tab#search #search input#search').val();
-    var grabber = jQuery('.tabwrapper .at-api-tab#search #search input#grabbedasins').val();
-
     jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
     var value = jQuery('.tabwrapper .at-api-tab#search input#search').val();
@@ -272,6 +285,13 @@ var searchAction = function() {
     var cat = jQuery('.tabwrapper .at-api-tab#search select#category').val();
     var country = jQuery('.tabwrapper .at-api-tab#search select#amazon_country').val();
     var page = jQuery('.tabwrapper .at-api-tab#search input#page').val();
+
+    var title = jQuery('.tabwrapper .at-api-tab#search input#title').val();
+    var sort = jQuery('.tabwrapper .at-api-tab#search select#sort').val();
+    var merchant = jQuery('.tabwrapper .at-api-tab#search select#merchant').val();
+    var min_price = jQuery('.tabwrapper .at-api-tab#search input#min_price').val();
+    var max_price = jQuery('.tabwrapper .at-api-tab#search input#max_price').val();
+
     var condition = '';
     var track = value + " - " + cat + " - " + country;
     var resultContainer = jQuery('#at-import-window table #results');
@@ -281,7 +301,7 @@ var searchAction = function() {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=amazon_api_search&q="+value+"&grabbedasins="+grabbedasins+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+        data: "action=amazon_api_search&q=" + value + "&title=" + title + "&grabbedasins=" + grabbedasins + "&category=" + cat + "&country=" + country + "&condition=" + condition + "&page=" + page + "&sort=" + sort + "&merchant=" + merchant + "&min_price=" + min_price + "&max_price=" + max_price,
         success: function(data){
             var totalpages = '5';
             jQuery('#max-pages').val(totalpages);
@@ -782,6 +802,25 @@ jQuery(document).ready(function() {
         jQuery(this).closest('table').find('.inside').slideToggle("fast", function() {
             jQuery(this).closest('.item').toggleClass('closed');
         });
+    });
+
+    /*
+     * Dynamic Field
+     */
+    jQuery('#at-import-window #category').change(function() {
+        var value = jQuery(this).val();
+
+        if(value) {
+            jQuery('#at-import-window .form-dynamic-field').each(function() {
+                var hide_on = jQuery(this).data('hide-on').split(',');
+
+                if(jQuery.inArray(value, hide_on) !== -1) {
+                    jQuery(this).hide();
+                } else {
+                    jQuery(this).show();
+                }
+            });
+        }
     });
 
     jQuery('#amazon_images_external').click(function() {
