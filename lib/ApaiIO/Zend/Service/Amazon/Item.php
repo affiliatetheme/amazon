@@ -502,6 +502,26 @@ class Item
 
         throw new \Exception('No images found!');
     }
+    
+    public function getExternalImages() {
+        if($this->hasImages()) {
+            $size = (get_option('amazon_images_external_size') ? get_option('amazon_images_external_size') : 'SmallImage');
+
+            if($size == 'SmallImage') {
+                return $this->getAllImages()->getSmallImages();
+            }
+
+            if($size == 'MediumImage') {
+                return $this->getAllImages()->getMediumImages();
+            }
+
+            if($size == 'LargeImage') {
+                return $this->getAllImages()->getLargeImages();
+            }
+        }
+
+        return;
+    }
 
     /**
      * Check if images are available

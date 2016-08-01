@@ -57,24 +57,22 @@ if ($formattedResponse->hasItem()) {
 	// crawl images
 	$amazon_images_external = get_option('amazon_images_external');
 	if($amazon_images_external) {
-		$images = $item->getAllImages()->getMediumImages();
+		$images = $item->getExternalImages();
 	} else {
 		$images = $item->getAllImages()->getLargeImages();
 	}
-
-	at_debug($amazon_images_external);
 	?>
 	<div class="container">
 		<form action="" id="import-product">
 			<div class="row">
 				<div class="form-group col-xs-12">
-					<label>Titel</label> 
+					<label><?php _e('Titel', 'affiliatetheme-amazon'); ?></label>
 					<input type="text" id="title" name="title" class="form-control" value="<?php echo esc_html($title); ?>"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="form-group col-xs-4">
-					<label>ASIN</label> 
+					<label><?php _e('ASIN', 'affiliatetheme-amazon'); ?></label>
 					<input type="text" id="asin" name="asin" class="form-control" value="<?php echo $asin; ?>" readonly/>
 				</div>
 				

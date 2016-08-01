@@ -100,11 +100,11 @@ function amazon_api_update($args = array()) {
                                     throw new \Exception(sprintf('Item %s not found on Amazon.', $val[AWS_METAKEY_ID]), 505);
                                 }
 
-                                if($item->getAmountForAvailability() === '') {
+                                if ($item->getAmountForAvailability() === '') {
                                     throw new \Exception(sprintf('Item %s not available.', $val[AWS_METAKEY_ID]), 506);
                                 }
 
-                                if($item) {
+                                if ($item) {
                                     $old_ean = get_post_meta($product->ID, 'product_ean', true);
                                     $ean = $item->getEan();
                                     $old_price = ($val['price'] ? $val['price'] : '');
@@ -115,7 +115,7 @@ function amazon_api_update($args = array()) {
                                     $salesrank = $item->getSalesRank();
 
                                     // update ean
-                                    if($ean && $ean != $old_ean && get_option('amazon_update_ean') != 'no') {
+                                    if ($ean && $ean != $old_ean && get_option('amazon_update_ean') != 'no') {
                                         update_post_meta($product->ID, 'product_ean', $ean);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') updated ean from ' . $old_ean . ' to ' . $ean);
                                     }
@@ -139,59 +139,61 @@ function amazon_api_update($args = array()) {
                                     }
 
                                     // update external images
-                                    if(get_option('amazon_images_external') == '1' && get_option('amazon_update_external_images') == 'yes') {
-                                        $images = array();
-                                        $amazon_images = $item->getAllImages()->getMediumImages();
+                                    if (get_option('amazon_update_external_images') == 'yes') {
+                                        if(get_option('amazon_images_external') == '1') {
+                                            $amazon_images = $item->getExternalImages();
 
-                                        if ($amazon_images) {
-                                            $i = 1;
-                                            foreach ($amazon_images as $image) {
-                                                $images[$i]['filename'] = sanitize_title(get_the_title($product->ID) . '-' . $i);
-                                                $images[$i]['alt'] = get_the_title($product->ID) . ' - ' . $i;
-                                                $images[$i]['url'] = $image;
+                                            if ($amazon_images) {
+                                                $i = 1;
+                                                foreach ($amazon_images as $image) {
+                                                    $images[$i]['filename'] = sanitize_title(get_the_title($product->ID) . '-' . $i);
+                                                    $images[$i]['alt'] = get_the_title($product->ID) . ' - ' . $i;
+                                                    $images[$i]['url'] = $image;
 
-                                                if ($i == 1) {
-                                                    $images[$i]['thumb'] = 'true';
-                                                }
-
-                                                $i++;
-                                            }
-                                        }
-
-                                        if ($images) {
-                                            $attachments = array();
-                                            $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
-
-                                            foreach ($images as $image) {
-                                                $image_filename = substr(sanitize_title($image['filename']), 0, 30);
-                                                $image_alt = (isset($image['alt']) ? $image['alt'] : '');
-                                                $image_url = $image['url'];
-                                                $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
-
-                                                // skip if image already exists as post thumbnail
-                                                if($image_url == $_thumbnail_ext_url) {
-                                                    continue;
-                                                }
-
-                                                // load images form extern
-                                                if ("true" == $image_thumb) {
-                                                    // check if thumbnail does not exist
-                                                    if($_thumbnail_ext_url == '') {
-                                                        update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
-                                                        update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
-                                                    } else {
-                                                        // check if ssl is available and image is ssl
-                                                        if(is_ssl() && strpos($_thumbnail_ext_url, 'https://') !== 0) {
-                                                            update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
-                                                            update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
-                                                        }
+                                                    if ($i == 1) {
+                                                        $images[$i]['thumb'] = 'true';
                                                     }
-                                                } else {
-                                                    $attachments[] = array(
-                                                        'url' => $image_url,
-                                                        'alt' => $image_alt,
-                                                        'hide' => ''
-                                                    );
+
+                                                    $i++;
+                                                }
+                                            }
+
+
+                                            if ($images) {
+                                                $attachments = array();
+                                                $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
+
+                                                foreach ($images as $image) {
+                                                    $image_filename = substr(sanitize_title($image['filename']), 0, 30);
+                                                    $image_alt = (isset($image['alt']) ? $image['alt'] : '');
+                                                    $image_url = $image['url'];
+                                                    $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+
+                                                    // skip if image already exists as post thumbnail
+                                                    if($image_url == $_thumbnail_ext_url) {
+                                                        continue;
+                                                    }
+
+                                                    // load images form extern
+                                                    if ("true" == $image_thumb) {
+                                                        // check if thumbnail does not exist
+                                                        if($_thumbnail_ext_url != $image_url) {
+                                                            update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
+                                                            update_post_meta($product->ID, '_thumbnail_id', 'by_url');
+                                                        } else {
+                                                            // check if ssl is available and image is ssl
+                                                            if(is_ssl() && strpos($_thumbnail_ext_url, 'https://') !== 0) {
+                                                                update_post_meta($product->ID, '_thumbnail_ext_url', $image_url);
+                                                                update_post_meta($product->ID, '_thumbnail_id', 'by_url' );
+                                                            }
+                                                        }
+                                                    } else {
+                                                        $attachments[] = array(
+                                                            'url' => $image_url,
+                                                            'alt' => $image_alt,
+                                                            'hide' => ''
+                                                        );
+                                                    }
                                                 }
                                             }
 
@@ -234,31 +236,35 @@ function amazon_api_update($args = array()) {
                                                     at_write_api_log('amazon', $product->ID, '(' . $key . ') updates external images  from ' . count($product_gallery_external) . ' to ' . count($attachments));
                                                 }
                                             }
+                                        } else {
+                                            // no external images
+                                            update_field('field_57486088e1f0d', array(), $product->ID);
                                         }
                                     }
-                                }
 
-                                //update rating
-                                if(get_option('amazon_update_rating') == 'yes' || get_option('amazon_update_rating') == '1') {
-                                    $rating = $item->getAverageRating();
-                                    $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
+                                    //update rating
+                                    if (get_option('amazon_update_rating') == 'yes' || get_option('amazon_update_rating') == '1') {
+                                        $rating = $item->getAverageRating();
+                                        $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 
-                                    if($rating && $rating > 0) {
-                                        //fix rating
-                                        $rating = round($rating * 2) / 2;
+                                        if ($rating && $rating > 0) {
+                                            //fix rating
+                                            $rating = round($rating * 2) / 2;
 
-                                        update_post_meta($product->ID, 'product_rating', $rating);
-                                        update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
+                                            update_post_meta($product->ID, 'product_rating', $rating);
+                                            update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
+                                        }
+                                    }
+
+                                    update_post_meta($product->ID, 'product_not_avail', '0');
+                                    at_aws_remove_product_notification($product->ID);
+
+                                    if (get_option('amazon_notification') == 'draft' || get_option('amazon_notification') == 'email_draft') {
+                                        wp_publish_post($product->ID);
                                     }
                                 }
-
-                                update_post_meta($product->ID, 'product_not_avail', '0');
-                                remove_product_notification($product->ID);
-
-                                if(get_option('amazon_notification') == 'draft' || get_option('amazon_notification') == 'email_draft') {
-                                    wp_publish_post($product->ID);
-                                }
-                            } catch (\Exception $e) { // produkt nicht verfügbar
+                            } catch(Exception $e) {
+                                // produkt nicht verfügbar
                                 update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
 
                                 // action
@@ -267,14 +273,14 @@ function amazon_api_update($args = array()) {
                                     continue;
                                 }
 
-                                if(!update_post_meta($product->ID, 'product_not_avail', '1'))
+                                if (!update_post_meta($product->ID, 'product_not_avail', '1'))
                                     continue;
 
                                 at_write_api_log('amazon', $product->ID, 'product not available');
 
                                 switch (get_option('amazon_notification')) {
                                     case 'email':
-                                        set_product_notification($product->ID);
+                                        at_aws_set_product_notification($product->ID);
                                         break;
 
                                     case 'draft':
@@ -287,7 +293,7 @@ function amazon_api_update($args = array()) {
                                         break;
 
                                     case 'email_draft':
-                                        set_product_notification($product->ID);
+                                        at_aws_set_product_notification($product->ID);
                                         $args = array(
                                             'ID' => $product->ID,
                                             'post_status' => 'draft'

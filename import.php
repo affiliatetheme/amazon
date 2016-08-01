@@ -66,9 +66,9 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
             // crawl images
             $amazon_images_external = get_option('amazon_images_external');
             if($amazon_images_external) {
-                $amazon_images = $item->getAllImages()->getMediumImages();
+                $images = $item->getExternalImages();
             } else {
-                $amazon_images = $item->getAllImages()->getLargeImages();
+                $images = $item->getAllImages()->getLargeImages();
             }
 
             if ($amazon_images) {

@@ -123,6 +123,16 @@
                                     <input type="checkbox" name="amazon_images_external" id="amazon_images_external" value="1" <?php if('1' == get_option('amazon_images_external')) echo 'checked'; ?>> <?php _e('Produktbilder von extern einbinden', 'affiliatetheme-amazon'); ?>
                                 	<p class="form-hint"><?php _e('Mit dieser Option werden die Produktbilder nicht auf den eigenen Server heruntergeladen sondern direkt über Amazon eingebunden.', 'affiliatetheme-amazon'); ?></p>
 								</div>
+								<div class="form-group toggle_amazon_images_external" <?php if(get_option('amazon_images_external') != '1') { echo 'style="display:none;"'; } ?>>
+									<label for="amazon_images_external_size"><?php _e('Bildgröße der Bilder', 'affiliatetheme-api'); ?></label>
+									<?php $selected_amazon_images_external_size = get_option('amazon_images_external_size'); ?>
+									<select name="amazon_images_external_size" id="amazon_images_external_size">
+										<option value="SmallImage" <?php if($selected_amazon_images_external_size == 'SmallImage' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Klein', 'affiliatetheme-api'); ?></option>
+										<option value="MediumImage" <?php if($selected_amazon_images_external_size == 'MediumImage') echo 'selected'; ?>><?php _e('Mittel', 'affiliatetheme-api'); ?></option>
+										<option value="LargeImage" <?php if($selected_amazon_images_external_size == 'LargeImage') echo 'selected'; ?>><?php _e('Groß', 'affiliatetheme-api'); ?></option>
+									</select>
+									<p class="form-hint"><?php _e('Wir empfehlen die Bildgröße "Klein" oder "Mittel" zu wählen, die großen Bilder könnten zu einer längeren Ladezeit deiner Seite führen!', 'affiliatetheme-amazon'); ?></p>
+								</div>
 								<div class="form-group">
 									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
@@ -159,6 +169,8 @@
 										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
 										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
 									</select>
+
+									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden externe Bilder in deinem Produkt aktualisiert. Solltest du keine externen Bilder mehr verwenden, werden diese bei einem Update aus deinem Produkt gelöscht.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine externen Bilder nutzen, mit externen Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group">
 									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
@@ -293,6 +305,7 @@
 			<!-- END: Search Tab -->
 
 			<!-- START: API Feed -->
+			<?php /*
 			<div id="feed" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('Feed', 'affiliatetheme-amazon'); ?></span></h3>
@@ -402,7 +415,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- END: API Log Tab-->
+ 			*/ ?>
+			<!-- END: API Feed Tab-->
 
 			<!-- START: API Log Tab-->
 			<div id="apilog" class="at-api-tab">
