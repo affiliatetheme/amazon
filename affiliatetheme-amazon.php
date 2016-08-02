@@ -10,12 +10,9 @@
  */ 
 if(!class_exists('AffiliateTheme_Amazon')) {
 	class AffiliateTheme_Amazon {
-		/**affiliatetheme-amazon
-		 * Construct the plugin object
-		 */
 		public function __construct()
 		{
-			require_once(sprintf("%s/class.dashboard.init.php", dirname(__FILE__)));
+			require_once(dirname(__FILE__) . '/class.dashboard.init.php');
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
 
             require 'plugin-update-checker/plugin-update-checker.php';
@@ -39,12 +36,13 @@ if(!class_exists('AffiliateTheme_Amazon')) {
              * Amazon als Shop anlegen
              */
             if(post_type_exists('shop')) {
-                if(false == (get_amazon_shop_id())) {
+                if(false == (at_aws_get_amazon_shop_id())) {
                     $args = array(
                         'post_status'           => 'publish',
                         'post_type'             => 'shop',
                         'post_title'            => 'Amazon'
                     );
+
                     $shop_id = wp_insert_post($args);
 
                     if($shop_id) {
@@ -55,7 +53,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 
             /*
             * Installiere Tabelle
-            */
+           
             if($wpdb->get_var("show tables like '" . AWS_FEED_TABLE . "'") != AWS_FEED_TABLE)
             {
                 $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
@@ -74,6 +72,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
                 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                 dbDelta($sql);
             }
+            */
 		} 
 
 		/**

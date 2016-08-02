@@ -127,7 +127,7 @@
 									<label for="amazon_images_external_size"><?php _e('Bildgröße der Bilder', 'affiliatetheme-api'); ?></label>
 									<?php $selected_amazon_images_external_size = get_option('amazon_images_external_size'); ?>
 									<select name="amazon_images_external_size" id="amazon_images_external_size">
-										<option value="SmallImage" <?php if($selected_amazon_images_external_size == 'SmallImage' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Klein', 'affiliatetheme-api'); ?></option>
+										<option value="SmallImage" <?php if($selected_amazon_images_external_size == 'SmallImage' || $selected_amazon_images_external_size == '') echo 'selected'; ?>><?php _e('Klein', 'affiliatetheme-api'); ?></option>
 										<option value="MediumImage" <?php if($selected_amazon_images_external_size == 'MediumImage') echo 'selected'; ?>><?php _e('Mittel', 'affiliatetheme-api'); ?></option>
 										<option value="LargeImage" <?php if($selected_amazon_images_external_size == 'LargeImage') echo 'selected'; ?>><?php _e('Groß', 'affiliatetheme-api'); ?></option>
 									</select>

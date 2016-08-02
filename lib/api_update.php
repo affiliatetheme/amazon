@@ -1,12 +1,4 @@
 <?php
-/**
- * Copyright 2015 - endcore
- * update
- */
-require_once ABSPATH . '/wp-load.php';
-require_once dirname(__FILE__) . '/lib/bootstrap.php';
-require_once dirname(__FILE__) . '/config.php';
-
 use ApaiIO\ApaiIO;
 use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
@@ -19,67 +11,67 @@ if(get_option('amazon_public_key') != "" &&  get_option('amazon_secret_key') != 
 } else {
 
 }
-
-add_action('wp_ajax_amazon_api_update', 'amazon_api_update');
-add_action('wp_ajax_nopriv_amazon_api_update', 'amazon_api_update');
-add_action('affiliatetheme_amazon_api_update', 'amazon_api_update');
-
-function amazon_api_update($args = array()) {
-    $hash = AWS_CRON_HASH;
+add_action('wp_ajax_at_aws_update', 'at_aws_update');
+add_action('wp_ajax_nopriv_at_aws_update', 'at_aws_update');
+add_action('wp_ajax_amazon_api_update', 'at_aws_update');
+add_action('wp_ajax_nopriv_amazon_api_update', 'at_aws_update');
+add_action('affiliatetheme_amazon_api_update', 'at_aws_update');
+function at_aws_update($args = array()) {	
+    global $wpdb;
+	
+	$hash = AWS_CRON_HASH;
     $check_hash = ($args ? $args : (isset($_GET['hash']) ? $_GET['hash'] : ''));
 
     if($check_hash != $hash) {
         wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => $check_hash));
-
         die('Security check failed.');
     }
-
-    $conf = new GenericConfiguration();
-    try {
-        $conf
-            ->setCountry(AWS_COUNTRY)
-            ->setAccessKey(AWS_API_KEY)
-            ->setSecretKey(AWS_API_SECRET_KEY)
-            ->setAssociateTag(AWS_ASSOCIATE_TAG)
-            ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
-    $apaiIO = new ApaiIO($conf);
-
-    global $wpdb;
-
+	
+	// get products
     $products = $wpdb->get_results(
         $wpdb->prepare(
             "
                 SELECT DISTINCT p.ID FROM {$wpdb->posts} p
                 LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
                 LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
-                WHERE a.meta_key = '%s' AND (a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) OR a.meta_id IS NULL) AND pm.meta_key LIKE '%s' AND p.post_type = '%s' AND p.post_status != 'trash'
+				WHERE a.meta_key = '%s' AND (a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) OR a.meta_id IS NULL) AND pm.meta_key LIKE '%s' AND  p.post_type = '%s' AND p.post_status != 'trash'
                 LIMIT 0,999
             ",
             AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
         )
     );
-
+	
     $wlProducts = $wpdb->get_results(
         $wpdb->prepare(
             "
                 SELECT DISTINCT p.ID FROM {$wpdb->posts} p
                 LEFT JOIN {$wpdb->postmeta} pm1 ON (p.ID = pm1.post_id AND pm1.meta_key = '%s')
                 INNER JOIN {$wpdb->postmeta} pm2 ON (p.ID = pm2.post_id AND pm2.meta_key LIKE '%s')
-                WHERE pm1.meta_key IS NULL AND pm2.meta_value != '' AND p.post_type = '%s' AND p.post_status != 'trash'
+                WHERE pm1.meta_key IS NULL AND pm2.meta_value != '' AND  p.post_type = '%s' AND p.post_status != 'trash'
                 LIMIT 0,999
             ",
             AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
         )
     );
-
+		
     $products = array_merge($products, $wlProducts);
-
+	
     at_write_api_log('amazon', 'system', 'start cron');
 
     if ($products) {
+		$conf = new GenericConfiguration();
+		try {
+			$conf
+				->setCountry(AWS_COUNTRY)
+				->setAccessKey(AWS_API_KEY)
+				->setSecretKey(AWS_API_SECRET_KEY)
+				->setAssociateTag(AWS_ASSOCIATE_TAG)
+				->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
+		} catch (\Exception $e) {
+			echo $e->getMessage();
+		}
+		$apaiIO = new ApaiIO($conf);
+	
         foreach ($products as $product) {
             try {
                 // ProductShops
@@ -105,6 +97,7 @@ function amazon_api_update($args = array()) {
                                 }
 
                                 if ($item) {
+									$title = get_the_title($product->ID);
                                     $old_ean = get_post_meta($product->ID, 'product_ean', true);
                                     $ean = $item->getEan();
                                     $old_price = ($val['price'] ? $val['price'] : '');
@@ -142,7 +135,7 @@ function amazon_api_update($args = array()) {
                                     if (get_option('amazon_update_external_images') == 'yes') {
                                         if(get_option('amazon_images_external') == '1') {
                                             $amazon_images = $item->getExternalImages();
-
+											
                                             if ($amazon_images) {
                                                 $i = 1;
                                                 foreach ($amazon_images as $image) {
@@ -229,16 +222,88 @@ function amazon_api_update($args = array()) {
                                                 }
 
                                                 update_field('field_57486088e1f0d', $attachments, $product->ID);
-
-                                                if (count($product_gallery_external) == count($attachments)) {
-                                                    // do nothing
-                                                } else {
-                                                    at_write_api_log('amazon', $product->ID, '(' . $key . ') updates external images  from ' . count($product_gallery_external) . ' to ' . count($attachments));
-                                                }
                                             }
                                         } else {
-                                            // no external images
-                                            update_field('field_57486088e1f0d', array(), $product->ID);
+											// remove old external images
+											update_field('field_57486088e1f0d', array(), $product->ID);
+											
+											$product_gallery = get_field('field_553b84fb117b1', $product->ID);
+																						
+                                            // no external images, check if we should add internal images
+											if(!$product_gallery) {
+												$amazon_images = $item->getAllImages()->getLargeImages();
+												$images = array();
+												
+												if ($amazon_images) {
+													$c = 1;
+													foreach ($amazon_images as $image) {
+														$images[$c]['filename'] = sanitize_title($title . '-' . $c);
+														$images[$c]['alt'] = $title . ' - ' . $c;
+														$images[$c]['url'] = $image;
+
+														if ($c == 1) {
+															$images[$c]['thumb'] = 'true';
+														}
+
+														$c++;
+													}
+												}
+												
+												if ($images) {
+													$attachments = array();
+
+													foreach ($images as $image) {
+														$image_filename = substr(sanitize_title($image['filename']), 0, 30);
+														$image_alt = (isset($image['alt']) ? $image['alt'] : '');
+														$image_url = $image['url'];
+														$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+														$image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
+														
+														if ("true" == $image_exclude) {
+															continue;
+														}
+
+														if ("true" == $image_thumb) {
+															$att_id = at_attach_external_image($image_url, $product->ID, true, $image_filename, array('post_title' => $image_alt));
+															update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+															update_post_meta($product->ID, '_thumbnail_id', $att_id );
+														} else {
+															$att_id = at_attach_external_image($image_url, $product->ID, false, $image_filename, array('post_title' => $image_alt));
+															update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+															$attachments[] = $att_id;
+														}
+														
+													}
+
+													if ($attachments) {
+														update_field('field_553b84fb117b1', $attachments, $product->ID);
+													}
+												}
+											} else {
+												// check product thumbnail
+												$_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', true);
+												$_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
+												
+												if($_thumbnail_id == 'by_url') {
+													if($_thumbnail_ext_url != "") {
+														// try to set the external image as product thumbnail
+														$att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
+													} else {
+														// no image found? fuck. just set the first image from the gallery as product thumbnail
+														foreach($product_gallery as $attachment) {
+															$att_id = $attachment['ID'];
+															break;
+														}
+														
+														// remove this image from gallery
+														unset($product_gallery[0]);
+														update_field('field_553b84fb117b1', $product_gallery, $product->ID);
+													}
+													
+													update_post_meta($product->ID, '_thumbnail_id', $att_id );
+													update_post_meta($product->ID, '_thumbnail_ext_url', '' );
+												} 
+											}
                                         }
                                     }
 

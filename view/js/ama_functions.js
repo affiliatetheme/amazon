@@ -189,6 +189,7 @@ jQuery(document).ready(function() {
             });
         }
 
+        e.preventDefault();
     });
 
     jQuery(document).ready(function(e) {
@@ -223,10 +224,7 @@ var checkConnection = function() {
 
     var value = 'Matrix'
     var cat = 'DVD';
-    var country = 'DE';
-    var condition = '';
     var page = '1';
-    var track = value + " - " + cat + " - " + country;
     var resultContainer = jQuery('#checkConnection');
 
     if (value.length < 3 && globalRequest == 1) {
@@ -238,10 +236,11 @@ var checkConnection = function() {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=amazon_api_search&q="+value+"&category="+cat+"&country="+country+"&condition="+condition+"&page="+page,
+        data: "action=at_aws_search&q=" + value + "&category=" + cat +  "&page=" + page,
         success: function(data){
-            var totalpages = data['rmessage']['totalpages'];
+            var totalpages = data['rmessage']['totalpages'] / 10;
             globalRequest = 0;
+
             if(totalpages > 0) {
                 resultContainer.fadeOut('fast', function() {
                     resultContainer.append('<div class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
@@ -249,23 +248,19 @@ var checkConnection = function() {
                     setCurrentTab('search');
                 });
             } else {
-               // resultContainer.fadeOut('fast', function() {
-                    resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
-                //});
+                resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
             }
 
             if(data['rmessage']['errormsg'] != "") {
-                resultContainer.append('<div class="error"><p class="error">'+data['rmessage']['errormsg']+'</p></div>');
+                resultContainer.append('<div class="error"><p class="error">' + data['rmessage']['errormsg'] + '</p></div>');
             }
 
             jQuery('.status-after').remove();
         },
         error: function() {
-            //resultContainer.fadeOut('fast', function() {
-                resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
-                resultContainer.fadeIn('fast');
-            //});
-        },
+            resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+            resultContainer.fadeIn('fast');
+        }
     });
 };
 
@@ -282,18 +277,13 @@ var searchAction = function() {
 
     var value = jQuery('.tabwrapper .at-api-tab#search input#search').val();
     var grabbedasins = jQuery('.tabwrapper .at-api-tab#search textarea#grabbedasins').val();
-    var cat = jQuery('.tabwrapper .at-api-tab#search select#category').val();
-    var country = jQuery('.tabwrapper .at-api-tab#search select#amazon_country').val();
+    var category = jQuery('.tabwrapper .at-api-tab#search select#category').val();
     var page = jQuery('.tabwrapper .at-api-tab#search input#page').val();
-
     var title = jQuery('.tabwrapper .at-api-tab#search input#title').val();
     var sort = jQuery('.tabwrapper .at-api-tab#search select#sort').val();
     var merchant = jQuery('.tabwrapper .at-api-tab#search select#merchant').val();
     var min_price = jQuery('.tabwrapper .at-api-tab#search input#min_price').val();
     var max_price = jQuery('.tabwrapper .at-api-tab#search input#max_price').val();
-
-    var condition = '';
-    var track = value + " - " + cat + " - " + country;
     var resultContainer = jQuery('#at-import-window table #results');
 
     globalRequest = 1;
@@ -301,9 +291,17 @@ var searchAction = function() {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=amazon_api_search&q=" + value + "&title=" + title + "&grabbedasins=" + grabbedasins + "&category=" + cat + "&country=" + country + "&condition=" + condition + "&page=" + page + "&sort=" + sort + "&merchant=" + merchant + "&min_price=" + min_price + "&max_price=" + max_price,
+        data: "action=at_aws_search&q=" + value + "&category=" + category + "&title=" + title + "&grabbedasins=" + grabbedasins + "&page=" + page + "&sort=" + sort + "&merchant=" + merchant + "&min_price=" + min_price + "&max_price=" + max_price,
         success: function(data){
-            var totalpages = '5';
+            
+            var totalpages = data['rmessage']['totalpages'];
+
+            if(category == 'All') {
+                var totalpages = (totalpages <= 5 ? totalpages : 5);
+            } else {
+                var totalpages = (totalpages <= 10 ? totalpages : 10);
+            }
+            
             jQuery('#max-pages').val(totalpages);
             if(totalpages == 1) {
                 jQuery('.page-links').hide();
@@ -329,43 +327,43 @@ var searchAction = function() {
                         var html = '';
 
                         if(data['items'][x].exists != "false") {
-                            html += '<tr class="item success" data-asin="'+data['items'][x].asin+'">';
-                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'" disabled="disabled"></th>';
+                            html += '<tr class="item success" data-asin="' + data['items'][x].asin + '">';
+                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '" disabled="disabled"></th>';
                         } else {
                             if (data['items'][x].external == 1) {
-                                html += '<tr class="item item-warning" data-asin="'+data['items'][x].asin+'">';
+                                html += '<tr class="item item-warning" data-asin="' + data['items'][x].asin + '">';
                             } else {
-                                html += '<tr class="item" data-asin="'+data['items'][x].asin+'">';
+                                html += '<tr class="item" data-asin="' + data['items'][x].asin + '">';
                             }
-                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-'+data['items'][x].asin+' name="item[]" value="'+data['items'][x].asin+'"></th>';
+                            html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '"></th>';
                         }
-                        html += '<td class="asin">'+data['items'][x].asin+'</td>';
+                        html += '<td class="asin">' + data['items'][x].asin + '</td>';
                         if(data['items'][x].img !="assets/images/no.gif") {
-                            html += '<td class="image"><img src="'+data['items'][x].img+'"></td>';
+                            html += '<td class="image"><img src="' + data['items'][x].img + '"></td>';
                         } else {
                             html += '<td class="image">Kein Bild vorhanden</td>';
                         }
                         if (data['items'][x].external == 1) {
-                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         } else {
-                            html += '<td class="title"><a href="'+data['items'][x].url+'" target="_blank">'+data['items'][x].Title+'</a></td>';
+                            html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         }
 
-                        html += '<td class="rating">'+data['items'][x].average_rating+' / 5</td>';
-                        html += '<td class="price">'+data['items'][x].price+'<br>(UVP: ' + data['items'][x].price_list + ')</td>';
+                        html += '<td class="rating">' + data['items'][x].reviews_average + ' / 5</td>';
+                        html += '<td class="price">' + data['items'][x].price + '<br>(UVP: ' + data['items'][x].price_list + ')</td>';
                         html += '<td class="margin">';
-                        if(data['items'][x].cat_margin != 0) {
-                            var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].cat_margin;
+                        if(data['items'][x].category_margin != 0) {
+                            var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].category_margin;
                             var margin_sale = number_format(margin_sale_val, 2, ',', '.')
 
-                            html += data['items'][x].cat_margin+'%<br>('+data['items'][x].currency+' '+margin_sale+' / Sale)';
+                            html += data['items'][x].category_margin + '%<br>(' + data['items'][x].currency + ' ' + margin_sale + ' / Sale)';
                         } else { html += 'kA'; }
                         html += '</td>';
                         html += '<td class="category">' + (data['items'][x].category != null ? data['items'][x].category : '-') + '</td>';
                         if(data['items'][x].exists != "false") {
                             html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="Editieren"><i class="fa fa-edit"></i></a></td>';
                         } else {
-                            html += '<td class="action"><a href="'+jQuery('#at-import-page').attr('data-url')+'admin-ajax.php?action=amazon_api_lookup&func=modal&asin='+data['items'][x].asin+'&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="'+data['items'][x].asin+'"><i class="fa fa-bolt"></i></a></td>';
+                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'admin-ajax.php?action=amazon_api_lookup&func=modal&asin=' + data['items'][x].asin + '&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="' + data['items'][x].asin + '"><i class="fa fa-bolt"></i></a></td>';
                         }
                         html += '</tr>';
 
@@ -448,7 +446,7 @@ var quickImportAction = function(id, mass, i, max_items) {
     var ajax_loader = jQuery('.at-ajax-loader');
     var asin = jQuery(target).attr('data-asin');
     var nonce = jQuery('#at-import-page').attr('data-nonce');
-    var data = {action : 'amazon_api_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce};
+    var data = {action : 'at_aws_import', asin : asin, func : 'quick-import', '_wpnonce' : nonce};
     var tax_data = {};
 
     /*
@@ -567,7 +565,7 @@ var grabLink = function(e) {
         url: ajaxurl,
         dataType: 'json',
         type: 'POST',
-        data: "action=amazon_api_grab&url="+encodeURIComponent(url),
+        data: "action=at_aws_grab&url="+encodeURIComponent(url),
         success: function(data){
             var asins = data.asins;
             jQuery.each(asins, function( index, value ) {

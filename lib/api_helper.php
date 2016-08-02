@@ -6,8 +6,6 @@
  * @version		1.0
  * @updated     2016/08/01
  */
-require_once dirname(__FILE__) . '/config.php';
-
 if( ! function_exists( 'at_aws_load_textdomain' )) {
     /**
      * at_aws_load_textdomain
@@ -577,7 +575,7 @@ if ( ! function_exists( 'at_aws_overwrite_product_button_short_text' ) ) {
      * Overwrite Product Button Text (short)
      */
     add_filter('at_product_api_button_short_text', 'at_aws_overwrite_product_button_short_text', 10, 5);
-    function at_overwrite_amazon_product_button_short_text($var = '', $product_portal = '', $product_shop = '', $pos = '', $short = false) {
+    function at_aws_overwrite_product_button_short_text($var = '', $product_portal = '', $product_shop = '', $pos = '', $short = false) {
         global $post;
 
         if ('amazon' == $product_portal && 'buy' == $pos) {
@@ -790,7 +788,7 @@ if ( ! function_exists( 'at_aws_send_notification_mail' ) ) {
             if (!$product_table)
                 exit;
 
-            $body = file_get_contents(__DIR__ . '/view/email.html');
+            $body = file_get_contents(AWS_PATH . '/view/email.html');
             $body = str_replace('%%BLOGNAME%%', $sitename, $body);
             $body = str_replace('%%BLOGURL%%', '<a href="' . home_url() . '" target="_blank">' . home_url('') . '</a>', $body);
             $body = str_replace('%%PRODUCTS%%', $product_table, $body);
@@ -802,48 +800,82 @@ if ( ! function_exists( 'at_aws_send_notification_mail' ) ) {
     }
 }
 
-function at_aws_search_allowed_sort($array = false) {
-    $not_allowed = array('All','UnboxVideo');
+if( ! function_exists( 'at_aws_search_allowed_sort' )) {
+    /**
+     * at_aws_search_allowed_sort
+     * 
+     * return allowed search sort
+     * @param   array $array
+     */
+    function at_aws_search_allowed_sort($array = false) {
+        $not_allowed = array('All','UnboxVideo');
 
-    if($array) {
-        return $not_allowed;
+        if($array) {
+            return $not_allowed;
+        }
+
+        return implode(',', $not_allowed);
     }
-
-    return implode(',', $not_allowed);
 }
 
-function at_aws_search_check_allowed_sort($SearchIndex) {
-    $not_allowed = at_aws_search_allowed_sort(true);
+if( ! function_exists( 'at_aws_search_check_allowed_sort' )) {
+    /**
+     * at_aws_search_check_allowed_sort
+     * 
+     * check allowed sort
+     * @param   string $SearchIndex
+     */
+    function at_aws_search_check_allowed_sort($SearchIndex) {
+        $not_allowed = at_aws_search_allowed_sort(true);
 
-    if(in_array($SearchIndex, $not_allowed)) {
-        return false;
+        if(in_array($SearchIndex, $not_allowed)) {
+            return false;
+        }
+
+        return true;
     }
-
-    return true;
 }
 
-function at_aws_search_allowed_param($param, $array = false) {
-    $not_allowed = array();
+if( ! function_exists( 'at_aws_search_allowed_param' )) {
+    /**
+     * at_aws_search_allowed_param
+     * 
+     * return allowed param
+     * @param   string $param
+     * @param   boolean $array
+     */
+    function at_aws_search_allowed_param($param, $array = false) {
+        $not_allowed = array();
 
-    if($param == 'MinimumPrice' || $param == 'MaximumPrice') {
-        $not_allowed = array('All','Jewelry','Toys','Watches');
+        if($param == 'MinimumPrice' || $param == 'MaximumPrice') {
+            $not_allowed = array('All','Jewelry','Toys','Watches');
+        }
+
+        if($array) {
+            return $not_allowed;
+        }
+
+        return implode(',', $not_allowed);
     }
-
-    if($array) {
-        return $not_allowed;
-    }
-
-    return implode(',', $not_allowed);
 }
 
-function at_aws_search_check_allowed_param($param, $SearchIndex) {
-    $not_allowed = at_aws_search_allowed_param($param, true);
+if( ! function_exists( 'at_aws_search_check_allowed_param' )) {
+    /**
+     * at_aws_search_check_allowed_param
+     * 
+     * check allowed param
+     * @param   string $param
+     * @param   string $SearchIndex
+     */
+    function at_aws_search_check_allowed_param($param, $SearchIndex) {
+        $not_allowed = at_aws_search_allowed_param($param, true);
 
-    if(in_array($SearchIndex, $not_allowed)) {
-        return false;
+        if(in_array($SearchIndex, $not_allowed)) {
+            return false;
+        }
+
+        return true;
     }
-
-    return true;
 }
 
 /*

@@ -1,33 +1,24 @@
 <?php
-/**
- * Copyright 2015 - endcore
- * import
- */
-require_once ABSPATH . '/wp-load.php';
-require_once dirname(__FILE__) . '/lib/bootstrap.php';
-require_once dirname(__FILE__) . '/config.php';
-
 use ApaiIO\ApaiIO;
 use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
 use ApaiIO\Zend\Service\Amazon;
 
-global $wpdb;
-$nonce = $_POST['_wpnonce'];
+add_action('wp_ajax_amazon_api_import', 'at_aws_impot');
+add_action('wp_ajax_at_aws_import', 'at_aws_impot');
+function at_aws_impot() {
+    global $wpdb;
 
-if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
+    if (!wp_verify_nonce($_POST['_wpnonce'], 'at_amazon_import_wpnonce')) {
+        die('Security Check failed');
+    }
 
-    die('Security Check failed');
-
-} else {
-
-    $asin = $_POST['asin'];
-    $description = '';
-
-    if (!$asin)
-        die();
+    // vars
+    $asin = (isset($_POST['asin']) ? $_POST['asin'] : '');
+	$amazon_images_external = get_option('amazon_images_external');
 
     if (isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
+        // quick import
         $conf = new GenericConfiguration();
         try {
             $conf
@@ -51,67 +42,71 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         if ($formattedResponse->hasItem()) {
             $item = $formattedResponse->getItem();
 
-            $title = $item->Title;
-            $ean = $item->getEan();
-            $price = $item->getAmountForAvailability();
-            $price_list = $item->getAmountListPrice();
-            $salesrank = ($item->getSalesRank() ? $item->getSalesRank() : '');
-            $url = $item->getUrl();
-            $currency = $item->getCurrencyCode();
-            $rating = $item->getAverageRating();
-            $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
-            $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
-
-            $amazon_images = array();
-            $images = array();
-
-            // crawl images
-            $amazon_images_external = get_option('amazon_images_external');
-            if($amazon_images_external) {
-                $amazon_images = $item->getExternalImages();
-            } else {
+            if($item) {
+                $title = $item->Title;
+                $ean = $item->getEan();
+                $description = '';
+                $price = $item->getAmountForAvailability();
+                $price_list = $item->getAmountListPrice();
+                $salesrank = ($item->getSalesRank() ? $item->getSalesRank() : '');
+                $url = $item->getUrl();
+                $currency = $item->getCurrencyCode();
+                $ratings = $item->getAverageRating();
+                $ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
+                $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
                 $amazon_images = $item->getAllImages()->getLargeImages();
-            }
+                $images = array();
 
-            if ($amazon_images) {
-                $c = 1;
-                foreach ($amazon_images as $image) {
-                    $images[$c]['filename'] = sanitize_title($title . '-' . $i);
-                    $images[$c]['alt'] = $title . ' - ' . $i;
-                    $images[$c]['url'] = $image;
-
-                    if ($c == 1) {
-                        $images[$c]['thumb'] = 'true';
-                    }
-
-                    $c++;
+                // overwrite description
+                if ('1' == get_option('amazon_import_description')) {
+                    $description = $item->getItemDescription();
                 }
-            }
 
-            if ('1' == get_option('amazon_import_description')) {
-                $description = $item->getItemDescription();
+                // overwrite with external images
+                if($amazon_images_external == '1') {
+                    $amazon_images = $item->getExternalImages();
+                } 
+
+                if ($amazon_images) {
+                    $c = 1;
+                    foreach ($amazon_images as $image) {
+                        $images[$c]['filename'] = sanitize_title($title . '-' . $i);
+                        $images[$c]['alt'] = $title . ' - ' . $i;
+                        $images[$c]['url'] = $image;
+
+                        if ($c == 1) {
+                            $images[$c]['thumb'] = 'true';
+                        }
+
+                        $c++;
+                    }
+                }
             }
         }
     } else {
+        // normal import
         $title = $_POST['title'];
         $ean = $_POST['ean'];
+        $description = '';
         $price = floatval($_POST['price']);
         $price_list = $_POST['price_list'];
         $salesrank = ($_POST['salesrank'] ? $_POST['salesrank'] : '');
         $currency = $_POST['currency'];
         $url = $_POST['url'];
-        $rating = floatval($_POST['rating']);
-        $rating_cnt = $_POST['rating_cnt'];
+        $ratings = floatval($_POST['rating']);
+        $ratings_count = $_POST['ratings_count'];
         $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
         $images = $_POST['image'];
         $exists = $_POST['ex_page_id'];
 
-        if ('1' == get_option('amazon_import_description'))
+        // overwrite description
+        if ('1' == get_option('amazon_import_description')) {
             $description = (isset($_POST['description']) ? $_POST['description'] : '');
+        }
     }
 
+    // start import
     if (false == ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $asin, 'LIKE'))) {
-
         if ($exists) {
             $post_id = $exists;
         } else {
@@ -127,17 +122,13 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
 
         if ($post_id) {
             //fix rating
-            $rating = round($rating * 2) / 2;
-
-            //customfields
-            update_post_meta($post_id, AWS_METAKEY_ID, $asin);
-            update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
-            update_post_meta($post_id, 'product_ean', $ean);
-            update_post_meta($post_id, 'product_rating', $rating);
-            update_post_meta($post_id, 'product_rating_cnt', $rating_cnt);
-
-            if($exists) {
+            $ratings = round($ratings * 2) / 2;
+            
+			// shopinfo
+			$key = 0;
+			if($exists) {
                 $shop_info = get_field('field_557c01ea87000', $post_id);
+				$key = count($shop_info);
             }
 
             $shop_info[] = array(
@@ -146,11 +137,20 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                 'currency' => $currency,
                 'portal' => 'amazon',
                 'amazon_asin' => $asin,
-                'amazon_salesrank' => $salesrank,
                 'shop' => (at_aws_get_amazon_shop_id() ? at_aws_get_amazon_shop_id() : ''),
                 'link' => $url,
             );
+						
             update_field('field_557c01ea87000', $shop_info, $post_id);
+			
+			//customfields
+            update_post_meta($post_id, AWS_METAKEY_ID, $asin);
+            update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
+            update_post_meta($post_id, 'product_ean', $ean);
+            update_post_meta($post_id, 'product_rating', $ratings);
+            update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
+			update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
+			update_post_meta($post_id, 'amazon_salesrank_' . $key, $salesrank);
 
             //taxonomie
             if ($taxs) {
@@ -182,7 +182,7 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
                     $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
-                    if ($amazon_images_external) {
+                    if ($amazon_images_external == '1') {
                         // load images form extern
                         if ("true" == $image_thumb) {
                             update_post_meta($post_id, '_thumbnail_ext_url', $image_url);
@@ -234,8 +234,8 @@ if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
         $output['rmessage']['post_id'] = $check;
 
     }
-}
 
-echo json_encode($output);
-exit();
+    echo json_encode($output);
+    exit();
+}
 ?>

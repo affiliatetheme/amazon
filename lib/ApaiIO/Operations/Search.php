@@ -42,7 +42,9 @@ class Search extends AbstractOperation
      */
     public function setMerchantId($merchantid)
     {
-        $this->parameter['MerchantId'] = $merchantid;
+        if($merchantid) {
+            $this->parameter['MerchantId'] = $merchantid;
+        }
 
         return $this;
     }
@@ -70,7 +72,9 @@ class Search extends AbstractOperation
      */
     public function setKeywords($keywords)
     {
-        $this->parameter['Keywords'] = $keywords;
+        if($keywords && $keywords != 'undefined') {
+            $this->parameter['Keywords'] = $keywords;
+        }
 
         return $this;
     }
@@ -84,7 +88,9 @@ class Search extends AbstractOperation
      */
     public function setTitle($title)
     {
-        $this->parameter['Title'] = $title;
+        if($title && $title != 'undefined' && $this->parameter['SearchIndex'] != 'All') {
+            $this->parameter['Title'] = $title;
+        }
 
         return $this;
     }
@@ -98,7 +104,9 @@ class Search extends AbstractOperation
      */
     public function setSort($sort)
     {
-        $this->parameter['Sort'] = $sort;
+        if($sort && $sort != 'undefined' && at_aws_search_check_allowed_sort($this->parameter['SearchIndex'])) {
+            $this->parameter['Sort'] = $sort;
+        }
 
         return $this;
     }
@@ -138,8 +146,11 @@ class Search extends AbstractOperation
      */
     public function setMinimumPrice($price)
     {
-        $this->validatePrice($price);
-        $this->parameter['MinimumPrice'] = $price;
+        if($price && $price != 'undefined' && at_aws_search_check_allowed_param('MinimumPrice', $this->parameter['SearchIndex'])) {
+            $price = $price * 100;
+            $this->validatePrice($price);
+            $this->parameter['MinimumPrice'] = $price;
+        }
 
         return $this;
     }
@@ -155,9 +166,12 @@ class Search extends AbstractOperation
      */
     public function setMaximumPrice($price)
     {
-        $this->validatePrice($price);
-        $this->parameter['MaximumPrice'] = $price;
-
+        if($price && $price != 'undefined' && at_aws_search_check_allowed_param('MaximumPrice', $this->parameter['SearchIndex'])) {
+            $price = $price * 100;
+            $this->validatePrice($price);
+            $this->parameter['MaximumPrice'] = $price;
+        }
+        
         return $this;
     }
 
