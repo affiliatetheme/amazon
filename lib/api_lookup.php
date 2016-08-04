@@ -47,6 +47,7 @@ function at_aws_lookup() {
 			$description = $item->getItemDescription();
 			$ratings_average = $item->getAverageRating();
 			$ratings_average_rounded = round($ratings_average / .5) * .5;
+			//$prime = $item->isPrime();
 			$ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 		    $images = $item->getAllImages()->getLargeImages();
 

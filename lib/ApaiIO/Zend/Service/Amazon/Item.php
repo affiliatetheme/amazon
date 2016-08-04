@@ -143,6 +143,11 @@ class Item
     protected $_imageSets = array();
 
     /**
+     * @var boolean
+     */
+    public $IsEligibleForSuperSaverShipping;
+
+    /**
      * @var \DOMElement
      */
     protected $_dom;
@@ -276,7 +281,12 @@ class Item
             }
         }
 
+        if(isset($this->Offers->Offers[0]->IsEligibleForSuperSaverShipping)) {
+            $this->IsEligibleForSuperSaverShipping = $this->Offers->Offers[0]->IsEligibleForSuperSaverShipping;
+        }
+
         $this->_dom = $dom;
+
     }
 
     /**
@@ -689,6 +699,14 @@ class Item
 
     public function getSalesRank()
     {
-        return $this->SalesRank;
+        if(isset($this->SalesRank)) {
+            return $this->SalesRank;
+        }
+    }
+
+    public function isPrime() {
+        if(isset($this->IsEligibleForSuperSaverShipping)) {
+            return $this->IsEligibleForSuperSaverShipping;
+        }
     }
 }
