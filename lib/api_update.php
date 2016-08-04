@@ -285,25 +285,65 @@ function at_aws_update($args = array()) {
 												$_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
                                                 $att_id = '';
 												
-												if($_thumbnail_id == 'by_url') {
-													if($_thumbnail_ext_url) {
-														// try to set the external image as product thumbnail
-                                                        $att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
-													} else {
-														// no image found? fuck. just set the first image from the gallery as product thumbnail
-														foreach($product_gallery as $new_att) {
-                                                            $att_id = $new_att['ID'];
-															break;
+												if(!has_post_thumbnail($product->ID)) {
+													if($_thumbnail_id == 'by_url') {
+														if($_thumbnail_ext_url) {
+															// try to set the external image as product thumbnail
+															$att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
+														} else {
+															// no image found? fuck. just set the first image from the gallery as product thumbnail
+															foreach($product_gallery as $new_att) {
+																$att_id = $new_att['ID'];
+																break;
+															}
+															
+															// remove this image from gallery
+															unset($product_gallery[0]);
+															update_field('field_553b84fb117b1', $product_gallery, $product->ID);
 														}
 														
-														// remove this image from gallery
-														unset($product_gallery[0]);
-														update_field('field_553b84fb117b1', $product_gallery, $product->ID);
+														update_post_meta($product->ID, '_thumbnail_id', $att_id);
+														update_post_meta($product->ID, '_thumbnail_ext_url', '');
+													} else {
+														if(apply_filters('at_aws_product_thumbnail_regenerate', false)) {
+															$amazon_images = $item->getAllImages()->getLargeImages();
+															$images = array();
+															
+															if ($amazon_images) {
+																$c = 1;
+																foreach ($amazon_images as $image) {
+																	$images[$c]['filename'] = sanitize_title($title . '-' . $c);
+																	$images[$c]['alt'] = $title . ' - ' . $c;
+																	$images[$c]['url'] = $image;
+
+																	if ($c == 1) {
+																		$images[$c]['thumb'] = 'true';
+																	}
+
+																	$c++;
+																}
+															}
+															
+															if ($images) {
+																$attachments = array();
+
+																foreach ($images as $image) {
+																	$image_filename = substr(sanitize_title($image['filename']), 0, 30);
+																	$image_alt = (isset($image['alt']) ? $image['alt'] : '');
+																	$image_url = $image['url'];
+																	$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+																	
+																	
+																	$att_id = at_attach_external_image($image_url, $product->ID, true, $image_filename, array('post_title' => $image_alt));
+																	update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+																	update_post_meta($product->ID, '_thumbnail_id', $att_id );
+																	
+																	break;														
+																}
+															}
+														}
 													}
 												}
-
-                                                update_post_meta($product->ID, '_thumbnail_id', $att_id);
-                                                update_post_meta($product->ID, '_thumbnail_ext_url', '');
 											}
                                         }
                                     }
