@@ -135,7 +135,9 @@ function at_aws_update($args = array()) {
                                     if (get_option('amazon_update_external_images') == 'yes') {
                                         if(get_option('amazon_images_external') == '1') {
                                             $amazon_images = $item->getExternalImages();
-											
+											$images = array();
+                                            $attachments = array();
+
                                             if ($amazon_images) {
                                                 $i = 1;
                                                 foreach ($amazon_images as $image) {
@@ -153,7 +155,6 @@ function at_aws_update($args = array()) {
 
 
                                             if ($images) {
-                                                $attachments = array();
                                                 $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
 
                                                 foreach ($images as $image) {
