@@ -227,7 +227,6 @@ function at_aws_update($args = array()) {
                                         } else {
 											// remove old external images
 											update_field('field_57486088e1f0d', array(), $product->ID);
-											
 											$product_gallery = get_field('field_553b84fb117b1', $product->ID);
 																						
                                             // no external images, check if we should add internal images
@@ -284,15 +283,16 @@ function at_aws_update($args = array()) {
 												// check product thumbnail
 												$_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', true);
 												$_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
+                                                $att_id = '';
 												
 												if($_thumbnail_id == 'by_url') {
-													if($_thumbnail_ext_url != "") {
+													if($_thumbnail_ext_url) {
 														// try to set the external image as product thumbnail
-														$att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
+                                                        $att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
 													} else {
 														// no image found? fuck. just set the first image from the gallery as product thumbnail
-														foreach($product_gallery as $attachment) {
-															$att_id = $attachment['ID'];
+														foreach($product_gallery as $new_att) {
+                                                            $att_id = $new_att['ID'];
 															break;
 														}
 														
@@ -300,10 +300,10 @@ function at_aws_update($args = array()) {
 														unset($product_gallery[0]);
 														update_field('field_553b84fb117b1', $product_gallery, $product->ID);
 													}
-													
-													update_post_meta($product->ID, '_thumbnail_id', $att_id );
-													update_post_meta($product->ID, '_thumbnail_ext_url', '' );
-												} 
+												}
+
+                                                update_post_meta($product->ID, '_thumbnail_id', $att_id);
+                                                update_post_meta($product->ID, '_thumbnail_ext_url', '');
 											}
                                         }
                                     }
