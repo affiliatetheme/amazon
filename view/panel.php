@@ -11,39 +11,9 @@
 
 <div class="wrap" id="at-import-page" data-url="<?php echo admin_url(); ?>" data-nonce="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>">
 	<div class="at-inner">
-		<h1>AffiliateTheme Import » Amazon</h1>
+		<h1><? _e('AffiliateTheme Import » Amazon', 'affiliatetheme-amazon'); ?></h1>
 		
 		<div id="checkConnection"></div>
-
-		<?php
-			if(version_compare(PHP_VERSION, '5.3.0', '<')):
-		?>
-			<div class="error" id="required-by-plugin">
-				<p>Achtung: Um dieses Plugin zu verwenden benötigst du mindestens PHP 5.3.x. Derzeit verwendet <?php echo PHP_VERSION; ?>.</p>
-			</div>
-		<?php
-			endif;
-		?>
-
-        <?php
-            if(extension_loaded('curl') != function_exists('curl_version')):
-        ?>
-            <div class="error" id="required-by-plugin">
-                <p>Um dieses Plugin zu verwenden benötigst du cURL. <a href="http://php.net/manual/de/book.curl.php" taget="_blank">Hier</a> findest du mehr Informationen darüber. Kontaktiere im Zweifel deinen Systemadministrator.</p>
-            </div>
-        <?php
-            endif;
-        ?>
-        
-        <?php
-            if(ini_get('allow_url_fopen') == false):
-        ?>
-            <div class="error" id="required-by-plugin">
-                <p>Achtung: Du hast allow_url_fopen deaktiviert. Du benötigst diese Funktionen um das Rating von Amazon zu beziehen.</p>
-            </div>
-        <?php
-            endif;
-        ?>
 		
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
 			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></a>
@@ -51,6 +21,8 @@
 			<!--<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-amazon'); ?></a>-->
 			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-amazon'); ?></a>
+			<a class="nav-tab" id="errorhandling-tab" href="#top#errorhandling"><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></a>
+			<a class="nav-tab" href="http://affiliatetheme.io/forum/foren/support/amazon-plugin/" target="_blank"><span class="dashicons dashicons-sos"></span> <?php _e('Hilfe', 'affiliatetheme-amazon'); ?></a>
 		</h2>
 		
 		<div class="tabwrapper">
@@ -66,27 +38,29 @@
 								<div class="form-group">
 									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
+									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 								</div>
 								<div class="form-group">	
 									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
+									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 								</div>
 								<div class="form-group">
 									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
 									<select name="amazon_country" id="amazon_country">
-										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>>Deutschland</option>
-										<option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>>US</option>
-										<option value="ca" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>>Canada</option>
-										<option value="co.uk" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>>United Kingdom</option>
-										<option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>>France</option>
-										<option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>>Italia</option>
-										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>>Espania</option>
-										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>>India</option>
-										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>>Japan</option>
-										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>>Mexiko</option>
-										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>>China</option>
-										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>>Brazil</option>
+										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>><?php _e('Deutschland', 'affiliatetheme-amazon'); ?></option>
+										<option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>><?php _e('USA', 'affiliatetheme-amazon'); ?></option>
+										<option value="ca" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>><?php _e('Kanada', 'affiliatetheme-amazon'); ?></option>
+										<option value="co.uk" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>><?php _e('Vereinigtes Königreich (UK)', 'affiliatetheme-amazon'); ?></option>
+										<option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>><?php _e('Frankreich', 'affiliatetheme-amazon'); ?></option>
+										<option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>><?php _e('Italien', 'affiliatetheme-amazon'); ?></option>
+										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>><?php _e('Spanien', 'affiliatetheme-amazon'); ?></option>
+										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>><?php _e('Indien', 'affiliatetheme-amazon'); ?></option>
+										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>><?php _e('Japan', 'affiliatetheme-amazon'); ?></option>
+										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>><?php _e('Mexiko', 'affiliatetheme-amazon'); ?></option>
+										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
+										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>><?php _e('Brasilien', 'affiliatetheme-amazon'); ?></option>
 									</select>
 								</div>
 								<div class="form-group">
@@ -293,7 +267,7 @@
 							<thead>
 								<tr>
 									<th scope="col" id="cb" class="manage-column column-cb check-column" style="">
-										<label class="screen-reader-text" for="cb-select-all-1">Alle auswählen</label><input id="cb-select-all-1" type="checkbox">
+										<label class="screen-reader-text" for="cb-select-all-1"><?php _e('Alle auswählen', 'affiliatetheme-amazon'); ?></label><input id="cb-select-all-1" type="checkbox">
 									</th>
 									<th scope="col" id="asin" class="manage-column column-asin">
 										<span><?php _e('ASIN', 'affiliatetheme-amazon'); ?></span>
@@ -522,8 +496,8 @@
 							<?php settings_fields($plugin_button_options); ?>
 							<?php do_settings_sections( $plugin_button_options ); ?>
 							<p class="hint">
-								Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst du diese hier angeben.<br>
-								Falls du das Amazon-Icon verwenden willst, nutze hierfür <mark><?php echo htmlentities('<i class="fa fa-amazon"></i>'); ?></mark>
+								<?php printf(__('Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst du diese hier angeben.<br>
+								Falls du das Amazon-Icon verwenden willst, nutze hierfür <mark>%s</mark>.', 'affiliatetheme-amazon'), htmlentities('<i class="fa fa-amazon"></i>')); ?>
 							</p>
 							<div class="form-container">
 								<div class="form-group">
@@ -547,6 +521,30 @@
 				</div>
 			</div>
 			<!-- END: Buttons Tab-->
+
+			<!-- START: Error Handling Tab-->
+			<div id="errorhandling" class="at-errorhandling-tab">
+				<div id="at-import-settings" class="metabox-holder postbox">
+					<h3 class="hndle"><span><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></span></h3>
+					<div class="inside">
+						<form action="options.php" method="post" id="<?php echo $plugin_error_handling_options; ?>_form" name="<?php echo $plugin_error_handling_options; ?>_form">
+							<?php settings_fields($plugin_error_handling_options); ?>
+							<?php do_settings_sections( $plugin_error_handling_options ); ?>
+							<div class="form-container">
+								<div class="form-group">
+									<label for="amazon_error_handling_replace_thumbnails"><?php _e('Produktbilder', 'affiliatetheme-amazon'); ?></label>
+									<input type="checkbox" name="amazon_error_handling_replace_thumbnails" id="amazon_error_handling_replace_thumbnails" value="1" <?php if('1' == get_option('amazon_error_handling_replace_thumbnails')) echo 'checked'; ?>> <?php _e('Fehlende Produktbilder (Beitragsbilder) wiederherstellen', 'affiliatetheme-amazon'); ?>
+									<p class="form-hint"><?php _e('Sollten zu deinen Produkten die Beitragsbilder (Hauptbild) fehlen, kannst du diese mit dieser Option wiederherstellen. Sobald diese Option gesetzt ist, wird beim nächsten Updateprozess des Produkts das fehlende Beitragsbild wiederhergestellt.', 'affiliatetheme-amazon'); ?></p>
+								</div>
+								<div class="form-group">
+									<?php submit_button(); ?>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- END: Error Handling Tab-->
 		</div>
 	</div>
 
@@ -572,4 +570,5 @@
 	table.feed .item .handle:before {right: 12px;font: 400 20px/1 dashicons;speak: none;display: inline-block;padding: 8px 10px;top: 0;position: relative;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;content: '\f142';}
 	table.feed .item.closed .handle:before {content: '\f140';}
 	table.feed .item.closed .inside{display:none;}
+	.api-help{text-decoration:none;position:relative;top:5px;}
 </style>

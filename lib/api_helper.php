@@ -878,6 +878,58 @@ if( ! function_exists( 'at_aws_search_check_allowed_param' )) {
     }
 }
 
+if ( ! function_exists('at_amazon_notices') ) {
+    /**
+     * at_amazon_notices function.
+     *
+     */
+    add_action('admin_notices', 'at_amazon_notices');
+    function at_amazon_notices() {
+        if ((isset($_GET['page']) && $_GET['page'] == 'endcore_api_amazon')) {
+            // check php version
+            if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+                ?>
+                <div class="notice notice-error">
+                    <p><?php printf(__('Achtung: Um dieses Plugin zu verwenden benötigst du mindestens PHP Version 5.3.x. Derzeit verwendest du Version %s.', 'affiliatetheme-amazon'), PHP_VERSION); ?></p>
+                </div>
+                <?php
+            }
+
+            // check curl
+            if(extension_loaded('curl') != function_exists('curl_version')) {
+                ?>
+                <div class="notice notice-error">
+                    <p><?php _e('Um dieses Plugin zu verwenden benötigst du cURL. <a href="http://php.net/manual/de/book.curl.php" taget="_blank">Hier</a> findest du mehr Informationen darüber. Kontaktiere im Zweifel deinen Systemadministrator.', 'affiliatetheme-amazon'); ?></p>
+                </div>
+                <?php
+            }
+
+            // check allow_url_fopen
+            if(ini_get('allow_url_fopen') == false) {
+                ?>
+                <div class="notice notice-error">
+                    <p><?php _e('Achtung: Du hast allow_url_fopen deaktiviert. Du benötigst diese Funktionen um das Rating von Amazon zu beziehen.', 'affiliatetheme-amazon'); ?></p>
+                </div>
+                <?php
+            }
+        } 
+    }
+}
+
+if ( ! function_exists('at_fire_filter') ) {
+    /**
+     * at_amazon_notices function.
+     *
+     */
+    add_action('init', 'at_fire_filter');
+    function at_fire_filter() {
+        // replace product thumbnails
+        if(get_option('amazon_error_handling_replace_thumbnails') == '1') {
+            add_filter('at_aws_product_thumbnail_regenerate', '__return_true');
+        }
+    }
+}
+
 /*
  * Feed: Read
 function at_amazon_feed_read() {
