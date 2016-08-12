@@ -98,12 +98,12 @@
                                 	<p class="form-hint"><?php _e('Mit dieser Option werden die Produktbilder nicht auf den eigenen Server heruntergeladen sondern direkt über Amazon eingebunden.', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group toggle_amazon_images_external" <?php if(get_option('amazon_images_external') != '1') { echo 'style="display:none;"'; } ?>>
-									<label for="amazon_images_external_size"><?php _e('Bildgröße der Bilder', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_images_external_size"><?php _e('Bildgröße der Bilder', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_images_external_size = get_option('amazon_images_external_size'); ?>
 									<select name="amazon_images_external_size" id="amazon_images_external_size">
-										<option value="SmallImage" <?php if($selected_amazon_images_external_size == 'SmallImage' || $selected_amazon_images_external_size == '') echo 'selected'; ?>><?php _e('Klein', 'affiliatetheme-api'); ?></option>
-										<option value="MediumImage" <?php if($selected_amazon_images_external_size == 'MediumImage') echo 'selected'; ?>><?php _e('Mittel', 'affiliatetheme-api'); ?></option>
-										<option value="LargeImage" <?php if($selected_amazon_images_external_size == 'LargeImage') echo 'selected'; ?>><?php _e('Groß', 'affiliatetheme-api'); ?></option>
+										<option value="SmallImage" <?php if($selected_amazon_images_external_size == 'SmallImage' || $selected_amazon_images_external_size == '') echo 'selected'; ?>><?php _e('Klein', 'affiliatetheme-amazon'); ?></option>
+										<option value="MediumImage" <?php if($selected_amazon_images_external_size == 'MediumImage') echo 'selected'; ?>><?php _e('Mittel', 'affiliatetheme-amazon'); ?></option>
+										<option value="LargeImage" <?php if($selected_amazon_images_external_size == 'LargeImage') echo 'selected'; ?>><?php _e('Groß', 'affiliatetheme-amazon'); ?></option>
 									</select>
 									<p class="form-hint"><?php _e('Wir empfehlen die Bildgröße "Klein" oder "Mittel" zu wählen, die großen Bilder könnten zu einer längeren Ladezeit deiner Seite führen!', 'affiliatetheme-amazon'); ?></p>
 								</div>
@@ -111,37 +111,37 @@
 									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
 								</div>
-								<h3><?php _e('Einstellungen für den Update-Prozess', 'affiliatetheme-api'); ?></h3>
+								<h3><?php _e('Einstellungen für den Update-Prozess', 'affiliatetheme-amazon'); ?></h3>
 								<div class="form-group">
-									<label for="amazon_update_ean"><?php _e('EAN', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_update_ean"><?php _e('EAN', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_ean = get_option('amazon_update_ean'); ?>
 									<select name="amazon_update_ean" id="amazon_update_ean">
-										<option value="yes" <?php if($selected_amazon_update_ean == 'yes' || $selected_amazon_update_ean == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_ean == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_ean == 'yes' || $selected_amazon_update_ean == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_ean == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_update_price"><?php _e('Preise', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_update_price"><?php _e('Preise', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_price = get_option('amazon_update_price'); ?>
 									<select name="amazon_update_price" id="amazon_update_price">
-										<option value="yes" <?php if($selected_amazon_update_price == 'yes' || $selected_amazon_update_price == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_price == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_price == 'yes' || $selected_amazon_update_price == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_price == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_update_url"><?php _e('URL', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_update_url"><?php _e('URL', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_url = get_option('amazon_update_url'); ?>
 									<select name="amazon_update_url" id="amazon_update_url">
-										<option value="yes" <?php if($selected_amazon_update_url == 'yes' || $selected_amazon_update_url == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_url == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_url == 'yes' || $selected_amazon_update_url == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_url == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_update_external_images"><?php _e('Externe Bilder', 'affiliatetheme-api'); ?></label>
+									<label for="amazon_update_external_images"><?php _e('Externe Bilder', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_external_images = get_option('amazon_update_external_images'); ?>
 									<select name="amazon_update_external_images" id="amazon_update_external_images">
-										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 
 									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden externe Bilder in deinem Produkt aktualisiert. Solltest du keine externen Bilder mehr verwenden, werden diese bei einem Update aus deinem Produkt gelöscht.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine externen Bilder nutzen, mit externen Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
@@ -150,8 +150,8 @@
 									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_rating = get_option('amazon_update_rating'); ?>
 									<select name="amazon_update_rating" id="amazon_update_rating">
-										<option value="yes" <?php if($selected_amazon_update_rating == 'yes' || $selected_amazon_update_rating == '1') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-api'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_rating == 'no' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-api'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_rating == 'yes' || $selected_amazon_update_rating == '1') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_rating == 'no' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <span style="color:#c01313"><strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird diese <u>überschrieben!</u></span>', 'affiliatetheme-amazon'); ?></p>
 								</div>

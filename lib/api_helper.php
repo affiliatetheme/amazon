@@ -769,11 +769,11 @@ if ( ! function_exists( 'at_aws_send_notification_mail' ) ) {
 
                 switch (get_post_status($item)) {
                     case 'publish':
-                        $status = __('Online', 'affiliatetheme-api');
+                        $status = __('Online', 'affiliatetheme-amazon');
                         break;
 
                     default:
-                        $status = __('Entwurf', 'affiliatetheme-api');
+                        $status = __('Entwurf', 'affiliatetheme-amazon');
                 }
 
                 $product_table .= '
