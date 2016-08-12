@@ -49,8 +49,13 @@ function at_aws_search() {
     $search->setTitle($title);
     $search->setSort($sort);
     $search->setMerchantId($merchant);
-    $search->setMinimumPrice($min_price);
-    $search->setMaximumPrice($max_price);
+    if($min_price) {
+        $search->setMinimumPrice($min_price);
+    }
+    if($max_price) {
+        $search->setMaximumPrice($max_price);
+    }
+    
 
     /* @var $formattedResponse Amazon\ResultSet */
     $formattedResponse = $apaiIO->runOperation($search);
