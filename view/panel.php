@@ -523,7 +523,7 @@
 			<!-- END: Buttons Tab-->
 
 			<!-- START: Error Handling Tab-->
-			<div id="errorhandling" class="at-errorhandling-tab">
+			<div id="errorhandling" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
@@ -552,7 +552,6 @@
 </div>
 
 <style>
-
 	table.products tfoot .taxonomy-select{display:none;}
 	table .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
 	@media(min-width: 1200px) { table .taxonomy-select .form-group { width: 20%; } }
