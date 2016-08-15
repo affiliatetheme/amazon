@@ -672,25 +672,27 @@ if ( ! function_exists( 'at_aws_add_product_tabs_nav' ) ) {
         $partner_tag = get_option('amazon_partner_id');
         $product_shops = get_field('product_shops', $post_id);
         $shop_id = getRepeaterRowID($product_shops, 'portal', 'amazon', false);
-        $asin = $product_shops[$shop_id]['amazon_asin'];
-        $link = $product_shops[$shop_id]['link'];
-        $url = 'https://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+        if($shop_id) {
+            $asin = $product_shops[$shop_id]['amazon_asin'];
+            $link = $product_shops[$shop_id]['link'];
+            $url = 'https://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
 
-        // check current amazon country
-        if ($link) {
-            preg_match_all("/\\.[a-z]{2,3}(\\.[a-z]{2,3})?/m", $link, $amazon_tld);
-            if ($amazon_tld) {
-                if ($tld = $amazon_tld[0][1]) {
-                    $url = 'https://www.amazon' . $tld . '/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+            // check current amazon country
+            if ($link) {
+                preg_match_all("/\\.[a-z]{2,3}(\\.[a-z]{2,3})?/m", $link, $amazon_tld);
+                if ($amazon_tld) {
+                    if ($tld = $amazon_tld[0][1]) {
+                        $url = 'https://www.amazon' . $tld . '/product-reviews/' . $asin . '/?tag=' . $partner_tag;
+                    }
                 }
             }
-        }
 
-        if (!$asin) {
-            return false;
-        }
+            if (!$asin) {
+                return false;
+            }
 
-        $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme-amazon') . '</a></li>';
+            $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme-amazon') . '</a></li>';
+        }
 
         echo $content;
     }
