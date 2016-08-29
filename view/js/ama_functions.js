@@ -498,8 +498,11 @@ var quickImportAction = function(id, mass, i, max_items) {
 
             if(mass == true) {
                 var curr = parseInt(jQuery(ajax_loader).find('.progress-bar').attr('data-item'));
+                if(curr == 0) {
+                    curr = 1;
+                }
+
                 var procentual = (100/max_items)*curr;
-                console.log(curr+ ' / ' + procentual);
                 var procentual_fixed =  procentual.toFixed(2);
                 jQuery(ajax_loader).find('.progress-bar').css('width', procentual+'%').html(procentual_fixed+'%');
                 jQuery(ajax_loader).find('.progress-bar').attr('data-item', curr+1);
@@ -530,8 +533,9 @@ var massImportAction = function(target) {
         return false;
     }
 
-    jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%').attr('data-item', '1');
-    jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von '+max_items);
+    jQuery(ajax_loader).find('span.current').html('0');
+    jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%').attr('data-item', 0);
+    jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von ' + max_items);
 
     jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
         var id = jQuery(this).val();
