@@ -72,9 +72,9 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 				return; 
 			}
 
-			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '1.0', true);
 			wp_enqueue_style('at-select2', plugin_dir_url(__FILE__) . 'view/css/select2.min.css');
-			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '1.1', true);
+			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '', '1.0', false);
+			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.2.1', false);
 		}
 
 		/**
