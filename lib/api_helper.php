@@ -672,7 +672,7 @@ if ( ! function_exists( 'at_aws_add_product_tabs_nav' ) ) {
         $partner_tag = get_option('amazon_partner_id');
         $product_shops = get_field('product_shops', $post_id);
         $shop_id = getRepeaterRowID($product_shops, 'portal', 'amazon', false);
-        if($shop_id) {
+        if($shop_id !== NULL) {
             $asin = $product_shops[$shop_id]['amazon_asin'];
             $link = $product_shops[$shop_id]['link'];
             $url = 'https://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
