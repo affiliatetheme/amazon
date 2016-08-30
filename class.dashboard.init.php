@@ -74,7 +74,27 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			wp_enqueue_style('at-select2', plugin_dir_url(__FILE__) . 'view/css/select2.min.css');
 			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '', '1.0', false);
-			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.2.1', false);
+			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.2.2', false);
+			wp_localize_script('at-amazon-functions', 'amazon_vars', array(
+					'connection' => __('Verbindungsaufbau...', 'affiliatetheme-amazon'),
+					'connection_ok' => __('Verbindung erfolgreich hergestellt.', 'affiliatetheme-amazon'),
+					'connection_error' => __('Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.', 'affiliatetheme-amazon'),
+					'no_image' => __('Kein Bild vorhanden', 'affiliatetheme-amazon'),
+					'external_product' => __('externes Produkt!', 'affiliatetheme-amazon'),
+					'import' => __('Importieren', 'affiliatetheme-amazon'),
+					'edit' => __('Editieren', 'affiliatetheme-amazon'),
+					'no_products_found' => __('Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.', 'affiliatetheme-amazon'),
+					'edit_product' => __('Produkt bearbeiten', 'affiliatetheme-amazon'),
+					'import_count' => __('Importiere Produkt <span class="current">1</span> von', 'affiliatetheme-amazon'),
+					'feed_success' => __('erfolgreich hinzugefügt.', 'affiliatetheme-amazon'),
+					'feed_fail' => __('konnte nicht hinzugefügt werden.', 'affiliatetheme-amazon'),
+					'feed_delete_success' => __('Eintrag erfolgreich gelöscht.', 'affiliatetheme-amazon'),
+					'feed_delete_fail' => __('Eintrag konnte nicht gelöscht werden.', 'affiliatetheme-amazon'),
+					'feed_update_success' => __('Eintrag erfolgreich aktualisiert.', 'affiliatetheme-amazon'),
+					'feed_update_fail' => __('Eintrag konnte nicht aktualisiert werden.', 'affiliatetheme-amazon'),
+					'adblocker_hint' => __('Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!', 'affiliatetheme-amazon')
+				)
+			);
 		}
 
 		/**

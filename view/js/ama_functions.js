@@ -220,7 +220,7 @@ jQuery(document).ready(function() {
  * checkConnection
  */
 var checkConnection = function() {
-    jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">Verbindungsaufbau...</small>');
+    jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">' + amazon_vars.connection + '</small>');
 
     var value = 'Matrix'
     var cat = 'DVD';
@@ -243,12 +243,12 @@ var checkConnection = function() {
 
             if(totalpages > 0) {
                 resultContainer.fadeOut('fast', function() {
-                    resultContainer.append('<div class="updated"><p class="success">Verbindung erfolgreich hergestellt.</p></div>');
+                    resultContainer.append('<div class="updated"><p class="success">' + amazon_vars.connection_ok + '</p></div>');
                     resultContainer.fadeIn('fast');
                     setCurrentTab('search');
                 });
             } else {
-                resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+                resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '</p></div>');
             }
 
             if(data['rmessage']['errormsg'] != "") {
@@ -258,7 +258,7 @@ var checkConnection = function() {
             jQuery('.status-after').remove();
         },
         error: function() {
-            resultContainer.append('<div class="error"><p class="error">Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.</p></div>');
+            resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '</p></div>');
             resultContainer.fadeIn('fast');
         }
     });
@@ -341,10 +341,10 @@ var searchAction = function() {
                         if(data['items'][x].img !="assets/images/no.gif") {
                             html += '<td class="image"><img src="' + data['items'][x].img + '"></td>';
                         } else {
-                            html += '<td class="image">Kein Bild vorhanden</td>';
+                            html += '<td class="image">' + amazon_vars.no_image + '</td>';
                         }
                         if (data['items'][x].external == 1) {
-                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">externes Produkt!</span><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
+                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">' + amazon_vars.external_product + '</span><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         } else {
                             html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         }
@@ -361,9 +361,9 @@ var searchAction = function() {
                         html += '</td>';
                         html += '<td class="category">' + (data['items'][x].category != null ? data['items'][x].category : '-') + '</td>';
                         if(data['items'][x].exists != "false") {
-                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="Editieren"><i class="fa fa-edit"></i></a></td>';
+                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'post.php?post=' + data['items'][x].exists + '&action=edit" target="_blank" title="' + amazon_vars.edit + '"><i class="fa fa-edit"></i></a></td>';
                         } else {
-                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'admin-ajax.php?action=amazon_api_lookup&func=modal&asin=' + data['items'][x].asin + '&height=700&width=820" class="thickbox" title="Importieren"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="' + data['items'][x].asin + '"><i class="fa fa-bolt"></i></a></td>';
+                            html += '<td class="action"><a href="' + jQuery('#at-import-page').attr('data-url') + 'admin-ajax.php?action=amazon_api_lookup&func=modal&asin=' + data['items'][x].asin + '&height=700&width=820" class="thickbox" title="' + amazon_vars.import + '"><i class="fa fa-plus-circle"></i></a> <a href="#" title="Quickimport" class="quick-import" data-asin="' + data['items'][x].asin + '"><i class="fa fa-bolt"></i></a></td>';
                         }
                         html += '</tr>';
 
@@ -373,7 +373,7 @@ var searchAction = function() {
                 } else {
                     html += '<tr class="item error" data-asin="">';
                     html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
-                    html += '<td colspan="8">Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu.</td>';
+                    html += '<td colspan="8">' + amazon_vars.no_products_found + '</td>';
                     html += '</tr>';
                     resultContainer.append(html);
                     jQuery('table.products tfoot .taxonomy-select').fadeOut();
@@ -423,7 +423,7 @@ var singleImportAction = function(target) {
                 jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
             } else if(data['rmessage']['success'] == "true") {
                 jQuery(target).hide();
-                jQuery(target).after('<a class="button button-primary" href="'+jQuery('#at-import-page').attr('data-url')+'post.php?post='+data['rmessage']['post_id']+'&action=edit"><i class="fa fa-pencil"></i> Produkt bearbeiten</a>');
+                jQuery(target).after('<a class="button button-primary" href="'+jQuery('#at-import-page').attr('data-url')+'post.php?post='+data['rmessage']['post_id']+'&action=edit"><i class="fa fa-pencil"></i> ' + amazon_vars.edit_product + '</a>');
                 jQuery('body table.products tr[data-asin=' + asin + ']').addClass('success');
                 jQuery('body table.products tr[data-asin=' + asin + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
                 jQuery('body table.products tr[data-asin=' + asin + '] .action i').removeClass('fa-plus-circle').addClass('fa fa-edit').closest('a').removeClass('thickbox').attr('target', '_blank').attr('href', jQuery('#at-import-page').attr('data-url') + 'post.php?post='+data['rmessage']['post_id']+'&action=edit');
@@ -535,7 +535,7 @@ var massImportAction = function(target) {
 
     jQuery(ajax_loader).find('span.current').html('0');
     jQuery(ajax_loader).find('.progress-bar').css('width', '0%').html('0%').attr('data-item', 0);
-    jQuery(ajax_loader).addClass('active').find('p').html('Importiere Produkt <span class="current">1</span> von ' + max_items);
+    jQuery(ajax_loader).addClass('active').find('p').html(amazon_vars.import_count + ' ' + max_items);
 
     jQuery('#results .item:not(".success") .check-column input:checkbox:checked').each(function () {
         var id = jQuery(this).val();
@@ -611,10 +611,10 @@ var FeedWriteItem = function(e) {
         success: function(data){
             var status = data.status;
             if(status == 'ok') {
-                jQuery('#feed-messages').html('<div class="alert alert-success"><strong>' + keyword + '</strong> erfolgreich hinzugefügt.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-success"><strong>' + keyword + '</strong> ' + amazon_vars.feed_success + '</div>');
                 location.reload();
             } else {
-                jQuery('#feed-messages').html('<div class="alert alert-error"><strong>' + keyword + '<strong> konnte nicht hinzugefügt werden.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-error"><strong>' + keyword + '<strong> ' + amazon_vars.feed_fail + '</div>');
             }
             jQuery('#add-new-keyword button .fa-spin').remove();
             jQuery('#add-new-keyword button').attr('disabled', false);
@@ -646,10 +646,10 @@ var FeedDeleteItem = function(e, id) {
         success: function(data){
             var status = data.status;
             if(status == 'ok') {
-                jQuery('#feed-messages').html('<div class="alert alert-success">Eintrag erfolgreich gelöscht.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-success">' + amazon_vars.feed_item_success + '</div>');
                 location.reload();
             } else {
-                jQuery('#feed-messages').html('<div class="alert alert-error">Eintrag konnte nicht gelöscht werden.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-error">' + amazon_vars.feed_item_fail + '</div>');
             }
         }
     });
@@ -675,10 +675,10 @@ var FeedChangeStatus = function(e, id, status) {
         success: function(data){
             var status = data.status;
             if(status == 'ok') {
-                jQuery('#feed-messages').html('<div class="alert alert-success">Eintrag erfolgreich aktualisiert.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-success">' + amazon_vars.feed_update_success + '</div>');
                 location.reload();
             } else {
-                jQuery('#feed-messages').html('<div class="alert alert-error">Eintrag konnte nicht aktualisiert werden.</div>');
+                jQuery('#feed-messages').html('<div class="alert alert-error">' + amazon_vars.feed_update_fail + '</div>');
             }
         }
     });
@@ -698,7 +698,7 @@ var checkAdblock = function() {
         if(!ad
             || ad.innerHTML.length == 0
             || ad.clientHeight === 0) {
-            jQuery('#checkConnection').append('<div class="alert alert-danger">Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!</div>');
+            jQuery('#checkConnection').append('<div class="alert alert-danger">' + amazon_vars.adblocker_hint + '</div>');
         } else {
             ad.style.display = 'none';
         }
@@ -878,10 +878,10 @@ jQuery(document).ready(function() {
                 var status = data.status;
 
                 if(status == 'ok') {
-                    jQuery(form).find('#form-messages').html('<div class="alert alert-success">Eintrag erfolgreich aktualisiert.</div>');
+                    jQuery(form).find('#form-messages').html('<div class="alert alert-success">' + amazon_vars.feed_update_success + '</div>');
                     location.reload();
                 } else {
-                    jQuery(form).find('#form-messages').html('<div class="alert alert-error">Eintrag konnte nicht aktualisiert werden.</div>');
+                    jQuery(form).find('#form-messages').html('<div class="alert alert-error">' + amazon_vars.feed_update_fail + '</div>');
                 }
 
                 jQuery(form).find('.fa-spin').remove();
