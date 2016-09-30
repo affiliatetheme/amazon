@@ -26,6 +26,8 @@ function at_aws_update($args = array()) {
         wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', $args = array('hash' => $check_hash));
         die('Security check failed.');
     }
+
+    $interval = (at_amazon_product_skip_interval() ? at_amazon_product_skip_interval() : 3600);
 	
 	// get products
     $products = $wpdb->get_results(
@@ -34,13 +36,13 @@ function at_aws_update($args = array()) {
                 SELECT DISTINCT p.ID FROM {$wpdb->posts} p
                 LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id
                 LEFT JOIN {$wpdb->postmeta} a ON p.ID = a.post_id
-				WHERE a.meta_key = '%s' AND (a.meta_value+3600 < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) OR a.meta_id IS NULL) AND pm.meta_key LIKE '%s' AND  p.post_type = '%s' AND p.post_status != 'trash'
+				WHERE a.meta_key = '%s' AND (a.meta_value+" . $interval . " < UNIX_TIMESTAMP(CURRENT_TIMESTAMP()) OR a.meta_id IS NULL) AND pm.meta_key LIKE '%s' AND  p.post_type = '%s' AND p.post_status != 'trash'
                 LIMIT 0,999
             ",
             AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
         )
     );
-	
+
     $wlProducts = $wpdb->get_results(
         $wpdb->prepare(
             "

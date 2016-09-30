@@ -55,6 +55,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			register_setting('endcore_api_amazon_options', 'amazon_update_url');
 			register_setting('endcore_api_amazon_options', 'amazon_update_external_images');
 			register_setting('endcore_api_amazon_options', 'amazon_update_rating');
+            register_setting('endcore_api_amazon_options', 'amazon_product_skip_interval');
 
 			register_setting('endcore_api_amazon_button_options', 'amazon_buy_short_button');
 			register_setting('endcore_api_amazon_button_options', 'amazon_buy_button');

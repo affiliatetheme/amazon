@@ -920,7 +920,7 @@ if ( ! function_exists('at_amazon_notices') ) {
 
 if ( ! function_exists('at_fire_filter') ) {
     /**
-     * at_amazon_notices function.
+     * at_fire_filter function.
      *
      */
     add_action('init', 'at_fire_filter');
@@ -929,6 +929,25 @@ if ( ! function_exists('at_fire_filter') ) {
         if(get_option('amazon_error_handling_replace_thumbnails') == '1') {
             add_filter('at_aws_product_thumbnail_regenerate', '__return_true');
         }
+    }
+}
+
+if ( ! function_exists('at_amazon_product_skip_interval') ) {
+    /**
+     * at_amazon_product_update_interval function.
+     *
+     */
+    add_action('init', 'at_amazon_product_skip_interval');
+    function at_amazon_product_skip_interval() {
+        $interval = 3600;
+
+        $product_skip_interval = get_option('amazon_product_skip_interval');
+
+        if($product_skip_interval != 3600 && $product_skip_interval != '') {
+            $interval = $product_skip_interval;
+        }
+
+        return intval(apply_filters('at_amazon_product_skip_interval', $interval));
     }
 }
 

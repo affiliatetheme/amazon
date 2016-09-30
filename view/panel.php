@@ -147,13 +147,27 @@
 									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden externe Bilder in deinem Produkt aktualisiert. Solltest du keine externen Bilder mehr verwenden, werden diese bei einem Update aus deinem Produkt gelöscht.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine externen Bilder nutzen, mit externen Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group">
-									<label for="amazon_show_reviews"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
+									<label for="amazon_update_rating"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_rating = get_option('amazon_update_rating'); ?>
 									<select name="amazon_update_rating" id="amazon_update_rating">
 										<option value="yes" <?php if($selected_amazon_update_rating == 'yes' || $selected_amazon_update_rating == '1') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
 										<option value="no" <?php if($selected_amazon_update_rating == 'no' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <span style="color:#c01313"><strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird diese <u>überschrieben!</u></span>', 'affiliatetheme-amazon'); ?></p>
+								</div>
+								<div class="form-group">
+									<label for="amazon_product_skip_interval"><?php _e('Aktualisierungsintervall für Produkte', 'affiliatetheme-amazon'); ?></label>
+									<?php $selected_amazon_product_skip_interval = get_option('amazon_product_skip_interval'); ?>
+									<select name="amazon_product_skip_interval" id="amazon_product_skip_interval">
+										<option value="3600" <?php if($selected_amazon_product_skip_interval == '3600' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('1 Stunde', 'affiliatetheme-amazon'); ?></option>
+										<option value="7200" <?php if($selected_amazon_product_skip_interval == '7200') echo 'selected'; ?>><?php _e('2 Stunden', 'affiliatetheme-amazon'); ?></option>
+										<option value="10800" <?php if($selected_amazon_product_skip_interval == '10800') echo 'selected'; ?>><?php _e('3 Stunden', 'affiliatetheme-amazon'); ?></option>
+										<option value="14400" <?php if($selected_amazon_product_skip_interval == '14400') echo 'selected'; ?>><?php _e('4 Stunden', 'affiliatetheme-amazon'); ?></option>
+										<option value="18000" <?php if($selected_amazon_product_skip_interval == '18000') echo 'selected'; ?>><?php _e('5 Stunden', 'affiliatetheme-amazon'); ?></option>
+										<option value="21600" <?php if($selected_amazon_product_skip_interval == '21600') echo 'selected'; ?>><?php _e('6 Stunden', 'affiliatetheme-amazon'); ?></option>
+										<option value="43200" <?php if($selected_amazon_product_skip_interval == '43200') echo 'selected'; ?>><?php _e('1 Tag', 'affiliatetheme-amazon'); ?></option>
+									</select>
+									<p class="form-hint"><?php _e('Der Updateprozess wird jede Stunde angestoßen. Produkte werden für eine gewisse Zeit im Updateprozess ignoriert, damit andere Produkte auch aktualisiert werden können.<br>Bestimme hier, wie lange ein Produkt ignoriert wird. Dies ist z.B. sinnvoll, wenn du das Gefühl hast, dass nicht alle Produkte aktualisiert werden.<br>In diesem Fall solltest du den Wert höher setzen.', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group">
 									<?php submit_button(); ?>
