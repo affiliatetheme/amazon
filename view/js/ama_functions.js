@@ -896,5 +896,18 @@ jQuery(document).ready(function() {
 
         return false;
     });
+
+
+    jQuery('.notice[data-action="force-dismiss"]').live('click', function(e) {
+        var option = jQuery(this).data('name');
+        jQuery.ajax({
+            url: ajaxurl,
+            dataType: 'json',
+            type: 'POST',
+            data: "action=at_amazon_set_option&option=" + option + "&value=dismissed",
+            success: function(data){}
+        });
+        e.preventDefault();
+    });
 });
 

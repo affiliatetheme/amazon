@@ -951,6 +951,48 @@ if ( ! function_exists('at_amazon_product_skip_interval') ) {
     }
 }
 
+if ( ! function_exists('at_amazon_rating_hint') ) {
+    /**
+     * at_amazon_rating_hint function.
+     *
+     */
+    add_action('admin_notices', 'at_amazon_rating_hint');
+    function at_amazon_rating_hint() {
+        $screen = get_current_screen();
+        if($screen->id != 'import_page_endcore_api_amazon') {
+            return;
+        }
+
+        $option = get_option('rating-removed-hint');
+        if($option == 'dismissed') {
+            return;
+        }
+        ?>
+        <div class="notice notice-info is-dismissible" data-action="force-dismiss" data-name="rating-removed-hint">
+            <p><span class="dashicons dashicons-megaphone"></span> &nbsp; <?php _e('Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon'); ?></p>
+        </div>
+        <?php
+    }
+}
+
+if ( ! function_exists('at_amazon_set_option') ) {
+    /**
+     * at_amazon_set_option function.
+     *
+     */
+    add_action('wp_ajax_at_amazon_set_option', 'at_amazon_set_option');
+    function at_amazon_set_option() {
+        $option = $_POST['option'];
+        $value = $_POST['value'];
+
+        if ($option && $value) {
+            update_option($option, $value);
+        }
+
+        exit;
+    }
+}
+
 /*
  * Feed: Read
 function at_amazon_feed_read() {
