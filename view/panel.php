@@ -137,16 +137,17 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label for="amazon_update_external_images"><?php _e('Externe Bilder', 'affiliatetheme-amazon'); ?></label>
+									<label for="amazon_update_external_images"><?php _e('Bilder', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_external_images = get_option('amazon_update_external_images'); ?>
 									<select name="amazon_update_external_images" id="amazon_update_external_images">
 										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
 										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 
-									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden externe Bilder in deinem Produkt aktualisiert. Solltest du keine externen Bilder mehr verwenden, werden diese bei einem Update aus deinem Produkt gelöscht.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine externen Bilder nutzen, mit externen Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
+									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden Bilder in deinem Produkt aktualisiert.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine Bilder nutzen, mit Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
 								</div>
-								<div class="form-group">
+								<?php
+								/* <div class="form-group">
 									<label for="amazon_update_rating"><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_rating = get_option('amazon_update_rating'); ?>
 									<select name="amazon_update_rating" id="amazon_update_rating">
@@ -155,11 +156,13 @@
 									</select>
 									<p class="form-hint"><?php _e('Mit dieser Einstellung werden Bewertungen (und derren Anzahl) während des regelmäßigen Update-Prozesses aktualisiert.<br> <span style="color:#c01313"><strong>Achtung:</strong> Sofern du das Rating manuell angepasst hast, wird diese <u>überschrieben!</u></span>', 'affiliatetheme-amazon'); ?></p>
 								</div>
+ 								*/
+								?>
 								<div class="form-group">
 									<label for="amazon_product_skip_interval"><?php _e('Aktualisierungsintervall für Produkte', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_product_skip_interval = get_option('amazon_product_skip_interval'); ?>
 									<select name="amazon_product_skip_interval" id="amazon_product_skip_interval">
-										<option value="3600" <?php if($selected_amazon_product_skip_interval == '3600' || $selected_amazon_update_rating == '') echo 'selected'; ?>><?php _e('1 Stunde', 'affiliatetheme-amazon'); ?></option>
+										<option value="3600" <?php if($selected_amazon_product_skip_interval == '3600' || $selected_amazon_product_skip_interval == '') echo 'selected'; ?>><?php _e('1 Stunde', 'affiliatetheme-amazon'); ?></option>
 										<option value="7200" <?php if($selected_amazon_product_skip_interval == '7200') echo 'selected'; ?>><?php _e('2 Stunden', 'affiliatetheme-amazon'); ?></option>
 										<option value="10800" <?php if($selected_amazon_product_skip_interval == '10800') echo 'selected'; ?>><?php _e('3 Stunden', 'affiliatetheme-amazon'); ?></option>
 										<option value="14400" <?php if($selected_amazon_product_skip_interval == '14400') echo 'selected'; ?>><?php _e('4 Stunden', 'affiliatetheme-amazon'); ?></option>
@@ -292,9 +295,6 @@
 									<th scope="col" id="title" class="manage-column column-title">
 										<span><?php _e('Titel', 'affiliatetheme-amazon'); ?></span>
 									</th>
-									<th scope="col" id="rating" class="manage-column column-rating">
-										<span><?php _e('Bewertung', 'affiliatetheme-amazon'); ?></span>
-									</th>
 									<th scope="col" id="price" class="manage-column column-price">
 										<span><?php _e('Preis', 'affiliatetheme-amazon'); ?></span>
 									</th>
@@ -311,7 +311,7 @@
 							</thead>
 							<tfoot>
 								<tr>
-									<td colspan="9">
+									<td colspan="8">
 										<?php
 										if(get_products_multiselect_tax_form())
 											echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form() . '</div>';

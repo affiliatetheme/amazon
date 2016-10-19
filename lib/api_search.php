@@ -76,8 +76,6 @@ function at_aws_search() {
                     'currency' => ($singleItem->getCurrencyCode() ? $singleItem->getCurrencyCode() : 'EUR'),
                     'category' => $singleItem->getBinding(),
                     'category_margin' => $singleItem->getMarginForBinding(),
-                    'reviews_average' => $singleItem->getAverageRating(),
-                    'reviews_total' => $singleItem->getTotalReviews(),
                     'external' => $singleItem->isExternalProduct(),
                     'exists' => 'false'
                 );

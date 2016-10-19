@@ -15,7 +15,7 @@ function at_aws_impot() {
 
     // vars
     $asin = (isset($_POST['asin']) ? $_POST['asin'] : '');
-	$amazon_images_external = get_option('amazon_images_external');
+    $amazon_images_external = get_option('amazon_images_external');
 
     if (isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
         // quick import
@@ -34,7 +34,7 @@ function at_aws_impot() {
 
         $lookup = new Lookup();
         $lookup->setItemId($asin);
-        $lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations'));
+        $lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Variations'));
 
         /* @var $formattedResponse Amazon\SingleResultSet */
         $formattedResponse = $apaiIO->runOperation($lookup);
@@ -51,8 +51,8 @@ function at_aws_impot() {
                 $salesrank = ($item->getSalesRank() ? $item->getSalesRank() : '');
                 $url = $item->getUrl();
                 $currency = $item->getCurrencyCode();
-                $ratings = $item->getAverageRating();
-                $ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
+                $ratings = 0;
+                $ratings_count = '';
                 $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
                 $amazon_images = $item->getAllImages()->getLargeImages();
                 $images = array();
@@ -65,7 +65,7 @@ function at_aws_impot() {
                 // overwrite with external images
                 if($amazon_images_external == '1') {
                     $amazon_images = $item->getExternalImages();
-                } 
+                }
 
                 if ($amazon_images) {
                     $c = 1;
@@ -123,12 +123,12 @@ function at_aws_impot() {
         if ($post_id) {
             //fix rating
             $ratings = round($ratings * 2) / 2;
-            
-			// shopinfo
-			$key = 0;
-			if($exists) {
+
+            // shopinfo
+            $key = 0;
+            if($exists) {
                 $shop_info = get_field('field_557c01ea87000', $post_id);
-				$key = count($shop_info);
+                $key = count($shop_info);
             }
 
             $shop_info[] = array(
@@ -140,17 +140,16 @@ function at_aws_impot() {
                 'shop' => (at_aws_get_amazon_shop_id() ? at_aws_get_amazon_shop_id() : ''),
                 'link' => $url,
             );
-						
+
             update_field('field_557c01ea87000', $shop_info, $post_id);
-			
-			//customfields
+
+            //customfields
             update_post_meta($post_id, AWS_METAKEY_ID, $asin);
             update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
             update_post_meta($post_id, 'product_ean', $ean);
             update_post_meta($post_id, 'product_rating', $ratings);
             update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
-			update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
-			update_post_meta($post_id, 'amazon_salesrank_' . $key, $salesrank);
+            update_post_meta($post_id, 'amazon_salesrank_' . $key, $salesrank);
 
             //taxonomie
             if ($taxs) {

@@ -85,7 +85,7 @@ function at_aws_update($args = array()) {
                                 // amazon item
                                 $lookup = new Lookup();
                                 $lookup->setItemId($val[AWS_METAKEY_ID]);
-                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Reviews', 'Images'));
+                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Images'));
                                 $lookup->setAvailability('Available');
                                 $formattedResponse = $apaiIO->runOperation($lookup);
                                 $item = $formattedResponse->getItem();
@@ -230,12 +230,12 @@ function at_aws_update($args = array()) {
 											// remove old external images
 											update_field('field_57486088e1f0d', array(), $product->ID);
 											$product_gallery = get_field('field_553b84fb117b1', $product->ID);
-																						
+
                                             // no external images, check if we should add internal images
-											if(!$product_gallery) {
+											if(!$product_gallery || !has_post_thumbnail($product->ID)) {
 												$amazon_images = $item->getAllImages()->getLargeImages();
 												$images = array();
-												
+
 												if ($amazon_images) {
 													$c = 1;
 													foreach ($amazon_images as $image) {
@@ -244,13 +244,13 @@ function at_aws_update($args = array()) {
 														$images[$c]['url'] = $image;
 
 														if ($c == 1) {
-															$images[$c]['thumb'] = 'true';
+															$images[$c]['exclude'] = 'true';
 														}
 
 														$c++;
 													}
 												}
-												
+
 												if ($images) {
 													$attachments = array();
 
@@ -260,21 +260,14 @@ function at_aws_update($args = array()) {
 														$image_url = $image['url'];
 														$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
 														$image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
-														
-														if ("true" == $image_exclude) {
+
+														if ("true" == $image_exclude || "true" == $image_thumb) {
 															continue;
 														}
 
-														if ("true" == $image_thumb) {
-															$att_id = at_attach_external_image($image_url, $product->ID, true, $image_filename, array('post_title' => $image_alt));
-															update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
-															update_post_meta($product->ID, '_thumbnail_id', $att_id );
-														} else {
-															$att_id = at_attach_external_image($image_url, $product->ID, false, $image_filename, array('post_title' => $image_alt));
-															update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
-															$attachments[] = $att_id;
-														}
-														
+                                                        $att_id = at_attach_external_image($image_url, $product->ID, false, $image_filename, array('post_title' => $image_alt));
+                                                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                                                        $attachments[] = $att_id;
 													}
 
 													if ($attachments) {
@@ -286,7 +279,7 @@ function at_aws_update($args = array()) {
 												$_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', true);
 												$_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
                                                 $att_id = '';
-												
+
 												if(!has_post_thumbnail($product->ID)) {
 													if($_thumbnail_id == 'by_url') {
 														if($_thumbnail_ext_url) {
@@ -298,19 +291,19 @@ function at_aws_update($args = array()) {
 																$att_id = $new_att['ID'];
 																break;
 															}
-															
+
 															// remove this image from gallery
 															unset($product_gallery[0]);
 															update_field('field_553b84fb117b1', $product_gallery, $product->ID);
 														}
-														
+
 														update_post_meta($product->ID, '_thumbnail_id', $att_id);
 														update_post_meta($product->ID, '_thumbnail_ext_url', '');
 													} else {
 														if(apply_filters('at_aws_product_thumbnail_regenerate', false)) {
 															$amazon_images = $item->getAllImages()->getLargeImages();
 															$images = array();
-															
+
 															if ($amazon_images) {
 																$c = 1;
 																foreach ($amazon_images as $image) {
@@ -325,7 +318,7 @@ function at_aws_update($args = array()) {
 																	$c++;
 																}
 															}
-															
+
 															if ($images) {
 																$attachments = array();
 
@@ -334,13 +327,13 @@ function at_aws_update($args = array()) {
 																	$image_alt = (isset($image['alt']) ? $image['alt'] : '');
 																	$image_url = $image['url'];
 																	$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
-																	
-																	
+
+
 																	$att_id = at_attach_external_image($image_url, $product->ID, true, $image_filename, array('post_title' => $image_alt));
 																	update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
 																	update_post_meta($product->ID, '_thumbnail_id', $att_id );
-																	
-																	break;														
+
+																	break;
 																}
 															}
 														}
@@ -350,7 +343,7 @@ function at_aws_update($args = array()) {
                                         }
                                     }
 
-                                    //update rating
+                                    /*update rating
                                     if (get_option('amazon_update_rating') == 'yes' || get_option('amazon_update_rating') == '1') {
                                         $rating = $item->getAverageRating();
                                         $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
@@ -362,7 +355,7 @@ function at_aws_update($args = array()) {
                                             update_post_meta($product->ID, 'product_rating', $rating);
                                             update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
                                         }
-                                    }
+                                    }*/
 
                                     update_post_meta($product->ID, 'product_not_avail', '0');
                                     at_aws_remove_product_notification($product->ID);

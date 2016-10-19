@@ -45,10 +45,10 @@ function at_aws_lookup() {
 		    $currency = $item->getCurrencyCode();
 		    $url = $item->getUrl();
 			$description = $item->getItemDescription();
-			$ratings_average = $item->getAverageRating();
-			$ratings_average_rounded = round($ratings_average / .5) * .5;
+			//$ratings_average = $item->getAverageRating();
+			//$ratings_average_rounded = round($ratings_average / .5) * .5;
+			//$ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 			//$prime = $item->isPrime();
-			$ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 		    $images = $item->getAllImages()->getLargeImages();
 
 			// overwrite with external images
@@ -73,14 +73,19 @@ function at_aws_lookup() {
 						
 						<div class="form-group col-xs-4">
 							<label><?php _e('Bewertung', 'affiliatetheme-amazon'); ?></label>
-							<?php echo at_get_product_rating_list($ratings_average_rounded); ?>
+							<?php echo at_get_product_rating_list(); ?>
 						</div>
 						
 						<div class="form-group col-xs-4">
-							<label><?php _e('Bewertungen', 'affiliatetheme-amazon'); ?></label>
-							<input type="text" id="ratings_count" name="ratings_count" class="form-control" value="<?php echo $ratings_count; ?>" />
+							<label><?php _e('Anzahl der Bewertungen', 'affiliatetheme-amazon'); ?></label>
+							<input type="text" id="ratings_count" name="ratings_count" class="form-control" value="" />
 						</div>
 					</div>
+
+					<div class="alert alert-info">
+						<span class="dashicons dashicons-megaphone"></span> &nbsp; <?php _e('Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon'); ?>
+					</div>
+
 					<div class="row">
 						<div class="form-group col-xs-4">
 							<label><?php _e('SalesRank', 'affiliatetheme-amazon'); ?></label>

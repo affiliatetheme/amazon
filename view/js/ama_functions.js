@@ -349,7 +349,6 @@ var searchAction = function() {
                             html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         }
 
-                        html += '<td class="rating">' + data['items'][x].reviews_average + ' / 5</td>';
                         html += '<td class="price">' + data['items'][x].price + '<br>(UVP: ' + data['items'][x].price_list + ')</td>';
                         html += '<td class="margin">';
                         if(data['items'][x].category_margin != 0) {
@@ -373,7 +372,7 @@ var searchAction = function() {
                 } else {
                     html += '<tr class="item error" data-asin="">';
                     html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
-                    html += '<td colspan="8">' + amazon_vars.no_products_found + '</td>';
+                    html += '<td colspan="7">' + amazon_vars.no_products_found + '</td>';
                     html += '</tr>';
                     resultContainer.append(html);
                     jQuery('table.products tfoot .taxonomy-select').fadeOut();
