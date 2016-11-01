@@ -969,7 +969,7 @@ if ( ! function_exists('at_amazon_rating_hint') ) {
         }
         ?>
         <div class="notice notice-info is-dismissible" data-action="force-dismiss" data-name="rating-removed-hint">
-            <p><span class="dashicons dashicons-megaphone"></span> &nbsp; <?php _e('Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon'); ?></p>
+            <p><span class="dashicons dashicons-megaphone"></span> &nbsp; <?php printf(__('Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon'), 'https://affiliatetheme.io/forum/thema/die-amazon-bewertungen-sind-nicht-weiter-bestandteil-unserer-schnittstelle/'); ?></p>
         </div>
         <?php
     }
