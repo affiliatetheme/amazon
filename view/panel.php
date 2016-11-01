@@ -141,8 +141,8 @@
 									<label for="amazon_update_external_images"><?php _e('Bilder', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_external_images = get_option('amazon_update_external_images'); ?>
 									<select name="amazon_update_external_images" id="amazon_update_external_images">
-										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
-										<option value="no" <?php if($selected_amazon_update_external_images == 'no') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="yes" <?php if($selected_amazon_update_external_images == 'yes') echo 'selected'; ?>><?php _e('Aktualisieren', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_external_images == 'no' || $selected_amazon_update_external_images == '') echo 'selected'; ?>><?php _e('Nicht aktualisieren', 'affiliatetheme-amazon'); ?></option>
 									</select>
 
 									<p class="form-hint"><?php _e('Mit dieser Einstellungen werden Bilder in deinem Produkt aktualisiert.<br><span style="color:#c01313"><strong>Achtung:</strong> Es werden auch vorhandene Produkte, welche keine Bilder nutzen, mit Bildern aktualisiert.</span>', 'affiliatetheme-amazon'); ?></p>
