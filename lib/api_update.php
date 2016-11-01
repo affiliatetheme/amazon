@@ -160,7 +160,7 @@ function at_aws_update($args = array()) {
                                                 $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
 
                                                 foreach ($images as $image) {
-                                                    $image_filename = substr(sanitize_title($image['filename']), 0, 30);
+                                                    $image_filename = substr(sanitize_title($image['filename']), 0, apply_filters('at_amazon_strip_title', 80));
                                                     $image_alt = (isset($image['alt']) ? $image['alt'] : '');
                                                     $image_url = $image['url'];
                                                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
@@ -308,7 +308,7 @@ function at_aws_update($args = array()) {
 
                                                     if ($images) {
                                                         foreach ($images as $image) {
-                                                            $image_filename = substr(sanitize_title($image['filename']), 0, 30);
+                                                            $image_filename = substr(sanitize_title($image['filename']), 0, apply_filters('at_amazon_strip_title', 80));
                                                             $image_alt = (isset($image['alt']) ? $image['alt'] : '');
                                                             $image_url = $image['url'];
                                                             $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
