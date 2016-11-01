@@ -75,7 +75,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			wp_enqueue_style('at-select2', plugin_dir_url(__FILE__) . 'view/css/select2.min.css');
 			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '', '1.0', false);
-			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.2.2', false);
+			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.3.0', false);
 			wp_localize_script('at-amazon-functions', 'amazon_vars', array(
 					'connection' => __('Verbindungsaufbau...', 'affiliatetheme-amazon'),
 					'connection_ok' => __('Verbindung erfolgreich hergestellt.', 'affiliatetheme-amazon'),
