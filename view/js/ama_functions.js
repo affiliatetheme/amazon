@@ -898,7 +898,7 @@ jQuery(document).ready(function() {
     });
 
 
-    jQuery('.notice[data-action="force-dismiss"]').live('click', function(e) {
+    jQuery('.notice[data-action="force-dismiss"] .notice-dismiss').live('click', function(e) {
         var option = jQuery(this).data('name');
         jQuery.ajax({
             url: ajaxurl,

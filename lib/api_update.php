@@ -160,7 +160,7 @@ function at_aws_update($args = array()) {
                                                 $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', TRUE );;
 
                                                 foreach ($images as $image) {
-                                                    $image_filename = substr(sanitize_title($image['filename']), 0, 30);
+                                                    $image_filename = substr(sanitize_title($image['filename']), 0, apply_filters('at_amazon_strip_title', 80));
                                                     $image_alt = (isset($image['alt']) ? $image['alt'] : '');
                                                     $image_url = $image['url'];
                                                     $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
@@ -230,115 +230,104 @@ function at_aws_update($args = array()) {
 											// remove old external images
 											update_field('field_57486088e1f0d', array(), $product->ID);
 											$product_gallery = get_field('field_553b84fb117b1', $product->ID);
+                                            $images = array();
 
                                             // no external images, check if we should add internal images
-											if(!$product_gallery || !has_post_thumbnail($product->ID)) {
-												$amazon_images = $item->getAllImages()->getLargeImages();
-												$images = array();
+                                            // check thumbnail & set post thumbnail
+                                            if(!has_post_thumbnail($product->ID)) {
+                                                $_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', true);
+                                                $_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
 
-												if ($amazon_images) {
-													$c = 1;
-													foreach ($amazon_images as $image) {
-														$images[$c]['filename'] = sanitize_title($title . '-' . $c);
-														$images[$c]['alt'] = $title . ' - ' . $c;
-														$images[$c]['url'] = $image;
+                                                if($_thumbnail_id == 'by_url') {
+                                                    if($_thumbnail_ext_url) {
+                                                        // try to set the external image as product thumbnail
+                                                        $att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
+                                                    } else {
+                                                        // no image found? fuck. just set the first image from the gallery as product thumbnail
+                                                        foreach($product_gallery as $new_att) {
+                                                            $att_id = $new_att['ID'];
+                                                            break;
+                                                        }
 
-														if ($c == 1) {
-															$images[$c]['exclude'] = 'true';
-														}
+                                                        // remove this image from gallery
+                                                        unset($product_gallery[0]);
+                                                        update_field('field_553b84fb117b1', $product_gallery, $product->ID);
+                                                    }
 
-														$c++;
-													}
-												}
+                                                    update_post_meta($product->ID, '_thumbnail_id', $att_id);
+                                                    update_post_meta($product->ID, '_thumbnail_ext_url', '');
+                                                } else {
+                                                    // check database for images
+                                                    $args = array(
+                                                        'post_type' => 'attachment',
+                                                        'post_parent' => $product->ID,
+                                                        'posts_per_page' => 1
+                                                    );
+                                                    $product_attachments = get_posts($args);
+                                                    if ($product_attachments) {
+                                                        foreach ($product_attachments as $attachment) {
+                                                            set_post_thumbnail($product->ID, $attachment->ID);
+                                                        }
+                                                    } else {
+                                                        $amazon_images = $item->getAllImages()->getLargeImages();
+                                                        if ($amazon_images) {
+                                                            foreach ($amazon_images as $image) {
+                                                                $att_id = at_attach_external_image($image, $product->ID, true, get_the_title($product->ID), array('post_title' => get_the_title($product->ID)));
+                                                                update_post_meta($att_id, '_wp_attachment_image_alt', get_the_title($product->ID));
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
 
-												if ($images) {
-													$attachments = array();
+											if(!$product_gallery) {
+                                                $attachments = array();
+                                                // try to get local imagess
+                                                $args = array(
+                                                    'post_type' => 'attachment',
+                                                    'post_parent' => $product->ID,
+                                                    'posts_per_page' => -1,
+                                                    'post__not_in' => array(get_post_thumbnail_id($product->ID))
+                                                );
+                                                $product_attachments = get_posts($args);
+                                                if ($product_attachments) {
+                                                    foreach ($product_attachments as $attachment) {
+                                                        $attachments[] = $attachment->ID;
+                                                    }
+                                                } else {
+                                                    // fallback to amazon images
+                                                    $amazon_images = $item->getAllImages()->getLargeImages();
+                                                    if ($amazon_images) {
+                                                        foreach ($amazon_images as $image) {
+                                                            $images[$c]['filename'] = sanitize_title($title . '-' . $c);
+                                                            $images[$c]['alt'] = $title . ' - ' . $c;
+                                                            $images[$c]['url'] = $image;
+                                                        }
+                                                    }
 
-													foreach ($images as $image) {
-														$image_filename = substr(sanitize_title($image['filename']), 0, 30);
-														$image_alt = (isset($image['alt']) ? $image['alt'] : '');
-														$image_url = $image['url'];
-														$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
-														$image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
+                                                    if ($images) {
+                                                        foreach ($images as $image) {
+                                                            $image_filename = substr(sanitize_title($image['filename']), 0, apply_filters('at_amazon_strip_title', 80));
+                                                            $image_alt = (isset($image['alt']) ? $image['alt'] : '');
+                                                            $image_url = $image['url'];
+                                                            $image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
+                                                            $image_exclude = (isset($image['exclude']) ? $image['exclude'] : '');
 
-														if ("true" == $image_exclude || "true" == $image_thumb) {
-															continue;
-														}
+                                                            if ("true" == $image_exclude || "true" == $image_thumb) {
+                                                                continue;
+                                                            }
 
-                                                        $att_id = at_attach_external_image($image_url, $product->ID, false, $image_filename, array('post_title' => $image_alt));
-                                                        update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
-                                                        $attachments[] = $att_id;
-													}
+                                                            $att_id = at_attach_external_image($image_url, $product->ID, false, $image_filename, array('post_title' => $image_alt));
+                                                            update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
+                                                            $attachments[] = $att_id;
+                                                        }
+                                                    }
+                                                }
 
-													if ($attachments) {
-														update_field('field_553b84fb117b1', $attachments, $product->ID);
-													}
-												}
-											} else {
-												// check product thumbnail
-												$_thumbnail_ext_url = get_post_meta($product->ID, '_thumbnail_ext_url', true);
-												$_thumbnail_id = get_post_meta($product->ID, '_thumbnail_id', true);
-                                                $att_id = '';
-
-												if(!has_post_thumbnail($product->ID)) {
-													if($_thumbnail_id == 'by_url') {
-														if($_thumbnail_ext_url) {
-															// try to set the external image as product thumbnail
-															$att_id = at_attach_external_image($_thumbnail_ext_url, $product->ID, true);
-														} else {
-															// no image found? fuck. just set the first image from the gallery as product thumbnail
-															foreach($product_gallery as $new_att) {
-																$att_id = $new_att['ID'];
-																break;
-															}
-
-															// remove this image from gallery
-															unset($product_gallery[0]);
-															update_field('field_553b84fb117b1', $product_gallery, $product->ID);
-														}
-
-														update_post_meta($product->ID, '_thumbnail_id', $att_id);
-														update_post_meta($product->ID, '_thumbnail_ext_url', '');
-													} else {
-														if(apply_filters('at_aws_product_thumbnail_regenerate', false)) {
-															$amazon_images = $item->getAllImages()->getLargeImages();
-															$images = array();
-
-															if ($amazon_images) {
-																$c = 1;
-																foreach ($amazon_images as $image) {
-																	$images[$c]['filename'] = sanitize_title($title . '-' . $c);
-																	$images[$c]['alt'] = $title . ' - ' . $c;
-																	$images[$c]['url'] = $image;
-
-																	if ($c == 1) {
-																		$images[$c]['thumb'] = 'true';
-																	}
-
-																	$c++;
-																}
-															}
-
-															if ($images) {
-																$attachments = array();
-
-																foreach ($images as $image) {
-																	$image_filename = substr(sanitize_title($image['filename']), 0, 30);
-																	$image_alt = (isset($image['alt']) ? $image['alt'] : '');
-																	$image_url = $image['url'];
-																	$image_thumb = (isset($image['thumb']) ? $image['thumb'] : '');
-
-
-																	$att_id = at_attach_external_image($image_url, $product->ID, true, $image_filename, array('post_title' => $image_alt));
-																	update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
-																	update_post_meta($product->ID, '_thumbnail_id', $att_id );
-
-																	break;
-																}
-															}
-														}
-													}
-												}
+                                                if ($attachments) {
+                                                    update_field('field_553b84fb117b1', $attachments, $product->ID);
+                                                }
 											}
                                         }
                                     }
