@@ -32,6 +32,7 @@
 
 namespace ApaiIO\Zend\Service\Amazon;
 use ApaiIO\Features\CustomerReview;
+use ApaiIO\Features\CustomerReviewAlternative;
 
 class Item
 {
@@ -230,6 +231,7 @@ class Item
         $result = $xpath->query('./az:CustomerReviews/az:IFrameURL/text()', $dom);
         if ($result->length == 1){
             $this->CustomerReview = new CustomerReview($result->item(0)->data);
+            $this->CustomerReviewAlternative = new CustomerReviewAlternative($result->item(0)->data, $this->ASIN);
         }
 
         $result = $xpath->query('./az:EditorialReviews/az:*', $dom);
@@ -564,6 +566,17 @@ class Item
     }
 
     /**
+     * @return float
+     */
+    public function getAlternateAverageRating(){
+        if ($this->CustomerReviewAlternative) {
+            return $this->CustomerReviewAlternative->getAverageRating();
+        }
+
+        return 0.0;
+    }
+
+    /**
      * @return string
      */
     public function getRatingUrl()
@@ -581,6 +594,17 @@ class Item
     public function getTotalReviews(){
         if ($this->CustomerReview) {
             return $this->CustomerReview->getTotalReviews();
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAlternateTotalReviews(){
+        if ($this->CustomerReviewAlternative) {
+            return $this->CustomerReviewAlternative->getTotalReviews();
         }
 
         return 0;
