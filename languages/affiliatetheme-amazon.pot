@@ -1,14 +1,654 @@
+#, fuzzy
 msgid ""
 msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-03 16:53+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: Affiliate Theme - Amazon\n"
-"Language: en\n"
+"X-Generator: Loco https://localise.biz/"
 
-#. Text in echo
-#: amazon/view/panel.php:121
+#: class.dashboard.init.php:80
+msgid "Verbindungsaufbau..."
+msgstr ""
+
+#: class.dashboard.init.php:81
+msgid "Verbindung erfolgreich hergestellt."
+msgstr ""
+
+#: class.dashboard.init.php:82
+msgid ""
+"Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe "
+"deinen Public Key, Secret Key und deine Partner ID."
+msgstr ""
+
+#: class.dashboard.init.php:83
+msgid "Kein Bild vorhanden"
+msgstr ""
+
+#: class.dashboard.init.php:84
+msgid "externes Produkt!"
+msgstr ""
+
+#: class.dashboard.init.php:85 lib/api_lookup.php:189
+msgid "Importieren"
+msgstr ""
+
+#: class.dashboard.init.php:86
+msgid "Editieren"
+msgstr ""
+
+#: class.dashboard.init.php:87
+msgid "Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu."
+msgstr ""
+
+#: class.dashboard.init.php:88
+msgid "Produkt bearbeiten"
+msgstr ""
+
+#: class.dashboard.init.php:89
+msgid "Importiere Produkt <span class=\"current\">1</span> von"
+msgstr ""
+
+#: class.dashboard.init.php:90
+msgid "erfolgreich hinzugefügt."
+msgstr ""
+
+#: class.dashboard.init.php:91
+msgid "konnte nicht hinzugefügt werden."
+msgstr ""
+
+#: class.dashboard.init.php:92
+msgid "Eintrag erfolgreich gelöscht."
+msgstr ""
+
+#: class.dashboard.init.php:93
+msgid "Eintrag konnte nicht gelöscht werden."
+msgstr ""
+
+#: class.dashboard.init.php:94
+msgid "Eintrag erfolgreich aktualisiert."
+msgstr ""
+
+#: class.dashboard.init.php:95
+msgid "Eintrag konnte nicht aktualisiert werden."
+msgstr ""
+
+#: class.dashboard.init.php:96
+msgid ""
+"Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!"
+msgstr ""
+
+#: lib/api_helper.php:582
+msgid "Kaufen"
+msgstr ""
+
+#: lib/api_helper.php:583 lib/api_helper.php:606 view/panel.php:527
+msgid "Nicht Verfügbar"
+msgstr ""
+
+#: lib/api_helper.php:605
+msgid "Jetzt bei Amazon kaufen"
+msgstr ""
+
+#: lib/api_helper.php:694 view/panel.php:112
 msgid "Kundenrezensionen"
 msgstr ""
 
+#: lib/api_helper.php:774
+msgid "Online"
+msgstr ""
+
+#: lib/api_helper.php:778 view/panel.php:88
+msgid "Entwurf"
+msgstr ""
+
+#: lib/api_helper.php:895
+#, php-format
+msgid ""
+"Achtung: Um dieses Plugin zu verwenden benötigst du mindestens PHP Version 5."
+"3.x. Derzeit verwendest du Version %s."
+msgstr ""
+
+#: lib/api_helper.php:904
+msgid ""
+"Um dieses Plugin zu verwenden benötigst du cURL. <a href=\"http://php."
+"net/manual/de/book.curl.php\" taget=\"_blank\">Hier</a> findest du mehr "
+"Informationen darüber. Kontaktiere im Zweifel deinen Systemadministrator."
+msgstr ""
+
+#: lib/api_helper.php:913
+msgid ""
+"Achtung: Du hast allow_url_fopen deaktiviert. Du benötigst diese Funktionen "
+"um das Rating von Amazon zu beziehen."
+msgstr ""
+
+#: lib/api_helper.php:972 lib/api_lookup.php:86
+#, php-format
+msgid ""
+"Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a "
+"href=\"%s\" target=\"_blank\">hier</a> mehr."
+msgstr ""
+
+#: lib/api_import.php:232
+msgid "Dieses Produkt existiert bereits."
+msgstr ""
+
+#: lib/api_lookup.php:64 view/panel.php:297
+msgid "Titel"
+msgstr ""
+
+#: lib/api_lookup.php:70 view/panel.php:291
+msgid "ASIN"
+msgstr ""
+
+#: lib/api_lookup.php:75
+msgid "Bewertung"
+msgstr ""
+
+#: lib/api_lookup.php:80
+msgid "Anzahl der Bewertungen"
+msgstr ""
+
+#: lib/api_lookup.php:91
+msgid "SalesRank"
+msgstr ""
+
+#: lib/api_lookup.php:96
+msgid "Listenpreis"
+msgstr ""
+
+#: lib/api_lookup.php:101 view/panel.php:300
+msgid "Preis"
+msgstr ""
+
+#: lib/api_lookup.php:111 view/panel.php:93
+msgid "Beschreibung"
+msgstr ""
+
+#: lib/api_lookup.php:120
+msgid "Taxonomien"
+msgstr ""
+
+#: lib/api_lookup.php:126
+msgid "Existierendes Produkt aktualisieren"
+msgstr ""
+
+#: lib/api_lookup.php:127
+msgid ""
+"Mit der Auswahl eines Produktes, wird dieses Amazon Produkt einem "
+"bestehenden Produkt angehängt, somit kannst du einen Preisvergleich der "
+"Anbieter erstellen."
+msgstr ""
+
+#: lib/api_lookup.php:135
+msgid "Produktbild(er)"
+msgstr ""
+
+#: lib/api_lookup.php:135
+msgid "Alle Bilder überspringen"
+msgstr ""
+
+#: lib/api_lookup.php:150
+msgid "Bildname"
+msgstr ""
+
+#: lib/api_lookup.php:155
+msgid "ALT-Tag"
+msgstr ""
+
+#: lib/api_lookup.php:162
+msgid "Artikelbild"
+msgstr ""
+
+#: lib/api_lookup.php:166
+msgid "Überspringen"
+msgstr ""
+
+#: lib/api_lookup.php:190
+msgid "Schließen"
+msgstr ""
+
+#: view/panel.php:14
+msgid "AffiliateTheme Import » Amazon"
+msgstr ""
+
+#: view/panel.php:19 view/panel.php:32
+msgid "Einstellungen"
+msgstr ""
+
+#: view/panel.php:20 view/panel.php:272
+msgid "Suche"
+msgstr ""
+
+#: view/panel.php:21
+msgid "Feed"
+msgstr ""
+
+#: view/panel.php:22 view/panel.php:461
+msgid "API Log"
+msgstr ""
+
+#: view/panel.php:23 view/panel.php:508
+msgid "Buttons"
+msgstr ""
+
+#: view/panel.php:24 view/panel.php:543
+msgid "Fehlerbehandlung"
+msgstr ""
+
+#: view/panel.php:25
+msgid "Hilfe"
+msgstr ""
+
+#: view/panel.php:39
+msgid "Access Key ID"
+msgstr ""
+
+#: view/panel.php:44
+msgid "Secret Access Key"
+msgstr ""
+
+#: view/panel.php:49
+msgid "Land"
+msgstr ""
+
+#: view/panel.php:52
+msgid "Deutschland"
+msgstr ""
+
+#: view/panel.php:53
+msgid "USA"
+msgstr ""
+
+#: view/panel.php:54
+msgid "Kanada"
+msgstr ""
+
+#: view/panel.php:55
+msgid "Vereinigtes Königreich (UK)"
+msgstr ""
+
+#: view/panel.php:56
+msgid "Frankreich"
+msgstr ""
+
+#: view/panel.php:57
+msgid "Italien"
+msgstr ""
+
+#: view/panel.php:58
+msgid "Spanien"
+msgstr ""
+
+#: view/panel.php:59
+msgid "Indien"
+msgstr ""
+
+#: view/panel.php:60
+msgid "Japan"
+msgstr ""
+
+#: view/panel.php:61
+msgid "Mexiko"
+msgstr ""
+
+#: view/panel.php:62
+msgid "China"
+msgstr ""
+
+#: view/panel.php:63
+msgid "Brasilien"
+msgstr ""
+
+#: view/panel.php:67
+msgid "Partner Tag"
+msgstr ""
+
+#: view/panel.php:70
+msgid ""
+"Damit die Produkt-Links dem richtigen Partner zugeordnet werden, trage hier "
+"deinen Partner Tag ein (z.B. superaffiliate-21).<br><strong>Wichtiger "
+"Hinweis:</strong> Wenn du diese Partner ID im späteren Verlauf änderst, "
+"werden alle Links in der Datenbank nach und nach mit dem neuen Partner Tag "
+"ausgestattet."
+msgstr ""
+
+#: view/panel.php:73
+msgid "Benachrichtigung"
+msgstr ""
+
+#: view/panel.php:76
+msgid "Nichts"
+msgstr ""
+
+#: view/panel.php:77
+msgid "E-Mail Benachrichtigung"
+msgstr ""
+
+#: view/panel.php:78
+msgid "Produkt als Entwurf setzen"
+msgstr ""
+
+#: view/panel.php:79
+msgid "E-Mail Benachrichtigung & Produkt als Entwurf setzen"
+msgstr ""
+
+#: view/panel.php:81
+msgid "Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?"
+msgstr ""
+
+#: view/panel.php:84
+msgid "Produktstatus"
+msgstr ""
+
+#: view/panel.php:87
+msgid "Veröffentlicht"
+msgstr ""
+
+#: view/panel.php:90
+msgid "Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen."
+msgstr ""
+
+#: view/panel.php:94
+msgid "Produktbeschreibung importieren"
+msgstr ""
+
+#: view/panel.php:97
+msgid "Externe Produktbilder"
+msgstr ""
+
+#: view/panel.php:98
+msgid "Produktbilder von extern einbinden"
+msgstr ""
+
+#: view/panel.php:99
+msgid ""
+"Mit dieser Option werden die Produktbilder nicht auf den eigenen Server "
+"heruntergeladen sondern direkt über Amazon eingebunden."
+msgstr ""
+
+#: view/panel.php:102
+msgid "Bildgröße der Bilder"
+msgstr ""
+
+#: view/panel.php:105
+msgid "Klein"
+msgstr ""
+
+#: view/panel.php:106
+msgid "Mittel"
+msgstr ""
+
+#: view/panel.php:107
+msgid "Groß"
+msgstr ""
+
+#: view/panel.php:109
+msgid ""
+"Wir empfehlen die Bildgröße \"Klein\" oder \"Mittel\" zu wählen, die großen "
+"Bilder könnten zu einer längeren Ladezeit deiner Seite führen!"
+msgstr ""
+
+#: view/panel.php:113
+msgid "Kundenrezensionen auf der Produktdetailseite verlinken"
+msgstr ""
+
+#: view/panel.php:115
+msgid "Einstellungen für den Update-Prozess"
+msgstr ""
+
+#: view/panel.php:117
+msgid "EAN"
+msgstr ""
+
+#: view/panel.php:120 view/panel.php:128 view/panel.php:136 view/panel.php:144
+msgid "Aktualisieren"
+msgstr ""
+
+#: view/panel.php:121 view/panel.php:129 view/panel.php:137 view/panel.php:145
+msgid "Nicht aktualisieren"
+msgstr ""
+
+#: view/panel.php:125
+msgid "Preise"
+msgstr ""
+
+#: view/panel.php:133
+msgid "URL"
+msgstr ""
+
+#: view/panel.php:141
+msgid "Bilder"
+msgstr ""
+
+#: view/panel.php:148
+msgid ""
+"Mit dieser Einstellungen werden Bilder in deinem Produkt aktualisiert.<br>"
+"<span style=\"color:#c01313\"><strong>Achtung:</strong> Es werden auch "
+"vorhandene Produkte, welche keine Bilder nutzen, mit Bildern aktualisiert."
+"</span>"
+msgstr ""
+
+#: view/panel.php:163
+msgid "Aktualisierungsintervall für Produkte"
+msgstr ""
+
+#: view/panel.php:166
+msgid "1 Stunde"
+msgstr ""
+
+#: view/panel.php:167
+msgid "2 Stunden"
+msgstr ""
+
+#: view/panel.php:168
+msgid "3 Stunden"
+msgstr ""
+
+#: view/panel.php:169
+msgid "4 Stunden"
+msgstr ""
+
+#: view/panel.php:170
+msgid "5 Stunden"
+msgstr ""
+
+#: view/panel.php:171
+msgid "6 Stunden"
+msgstr ""
+
+#: view/panel.php:172
+msgid "1 Tag"
+msgstr ""
+
+#: view/panel.php:174
+msgid ""
+"Der Updateprozess wird jede Stunde angestoßen. Produkte werden für eine "
+"gewisse Zeit im Updateprozess ignoriert, damit andere Produkte auch "
+"aktualisiert werden können.<br>Bestimme hier, wie lange ein Produkt "
+"ignoriert wird. Dies ist z.B. sinnvoll, wenn du das Gefühl hast, dass nicht "
+"alle Produkte aktualisiert werden.<br>In diesem Fall solltest du den Wert "
+"höher setzen."
+msgstr ""
+
+#: view/panel.php:189
+msgid "Amazon durchsuchen"
+msgstr ""
+
+#: view/panel.php:193
+msgid "Suche nach Keyword(s)"
+msgstr ""
+
+#: view/panel.php:197
+msgid "Suche nach Titel"
+msgstr ""
+
+#: view/panel.php:201 view/panel.php:306
+msgid "Kategorie"
+msgstr ""
+
+#: view/panel.php:207
+msgid "Erweiterte Suche"
+msgstr ""
+
+#: view/panel.php:208 view/panel.php:246
+msgid "- ausblenden"
+msgstr ""
+
+#: view/panel.php:208 view/panel.php:208 view/panel.php:246 view/panel.php:246
+msgid "+ anzeigen"
+msgstr ""
+
+#: view/panel.php:213
+msgid ""
+"Die meisten Filtermöglichkeiten sind nur für bestimmte Kategorien möglich, "
+"nicht für \"Alle Kategorien\""
+msgstr ""
+
+#: view/panel.php:215
+msgid "Merchant"
+msgstr ""
+
+#: view/panel.php:217
+msgid "Alle"
+msgstr ""
+
+#: view/panel.php:218
+msgid "Amazon"
+msgstr ""
+
+#: view/panel.php:222
+msgid "Sortieren nach"
+msgstr ""
+
+#: view/panel.php:225
+msgid "Sortierung wählen"
+msgstr ""
+
+#: view/panel.php:226
+msgid "Preis (Absteigend)"
+msgstr ""
+
+#: view/panel.php:227
+msgid "Preis (Aufsteigend)"
+msgstr ""
+
+#: view/panel.php:232
+msgid "Minimaler Preis"
+msgstr ""
+
+#: view/panel.php:237
+msgid "Maximaler Preis"
+msgstr ""
+
+#: view/panel.php:245
+msgid "ASIN Grabber"
+msgstr ""
+
+#: view/panel.php:254
+msgid "Grab ASINs"
+msgstr ""
+
+#: view/panel.php:280 view/panel.php:329
+msgid "Vorherige Seite"
+msgstr ""
+
+#: view/panel.php:281 view/panel.php:330
+msgid "Nächste Seite"
+msgstr ""
+
+#: view/panel.php:288
+msgid "Alle auswählen"
+msgstr ""
+
+#: view/panel.php:294
+msgid "Vorschau"
+msgstr ""
+
+#: view/panel.php:303
+msgid "Provision"
+msgstr ""
+
+#: view/panel.php:321
+msgid "Ausgewählte Produkte importieren"
+msgstr ""
+
+#: view/panel.php:463
+msgid "Hier werden dir die letzten 200 Einträge der API log angezeigt."
+msgstr ""
+
+#: view/panel.php:464
+msgid "Log löschen"
+msgstr ""
+
+#: view/panel.php:468
+msgid "Datum"
+msgstr ""
+
+#: view/panel.php:469
+msgid "Typ"
+msgstr ""
+
+#: view/panel.php:470
+msgid "Nachricht"
+msgstr ""
+
+#: view/panel.php:514
+#, php-format
+msgid ""
+"Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst "
+"du diese hier angeben.<br>\n"
+"\t\t\t\t\t\t\t\tFalls du das Amazon-Icon verwenden willst, nutze hierfür "
+"<mark>%s</mark>."
+msgstr ""
+
+#: view/panel.php:519
+msgid "Kaufen Button (kurz)"
+msgstr ""
+
+#: view/panel.php:523
+msgid "Kaufen Button"
+msgstr ""
+
+#: view/panel.php:550
+msgid "Produktbilder"
+msgstr ""
+
+#: view/panel.php:551
+msgid "Fehlende Produktbilder (Beitragsbilder) wiederherstellen"
+msgstr ""
+
+#: view/panel.php:552
+msgid ""
+"Sollten zu deinen Produkten die Beitragsbilder (Hauptbild) fehlen, kannst du "
+"diese mit dieser Option wiederherstellen. Sobald diese Option gesetzt ist, "
+"wird beim nächsten Updateprozess des Produkts das fehlende Beitragsbild "
+"wiederhergestellt."
+msgstr ""
+
+#. Name of the plugin
+msgid "AffiliateTheme - Amazon Schnittstelle"
+msgstr ""
+
+#. Description of the plugin
+msgid "Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://affiliatetheme.io"
+msgstr ""
+
+#. Author of the plugin
+msgid "endcore Medienagentur"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://endcore.com"
+msgstr ""

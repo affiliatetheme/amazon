@@ -250,7 +250,7 @@
 								<div class="form-toggle-item" style="display:none;">
 									<form class="form-inline" method="post" action="">
 										<div class="form-group">
-											<input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="URL eintragen...">
+											<input type="text" class="form-control" id="grabburl" name="grabburl" placeholder="<?php _e('URL eintragen...', 'affiliatetheme-amazon'); ?>">
 											<button id="grab-link" class="button button-primary"><?php _e('Grab ASINs', 'affiliatetheme-amazon'); ?></button>
 										</div>
 
@@ -258,8 +258,8 @@
 									<div class="clearfix"></div>
 
 									<div class="form-group">
-										<textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="ASINs eintragen..."></textarea>
-										<textarea id="leavedasins" cols="30" rows="10" placeholder="Fehlende ASINs..." class="hidden"></textarea>
+										<textarea name="grabbedasins" id="grabbedasins" cols="30" rows="10" placeholder="<?php _e('ASINs eintragen...', 'affiliatetheme-amazon'); ?>"></textarea>
+										<textarea id="leavedasins" cols="30" rows="10" placeholder="<?php _e('Fehlende ASINs...', 'affiliatetheme-amazon'); ?>" class="hidden"></textarea>
 										<button class="button button-small" id="asinsremlist" title="hide/show remaining">&lt;&gt;</button>
 									</div>
 									<div class="clearfix"></div>

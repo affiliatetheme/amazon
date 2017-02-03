@@ -147,9 +147,13 @@ function at_aws_impot() {
             update_post_meta($post_id, AWS_METAKEY_ID, $asin);
             update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
             update_post_meta($post_id, 'product_ean', $ean);
-            update_post_meta($post_id, 'product_rating', $ratings);
-            update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
             update_post_meta($post_id, 'amazon_salesrank_' . $key, $salesrank);
+            if($ratings) {
+                update_post_meta($post_id, 'product_rating', $ratings);
+            }
+            if($ratings_count) {
+                update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
+            }
 
             //taxonomie
             if ($taxs) {

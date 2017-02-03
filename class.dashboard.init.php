@@ -12,6 +12,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			add_action('admin_menu', array(&$this, 'add_submenu_page'), 999);
 			add_action('admin_init', array(&$this, 'settings'));
 			add_action('admin_enqueue_scripts', array(&$this, 'menu_scripts'), 999);
+            add_action('init',  array(&$this, 'load_textdomain'));
 
             // vars
             define('AWS_PATH', plugin_dir_path( __FILE__ ) );
@@ -76,6 +77,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			wp_enqueue_style('at-select2', plugin_dir_url(__FILE__) . 'view/css/select2.min.css');
 			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '', '1.0', false);
 			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.3.0', false);
+
 			wp_localize_script('at-amazon-functions', 'amazon_vars', array(
 					'connection' => __('Verbindungsaufbau...', 'affiliatetheme-amazon'),
 					'connection_ok' => __('Verbindung erfolgreich hergestellt.', 'affiliatetheme-amazon'),
@@ -116,5 +118,12 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 		public function add_submenu_page()	{
 			add_submenu_page('endcore_api_dashboard', 'Amazon', 'Amazon', apply_filters('at_set_import_dashboard_capabilities', 'administrator'), 'endcore_api_amazon', array(&$this, 'menu_dashboard'));
 		}
+
+		/**
+         * load textdomain
+         */
+		public function load_textdomain() {
+            load_plugin_textdomain('affiliatetheme-amazon', false, dirname(plugin_basename( __FILE__ )) . '/languages');
+        }
     } 
 } 

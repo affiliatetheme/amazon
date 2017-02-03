@@ -6,17 +6,6 @@
  * @version		1.0
  * @updated     2016/08/01
  */
-if( ! function_exists( 'at_aws_load_textdomain' )) {
-    /**
-     * at_aws_load_textdomain
-     *
-     * Load Plugin Languages Files
-     */
-    add_action('plugins_loaded', 'at_aws_load_textdomain');
-    function at_aws_load_textdomain() {
-        load_plugin_textdomain('affiliatetheme-amazon', false, plugin_basename(dirname(__FILE__)) . '/languages');
-    }
-}
 
 if ( ! function_exists( 'amazon_array_insert' ) ) {
     /**

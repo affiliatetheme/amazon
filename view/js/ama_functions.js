@@ -355,7 +355,7 @@ var searchAction = function() {
                             var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].category_margin;
                             var margin_sale = number_format(margin_sale_val, 2, ',', '.')
 
-                            html += data['items'][x].category_margin + '%<br>(' + data['items'][x].currency + ' ' + margin_sale + ' / Sale)';
+                            html += data['items'][x].category_margin + '%<br>(' + data['items'][x].currency.toUpperCase() + ' ' + margin_sale + ' / Sale)';
                         } else { html += 'kA'; }
                         html += '</td>';
                         html += '<td class="category">' + (data['items'][x].category != null ? data['items'][x].category : '-') + '</td>';
