@@ -110,9 +110,6 @@ if(!class_exists('AffiliateTheme_Amazon')) {
             // Encode the updated JSON response
             $r['body']['plugins'] = wp_json_encode( $plugins );
 
-            var_dump($plugins);
-            exit;
-
             return $r;
         }
 	} 
