@@ -3,133 +3,133 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 16:53+0000\n"
+"POT-Creation-Date: 2017-02-03 17:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
 "Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco https://localise.biz/"
+"X-Generator: Loco - https://localise.biz/"
 
-#: class.dashboard.init.php:80
+#: class.dashboard.init.php:81
 msgid "Verbindungsaufbau..."
 msgstr ""
 
-#: class.dashboard.init.php:81
+#: class.dashboard.init.php:82
 msgid "Verbindung erfolgreich hergestellt."
 msgstr ""
 
-#: class.dashboard.init.php:82
+#: class.dashboard.init.php:83
 msgid ""
 "Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe "
 "deinen Public Key, Secret Key und deine Partner ID."
 msgstr ""
 
-#: class.dashboard.init.php:83
+#: class.dashboard.init.php:84
 msgid "Kein Bild vorhanden"
 msgstr ""
 
-#: class.dashboard.init.php:84
+#: class.dashboard.init.php:85
 msgid "externes Produkt!"
 msgstr ""
 
-#: class.dashboard.init.php:85 lib/api_lookup.php:189
+#: class.dashboard.init.php:86 lib/api_lookup.php:189
 msgid "Importieren"
 msgstr ""
 
-#: class.dashboard.init.php:86
+#: class.dashboard.init.php:87
 msgid "Editieren"
 msgstr ""
 
-#: class.dashboard.init.php:87
+#: class.dashboard.init.php:88
 msgid "Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu."
 msgstr ""
 
-#: class.dashboard.init.php:88
+#: class.dashboard.init.php:89
 msgid "Produkt bearbeiten"
 msgstr ""
 
-#: class.dashboard.init.php:89
+#: class.dashboard.init.php:90
 msgid "Importiere Produkt <span class=\"current\">1</span> von"
 msgstr ""
 
-#: class.dashboard.init.php:90
+#: class.dashboard.init.php:91
 msgid "erfolgreich hinzugefügt."
 msgstr ""
 
-#: class.dashboard.init.php:91
+#: class.dashboard.init.php:92
 msgid "konnte nicht hinzugefügt werden."
 msgstr ""
 
-#: class.dashboard.init.php:92
+#: class.dashboard.init.php:93
 msgid "Eintrag erfolgreich gelöscht."
 msgstr ""
 
-#: class.dashboard.init.php:93
+#: class.dashboard.init.php:94
 msgid "Eintrag konnte nicht gelöscht werden."
 msgstr ""
 
-#: class.dashboard.init.php:94
+#: class.dashboard.init.php:95
 msgid "Eintrag erfolgreich aktualisiert."
 msgstr ""
 
-#: class.dashboard.init.php:95
+#: class.dashboard.init.php:96
 msgid "Eintrag konnte nicht aktualisiert werden."
 msgstr ""
 
-#: class.dashboard.init.php:96
+#: class.dashboard.init.php:97
 msgid ""
 "Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!"
 msgstr ""
 
-#: lib/api_helper.php:582
+#: lib/api_helper.php:571
 msgid "Kaufen"
 msgstr ""
 
-#: lib/api_helper.php:583 lib/api_helper.php:606 view/panel.php:527
+#: lib/api_helper.php:572 lib/api_helper.php:595 view/panel.php:527
 msgid "Nicht Verfügbar"
 msgstr ""
 
-#: lib/api_helper.php:605
+#: lib/api_helper.php:594
 msgid "Jetzt bei Amazon kaufen"
 msgstr ""
 
-#: lib/api_helper.php:694 view/panel.php:112
+#: lib/api_helper.php:683 view/panel.php:112
 msgid "Kundenrezensionen"
 msgstr ""
 
-#: lib/api_helper.php:774
+#: lib/api_helper.php:763
 msgid "Online"
 msgstr ""
 
-#: lib/api_helper.php:778 view/panel.php:88
+#: lib/api_helper.php:767 view/panel.php:88
 msgid "Entwurf"
 msgstr ""
 
-#: lib/api_helper.php:895
+#: lib/api_helper.php:884
 #, php-format
 msgid ""
 "Achtung: Um dieses Plugin zu verwenden benötigst du mindestens PHP Version 5."
 "3.x. Derzeit verwendest du Version %s."
 msgstr ""
 
-#: lib/api_helper.php:904
+#: lib/api_helper.php:893
 msgid ""
 "Um dieses Plugin zu verwenden benötigst du cURL. <a href=\"http://php."
 "net/manual/de/book.curl.php\" taget=\"_blank\">Hier</a> findest du mehr "
 "Informationen darüber. Kontaktiere im Zweifel deinen Systemadministrator."
 msgstr ""
 
-#: lib/api_helper.php:913
+#: lib/api_helper.php:902
 msgid ""
 "Achtung: Du hast allow_url_fopen deaktiviert. Du benötigst diese Funktionen "
 "um das Rating von Amazon zu beziehen."
 msgstr ""
 
-#: lib/api_helper.php:972 lib/api_lookup.php:86
+#: lib/api_helper.php:961 lib/api_lookup.php:86
 #, php-format
 msgid ""
 "Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a "
@@ -552,8 +552,20 @@ msgstr ""
 msgid "ASIN Grabber"
 msgstr ""
 
+#: view/panel.php:253
+msgid "URL eintragen..."
+msgstr ""
+
 #: view/panel.php:254
 msgid "Grab ASINs"
+msgstr ""
+
+#: view/panel.php:261
+msgid "ASINs eintragen..."
+msgstr ""
+
+#: view/panel.php:262
+msgid "Fehlende ASINs..."
 msgstr ""
 
 #: view/panel.php:280 view/panel.php:329
