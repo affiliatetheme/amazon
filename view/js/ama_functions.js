@@ -349,7 +349,7 @@ var searchAction = function() {
                             html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                         }
 
-                        html += '<td class="price">' + data['items'][x].price + '<br>(UVP: ' + data['items'][x].price_list + ')</td>';
+                        html += '<td class="price">' + data['items'][x].price + '<br>(' + amazon_vars.uvp + ': ' + data['items'][x].price_list + ')</td>';
                         html += '<td class="margin">';
                         if(data['items'][x].category_margin != 0) {
                             var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].category_margin;

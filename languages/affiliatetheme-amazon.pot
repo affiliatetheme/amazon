@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 17:30+0000\n"
+"POT-Creation-Date: 2017-02-17 08:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,86 +14,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: class.dashboard.init.php:81
+#: class.dashboard.init.php:83
 msgid "Verbindungsaufbau..."
 msgstr ""
 
-#: class.dashboard.init.php:82
+#: class.dashboard.init.php:84
 msgid "Verbindung erfolgreich hergestellt."
 msgstr ""
 
-#: class.dashboard.init.php:83
+#: class.dashboard.init.php:85
 msgid ""
 "Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe "
 "deinen Public Key, Secret Key und deine Partner ID."
 msgstr ""
 
-#: class.dashboard.init.php:84
+#: class.dashboard.init.php:86
 msgid "Kein Bild vorhanden"
 msgstr ""
 
-#: class.dashboard.init.php:85
+#: class.dashboard.init.php:87
 msgid "externes Produkt!"
 msgstr ""
 
-#: class.dashboard.init.php:86 lib/api_lookup.php:189
+#: class.dashboard.init.php:88 lib/api_lookup.php:189
 msgid "Importieren"
 msgstr ""
 
-#: class.dashboard.init.php:87
+#: class.dashboard.init.php:89
 msgid "Editieren"
 msgstr ""
 
-#: class.dashboard.init.php:88
+#: class.dashboard.init.php:90
 msgid "Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu."
 msgstr ""
 
-#: class.dashboard.init.php:89
+#: class.dashboard.init.php:91
 msgid "Produkt bearbeiten"
 msgstr ""
 
-#: class.dashboard.init.php:90
+#: class.dashboard.init.php:92
 msgid "Importiere Produkt <span class=\"current\">1</span> von"
 msgstr ""
 
-#: class.dashboard.init.php:91
+#: class.dashboard.init.php:93
 msgid "erfolgreich hinzugefügt."
 msgstr ""
 
-#: class.dashboard.init.php:92
+#: class.dashboard.init.php:94
 msgid "konnte nicht hinzugefügt werden."
 msgstr ""
 
-#: class.dashboard.init.php:93
+#: class.dashboard.init.php:95
 msgid "Eintrag erfolgreich gelöscht."
 msgstr ""
 
-#: class.dashboard.init.php:94
+#: class.dashboard.init.php:96
 msgid "Eintrag konnte nicht gelöscht werden."
 msgstr ""
 
-#: class.dashboard.init.php:95
+#: class.dashboard.init.php:97
 msgid "Eintrag erfolgreich aktualisiert."
 msgstr ""
 
-#: class.dashboard.init.php:96
+#: class.dashboard.init.php:98
 msgid "Eintrag konnte nicht aktualisiert werden."
 msgstr ""
 
-#: class.dashboard.init.php:97
+#: class.dashboard.init.php:99
 msgid ""
 "Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!"
 msgstr ""
 
-#: lib/api_helper.php:571
+#: class.dashboard.init.php:100
+msgid "UVP"
+msgstr ""
+
+#: lib/api_helper.php:571 view/panel.php:520
 msgid "Kaufen"
 msgstr ""
 
 #: lib/api_helper.php:572 lib/api_helper.php:595 view/panel.php:527
+#: view/panel.php:528
 msgid "Nicht Verfügbar"
 msgstr ""
 
-#: lib/api_helper.php:594
+#: lib/api_helper.php:594 view/panel.php:524
 msgid "Jetzt bei Amazon kaufen"
 msgstr ""
 

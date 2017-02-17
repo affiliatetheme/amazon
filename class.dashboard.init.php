@@ -78,7 +78,8 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 			wp_enqueue_script('at-select2', plugin_dir_url(__FILE__) . 'view/js/select2.min.js', '', '1.0', false);
 			wp_enqueue_script('at-amazon-functions', plugin_dir_url(__FILE__) . 'view/js/ama_functions.js', '', '1.3.0', false);
 
-			wp_localize_script('at-amazon-functions', 'amazon_vars', array(
+			wp_localize_script('at-amazon-functions', 'amazon_vars',
+                array(
 					'connection' => __('Verbindungsaufbau...', 'affiliatetheme-amazon'),
 					'connection_ok' => __('Verbindung erfolgreich hergestellt.', 'affiliatetheme-amazon'),
 					'connection_error' => __('Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe deinen Public Key, Secret Key und deine Partner ID.', 'affiliatetheme-amazon'),
@@ -95,7 +96,8 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 					'feed_delete_fail' => __('Eintrag konnte nicht gelöscht werden.', 'affiliatetheme-amazon'),
 					'feed_update_success' => __('Eintrag erfolgreich aktualisiert.', 'affiliatetheme-amazon'),
 					'feed_update_fail' => __('Eintrag konnte nicht aktualisiert werden.', 'affiliatetheme-amazon'),
-					'adblocker_hint' => __('Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!', 'affiliatetheme-amazon')
+					'adblocker_hint' => __('Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!', 'affiliatetheme-amazon'),
+                    'uvp' => __('UVP', 'affiliatetheme-amazon')
 				)
 			);
 		}

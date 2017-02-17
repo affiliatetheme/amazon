@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AffiliateTheme - Amazon Schnittstelle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 17:30+0000\n"
-"PO-Revision-Date: 2017-02-15 12:25+0000\n"
+"POT-Creation-Date: 2017-02-17 08:37+0000\n"
+"PO-Revision-Date: 2017-02-17 08:38+0000\n"
 "Last-Translator: endcore <mail@endcore.com>\n"
 "Language-Team: English (United States)\n"
 "Language: en-US\n"
@@ -13,115 +13,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: lib/api_helper.php:594
-msgid "Jetzt bei Amazon kaufen"
-msgstr "Buy now on Amazon"
+#: class.dashboard.init.php:100
+msgid "UVP"
+msgstr "List price"
 
-#: lib/api_helper.php:961 lib/api_lookup.php:86
-msgid ""
-"Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a "
-"href=\"%s\" target=\"_blank\">hier</a> mehr."
-msgstr ""
-"Amazon reviews aren't available via the API anymore. Learn more <a "
-"href=\"%s\" target=\"_blank\">here</a>."
-
-#: lib/api_lookup.php:96
-msgid "Listenpreis"
-msgstr "Listing price"
-
-#: view/panel.php:73
-msgid "Benachrichtigung"
-msgstr "Notification"
-
-#: view/panel.php:76
-msgid "Nichts"
-msgstr "Nothing"
-
-#: view/panel.php:77
-msgid "E-Mail Benachrichtigung"
-msgstr "E-Mail notification"
-
-#: view/panel.php:78
-msgid "Produkt als Entwurf setzen"
-msgstr "Set product as draft"
-
-#: view/panel.php:79
-msgid "E-Mail Benachrichtigung & Produkt als Entwurf setzen"
-msgstr "E-Mail notification & set product as draft"
-
-#: view/panel.php:120 view/panel.php:128 view/panel.php:136 view/panel.php:144
-msgid "Aktualisieren"
-msgstr "Update"
-
-#: view/panel.php:121 view/panel.php:129 view/panel.php:137 view/panel.php:145
-msgid "Nicht aktualisieren"
-msgstr "Do not update"
-
-#: view/panel.php:174
-msgid ""
-"Der Updateprozess wird jede Stunde angestoßen. Produkte werden für eine "
-"gewisse Zeit im Updateprozess ignoriert, damit andere Produkte auch "
-"aktualisiert werden können.<br>Bestimme hier, wie lange ein Produkt "
-"ignoriert wird. Dies ist z.B. sinnvoll, wenn du das Gefühl hast, dass nicht "
-"alle Produkte aktualisiert werden.<br>In diesem Fall solltest du den Wert "
-"höher setzen."
-msgstr ""
-"The update process is initiated once per hour. Recently updated products "
-"will be ignored for a while to update other products. <br> Determine how "
-"long a product is ignored. This is e.g. meaningful if you feel that not all "
-"products are updated. <br> In this case, you should set the value higher."
-
-#: view/panel.php:189
-msgid "Amazon durchsuchen"
-msgstr "Search on Amazon"
-
-#: view/panel.php:197
-msgid "Suche nach Titel"
-msgstr "Search by title"
-
-#: view/panel.php:225
-msgid "Sortierung wählen"
-msgstr "Select sorting"
-
-#: view/panel.php:288
-msgid "Alle auswählen"
-msgstr "Select all"
-
-#: view/panel.php:514
-msgid ""
-"Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst "
-"du diese hier angeben.<br>\n"
-"\t\t\t\t\t\t\t\tFalls du das Amazon-Icon verwenden willst, nutze hierfür "
-"<mark>%s</mark>."
-msgstr ""
-"If you want a special button value for Amazon products, you can specify them "
-"here.<br> If you want to use the Amazon icon, use <mark>%s</mark>."
-
-#. Description of the plugin
-msgid "Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle"
-msgstr "This plugin extends the AffiliateTheme with an Amazon interface"
-
-#: view/panel.php:253
-msgid "URL eintragen..."
-msgstr "Submit URL ..."
-
-#: view/panel.php:261
-msgid "ASINs eintragen..."
-msgstr "Submit ASINs ..."
-
-#: view/panel.php:262
-msgid "Fehlende ASINs..."
-msgstr "Missing ASINs ..."
-
-#: class.dashboard.init.php:81
+#: class.dashboard.init.php:83
 msgid "Verbindungsaufbau..."
 msgstr "Trying to connect..."
 
-#: class.dashboard.init.php:82
+#: class.dashboard.init.php:84
 msgid "Verbindung erfolgreich hergestellt."
 msgstr "Connection successfully established."
 
-#: class.dashboard.init.php:83
+#: class.dashboard.init.php:85
 msgid ""
 "Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe "
 "deinen Public Key, Secret Key und deine Partner ID."
@@ -129,70 +33,75 @@ msgstr ""
 "A connection to Amazon could not be established. Please check your public "
 "key, secret key and your partner ID."
 
-#: class.dashboard.init.php:84
+#: class.dashboard.init.php:86
 msgid "Kein Bild vorhanden"
 msgstr "No image found"
 
-#: class.dashboard.init.php:85
+#: class.dashboard.init.php:87
 msgid "externes Produkt!"
 msgstr "external product!"
 
-#: class.dashboard.init.php:86 lib/api_lookup.php:189
+#: class.dashboard.init.php:88 lib/api_lookup.php:189
 msgid "Importieren"
 msgstr "Import"
 
-#: class.dashboard.init.php:87
+#: class.dashboard.init.php:89
 msgid "Editieren"
 msgstr "Edit"
 
-#: class.dashboard.init.php:88
+#: class.dashboard.init.php:90
 msgid "Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu."
 msgstr "No products found. Please re-define your search."
 
-#: class.dashboard.init.php:89
+#: class.dashboard.init.php:91
 msgid "Produkt bearbeiten"
 msgstr "Edit product"
 
-#: class.dashboard.init.php:90
+#: class.dashboard.init.php:92
 msgid "Importiere Produkt <span class=\"current\">1</span> von"
 msgstr "Import product <span class=\"current\">1</span> of"
 
-#: class.dashboard.init.php:91
+#: class.dashboard.init.php:93
 msgid "erfolgreich hinzugefügt."
 msgstr "successfully added."
 
-#: class.dashboard.init.php:92
+#: class.dashboard.init.php:94
 msgid "konnte nicht hinzugefügt werden."
 msgstr "could not be added."
 
-#: class.dashboard.init.php:93
+#: class.dashboard.init.php:95
 msgid "Eintrag erfolgreich gelöscht."
 msgstr "Entries successfully deleted."
 
-#: class.dashboard.init.php:94
+#: class.dashboard.init.php:96
 msgid "Eintrag konnte nicht gelöscht werden."
 msgstr "Could not delete entry."
 
-#: class.dashboard.init.php:95
+#: class.dashboard.init.php:97
 msgid "Eintrag erfolgreich aktualisiert."
 msgstr "Entry updated successfully."
 
-#: class.dashboard.init.php:96
+#: class.dashboard.init.php:98
 msgid "Eintrag konnte nicht aktualisiert werden."
 msgstr "Could not update entry."
 
-#: class.dashboard.init.php:97
+#: class.dashboard.init.php:99
 msgid ""
 "Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!"
 msgstr "Please deactivate your Adblocker to use all functions of the API!"
 
-#: lib/api_helper.php:571
+#: lib/api_helper.php:571 view/panel.php:520
 msgid "Kaufen"
 msgstr "Buy now"
 
 #: lib/api_helper.php:572 lib/api_helper.php:595 view/panel.php:527
+#: view/panel.php:528
 msgid "Nicht Verfügbar"
 msgstr "Not available"
+
+#: lib/api_helper.php:594 view/panel.php:524
+msgid "Jetzt bei Amazon kaufen"
+msgstr "Buy now on Amazon"
 
 #: lib/api_helper.php:683 view/panel.php:112
 msgid "Kundenrezensionen"
@@ -233,6 +142,15 @@ msgstr ""
 "Warning: You have disabled allow_url_fopen. You need these features to get "
 "the rating from Amazon."
 
+#: lib/api_helper.php:961 lib/api_lookup.php:86
+#, php-format
+msgid ""
+"Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a "
+"href=\"%s\" target=\"_blank\">hier</a> mehr."
+msgstr ""
+"Amazon reviews aren't available via the API anymore. Learn more <a "
+"href=\"%s\" target=\"_blank\">here</a>."
+
 #: lib/api_import.php:232
 msgid "Dieses Produkt existiert bereits."
 msgstr "This product already exists."
@@ -256,6 +174,10 @@ msgstr "Amount of reviews"
 #: lib/api_lookup.php:91
 msgid "SalesRank"
 msgstr "SalesRank"
+
+#: lib/api_lookup.php:96
+msgid "Listenpreis"
+msgstr "Listing price"
 
 #: lib/api_lookup.php:101 view/panel.php:300
 msgid "Preis"
@@ -419,6 +341,26 @@ msgstr ""
 "partner ID later, all links become In the database gradually equipped with "
 "the new partner tag."
 
+#: view/panel.php:73
+msgid "Benachrichtigung"
+msgstr "Notification"
+
+#: view/panel.php:76
+msgid "Nichts"
+msgstr "Nothing"
+
+#: view/panel.php:77
+msgid "E-Mail Benachrichtigung"
+msgstr "E-Mail notification"
+
+#: view/panel.php:78
+msgid "Produkt als Entwurf setzen"
+msgstr "Set product as draft"
+
+#: view/panel.php:79
+msgid "E-Mail Benachrichtigung & Produkt als Entwurf setzen"
+msgstr "E-Mail notification & set product as draft"
+
 #: view/panel.php:81
 msgid "Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?"
 msgstr "What should happen when a product is no longer available?"
@@ -491,6 +433,14 @@ msgstr "Update process settings"
 msgid "EAN"
 msgstr "EAN"
 
+#: view/panel.php:120 view/panel.php:128 view/panel.php:136 view/panel.php:144
+msgid "Aktualisieren"
+msgstr "Update"
+
+#: view/panel.php:121 view/panel.php:129 view/panel.php:137 view/panel.php:145
+msgid "Nicht aktualisieren"
+msgstr "Do not update"
+
 #: view/panel.php:125
 msgid "Preise"
 msgstr "Prices"
@@ -546,9 +496,31 @@ msgstr "6 hours"
 msgid "1 Tag"
 msgstr "1 day"
 
+#: view/panel.php:174
+msgid ""
+"Der Updateprozess wird jede Stunde angestoßen. Produkte werden für eine "
+"gewisse Zeit im Updateprozess ignoriert, damit andere Produkte auch "
+"aktualisiert werden können.<br>Bestimme hier, wie lange ein Produkt "
+"ignoriert wird. Dies ist z.B. sinnvoll, wenn du das Gefühl hast, dass nicht "
+"alle Produkte aktualisiert werden.<br>In diesem Fall solltest du den Wert "
+"höher setzen."
+msgstr ""
+"The update process is initiated once per hour. Recently updated products "
+"will be ignored for a while to update other products. <br> Determine how "
+"long a product is ignored. This is e.g. meaningful if you feel that not all "
+"products are updated. <br> In this case, you should set the value higher."
+
+#: view/panel.php:189
+msgid "Amazon durchsuchen"
+msgstr "Search on Amazon"
+
 #: view/panel.php:193
 msgid "Suche nach Keyword(s)"
 msgstr "Search by keywords"
+
+#: view/panel.php:197
+msgid "Suche nach Titel"
+msgstr "Search by title"
 
 #: view/panel.php:201 view/panel.php:306
 msgid "Kategorie"
@@ -590,6 +562,10 @@ msgstr "Amazon"
 msgid "Sortieren nach"
 msgstr "Sort by"
 
+#: view/panel.php:225
+msgid "Sortierung wählen"
+msgstr "Select sorting"
+
 #: view/panel.php:226
 msgid "Preis (Absteigend)"
 msgstr "Price (descending)"
@@ -610,9 +586,21 @@ msgstr "Maximum price"
 msgid "ASIN Grabber"
 msgstr "ASIN Grabber"
 
+#: view/panel.php:253
+msgid "URL eintragen..."
+msgstr "Submit URL ..."
+
 #: view/panel.php:254
 msgid "Grab ASINs"
 msgstr "Grab ASINs"
+
+#: view/panel.php:261
+msgid "ASINs eintragen..."
+msgstr "Submit ASINs ..."
+
+#: view/panel.php:262
+msgid "Fehlende ASINs..."
+msgstr "Missing ASINs ..."
 
 #: view/panel.php:280 view/panel.php:329
 msgid "Vorherige Seite"
@@ -621,6 +609,10 @@ msgstr "Previous page"
 #: view/panel.php:281 view/panel.php:330
 msgid "Nächste Seite"
 msgstr "Next page"
+
+#: view/panel.php:288
+msgid "Alle auswählen"
+msgstr "Select all"
 
 #: view/panel.php:294
 msgid "Vorschau"
@@ -654,6 +646,17 @@ msgstr "Type"
 msgid "Nachricht"
 msgstr "Message"
 
+#: view/panel.php:514
+#, php-format
+msgid ""
+"Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst "
+"du diese hier angeben.<br>\n"
+"\t\t\t\t\t\t\t\tFalls du das Amazon-Icon verwenden willst, nutze hierfür "
+"<mark>%s</mark>."
+msgstr ""
+"If you want a special button value for Amazon products, you can specify them "
+"here.<br> If you want to use the Amazon icon, use <mark>%s</mark>."
+
 #: view/panel.php:519
 msgid "Kaufen Button (kurz)"
 msgstr "Buy Button (short)"
@@ -684,6 +687,10 @@ msgstr ""
 #. Name of the plugin
 msgid "AffiliateTheme - Amazon Schnittstelle"
 msgstr "AffiliateTheme - Amazon API"
+
+#. Description of the plugin
+msgid "Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle"
+msgstr "This plugin extends the AffiliateTheme with an Amazon interface"
 
 #. URI of the plugin
 msgid "http://affiliatetheme.io"

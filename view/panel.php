@@ -517,15 +517,15 @@
 							<div class="form-container">
 								<div class="form-group">
 									<label for="amazon_buy_short_button"><?php _e('Kaufen Button (kurz)', 'affiliatetheme-amazon'); ?></label>
-									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? htmlentities(get_option('amazon_buy_short_button')) : 'Kaufen'); ?>" />
+									<input type="text" name="amazon_buy_short_button" value="<?php echo (get_option('amazon_buy_short_button') ? htmlentities(get_option('amazon_buy_short_button')) : __('Kaufen', 'affiliatetheme-amazon')); ?>" />
 								</div>
 								<div class="form-group">
 									<label for="amazon_buy_button"><?php _e('Kaufen Button', 'affiliatetheme-amazon'); ?></label>
-									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? htmlentities(get_option('amazon_buy_button')) : 'Jetzt bei Amazon kaufen'); ?>" />
+									<input type="text" name="amazon_buy_button" value="<?php echo (get_option('amazon_buy_button') ? htmlentities(get_option('amazon_buy_button')) : __('Jetzt bei Amazon kaufen', 'affiliatetheme-amazon')); ?>" />
 								</div>
 								<div class="form-group">
 									<label for="amazon_not_avail_button"><?php _e('Nicht Verfügbar', 'affiliatetheme-amazon'); ?></label>
-									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? htmlentities(get_option('amazon_not_avail_button')) : 'Nicht Verfügbar'); ?>" />
+									<input type="text" name="amazon_not_avail_button" value="<?php echo (get_option('amazon_not_avail_button') ? htmlentities(get_option('amazon_not_avail_button')) : __('Nicht Verfügbar', 'affiliatetheme-amazon')); ?>" />
 								</div>
 								<div class="form-group">
 									<?php submit_button(); ?>
