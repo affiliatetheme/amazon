@@ -12,7 +12,7 @@
 <div class="wrap" id="at-import-page" data-url="<?php echo admin_url(); ?>" data-nonce="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>">
 	<div class="at-inner">
 		<h1><? _e('AffiliateTheme Import » Amazon', 'affiliatetheme-amazon'); ?></h1>
-		
+
 		<div id="checkConnection"></div>
 		
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
@@ -22,7 +22,7 @@
 			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="errorhandling-tab" href="#top#errorhandling"><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></a>
-			<a class="nav-tab" href="http://affiliatetheme.io/forum/foren/support/amazon-plugin/" target="_blank"><span class="dashicons dashicons-sos"></span> <?php _e('Hilfe', 'affiliatetheme-amazon'); ?></a>
+			<a class="nav-tab" href="<?php echo at_amazon_get_forum_url(); ?>" target="_blank"><span class="dashicons dashicons-sos"></span> <?php _e('Hilfe', 'affiliatetheme-amazon'); ?></a>
 		</h2>
 		
 		<div class="tabwrapper">
@@ -113,6 +113,16 @@
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
 								</div>
 								<h3><?php _e('Einstellungen für den Update-Prozess', 'affiliatetheme-amazon'); ?></h3>
+								<p><?php printf(__('Nächster Start des Cronjobs: %s', 'affiliatetheme-amazon'), at_amazon_cronjob_next_run()); ?></p>
+								<div class="form-group">
+									<label for="amazon_update_run_cronjob"><?php _e('Aktualisierung', 'affiliatetheme-amazon'); ?></label>
+									<?php $selected_amazon_update_run_cronjob = get_option('amazon_update_run_cronjob'); ?>
+									<select name="amazon_update_run_cronjob" id="amazon_update_run_cronjob">
+										<option value="yes" <?php if($selected_amazon_update_run_cronjob == 'yes' || $selected_amazon_update_run_cronjob == '') echo 'selected'; ?>><?php _e('Aktiviert', 'affiliatetheme-amazon'); ?></option>
+										<option value="no" <?php if($selected_amazon_update_run_cronjob == 'no') echo 'selected'; ?>><?php _e('Deaktiviert', 'affiliatetheme-amazon'); ?></option>
+									</select>
+									<p class="form-hint"><?php _e('Mit dieser Einstellung kannst du die automatische Aktualisierung deaktivieren.<br>Wenn du den Cronjob extern starten möchtest, solltest diese Option deaktivieren.', 'affiliatetheme-amazon'); ?></p>
+								</div>
 								<div class="form-group">
 									<label for="amazon_update_ean"><?php _e('EAN', 'affiliatetheme-amazon'); ?></label>
 									<?php $selected_amazon_update_ean = get_option('amazon_update_ean'); ?>

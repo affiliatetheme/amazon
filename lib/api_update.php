@@ -4,13 +4,6 @@ use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
 use ApaiIO\Zend\Service\Amazon;
 
-if(get_option('amazon_public_key') != "" &&  get_option('amazon_secret_key') != "") {
-    if( !wp_next_scheduled( 'affiliatetheme_amazon_api_update', $args = array('hash' => AWS_CRON_HASH))) {
-        wp_schedule_event(time(), 'hourly', 'affiliatetheme_amazon_api_update', $args = array('hash' => AWS_CRON_HASH));
-    }
-} else {
-
-}
 add_action('wp_ajax_at_aws_update', 'at_aws_update');
 add_action('wp_ajax_nopriv_at_aws_update', 'at_aws_update');
 add_action('wp_ajax_amazon_api_update', 'at_aws_update');

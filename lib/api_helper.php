@@ -940,6 +940,59 @@ if ( ! function_exists('at_amazon_product_skip_interval') ) {
     }
 }
 
+if ( ! function_exists('at_amazon_start_cronjob') ) {
+    /**
+     * at_amazon_start_cronjob function.
+     *
+     */
+    add_action('init', 'at_amazon_start_cronjob');
+    function at_amazon_start_cronjob() {
+        $public_key = get_option('amazon_public_key');
+        $secret_key = get_option('amazon_secret_key');
+        $amazon_update_run_cronjob = get_option('amazon_update_run_cronjob');
+
+        $recurrence = apply_filters('at_amazon_cronjob_recurrence', 'hourly');
+        $hook = 'affiliatetheme_amazon_api_update';
+        $args = array('hash' => AWS_CRON_HASH);
+
+        if($amazon_update_run_cronjob == 'no') {
+            wp_clear_scheduled_hook($hook, $args);
+            return false;
+        }
+
+        if(!$public_key || !$secret_key) {
+            wp_clear_scheduled_hook($hook, $args);
+            return false;
+        }
+
+        if(wp_next_scheduled($hook, $args)) {
+            return false;
+        }
+
+        wp_schedule_event(time(), $recurrence, $hook, $args);
+    }
+}
+
+if ( ! function_exists('at_amazon_cronjob_next_run') ) {
+    /**
+     * at_amazon_cronjob_next_run function.
+     *
+     */
+    function at_amazon_cronjob_next_run() {
+        $args = array('hash' => AWS_CRON_HASH);
+
+        $timestamp = wp_next_scheduled('affiliatetheme_amazon_api_update', $args);
+
+        if(!$timestamp)
+            return '(n/a)';
+
+        $date = date_i18n(get_option( 'date_format' ), $timestamp);
+        $time = date_i18n(get_option( 'time_format' ), $timestamp);
+
+        return $date . ' - ' . $time;
+    }
+}
+
 if ( ! function_exists('at_amazon_rating_hint') ) {
     /**
      * at_amazon_rating_hint function.
@@ -979,6 +1032,37 @@ if ( ! function_exists('at_amazon_set_option') ) {
         }
 
         exit;
+    }
+}
+
+if ( ! function_exists('at_amazon_get_current_lang') ) {
+    /**
+     * at_amazon_get_current_lang function.
+     *
+     */
+    function at_amazon_get_current_lang() {
+        $locale = get_locale();
+
+        if (strpos($locale, 'de_') !== false)
+            return 'de';
+
+        return 'en';
+    }
+}
+
+if ( ! function_exists('at_amazon_get_forum_url') ) {
+    /**
+     * at_amazon_get_forum_url function.
+     *
+     */
+    function at_amazon_get_forum_url() {
+        $locale = at_amazon_get_current_lang();
+
+        if($locale == 'de') {
+            return 'https://affiliatetheme.io/forum/foren/support/schnittstellen/';
+        }
+
+        return 'https://affiliatetheme.io/forum/foren/support-english/apis/';
     }
 }
 
