@@ -27,14 +27,29 @@ function at_aws_lookup() {
 	// start lookup
 	$lookup = new Lookup();
 	$lookup->setItemId($asin);
+    $lookup->setResponseGroup(array('ItemAttributes'));
+    $formattedResponse = $apaiIO->runOperation($lookup);
+    if ($formattedResponse->hasItem()) {
+        $item = $formattedResponse->getItem();
+        $attributes = array();
+        foreach($item as $key => $value){
+            if($key != "ASIN" && $key != "EAN"){
+                if(is_string($value) && $value != "" && strlen($value) >=2){
+                    if(!in_array($value,$attributes)){
+                        $attributes[$key] = $value;
+                    }
+                }
+            }
+        }
+    }
 	$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations', 'SalesRank'));
 
 	/* @var $formattedResponse Amazon\SingleResultSet */
 	$formattedResponse = $apaiIO->runOperation($lookup);
 
+
 	if ($formattedResponse->hasItem()) {
 		$item = $formattedResponse->getItem();
-
 		if($item) {
 		    $title = $item->Title;
 			$asin = $item->ASIN;
@@ -111,13 +126,94 @@ function at_aws_lookup() {
 						<h3><?php _e('Beschreibung', 'affiliatetheme-amazon'); ?></h3>
 						<textarea name="description" class="widefat product-description" rows="5"><?php echo $description; ?></textarea>
 					<?php } ?>
+
+                    <?php
+                    /*
+                     * Produkteigenschaften
+                     */
+                    $properties = $attributes;
+                    if(is_array($properties)) {?>
+                        <div id="item-attributes">
+                            <div id="attributes-headline">
+                                <h3 id="item-attributes-headline"><?php _e('Produkteigenschaften anzeigen','affiliatetheme-amazon')?></h3>
+                            </div>
+                            <div id="attribute-content" class="inside acf-fields -top" style="display: none;">
+
+                                <?php $counter = 0;
+                                $selector = new acf_field_field_selector();
+                                $fields = $selector->get_selectable_item_fields(null,true);
+                                $selectable = $selector->get_items("", $fields);
+                                $groups = acf_get_field_groups();
+                                foreach($groups as $group){
+                                    $hasselectable = false;
+                                    foreach($selectable as $field){
+                                        if($field['group']['ID'] == $group['ID']){
+                                            $hasselectable = true;
+                                        }
+                                    }
+                                    if($hasselectable){
+                                        ?>
+                                        <div class="acf-field">
+
+                                        <?php
+                                    }
+
+                                    foreach($selectable as $field){
+                                        if($field['group']['ID'] == $group['ID']) {
+                                            ?>
+
+                                            <div class="form-group acf-<?php echo $group['key']?>">
+                                                <label for="<?php echo $field['name'] ?>"><?php echo $field['label'] ?></label>
+                                                <input type="text" id="produkteigenschaft<?php echo $counter ?>"
+                                                       name="<?php echo $field['name'] ?>" value=""/>
+                                                <select id="produkteigenschaftselect<?php echo $counter ?>">
+                                                    <option value=""> -</option>
+                                                    <?php foreach ($properties as $key => $value) {?>
+                                                            <option value="<?php echo $value ?>"><?php echo $key . " - " . $value ?></option>
+                                                   <?php } ?>
+                                                </select>
+                                                <script type="text/javascript">
+                                                    var select = document.getElementById('produkteigenschaftselect<?php echo $counter?>');
+                                                    select.onchange = function () {
+                                                        var input = document.getElementById('produkteigenschaft<?php echo $counter?>');
+                                                        input.value = this.value;
+                                                    }
+                                                </script>
+                                            </div>
+                                            <?php $counter++;
+                                        }
+                                    }
+                                    if($hasselectable){
+                                        ?>
+                                        </div>
+                                        <?php
+                                    }
+                                }?>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var attdiv = document.getElementById('attributes-headline');
+                            attdiv.onclick = function(){
+                                var content = document.getElementById('attribute-content');
+                                var headline = document.getElementById('item-attributes-headline');
+                                if(content.style.display == 'none'){
+                                    content.style.display = 'block';
+                                    headline.innerHTML = '<?php _e('Produkteigenschaften ausblenden','affiliatetheme-affilinet')?>';
+                                }else
+                                {
+                                    content.style.display = 'none';
+                                    headline.innerHTML = '<?php _e('Produkteigenschaften anzeigen','affiliatetheme-affilinet')?>';
+                                }
+                            }
+                        </script>
+                    <?php } ?>
 					
 					<?php
 					/*
 					* Taxonomien
 					*/
 					if(get_products_multiselect_tax_form())
-						echo '<h3>' . __('Taxonomien', 'affiliatetheme-amazon') . '</h3>' . get_products_multiselect_tax_form();
+						echo '<h3>' . __('Taxonomien', 'affiliatetheme-amazon') . '</h3>' . get_products_multiselect_tax_form(true, array(), $properties);
 						
 					/*
 					 * Existrierende Produkte

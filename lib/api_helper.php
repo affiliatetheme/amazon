@@ -1241,3 +1241,33 @@ function at_amazon_feed_delete_ajax() {
     echo json_encode(array('status' => 'error'));
     exit;
 }*/
+
+if ( ! function_exists( 'at_amazon_multiselect_tax_form_dropdown' ) ) {
+    /**
+     * at_amazon_multiselect_tax_form_dropdown
+     *
+     * Add a dropdown of all available values;
+     */
+    add_filter('at_mutltiselect_tax_form_product_dropdown', 'at_amazon_multiselect_tax_form_dropdown', 10, 3);
+    function at_amazon_multiselect_tax_form_dropdown($output, $properties,$tax)
+    {
+
+        $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        if (preg_match('/amazon/',$actual_link)) {
+                $output .= '<select name="taxonomy-select-dropdown-' . $tax . '">';
+                $output .= '<option value=""> -</option>';
+                foreach ($properties as $key => $value) {
+                        $output .= '<option value="' . $value . '">' . $key . " - " . $value . '</option>';
+                }
+                $output .= '</select>';
+                $output .= '<script type="text/javascript">';
+                $output .= "var select = document.getElementsByName('taxonomy-select-dropdown-" . $tax . "')[document.getElementsByName('taxonomy-select-dropdown-" . $tax . "').length-1];";
+                $output .= "select.onchange = function () {";
+                $output .= "var input = document.getElementsByName('tax[" . $tax . "][]')[document.getElementsByName('tax[" . $tax . "][]').length-1];";
+                $output .= "input.value = this.value; ";
+                $output .= "} </script>";
+        }
+
+        return $output;
+    }
+}
