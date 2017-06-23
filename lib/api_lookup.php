@@ -144,17 +144,17 @@ function at_aws_lookup() {
                                 $fields = $selector->get_selectable_item_fields(null,true);
                                 $selectable = $selector->get_items("", $fields);
                                 $groups = acf_get_field_groups();
-                                foreach($groups as $group){
+                                foreach($groups as $group) {
                                     $hasselectable = false;
-                                    foreach($selectable as $field){
-                                        if($field['group']['ID'] == $group['ID']){
+                                    foreach($selectable as $field) {
+                                        if($field['group']['ID'] == $group['ID']) {
                                             $hasselectable = true;
                                         }
                                     }
-                                    if($hasselectable){
+                                    if($hasselectable) {
                                         ?>
-                                        <div class="acf-field">
-
+                                        <div class="acf-field" id="attributes-group-<?php echo $group['key']; ?>">
+                                        <h3 id="attributes-group-headline-<?php echo $group['key']; ?>"><?php echo $group['title']; ?></h3>
                                         <?php
                                     }
 
@@ -162,28 +162,55 @@ function at_aws_lookup() {
                                         if($field['group']['ID'] == $group['ID']) {
                                             ?>
 
-                                            <div class="form-group acf-<?php echo $group['key']?>">
-                                                <label for="<?php echo $field['name'] ?>"><?php echo $field['label'] ?></label>
-                                                <input type="text" id="produkteigenschaft<?php echo $counter ?>"
-                                                       name="<?php echo $field['name'] ?>" value=""/>
-                                                <select id="produkteigenschaftselect<?php echo $counter ?>">
-                                                    <option value=""> -</option>
-                                                    <?php foreach ($properties as $key => $value) {?>
-                                                            <option value="<?php echo $value ?>"><?php echo $key . " - " . $value ?></option>
-                                                   <?php } ?>
-                                                </select>
+                                            <div class="form-group acf-<?php echo $group['key']?> " style="display: none;">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label for="<?php echo $field['name'] ?>"><?php echo $field['label'] ?></label>
+                                                        <input type="text" id="produkteigenschaft<?php echo $counter ?>" name="<?php echo $field['name'] ?>" value="" class="form-control"/>
+                                                    </div>
+
+                                                    <div class="col-sm-8">
+                                                        <label for="produkteigenschaftselect<?php echo $counter ?>"><?php _e('Wert aus dem Feed auswählen', 'affiliatetheme-affilinet'); ?></label>
+                                                        <select id="produkteigenschaftselect<?php echo $counter ?>" class="form-control">
+                                                            <option value="">-</option>
+                                                            <?php
+                                                            foreach ($properties as $property) {
+                                                                if ($property->PropertyValue != "") {
+                                                                    ?>
+                                                                    <option value="<?php echo $property->PropertyValue ?>"><?php echo $property->PropertyName . " - " . $property->PropertyValue ?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <script type="text/javascript">
                                                     var select = document.getElementById('produkteigenschaftselect<?php echo $counter?>');
                                                     select.onchange = function () {
                                                         var input = document.getElementById('produkteigenschaft<?php echo $counter?>');
                                                         input.value = this.value;
                                                     }
+                                                    var attdiv = document.getElementById('attributes-group-<?php echo $group['key']; ?>');
+                                                    attdiv.onclick = function(){
+                                                        var content = document.getElementsByClassName('form-group acf-<?php echo $group['key']?> ');
+                                                        if(content[0].style.display == 'none') {
+                                                            for(var i=0;i<content.length;i++)
+                                                                content[i].style.display = 'block';
+                                                        } else {
+                                                            for(var i=0;i<content.length;i++)
+                                                                content[i].style.display = 'none';
+                                                        }
+                                                    }
+
                                                 </script>
                                             </div>
                                             <?php $counter++;
                                         }
                                     }
-                                    if($hasselectable){
+
+                                    if($hasselectable) {
                                         ?>
                                         </div>
                                         <?php
