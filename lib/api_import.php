@@ -148,6 +148,13 @@ function at_aws_impot() {
             update_post_meta($post_id, AWS_METAKEY_LAST_UPDATE, time());
             update_post_meta($post_id, 'product_ean', $ean);
             update_post_meta($post_id, 'amazon_salesrank_' . $key, $salesrank);
+            $selector = new acf_field_field_selector();
+            $fields = $selector->get_selectable_item_fields(null,true);
+            $selectable = $selector->get_items("", $fields);
+            foreach($selectable as $field){
+                update_post_meta($post_id, $field['name'], $_POST[$field['name']]);
+            }
+
             if($ratings) {
                 update_post_meta($post_id, 'product_rating', $ratings);
             }

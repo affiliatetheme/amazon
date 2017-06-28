@@ -166,18 +166,18 @@ function at_aws_lookup() {
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         <label for="<?php echo $field['name'] ?>"><?php echo $field['label'] ?></label>
-                                                        <input type="text" id="produkteigenschaft<?php echo $counter ?>" name="<?php echo $field['name'] ?>" value="" class="form-control"/>
+                                                        <input type="text" id="attributes-input-<?php echo $counter ?>" name="<?php echo $field['name'] ?>" value="" class="form-control"/>
                                                     </div>
 
                                                     <div class="col-sm-8">
-                                                        <label for="produkteigenschaftselect<?php echo $counter ?>"><?php _e('Wert aus dem Feed auswählen', 'affiliatetheme-affilinet'); ?></label>
-                                                        <select id="produkteigenschaftselect<?php echo $counter ?>" class="form-control">
+                                                        <label for="attributes-select-<?php echo $counter ?>"><?php _e('Wert aus dem Feed auswählen', 'affiliatetheme-affilinet'); ?></label>
+                                                        <select id="attributes-select-<?php echo $counter ?>" class="form-control">
                                                             <option value="">-</option>
                                                             <?php
-                                                            foreach ($properties as $property) {
-                                                                if ($property->PropertyValue != "") {
+                                                            foreach ($properties as $key=>$value) {
+                                                                if ($value != "") {
                                                                     ?>
-                                                                    <option value="<?php echo $property->PropertyValue ?>"><?php echo $property->PropertyName . " - " . $property->PropertyValue ?></option>
+                                                                    <option value="<?php echo $value ?>"><?php echo $key . " - " . $value ?></option>
                                                                     <?php
                                                                 }
                                                             }
@@ -187,14 +187,17 @@ function at_aws_lookup() {
                                                 </div>
 
                                                 <script type="text/javascript">
-                                                    var select = document.getElementById('produkteigenschaftselect<?php echo $counter?>');
+                                                    var select = document.getElementById('attributes-select-<?php echo $counter?>');
                                                     select.onchange = function () {
-                                                        var input = document.getElementById('produkteigenschaft<?php echo $counter?>');
+                                                        var input = document.getElementById('attributes-input-<?php echo $counter?>');
                                                         input.value = this.value;
                                                     }
-                                                    var attdiv = document.getElementById('attributes-group-<?php echo $group['key']; ?>');
+                                                    var attdiv = document.getElementById('attributes-group-headline-<?php echo $group['key']; ?>');
                                                     attdiv.onclick = function(){
-                                                        var content = document.getElementsByClassName('form-group acf-<?php echo $group['key']?> ');
+                                                        this.classList.toggle('open');
+
+                                                        var content = document.getElementsByClassName('form-group acf-<?php echo $group['key']?>');
+
                                                         if(content[0].style.display == 'none') {
                                                             for(var i=0;i<content.length;i++)
                                                                 content[i].style.display = 'block';
