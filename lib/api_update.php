@@ -383,6 +383,20 @@ function at_aws_update($args = array()) {
                                         );
                                         wp_update_post($args);
                                         break;
+
+                                    case 'remove':
+
+                                        unset($shops[$key]);
+                                        update_post_meta($product->ID, get_field('product_shops', $product->ID), $shops );
+
+                                        break;
+
+                                    case 'email_remove':
+                                        at_aws_set_product_notification($product->ID);
+                                        unset($shops[$key]);
+                                        update_post_meta($product->ID, get_field('product_shops', $product->ID), $shops );
+
+                                        break;
                                 }
                             }
                         }

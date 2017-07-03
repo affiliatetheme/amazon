@@ -77,7 +77,9 @@
 										<option value="email" <?php if($selected_amazon_notification == "email") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung', 'affiliatetheme-amazon'); ?></option>
 										<option value="draft" <?php if($selected_amazon_notification == "draft") echo 'selected'; ?>><?php _e('Produkt als Entwurf setzen', 'affiliatetheme-amazon'); ?></option>
 										<option value="email_draft" <?php if($selected_amazon_notification == "email_draft") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Produkt als Entwurf setzen', 'affiliatetheme-amazon'); ?></option>
-									</select>
+                                        <option value="remove" <?php if($selected_amazon_notification == "remove") echo 'selected'; ?>><?php _e('Amazon Preis von Preisvergleich entfernen', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="email_remove" <?php if($selected_amazon_notification == "email_remove") echo 'selected'; ?>><?php _e('E-Mail Benachrichtigung & Amazon Preis von Preisvergleich entfernen', 'affiliatetheme-amazon'); ?></option>
+                                    </select>
 									<p class="form-hint"><?php _e('Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?', 'affiliatetheme-amazon'); ?></p>
 								</div>
                                 <div class="form-group">

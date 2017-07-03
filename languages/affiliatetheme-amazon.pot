@@ -345,6 +345,14 @@ msgstr ""
 msgid "E-Mail Benachrichtigung & Produkt als Entwurf setzen"
 msgstr ""
 
+#: view/panel.php:80
+msgid "Amazon Preis von Preisvergleich entfernen"
+msgstr ""
+
+#: view/panel.php:81
+msgid "E-Mail Benachrichtigung & Amazon Preis von Preisvergleich entfernenn"
+msgstr ""
+
 #: view/panel.php:81
 msgid "Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?"
 msgstr ""
