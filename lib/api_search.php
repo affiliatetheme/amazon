@@ -28,7 +28,7 @@ function at_aws_search() {
     $keywords = (isset($_POST['q']) ? $_POST['q'] : '');
     $title = (isset($_POST['title']) ? $_POST['title'] : '');    
     $category = (isset($_POST['category']) ? $_POST['category'] : 'All');
-    $page = (isset($_POST['page']) ? $_POST['page'] : '');
+    $page = (isset($_POST['page']) ? $_POST['page'] : '1');
     $sort = (isset($_POST['sort']) ? $_POST['sort'] : '');
     $merchant = (isset($_POST['merchant']) ? $_POST['merchant'] : '');
     $min_price = (isset($_POST['min_price']) ? $_POST['min_price'] : '');

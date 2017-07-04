@@ -1271,3 +1271,265 @@ if ( ! function_exists( 'at_amazon_multiselect_tax_form_dropdown' ) ) {
         return $output;
     }
 }
+
+if ( ! function_exists( 'at_amazon_compare_box' ) ) {
+    /**
+     * at_amazon_compare_box
+     *
+     * Add Meta-Box to Product Page
+     */
+    add_action('add_meta_boxes', 'at_amazon_compare_box');
+    function at_amazon_compare_box() {
+        add_meta_box(
+            'amazon_price_compare',
+            '<span class="dashicons dashicons-search"></span> ' . __('Amazon Preisvergleich', 'affiliatetheme-amazon'),
+            'at_amazon_compare_box_callback',
+            'product'
+        );
+    }
+}
+
+if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
+    /**
+     * at_amazon_compare_box_callback
+     *
+     * Add Meta-Box Content
+     */
+    function at_amazon_compare_box_callback($post) {
+        $ean = get_post_meta($post->ID, 'product_ean', true);
+        ?>
+
+        <div id="at-import-page" class="at-import-page-amazon" data-url="<?php echo admin_url(); ?>" data-import-nonce="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>">
+            <div class="alert alert-info api-alert">
+                <span class="dashicons dashicons-megaphone"></span>
+                <p><?php _e('Du kannst mit Hilfe des Preisvergleiches weitere Preise aus verschiedenen Shops zu diesem Produkt hinzufügen. Suche entweder nach der EAN oder einem Keyword und importiere weitere Preise. <br>
+                Die neuen Preise werden sofort im oberen Feld hinzugefügt. Bitte speichere das Produkt wenn du fertig bist.', 'affiliatetheme-amazon'); ?></p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="scompare_ean"><?php _e('EAN', 'affiliatetheme-amazon'); ?></label>
+                    <input type="text" name="amazon_compare_ean" id="amazon_compare_ean" value="<?php echo $ean; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="compare_query"><?php _e('Keyword', 'affiliatetheme-amazon'); ?></label>
+                    <input type="text" name="amazon_compare_query" id="amazon_compare_query">
+                </div>
+
+                <a href="#"
+                   class="acf-button blue button amazon-price-compare"><?php _e('Preisvergleich ausführen', 'affiliatetheme-amazon'); ?></a>
+            </div>
+        </div>
+
+        &nbsp;
+
+        <div id="at-import-window" class="at-import-window-amazon">
+            <table class="wp-list-table widefat fixed products">
+                <thead>
+                <tr>
+                    <th scope="col" id="cb" class="manage-column column-cb check-column">
+                        <label class="screen-reader-text" for="cb-select-all-1"><?php _e('Alle auswählen', 'affiliatetheme-amazon'); ?></label
+                        <input id="cb-select-all-1" type="checkbox">
+                    </th>
+                    <th scope="col" id="productid" class="manage-column column-productid">
+                        <span><?php _e('ASIN', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                    <th scope="col" id="ean" class="manage-column column-ean">
+                        <span><?php _e('EAN', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                    <th scope="col" id="title" class="manage-column column-title">
+                        <span><?php _e('Name', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                    <th scope="col" id="price" class="manage-column column-price">
+                        <span><?php _e('Preis', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                    <th scope="col" id="actions" class="manage-column column-action" style="">
+                        <span><?php _e('Aktion', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-amazon'); ?></a>
+                    </td>
+                </tr>
+                </tfoot>
+                <tbody id="resultsamazon"></tbody>
+            </table>
+        </div>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                // amazonsearchAction
+                jQuery('.at-import-page-amazon').bind('keydown', function (event) {
+                    if (event.keyCode == 13) {
+                        amazonsearchAction();
+                        event.preventDefault();
+                    }
+                });
+                jQuery('.at-import-page-amazon .amazon-price-compare').click(function (event) {
+                    amazonsearchAction();
+                    event.preventDefault();
+                });
+
+                // amazonQuickImportAction
+                jQuery('.amazon-quick-import').live('click', function (event) {
+                    var id = jQuery(this).attr('data-id');
+
+                    amazonQuickImportAction(id);
+
+                    event.preventDefault();
+                });
+
+                // amazonMassImportAction
+                jQuery('.at-import-window-amazon .mass-import').live('click', function (event) {
+                    amazonMassImportAction(this);
+
+                    event.preventDefault();
+                });
+            });
+
+            var amazonsearchAction = function () {
+                var target = jQuery('.at-import-page-amazon .amazon-price-compare');
+                var ean = jQuery('.at-import-page-amazon #amazon_compare_ean').val();
+                var query = jQuery('.at-import-page-amazon #amazon_compare_query').val();
+                var query = (query.length < 3)?ean:query;
+                var html = '';
+
+                jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').attr('disabled', true).addClass('noevent');
+
+                jQuery.ajax({
+                    url: ajaxurl,
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {action: 'at_aws_search', q:query}
+                }).done(function (data) {
+
+                    if (data['items']) {
+                        for (var x in data['items']) {
+                            if (data['items'][x].exists != "false") {
+                                html += '<tr class="item success" data-id="' + data['items'][x].asin + '">';
+                                html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '" disabled="disabled"></th>';
+                            } else {
+                                html += '<tr class="item" data-id="' + data['items'][x].asin + '">';
+                                html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '"></th>';
+                            }
+                            html += '<td class="productid">' + data['items'][x].asin + '</td>';
+                            html += '<td class="ean">' + (data['items'][x].ean ? data['items'][x].ean : '-') + '</td>';
+                            html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
+                            html += '<td class="price">' + data['items'][x].price + '</td>';
+                            if (data['items'][x].exists != "false") {
+                                html += '<td class="action"></td>';
+                            } else {
+                                html += '<td class="action"><a href="#" title="Quickimport" class="amazon-quick-import" data-id="' + data['items'][x].asin + '"><i class="fa fa-bolt"></i></a></td>';
+                            }
+                            html += '</tr>';
+                        }
+                    } else {
+                        html += '<tr><td colspan="5"><?php _e('Es wurde kein Produkt gefunden', 'affiliatetheme-amazon'); ?></td></tr>';
+                    }
+                }).always(function () {
+                    jQuery(target).attr('disabled', false).removeClass('noevent').find('i').remove();
+                    jQuery('#at-import-window tbody#resultsamazon').html(html);
+                });
+            }
+
+            var amazonQuickImportAction = function ( id, mass, i, max_items) {
+                mass = mass || false;
+                max_items = max_items || "0";
+                i = i || "1";
+                console.log("quickimport");
+                console.log(id);
+                var target = jQuery('#results .item[data-id=' + id + ']').find(".action a.amazon-quick-import");
+                var ajax_loader = jQuery('.at-ajax-loader');
+                var post_id = '<?php echo $post->ID; ?>';
+                var nonce = jQuery('.at-import-page-amazon').attr('data-import-nonce');
+
+                jQuery(target).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').addClass('noevent');
+
+                jQuery.ajaxQueue({
+                    url: ajaxurl,
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        action: 'at_amazon_add_acf',
+                        id: id,
+                        ex_page_id: post_id,
+                        func: 'quick-import',
+                        '_wpnonce': nonce
+                    },
+                    success: function (data) {
+                        jQuery(target).find('i').remove();
+
+                        if (data['rmessage']['success'] == "false") {
+                            jQuery(target).after('<div class="error">' + data['rmessage']['reason'] + '</div>');
+                            jQuery(target).append(' <i class="fa fa-exclamation-triangle"></i>').attr('disabled', true);
+                        } else if (data['rmessage']['success'] == "true") {
+
+                            var shopinfo = data['shop_info'];
+
+
+                            jQuery('[data-key="field_557c01ea87000"] .acf-input .acf-actions [data-event="add-row"]').trigger('click');
+                            var field_id = jQuery('div[data-key="field_557c01ea87000"] tr.acf-row').not('div[data-key="field_557c01ea87000"] tr.acf-clone').last().attr('data-id');
+
+                            var pricefield = 'acf-field_557c01ea87000-'+field_id+'-field_553b8257246b5';
+                            var priceoldfield = 'acf-field_557c01ea87000-'+field_id+'-field_553c9582146b5';
+                            var currencyfield = 'acf-field_557c01ea87000-'+field_id+'-field_553b82b5246b6';
+                            var portalfield = 'acf-field_557c01ea87000-'+field_id+'-field_553b83de246bb';
+                            var amazonIDfield = 'acf-field_557c01ea87000-'+field_id+'-field_553b75842c246bc';
+                            var shopfield = 'acf-field_557c01ea87000-'+field_id+'-field_557c058187007-input';
+                            var urlfield = 'acf-field_557c01ea87000-'+field_id+'-field_553b834c246b9';
+                            jQuery("#"+pricefield).val(shopinfo['price']);
+                            jQuery("#"+priceoldfield).val(shopinfo['price_old']);
+                            jQuery("#"+currencyfield).val(shopinfo['currency']);
+                            jQuery("#"+portalfield).val(shopinfo['portal']);
+                            jQuery("#"+amazonIDfield).val(shopinfo['metakey']);
+                            jQuery("#"+shopfield).val(shopinfo['shop']);
+                            jQuery("#"+urlfield).val(shopinfo['link']);
+                            window.onbeforeunload = function(event){
+                                var leaverid = jQuery(event.target.activeElement).context.id;
+                                if (leaverid != 'publish') return true;
+                            }
+                            console.log("timeout, text:"+shopinfo['shopname']);
+                            setTimeout(function(){jQuery('.select2-chosen').last().text(shopinfo['shopname'])},1000);
+                            jQuery(target).hide();
+                            jQuery('body table.products tr[data-id=' + id + ']').addClass('success');
+                            jQuery('body table.products tr[data-id=' + id + '] .check-column input[type=checkbox]').attr('disabled', 'disabled');
+                            jQuery('body table.products tr[data-id=' + id + '] .action i').removeClass('fa-plus-circle').addClass('fa-check').closest('a').removeClass('quick-import');
+                        }
+                    }
+                });
+            };
+
+
+            var amazonMassImportAction = function (target) {
+                var max_items = jQuery('#results .item:not(".success") .check-column input:checkbox:checked').length;
+                var i = 1;
+
+                jQuery('#resultsamazon .item:not(".success") .check-column input:checkbox:checked').each(function () {
+                    var id = jQuery(this).val();
+                    amazonQuickImportAction(id, true, i, max_items);
+                    i++;
+                });
+            };
+
+            // jQuery Queue
+            (function ($) {
+                var ajaxQueue = $({});
+                $.ajaxQueue = function (ajaxOpts) {
+                    var oldComplete = ajaxOpts.complete;
+                    ajaxQueue.queue(function (next) {
+                        ajaxOpts.complete = function () {
+                            if (oldComplete) oldComplete.apply(this, arguments);
+                            next();
+                        };
+                        $.ajax(ajaxOpts);
+                    });
+                };
+            })(jQuery);
+        </script>
+        <?php
+    }
+}

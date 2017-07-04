@@ -28,6 +28,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
 			// helpers
 			require_once(AWS_PATH . '/lib/bootstrap.php');
+            require_once(AWS_PATH . '/lib/api_acf_helper.php');
 			require_once(AWS_PATH . '/lib/api_helper.php');
 			require_once(AWS_PATH . '/lib/api_search.php');
 			require_once(AWS_PATH . '/lib/api_lookup.php');
