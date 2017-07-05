@@ -160,6 +160,66 @@ msgstr ""
 "Amazon reviews aren't available via the API anymore. Learn more <a "
 "href=\"%s\" target=\"_blank\">here</a>."
 
+#: lib/api_helper.php:206
+msgid "Amazon Preisvergleich"
+msgstr "Amazon price comparison"
+
+#: lib/api_helper.php:212
+msgid ""
+"Du kannst mit Hilfe des Preisvergleiches weitere Preise aus verschiedenen "
+"Shops zu diesem Produkt hinzufügen. Suche entweder nach der EAN oder einem "
+"Keyword und importiere weitere Preise. <br>\n"
+"                Die neuen Preise werden sofort im oberen Feld hinzugefügt. "
+"Bitte speichere das Produkt wenn du fertig bist."
+msgstr ""
+"You can use the price comparison to add additional prices from different "
+"stores to this product. Search by EAN or a keyword and import more prices. "
+"<br>\n"
+"                 The new prices are immediately added in the upper field. "
+"Please save the product when you are done."
+
+#: lib/api_helper.php:218 lib/api_helper.php:245 lib/api_lookup.php:38
+#: view/panel.php:63
+msgid "EAN"
+msgstr "EAN"
+
+#: lib/api_helper.php:223
+msgid "Keyword"
+msgstr "Keyword"
+
+#: lib/api_helper.php:227
+msgid "Preisvergleich ausführen"
+msgstr "Search"
+
+#: lib/api_helper.php:238 view/panel.php:197
+msgid "Alle auswählen"
+msgstr "Select all"
+
+#: lib/api_helper.php:242 lib/api_lookup.php:43 view/panel.php:204
+msgid "Artikelnummer"
+msgstr "Article No."
+
+#: lib/api_helper.php:248 view/panel.php:155 view/panel.php:210
+msgid "Name"
+msgstr "Name"
+
+#: lib/api_helper.php:251 view/panel.php:125 view/panel.php:213
+msgid "Shop"
+msgstr "Shop"
+
+#: lib/api_helper.php:254 lib/api_lookup.php:53 view/panel.php:154
+#: view/panel.php:216
+msgid "Preis"
+msgstr "Price"
+
+#: lib/api_helper.php:257 view/panel.php:222
+msgid "Aktion"
+msgstr "Action"
+
+#: lib/api_helper.php:264 view/panel.php:235
+msgid "Ausgewählte Produkte importieren"
+msgstr "Import selected products"
+
 #: lib/api_import.php:232
 msgid "Dieses Produkt existiert bereits."
 msgstr "This product already exists."

@@ -141,6 +141,112 @@ msgid ""
 "href=\"%s\" target=\"_blank\">hier</a> mehr."
 msgstr ""
 
+#: lib/api_helper.php:212
+msgid ""
+"Du kannst mit Hilfe des Preisvergleiches weitere Preise aus verschiedenen "
+"Shops zu diesem Produkt hinzufügen. Suche entweder nach der EAN oder einem "
+"Keyword und importiere weitere Preise. <br>\n"
+"                Die neuen Preise werden sofort im oberen Feld hinzugefügt. "
+"Bitte speichere das Produkt wenn du fertig bist."
+msgstr ""
+
+#: lib/api_helper.php:218 lib/api_helper.php:245 lib/api_lookup.php:38
+#: view/panel.php:63
+msgid "EAN"
+msgstr ""
+
+#: lib/api_helper.php:223
+msgid "Keyword"
+msgstr ""
+
+#: lib/api_helper.php:227
+msgid "Preisvergleich ausführen"
+msgstr ""
+
+#: lib/api_helper.php:238 view/panel.php:197
+msgid "Alle auswählen"
+msgstr ""
+
+#: lib/api_helper.php:242 lib/api_lookup.php:43 view/panel.php:204
+msgid "Artikelnummer"
+msgstr ""
+
+#: lib/api_helper.php:248 view/panel.php:155 view/panel.php:210
+msgid "Name"
+msgstr ""
+
+#: lib/api_helper.php:251 view/panel.php:125 view/panel.php:213
+msgid "Shop"
+msgstr ""
+
+#: lib/api_helper.php:254 lib/api_lookup.php:53 view/panel.php:154
+#: view/panel.php:216
+msgid "Preis"
+msgstr ""
+
+#: lib/api_helper.php:257 view/panel.php:222
+msgid "Aktion"
+msgstr ""
+
+#: lib/api_helper.php:264 view/panel.php:235
+msgid "Ausgewählte Produkte importieren"
+msgstr ""
+
+#: lib/api_helper.php:206
+msgid "Amazon Preisvergleich"
+msgstr ""
+
+#: lib/api_helper.php:212
+msgid ""
+"Du kannst mit Hilfe des Preisvergleiches weitere Preise aus verschiedenen "
+"Shops zu diesem Produkt hinzufügen. Suche entweder nach der EAN oder einem "
+"Keyword und importiere weitere Preise. <br>\n"
+"                Die neuen Preise werden sofort im oberen Feld hinzugefügt. "
+"Bitte speichere das Produkt wenn du fertig bist."
+msgstr ""
+
+#: lib/api_helper.php:218 lib/api_helper.php:245 lib/api_lookup.php:38
+#: view/panel.php:63
+msgid "EAN"
+msgstr ""
+
+#: lib/api_helper.php:223
+msgid "Keyword"
+msgstr ""
+
+#: lib/api_helper.php:227
+msgid "Preisvergleich ausführen"
+msgstr ""
+
+#: lib/api_helper.php:238 view/panel.php:197
+msgid "Alle auswählen"
+msgstr ""
+
+#: lib/api_helper.php:242 lib/api_lookup.php:43 view/panel.php:204
+msgid "Artikelnummer"
+msgstr ""
+
+#: lib/api_helper.php:248 view/panel.php:155 view/panel.php:210
+msgid "Name"
+msgstr ""
+
+#: lib/api_helper.php:251 view/panel.php:125 view/panel.php:213
+msgid "Shop"
+msgstr ""
+
+#: lib/api_helper.php:254 lib/api_lookup.php:53 view/panel.php:154
+#: view/panel.php:216
+msgid "Preis"
+msgstr ""
+
+#: lib/api_helper.php:257 view/panel.php:222
+msgid "Aktion"
+msgstr ""
+
+#: lib/api_helper.php:264 view/panel.php:235
+msgid "Ausgewählte Produkte importieren"
+msgstr ""
+
 #: lib/api_import.php:232
 msgid "Dieses Produkt existiert bereits."
 msgstr ""
