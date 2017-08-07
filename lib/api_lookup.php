@@ -143,7 +143,7 @@ function at_aws_lookup() {
                                 $selector = new acf_field_field_selector();
                                 $fields = $selector->get_selectable_item_fields(null,true);
                                 $selectable = $selector->get_items("", $fields);
-                                $groups = acf_get_field_groups();
+                                $groups = acf_get_field_groups(array('post_type' => 'product'));
                                 foreach($groups as $group) {
                                     $hasselectable = false;
                                     foreach($selectable as $field) {
