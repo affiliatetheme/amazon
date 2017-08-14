@@ -18,7 +18,7 @@
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
 			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-amazon'); ?></a>
-			<!--<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-amazon'); ?></a>-->
+			<a class="nav-tab" id="feed-tab" href="#top#feed"><?php _e('Feed', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="apilog-tab" href="#top#apilog"><?php _e('API Log', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="buttons-tab" href="#top#buttons"><?php _e('Buttons', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="errorhandling-tab" href="#top#errorhandling"><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></a>
@@ -354,12 +354,11 @@
 			<!-- END: Search Tab -->
 
 			<!-- START: API Feed -->
-			<?php /*
 			<div id="feed" class="at-api-tab">
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('Feed', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
-						<p><?php _e('Du kannst bestimmte Suchbegriffe hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-amazon'); ?></p>
+						<p><?php _e('Du kannst bestimmte URLs hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-amazon'); ?></p>
 						<table class="feed">
 							<tbody>
 								<?php
@@ -443,7 +442,7 @@
 									?>
 									<tr>
 										<td colspan="4">
-											<?php _e('Es wurde bisher kein Suchbegriff hinterlegt', 'affiliatetheme-amazon'); ?>
+											<?php _e('Es wurde bisher keine URL hinterlegt', 'affiliatetheme-amazon'); ?>
 										</td>
 									</tr>
 									<?php
@@ -455,7 +454,7 @@
 						<hr>
 
 						<form id="add-new-keyword">
-							<input name="keyword" class="form-control" placeholder="Suchbegriff" />
+							<input type="url" name="keyword" class="form-control" placeholder="<?php _e("URL",'affiliatetheme-amazon')?>" />
 							<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); ?>
 							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
 						</form>
@@ -464,7 +463,6 @@
 					</div>
 				</div>
 			</div>
- 			*/ ?>
 			<!-- END: API Feed Tab-->
 
 			<!-- START: API Log Tab-->

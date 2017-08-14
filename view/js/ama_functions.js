@@ -597,6 +597,12 @@ var FeedWriteItem = function(e) {
     if(jQuery('#add-new-keyword input').val().length < 1)
         return;
 
+    var url = jQuery('#add-new-keyword input').val();
+
+    if(!at_amazon_validate_url(url)){
+        return;
+    }
+
     jQuery('#add-new-keyword button').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
     jQuery('#feed-messages').html('');
 
@@ -625,6 +631,16 @@ var FeedWriteItem = function(e) {
     });
     e.preventDefault();
 };
+
+function at_amazon_validate_url(str) {
+    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    if(!regex .test(str)) {
+        alert("Please enter valid URL.");
+        return false;
+    } else {
+        return true;
+    }
+}
 
 /*
  * Function

@@ -53,9 +53,6 @@ if(!class_exists('AffiliateTheme_Amazon')) {
                 }
             }
 
-            /*
-            * Installiere Tabelle
-           
             if($wpdb->get_var("show tables like '" . AWS_FEED_TABLE . "'") != AWS_FEED_TABLE)
             {
                 $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
@@ -74,7 +71,6 @@ if(!class_exists('AffiliateTheme_Amazon')) {
                 require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                 dbDelta($sql);
             }
-            */
 		} 
 
 		/**
@@ -83,6 +79,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		public static function deactivate()
 		{
             wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array('hash' => AWS_CRON_HASH));
+            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update_feeds', array('hash' => AWS_CRON_HASH));
 		}
 
         /**

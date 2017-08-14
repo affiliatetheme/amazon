@@ -6,18 +6,20 @@ use ApaiIO\Zend\Service\Amazon;
 
 add_action('wp_ajax_amazon_api_import', 'at_aws_impot');
 add_action('wp_ajax_at_aws_import', 'at_aws_impot');
-function at_aws_impot() {
+function at_aws_impot($asin = '', $direct = false) {
     global $wpdb;
 
-    if (!wp_verify_nonce($_POST['_wpnonce'], 'at_amazon_import_wpnonce')) {
-        die('Security Check failed');
+    if(!$direct) {
+        if (!wp_verify_nonce($_POST['_wpnonce'], 'at_amazon_import_wpnonce')) {
+            die('Security Check failed');
+        }
     }
 
     // vars
-    $asin = (isset($_POST['asin']) ? $_POST['asin'] : '');
+    if(!$direct) $asin = (isset($_POST['asin']) ? $_POST['asin'] : '');
     $amazon_images_external = get_option('amazon_images_external');
 
-    if (isset($_POST['func']) && ($_POST['func'] == 'quick-import')) {
+    if ((isset($_POST['func']) && ($_POST['func'] == 'quick-import'))||$direct) {
         // quick import
         $conf = new GenericConfiguration();
         try {
@@ -70,8 +72,8 @@ function at_aws_impot() {
                 if ($amazon_images) {
                     $c = 1;
                     foreach ($amazon_images as $image) {
-                        $images[$c]['filename'] = sanitize_title($title . '-' . $i);
-                        $images[$c]['alt'] = $title . ' - ' . $i;
+                        $images[$c]['filename'] = sanitize_title($title . '-' . $c);
+                        $images[$c]['alt'] = $title . ' - ' . $c;
                         $images[$c]['url'] = $image;
 
                         if ($c == 1) {
@@ -245,6 +247,7 @@ function at_aws_impot() {
 
     }
 
+    if($direct) return $output;
     echo json_encode($output);
     exit();
 }

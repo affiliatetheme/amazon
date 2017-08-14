@@ -946,6 +946,7 @@ if ( ! function_exists('at_amazon_start_cronjob') ) {
      *
      */
     add_action('init', 'at_amazon_start_cronjob');
+    add_action('init', 'at_amazon_start_feed_cronjob');
     function at_amazon_start_cronjob() {
         $public_key = get_option('amazon_public_key');
         $secret_key = get_option('amazon_secret_key');
@@ -971,6 +972,36 @@ if ( ! function_exists('at_amazon_start_cronjob') ) {
 
         wp_schedule_event(time(), $recurrence, $hook, $args);
     }
+
+    function at_amazon_start_feed_cronjob() {
+        $public_key = get_option('amazon_public_key');
+        $secret_key = get_option('amazon_secret_key');
+
+        $recurrence = apply_filters('at_amazon_cronjob_recurrence', '5min');
+        $hook = 'affiliatetheme_amazon_api_update_feeds';
+        $args = array('hash' => AWS_CRON_HASH);
+
+        if(!$public_key || !$secret_key) {
+            wp_clear_scheduled_hook($hook, $args);
+            return false;
+        }
+
+        if(wp_next_scheduled($hook, $args)) {
+            return false;
+        }
+
+        wp_schedule_event(time(), $recurrence, $hook, $args);
+    }
+}
+
+add_filter('cron_schedules','at_amazon_cron_schedules');
+function at_amazon_cron_schedules($schedules){
+    if(!isset($schedules["5min"])){
+        $schedules["5min"] = array(
+            'interval' => 5*60,
+            'display' => __('Once every 5 minutes'));
+    }
+    return $schedules;
 }
 
 if ( ! function_exists('at_amazon_cronjob_next_run') ) {
@@ -1068,12 +1099,13 @@ if ( ! function_exists('at_amazon_get_forum_url') ) {
 
 /*
  * Feed: Read
+ * */
 function at_amazon_feed_read() {
     global $wpdb;
 
     $feed = $wpdb->get_results (
         "
-        SELECT * FROM " . AWS_FEED_TABLE . "
+        SELECT * FROM " . AWS_FEED_TABLE . " ORDER BY last_update ASC
         "
     );
 
@@ -1081,10 +1113,11 @@ function at_amazon_feed_read() {
         return $feed;
 
     return;
-} */
+}
 
 /*
  * Feed: Add Keyword
+ * */
 function at_amazon_feed_write($keyword, $category) {
     if(!$keyword || !$category)
         return;
@@ -1109,6 +1142,22 @@ function at_amazon_feed_write($keyword, $category) {
     return $status;
 }
 
+function at_amazon_feed_set_update($id) {
+    global $wpdb;
+
+    $status = $wpdb->update(
+        AWS_FEED_TABLE,
+        array(
+            'last_update'       => date("Y-m-d H:m:s", time()),
+        ),
+        array(
+            'id' => $id
+        )
+    );
+
+    return $status;
+}
+
 add_action('wp_ajax_at_amazon_feed_write_ajax', 'at_amazon_feed_write_ajax');
 function at_amazon_feed_write_ajax() {
     $keyword = (isset($_POST['keyword']) ? $_POST['keyword'] : '');
@@ -1123,10 +1172,11 @@ function at_amazon_feed_write_ajax() {
 
     echo json_encode(array('status' => 'ok'));
     exit;
-}*/
-
+}
 /*
+ *
  * Feed: Status Label
+ */
 function at_amazon_feed_status_label($status) {
     switch($status) {
         case '1':
@@ -1137,10 +1187,11 @@ function at_amazon_feed_status_label($status) {
     }
 
     return;
-}*/
+}
 
 /*
  * Feed: Change Status
+ */
 function at_amazon_feed_change_status($id, $status) {
     if($id == 'undefined')
         return;
@@ -1174,10 +1225,11 @@ function at_amazon_feed_change_status_ajax() {
 
     echo json_encode(array('status' => 'error'));
     exit;
-}*/
+}
 
 /*
  * Feed: Change Settings
+ */
 function at_amazon_feed_change_settings($id, $data) {
     if($id == 'undefined')
         return;
@@ -1214,10 +1266,10 @@ function at_amazon_feed_change_settings_ajax() {
 
     echo json_encode(array('status' => 'error'));
     exit;
-}*/
-
+}
 /*
  * Feed: Delete Keyword
+ */
 function at_amazon_feed_delete($id) {
     if($id == 'undefined' || !$id)
         return;
@@ -1240,7 +1292,7 @@ function at_amazon_feed_delete_ajax() {
 
     echo json_encode(array('status' => 'error'));
     exit;
-}*/
+}
 
 if ( ! function_exists( 'at_amazon_multiselect_tax_form_dropdown' ) ) {
     /**

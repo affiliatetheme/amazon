@@ -9,6 +9,7 @@ add_action('wp_ajax_nopriv_at_aws_update', 'at_aws_update');
 add_action('wp_ajax_amazon_api_update', 'at_aws_update');
 add_action('wp_ajax_nopriv_amazon_api_update', 'at_aws_update');
 add_action('affiliatetheme_amazon_api_update', 'at_aws_update');
+add_action('affiliatetheme_amazon_api_update_feeds','at_aws_update_feeds');
 function at_aws_update($args = array()) {	
     global $wpdb;
 	
@@ -413,5 +414,21 @@ function at_aws_update($args = array()) {
 
     at_write_api_log('amazon', 'system', 'end cron');
 
+    exit();
+}
+
+function at_aws_update_feeds(){
+    global $wpdb;
+    $all_asins = $wpdb->get_col("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = 'amazon_asin'");
+    $feeds = at_amazon_feed_read();
+    foreach ($feeds as $feed){
+        if(strtotime($feed->last_update) < (time() - 86400)) {
+            $asins = at_aws_grab($feed->keyword, true);
+            foreach ($asins['asins'] as $asin) {
+                if(!in_array($asin,$all_asins)) at_aws_impot($asin, true);
+            }
+            at_amazon_feed_set_update($feed->id);
+        }
+    }
     exit();
 }
