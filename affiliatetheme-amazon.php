@@ -52,25 +52,6 @@ if(!class_exists('AffiliateTheme_Amazon')) {
                     }
                 }
             }
-
-            if($wpdb->get_var("show tables like '" . AWS_FEED_TABLE . "'") != AWS_FEED_TABLE)
-            {
-                $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
-                    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    keyword text,
-                    category text,
-                    last_message text,
-                    last_update timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    status int(1) DEFAULT '1',
-                    tax text,
-                    images int(1) DEFAULT '1',
-                    description int(1) DEFAULT '0',
-                    post_status text
-                );";
-
-                require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-                dbDelta($sql);
-            }
 		} 
 
 		/**

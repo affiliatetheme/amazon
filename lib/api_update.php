@@ -417,15 +417,16 @@ function at_aws_update($args = array()) {
     exit();
 }
 
+
 function at_aws_update_feeds(){
     global $wpdb;
     $all_asins = $wpdb->get_col("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = 'amazon_asin'");
     $feeds = at_amazon_feed_read();
     foreach ($feeds as $feed){
-        if(strtotime($feed->last_update) < (time() - 86400)) {
+        if($feed->status != 0 && strtotime($feed->last_update) < (time() - 86400)) {
             $asins = at_aws_grab($feed->keyword, true);
             foreach ($asins['asins'] as $asin) {
-                if(!in_array($asin,$all_asins)) at_aws_impot($asin, true);
+                if(!in_array($asin,$all_asins)) at_aws_impot($asin, true, unserialize($feed->tax));
             }
             at_amazon_feed_set_update($feed->id);
         }

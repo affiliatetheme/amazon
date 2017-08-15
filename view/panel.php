@@ -383,29 +383,6 @@
 														<td colspan="5">
 															<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
 																<div class="row">
-																	<div class="form-group">
-																		<label for="post_status"><?php _e('Beitragsstatus', 'affiliatetheme-amazon'); ?></label>
-																		<select name="post_status">
-																			<option value="publish" <?php if($item->post_status == 'publish') echo 'selected'; ?>><?php _e('Veröffentlichen', 'affiliatetheme-amazon'); ?></option>
-																			<option value="draft" <?php if($item->post_status == 'draft') echo 'selected'; ?>><?php _e('Entwurf', 'affiliatetheme-amazon'); ?></option>
-																		</select>
-																	</div>
-
-																	<div class="form-group">
-																		<label for="images"><?php _e('Bilder importieren', 'affiliatetheme-amazon'); ?></label>
-																		<select name="images">
-																			<option value="1" <?php if($item->images == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-amazon'); ?></option>
-																			<option value="0" <?php if($item->images == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-amazon'); ?></option>
-																		</select>
-																	</div>
-
-																	<div class="form-group">
-																		<label for="description"><?php _e('Beschreibung importieren', 'affiliatetheme-amazon'); ?></label>
-																		<select name="description">
-																			<option value="1" <?php if($item->description == '1') echo 'selected'; ?>><?php _e('Ja', 'affiliatetheme-amazon'); ?></option>
-																			<option value="0" <?php if($item->description == '0') echo 'selected'; ?>><?php _e('Nein', 'affiliatetheme-amazon'); ?></option>
-																		</select>
-																	</div>
 
 																	<div class="form-group">
 																		<label for="category"><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
@@ -420,11 +397,9 @@
 																	} else {
 																		$taxonomies = array();
 																	}
-
 																	echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form(false, $taxonomies) . '</div>';
 																}
 																?>
-
 																<div class="row">
 																	<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-amazon'); ?></button>
 																</div>

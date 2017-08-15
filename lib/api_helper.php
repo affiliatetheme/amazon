@@ -1130,7 +1130,7 @@ function at_amazon_feed_write($keyword, $category) {
             'keyword'       => $keyword,
             'category'      => $category,
             'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-amazon'), date('d.m.Y G:i:s')),
-            'post_status'   => 'publish'
+            'post_status'   => 'publish',
         ),
         array(
             '%s',
@@ -1583,5 +1583,31 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
             })(jQuery);
         </script>
         <?php
+    }
+}
+
+add_action('init','at_amazon_feed_create_database');
+function at_amazon_feed_create_database()
+{
+    define('AT_AMAZON_DATABASE_VERSION',"0.8");
+    if(get_option('at_amazon_database_version',"0") != AT_AMAZON_DATABASE_VERSION) {
+        $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
+                id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                keyword text,
+                category text,
+                last_message text,
+                last_update timestamp DEFAULT '0-0-0 00:00:00',
+                status int(1) DEFAULT '0',
+                tax text,
+                images int(1) DEFAULT '1',
+                description int(1) DEFAULT '0',
+                post_status text
+            );";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
+
+
+        update_option('at_amazon_database_version', AT_AMAZON_DATABASE_VERSION);
     }
 }
