@@ -211,7 +211,9 @@ function at_aws_impot($asin = '', $direct = false, $taxs = array()) {
                         if ("true" == $image_exclude) {
                             continue;
                         }
-
+                        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+                        require_once( ABSPATH . 'wp-admin/includes/media.php' );
+                        require_once( ABSPATH . 'wp-admin/includes/image.php' );
                         if ("true" == $image_thumb) {
                             $att_id = at_attach_external_image($image_url, $post_id, true, $image_filename, array('post_title' => $image_alt));
                             update_post_meta($att_id, '_wp_attachment_image_alt', $image_alt);
