@@ -390,8 +390,8 @@
 											<td colspan="5">
 												<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
                                                     <div class="form-group">
-                                                        <label for="category"><?php _e('Name','affiliatetheme-amazon')?></label>
-                                                        <input type="text" name="category" value="<?php echo $item->category; ?>"/>
+                                                        <label for="category-<?php echo $item->id;?>"><?php _e('Name','affiliatetheme-amazon')?></label>
+                                                        <input type="text" name="category" id="category-<?php echo $item->id;?>" value="<?php echo $item->category; ?>"/>
                                                     </div>
                                                     <?php
 													if(get_products_multiselect_tax_form()) {
@@ -431,7 +431,7 @@
 						<form id="add-new-keyword">
 							<input type="url" name="keyword" class="form-control" placeholder="<?php _e("URL",'affiliatetheme-amazon')?>" />
 							<input type="text" name="category" class="form-control" placeholder="<?php _e("Name",'affiliatetheme-amazon')?>" />
-							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
+							<button class="button button-primary"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
 						</form>
 
 						<div id="feed-messages"></div>
