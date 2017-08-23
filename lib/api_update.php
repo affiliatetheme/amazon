@@ -435,6 +435,7 @@ function at_aws_update_feeds(){
             }
             at_amazon_feed_set_update($feed->id);
         }
+        break;
     }
     exit();
 }
