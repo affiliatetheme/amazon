@@ -387,7 +387,7 @@
 											<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-amazon') : __('aktivieren', 'affiliatetheme-amazon')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-amazon'); ?></a></td>
 										</tr>
 										<tr class="inside" style="display: none;">
-											<td colspan="5">
+											<td colspan="6">
 												<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
                                                     <div class="form-group">
                                                         <label for="category-<?php echo $item->id;?>"><?php _e('Name','affiliatetheme-amazon')?></label>
