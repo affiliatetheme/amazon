@@ -50,7 +50,7 @@ jQuery(document).ready(function() {
     });
 
     // grabLink
-    jQuery('#grab-link').bind('click', function(event) {
+    jQuery('#grab-link').live('click', function(event) {
         grabLink(event);
         event.preventDefault();
     });
@@ -552,7 +552,7 @@ var grabLink = function(e) {
         return;
 
     if(jQuery('#grab-link').prop('disabled'))
-        return
+        return;
 
     jQuery('#grab-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>');
 
@@ -570,6 +570,8 @@ var grabLink = function(e) {
         type: 'POST',
         data: "action=at_aws_grab&url="+encodeURIComponent(url),
         success: function(data){
+            jQuery('#grab-link .fa-spin').remove();
+            jQuery('#grab-link').attr('disabled', false);
             var asins = data.asins;
             jQuery.each(asins, function( index, value ) {
                 if (index != 0) {
@@ -578,8 +580,6 @@ var grabLink = function(e) {
                     jQuery('#grabbedasins').val(value);
                 }
             });
-            jQuery('#grab-link .fa-spin').remove();
-            jQuery('#grab-link').attr('disabled', false);
         },
         error: function(data) {
             jQuery('#grab-link .fa-spin').remove();
