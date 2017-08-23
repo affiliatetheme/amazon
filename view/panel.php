@@ -360,6 +360,15 @@
 					<div class="inside">
 						<p><?php _e('Du kannst bestimmte URLs hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-amazon'); ?></p>
 						<table class="feed">
+							<thead>
+								<tr>
+									<th>Settings</th>
+									<th>Amazon URL</th>
+									<th>Date added</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
 							<tbody>
 								<?php
 								$feed_itmes = at_amazon_feed_read();
@@ -369,46 +378,36 @@
 										$change_status = ($item->status == '1' ? '0' : '1');
 										?>
 										<tr class="item closed" data-id="<?php echo $item->id; ?>">
-											<td>
-												<table>
-													<tr>
-														<td><div class="handle"></div></td>
-														<td><?php echo $item->keyword; ?></td>
-														<td><?php echo $item->last_message; ?></td>
-														<td><?php echo at_amazon_feed_status_label($item->status); ?></td>
-														<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-amazon') : __('aktivieren', 'affiliatetheme-amazon')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-amazon'); ?></a></td>
-													</tr>
+											<td><div class="handle"></div></td>
+											<td><?php echo $item->keyword; ?></td>
+											<td><?php echo $item->last_message; ?></td>
+											<td><?php echo at_amazon_feed_status_label($item->status); ?></td>
+											<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-amazon') : __('aktivieren', 'affiliatetheme-amazon')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-amazon'); ?></a></td>
+										</tr>
+										<tr class="inside" style="display: none;">
+											<td colspan="5">
+												<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
+														<div class="form-group" style="display: none;"> /* @TODO */
+															<label for="category"><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
+															<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false, $item->category); ?>
+														</div>
 
-													<tr class="inside">
-														<td colspan="5">
-															<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
-																<div class="row">
+													<?php
+													if(get_products_multiselect_tax_form()) {
+														if($item->tax) {
+															$taxonomies = unserialize($item->tax);
+														} else {
+															$taxonomies = array();
+														}
+														echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form(false, $taxonomies) . '</div>';
+													}
+													?>
+													<div class="row">
+														<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-amazon'); ?></button>
+													</div>
 
-																	<div class="form-group">
-																		<label for="category"><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
-																		<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false, $item->category); ?>
-																	</div>
-																</div>
-
-																<?php
-																if(get_products_multiselect_tax_form()) {
-																	if($item->tax) {
-																		$taxonomies = unserialize($item->tax);
-																	} else {
-																		$taxonomies = array();
-																	}
-																	echo '<div class="taxonomy-select">' . get_products_multiselect_tax_form(false, $taxonomies) . '</div>';
-																}
-																?>
-																<div class="row">
-																	<button type="submit" class="button button-primary"><?php _e('Speichern', 'affiliatetheme-amazon'); ?></button>
-																</div>
-
-																<div id="form-messages"></div>
-															</form>
-														</td>
-													</tr>
-												</table>
+													<div id="form-messages"></div>
+												</form>
 											</td>
 										</tr>
 										<?php
@@ -416,7 +415,7 @@
 								} else {
 									?>
 									<tr>
-										<td colspan="4">
+										<td colspan="5">
 											<?php _e('Es wurde bisher keine URL hinterlegt', 'affiliatetheme-amazon'); ?>
 										</td>
 									</tr>
@@ -430,7 +429,7 @@
 
 						<form id="add-new-keyword">
 							<input type="url" name="keyword" class="form-control" placeholder="<?php _e("URL",'affiliatetheme-amazon')?>" />
-							<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); ?>
+							<?php // if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); @TODO ?>
 							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
 						</form>
 

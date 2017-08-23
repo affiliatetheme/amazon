@@ -1129,7 +1129,7 @@ function at_amazon_feed_write($keyword, $category) {
         array(
             'keyword'       => $keyword,
             'category'      => $category,
-            'last_message'  => sprintf(__('hinzugefügt: %s', 'affiliatetheme-amazon'), date('d.m.Y G:i:s')),
+            'last_message'  => date('d.m.Y G:i:s'),
             'post_status'   => 'publish',
         ),
         array(

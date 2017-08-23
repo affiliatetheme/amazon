@@ -816,9 +816,8 @@ jQuery(document).ready(function() {
  */
 jQuery(document).ready(function() {
     jQuery('table.feed .handle').click(function() {
-        jQuery(this).closest('table').find('.inside').slideToggle("fast", function() {
-            jQuery(this).closest('.item').toggleClass('closed');
-        });
+        jQuery(this).parent().parent().next().slideToggle("fast");
+        jQuery(this).parent().parent().toggleClass('closed');
     });
 
     /*
