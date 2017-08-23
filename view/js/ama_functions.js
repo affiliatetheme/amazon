@@ -607,7 +607,7 @@ var FeedWriteItem = function(e) {
     jQuery('#feed-messages').html('');
 
     var keyword = jQuery('#feed #add-new-keyword input[name=keyword]').val();
-    var category = jQuery('#feed #add-new-keyword select[name=category]').val();
+    var category = jQuery('#feed #add-new-keyword input[name=category]').val();
     jQuery.ajax({
         url: ajaxurl,
         dataType: 'json',
@@ -850,11 +850,11 @@ jQuery(document).ready(function() {
     jQuery('table.feed form.edit-feed-item').submit(function(e) {
         var form = jQuery(this);
         var action = 'at_amazon_feed_change_settings_ajax';
-        var id = jQuery(this).closest('.item').attr('data-id');
+        var id = jQuery(this).parent().parent().prev().attr('data-id');
         var post_status = jQuery(this).find('select[name=post_status]').val();
         var images = jQuery(this).find('select[name=images]').val();
         var description = jQuery(this).find('select[name=description]').val();
-        var category = jQuery(this).find('select[name=category]').val();
+        var category = jQuery(this).find('input[name=category]').val();
         var data = {action : action, id : id, post_status : post_status, images : images, description : description, category : category};
         var tax_data = {};
 

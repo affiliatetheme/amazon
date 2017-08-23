@@ -362,11 +362,12 @@
 						<table class="feed">
 							<thead>
 								<tr>
-									<th>Settings</th>
-									<th>Amazon URL</th>
-									<th>Date added</th>
-									<th>Status</th>
-									<th>Actions</th>
+									<th><?php _e('Einstellungen','affiliatetheme-amazon')?></th>
+                                    <th><?php _e('Name','affiliatetheme-amazon')?></th>
+									<th><?php _e('Amazon URL','affiliatetheme-amazon')?></th>
+									<th><?php _e('Hinzugefügt am','affiliatetheme-amazon')?>d</th>
+									<th><?php _e('Status','affiliatetheme-amazon')?></th>
+									<th><?php _e('Aktionen','affiliatetheme-amazon')?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -379,7 +380,8 @@
 										?>
 										<tr class="item closed" data-id="<?php echo $item->id; ?>">
 											<td><div class="handle"></div></td>
-											<td><?php echo $item->keyword; ?></td>
+                                            <td><?php echo $item->category; ?></td>
+											<td><a href="<?php echo $item->keyword; ?>" target="_blank"><span class="dashicons dashicons-share-alt2"></span></a> <?php echo $item->keyword; ?></td>
 											<td><?php echo $item->last_message; ?></td>
 											<td><?php echo at_amazon_feed_status_label($item->status); ?></td>
 											<td><a href="#" class="change-status" data-id="<?php echo $item->id; ?>" data-status="<?php echo $change_status; ?>"><?php echo ($curr_status == '1' ? __('pausieren', 'affiliatetheme-amazon') : __('aktivieren', 'affiliatetheme-amazon')); ?></a> | <a href="#" class="delete-keyword" data-id="<?php echo $item->id; ?>"><?php _e('löschen', 'affiliatetheme-amazon'); ?></a></td>
@@ -387,12 +389,11 @@
 										<tr class="inside" style="display: none;">
 											<td colspan="5">
 												<form id="feed-item-<?php echo $item->id; ?>" class="edit-feed-item">
-														<div class="form-group" style="display: none;"> /* @TODO */
-															<label for="category"><?php _e('Kategorie', 'affiliatetheme-amazon'); ?></label>
-															<?php if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false, $item->category); ?>
-														</div>
-
-													<?php
+                                                    <div class="form-group">
+                                                        <label for="category"><?php _e('Name','affiliatetheme-amazon')?></label>
+                                                        <input type="text" name="category" value="<?php echo $item->category; ?>"/>
+                                                    </div>
+                                                    <?php
 													if(get_products_multiselect_tax_form()) {
 														if($item->tax) {
 															$taxonomies = unserialize($item->tax);
@@ -429,7 +430,7 @@
 
 						<form id="add-new-keyword">
 							<input type="url" name="keyword" class="form-control" placeholder="<?php _e("URL",'affiliatetheme-amazon')?>" />
-							<?php // if(at_aws_search_index_list()) echo at_aws_search_index_list(true, false); @TODO ?>
+							<input type="text" name="category" class="form-control" placeholder="<?php _e("Name",'affiliatetheme-amazon')?>" />
 							<button class="button"><?php _e('hinzufügen', 'affiliatetheme-amazon'); ?></button>
 						</form>
 
@@ -569,4 +570,22 @@
 	table.feed .item.closed .handle:before {content: '\f140';}
 	table.feed .item.closed .inside{display:none;}
 	.api-help{text-decoration:none;position:relative;top:5px;}
+    /* AMAZON FEED */
+    #at-import-page table.feed { width: 100%; }
+    #at-import-page table.feed thead tr th { text-align: left; border-bottom: 1px solid #eee; padding-bottom: 10px; margin: 0; }
+    #at-import-page table.feed tbody tr td { border-top: 1px solid #eee; }
+    #at-import-page table.feed tbody tr:first-of-type td { border: none; }
+    #at-import-page table.feed tbody tr td:nth-child(1) { width: 60px; }
+    #at-import-page table.feed tbody tr td:nth-child(2) { width: 200px; }
+    #at-import-page table.feed tbody tr td:nth-child(3) { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 400px; }
+    #at-import-page table.feed tbody tr td:nth-child(3) a { text-decoration: none; }
+    #at-import-page table.feed thead tr th:nth-child(4), #at-import-page table.feed tbody tr td:nth-child(4) { width: 130px; text-align: right; }
+    #at-import-page table.feed thead tr th:nth-child(5), #at-import-page table.feed tbody tr td:nth-child(5) { width: 60px; text-align: right; }
+    #at-import-page table.feed thead tr th:nth-child(6), #at-import-page table.feed tbody tr td:nth-child(6) { width: 130px; text-align: right; }
+    #at-import-page table.feed tbody tr.inside { padding: 0; }
+    #at-import-page table.feed tbody tr.inside td { padding: 0; }
+    #at-import-page table.feed tbody tr.inside td .edit-feed-item { background: #fafafa; padding: 15px; }
+    #at-import-page table.feed tbody tr.inside td .edit-feed-item .row { display: block; clear: both; margin-left: 0; }
+    #at-import-page table.feed tbody tr.inside td .form-group { width: auto; background: none; border: none; padding: 0; margin-right: 15px; }
+
 </style>
