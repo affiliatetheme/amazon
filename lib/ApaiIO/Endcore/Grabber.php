@@ -21,7 +21,7 @@ class Grabber
         $this->url = $url;
         $plainHtml = '';
 
-        if (ini_get('allow_url_fopen')) {
+        if (ini_get('allow_url_fopen') && false) {
 
             $plainHtml = file_get_contents($this->url);
 
