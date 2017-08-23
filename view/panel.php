@@ -365,7 +365,7 @@
 									<th><?php _e('Einstellungen','affiliatetheme-amazon')?></th>
                                     <th><?php _e('Name','affiliatetheme-amazon')?></th>
 									<th><?php _e('Amazon URL','affiliatetheme-amazon')?></th>
-									<th><?php _e('Hinzugefügt am','affiliatetheme-amazon')?>d</th>
+									<th><?php _e('Hinzugefügt am','affiliatetheme-amazon')?></th>
 									<th><?php _e('Status','affiliatetheme-amazon')?></th>
 									<th><?php _e('Aktionen','affiliatetheme-amazon')?></th>
 								</tr>
