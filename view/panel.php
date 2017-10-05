@@ -360,9 +360,17 @@
 					<div class="inside">
 						<p><?php _e('Du kannst bestimmte URLs hinterlegen, welche regelmäßig automatisch aberufen werden. Nicht importierte Produkte werden dann automatisch angelegt.', 'affiliatetheme-amazon'); ?></p>
 						<table class="feed">
+							<colgroup>
+								<col width="30px">
+								<col width="30%">
+								<col width="auto">
+								<col width="10%">
+								<col width="10%">
+								<col width="10%">
+							</colgroup>
 							<thead>
 								<tr>
-									<th><?php _e('Einstellungen','affiliatetheme-amazon')?></th>
+									<th></th>
                                     <th><?php _e('Name','affiliatetheme-amazon')?></th>
 									<th><?php _e('Amazon URL','affiliatetheme-amazon')?></th>
 									<th><?php _e('Hinzugefügt am','affiliatetheme-amazon')?></th>
@@ -552,40 +560,58 @@
 </div>
 
 <style>
-	table.products tfoot .taxonomy-select{display:none;}
-	table .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; marign: 10px 20px 10px 0 !important; border: 1px solid #eee;  }
-	@media(min-width: 1200px) { table .taxonomy-select .form-group { width: 20%; } }
-	@media (min-width: 961px) and (max-width: 1199px) { table .taxonomy-select .form-group { width: 27%; } }
-	@media (min-width: 783px) and (max-width: 960px) { table .taxonomy-select .form-group { width: 43%; } }
-	@media (max-width: 782px) { table .taxonomy-select .form-group { width: 100% !important; min-width: 300px; } }
-	@media (max-width: 400px) { table .taxonomy-select .form-group { min-width: 220px; } }
-	table .taxonomy-select label { display: block; font-weight: 600; margin-bottom: 5px; } }
-	table .taxonomy-select .select2-container { width: 100%; }
-	table .taxonomy-select input { display: block !important; width: 100% !important; max-width: auto; min-width: 0 !important; }
-	table .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
-	table .taxonomy-select select + label { display: none !important; }
+	/* TAB: SEARCH */
+	#at-import-page table.products thead tr th { text-align: left; border-bottom: 1px solid #eee; padding-bottom: 10px; margin: 0; }
+	#at-import-page table.products tbody tr th,
+	#at-import-page table.products tbody tr td { border-top: 1px solid #eee; }
+	#at-import-page table.products tbody tr:first-of-type td { border: none; }
+	#at-import-page table.products thead tr th:nth-child(1) { width: 40px; }
+	#at-import-page table.products thead tr th:nth-child(2) { width: 100px; }
+	#at-import-page table.products thead tr th:nth-child(3) { width: 100px; }
+	#at-import-page table.products thead tr th:nth-child(4) ~ th,
+	#at-import-page table.products tbody tr td:nth-child(4) ~ td { width: 150px; text-align: right; }
+	#at-import-page table.products tfoot .taxonomy-select { display: none; }
+	#at-import-page table.products .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; margin: 10px 20px 10px 0 !important; border: 1px solid #eee; }
+	#at-import-page table.products .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
+	#at-import-page table.products .taxonomy-select .select2-container { width: 100% !important; }
+	#at-import-page table.products .taxonomy-select input { display: block !important; width: 100% !important; max-width: auto; min-width: 0 !important; }
+	#at-import-page table.products .taxonomy-select select + label { display: none !important; }
+	#at-import-page table.products .taxonomy-select .form-group .form-control + select + span { display: none; }
 
-	table.feed .item .handle{cursor: pointer;width: 27px;height: 30px;}
-	table.feed .item .handle:before {right: 12px;font: 400 20px/1 dashicons;speak: none;display: inline-block;padding: 8px 10px;top: 0;position: relative;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;content: '\f142';}
-	table.feed .item.closed .handle:before {content: '\f140';}
-	table.feed .item.closed .inside{display:none;}
-	.api-help{text-decoration:none;position:relative;top:5px;}
-    /* AMAZON FEED */
+	@media(min-width: 1200px) {
+		#at-import-page table.products .taxonomy-select .form-group { width: 20%; }
+	}
+	@media (min-width: 961px) and (max-width: 1199px) {
+		#at-import-page table.products .taxonomy-select .form-group { width: 27%; }
+	}
+	@media (min-width: 783px) and (max-width: 960px) {
+		#at-import-page table.products .taxonomy-select .form-group { width: 43%; }
+	}
+	@media (max-width: 782px) {
+		#at-import-page table.products .taxonomy-select .form-group { width: 100% !important; min-width: 300px; }
+	}
+	@media (max-width: 400px) {
+		#at-import-page table.products .taxonomy-select .form-group { min-width: 220px; }
+	}
+	/* TAB: FEED */
     #at-import-page table.feed { width: 100%; }
     #at-import-page table.feed thead tr th { text-align: left; border-bottom: 1px solid #eee; padding-bottom: 10px; margin: 0; }
     #at-import-page table.feed tbody tr td { border-top: 1px solid #eee; }
     #at-import-page table.feed tbody tr:first-of-type td { border: none; }
-    #at-import-page table.feed tbody tr td:nth-child(1) { width: 60px; }
-    #at-import-page table.feed tbody tr td:nth-child(2) { width: 200px; }
-    #at-import-page table.feed tbody tr td:nth-child(3) { width: auto; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 400px; }
+    #at-import-page table.feed tbody tr td:nth-child(3) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 400px; }
     #at-import-page table.feed tbody tr td:nth-child(3) a { text-decoration: none; }
-    #at-import-page table.feed thead tr th:nth-child(4), #at-import-page table.feed tbody tr td:nth-child(4) { width: 130px; text-align: right; }
-    #at-import-page table.feed thead tr th:nth-child(5), #at-import-page table.feed tbody tr td:nth-child(5) { width: 60px; text-align: right; }
-    #at-import-page table.feed thead tr th:nth-child(6), #at-import-page table.feed tbody tr td:nth-child(6) { width: 130px; text-align: right; }
-    #at-import-page table.feed tbody tr.inside { padding: 0; }
+    #at-import-page table.feed thead tr th:nth-child(3) ~ th,
+	#at-import-page table.feed tbody tr td:nth-child(3) ~ td { text-align: right; }
+    #at-import-page table.feed .item .handle { cursor: pointer; width: 27px; height: 30px; }
+    #at-import-page table.feed .item .handle:before { right: 12px; font: 400 20px/1 dashicons; display: inline-block; padding: 8px 10px; top: 0; position: relative; text-decoration: none !important; content: '\f142';}
+    #at-import-page table.feed .item.closed .handle:before { content: '\f140'; }
+    #at-import-page table.feed .item.closed .inside { display: none; }
+	#at-import-page table.feed tbody tr.inside { padding: 0; }
     #at-import-page table.feed tbody tr.inside td { padding: 0; }
     #at-import-page table.feed tbody tr.inside td .edit-feed-item { background: #fafafa; padding: 15px; }
     #at-import-page table.feed tbody tr.inside td .edit-feed-item .row { display: block; clear: both; margin-left: 0; }
     #at-import-page table.feed tbody tr.inside td .form-group { width: auto; background: none; border: none; padding: 0; margin-right: 15px; }
 
+	.api-help { text-decoration: none; position: relative; top: 5px; }
+	
 </style>
