@@ -425,6 +425,7 @@ function at_aws_update_feeds(){
     foreach ($feeds as $feed){
         if($feed->status != 0 && strtotime($feed->last_update) < (time() - 86400)) {
             $asins = at_aws_grab($feed->keyword, true);
+            at_write_api_log('amazon', 'system', 'start running feed: ' . $feed->category);
             foreach ($asins['asins'] as $asin) {
                 if(!in_array($asin,$all_asins)) {
                     at_aws_import($asin, true, unserialize($feed->tax));
@@ -433,7 +434,7 @@ function at_aws_update_feeds(){
                 }
             }
             at_amazon_feed_set_update($feed->id);
-            at_write_api_log('amazon', 'system', 'updated feed: ' . $feed->category);
+            at_write_api_log('amazon', 'system', 'end running feed: ' . $feed->category);
         }
         break;
     }
