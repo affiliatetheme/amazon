@@ -433,6 +433,7 @@ function at_aws_update_feeds(){
                 }
             }
             at_amazon_feed_set_update($feed->id);
+            at_write_api_log('amazon', 'system', 'updated feed: ' . $feed->category);
         }
         break;
     }
