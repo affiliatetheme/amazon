@@ -4,9 +4,9 @@ use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
 use ApaiIO\Zend\Service\Amazon;
 
-add_action('wp_ajax_amazon_api_import', 'at_aws_impot');
-add_action('wp_ajax_at_aws_import', 'at_aws_impot');
-function at_aws_impot($asin = '', $direct = false, $taxs = array()) {
+add_action('wp_ajax_amazon_api_import', 'at_aws_import');
+add_action('wp_ajax_at_aws_import', 'at_aws_import');
+function at_aws_import($asin = '', $direct = false, $taxs = array()) {
     global $wpdb;
 
     if(!$direct) {
