@@ -10,10 +10,10 @@ add_action('wp_ajax_amazon_api_update', 'at_aws_update');
 add_action('wp_ajax_nopriv_amazon_api_update', 'at_aws_update');
 add_action('affiliatetheme_amazon_api_update', 'at_aws_update');
 add_action('affiliatetheme_amazon_api_update_feeds','at_aws_update_feeds');
-function at_aws_update($args = array()) {	
+function at_aws_update($args = array()) {
     global $wpdb;
-	
-	$hash = AWS_CRON_HASH;
+
+    $hash = AWS_CRON_HASH;
     $check_hash = ($args ? $args : (isset($_GET['hash']) ? $_GET['hash'] : ''));
 
     if($check_hash != $hash) {
@@ -22,8 +22,8 @@ function at_aws_update($args = array()) {
     }
 
     $interval = (at_amazon_product_skip_interval() ? at_amazon_product_skip_interval() : 3600);
-	
-	// get products
+
+    // get products
     $products = $wpdb->get_results(
         $wpdb->prepare(
             "
@@ -49,25 +49,25 @@ function at_aws_update($args = array()) {
             AWS_METAKEY_LAST_UPDATE, 'product_shops_%_' . AWS_METAKEY_ID, 'product'
         )
     );
-		
+
     $products = array_merge($products, $wlProducts);
-	
+
     at_write_api_log('amazon', 'system', 'start cron');
 
     if ($products) {
-		$conf = new GenericConfiguration();
-		try {
-			$conf
-				->setCountry(AWS_COUNTRY)
-				->setAccessKey(AWS_API_KEY)
-				->setSecretKey(AWS_API_SECRET_KEY)
-				->setAssociateTag(AWS_ASSOCIATE_TAG)
-				->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-		} catch (\Exception $e) {
-			echo $e->getMessage();
-		}
-		$apaiIO = new ApaiIO($conf);
-	
+        $conf = new GenericConfiguration();
+        try {
+            $conf
+                ->setCountry(AWS_COUNTRY)
+                ->setAccessKey(AWS_API_KEY)
+                ->setSecretKey(AWS_API_SECRET_KEY)
+                ->setAssociateTag(AWS_ASSOCIATE_TAG)
+                ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+        $apaiIO = new ApaiIO($conf);
+
         foreach ($products as $product) {
             try {
                 // ProductShops
@@ -93,7 +93,7 @@ function at_aws_update($args = array()) {
                                 }
 
                                 if ($item) {
-									$title = get_the_title($product->ID);
+                                    $title = get_the_title($product->ID);
                                     $old_ean = get_post_meta($product->ID, 'product_ean', true);
                                     $ean = $item->getEan();
                                     $old_price = ($val['price'] ? $val['price'] : '');
@@ -131,7 +131,7 @@ function at_aws_update($args = array()) {
                                     if (get_option('amazon_update_external_images') == 'yes') {
                                         if(get_option('amazon_images_external') == '1') {
                                             $amazon_images = $item->getExternalImages();
-											$images = array();
+                                            $images = array();
                                             $attachments = array();
 
                                             if ($amazon_images) {
@@ -221,9 +221,9 @@ function at_aws_update($args = array()) {
                                                 update_field('field_57486088e1f0d', $attachments, $product->ID);
                                             }
                                         } else {
-											// remove old external images
-											update_field('field_57486088e1f0d', array(), $product->ID);
-											$product_gallery = get_field('field_553b84fb117b1', $product->ID);
+                                            // remove old external images
+                                            update_field('field_57486088e1f0d', array(), $product->ID);
+                                            $product_gallery = get_field('field_553b84fb117b1', $product->ID);
                                             $images = array();
 
                                             // no external images, check if we should add internal images
@@ -275,7 +275,7 @@ function at_aws_update($args = array()) {
                                                 }
                                             }
 
-											if(!$product_gallery) {
+                                            if(!$product_gallery) {
                                                 $attachments = array();
                                                 // try to get local imagess
                                                 $args = array(
@@ -322,7 +322,7 @@ function at_aws_update($args = array()) {
                                                 if ($attachments) {
                                                     update_field('field_553b84fb117b1', $attachments, $product->ID);
                                                 }
-											}
+                                            }
                                         }
                                     }
 
@@ -351,16 +351,15 @@ function at_aws_update($args = array()) {
                                 // produkt nicht verfügbar
                                 update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
 
-                                // action
-                                if (505 === $e->getCode()) {
-                                    at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?)');
-                                    continue;
-                                }
-
                                 if (!update_post_meta($product->ID, 'product_not_avail', '1'))
                                     continue;
 
-                                at_write_api_log('amazon', $product->ID, 'product not available');
+                                // action
+                                if (505 === $e->getCode()) {
+                                    at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?) or product removed completely');
+                                } else {
+                                    at_write_api_log('amazon', $product->ID, 'product not available');
+                                }
 
                                 switch (get_option('amazon_notification')) {
                                     case 'email':
@@ -428,7 +427,7 @@ function at_aws_update_feeds(){
             $asins = at_aws_grab($feed->keyword, true);
             foreach ($asins['asins'] as $asin) {
                 if(!in_array($asin,$all_asins)) {
-                    at_aws_impot($asin, true, unserialize($feed->tax));
+                    at_aws_import($asin, true, unserialize($feed->tax));
                     $i++;
                     if($i > 10) exit();
                 }
