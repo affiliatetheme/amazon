@@ -70,7 +70,7 @@ class Grabber
 
         foreach($nodes as $href) {
             $url = trim($href->nodeValue);
-            if(strpos($url, '/dp/')) {
+            if(strpos($url, '/dp/') && strpos($url, '&sr=1-1-spons') === false) {
                 $entries[] = $url;
             }
         }
