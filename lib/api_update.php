@@ -357,6 +357,8 @@ function at_aws_update($args = array()) {
                                 // action
                                 if (505 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?) or product removed completely');
+                                } else if(506 === $e->getCode()) {
+                                    at_write_api_log('amazon', $product->ID, 'product not available (wrong variation?)');
                                 } else {
                                     at_write_api_log('amazon', $product->ID, 'product not available');
                                 }
@@ -422,21 +424,23 @@ function at_aws_update_feeds(){
     $all_asins = $wpdb->get_col("SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = 'product_shops_%_amazon_asin'");
     $feeds = at_amazon_feed_read();
     $i = 0;
-    foreach ($feeds as $feed){
-        if($feed->status != 0 && strtotime($feed->last_update) < (time() - 86400)) {
-            $asins = at_aws_grab($feed->keyword, true);
-            at_write_api_log('amazon', 'system', 'start running feed: ' . $feed->category);
-            foreach ($asins['asins'] as $asin) {
-                if(!in_array($asin,$all_asins)) {
-                    at_aws_import($asin, true, unserialize($feed->tax));
-                    $i++;
-                    if($i > 10) exit();
+    if($feeds) {
+        foreach ($feeds as $feed){
+            if($feed->status != 0 && strtotime($feed->last_update) < (time() - 86400)) {
+                $asins = at_aws_grab($feed->keyword, true);
+                at_write_api_log('amazon', 'system', 'start running feed: ' . $feed->category);
+                foreach ($asins['asins'] as $asin) {
+                    if(!in_array($asin,$all_asins)) {
+                        at_aws_import($asin, true, unserialize($feed->tax));
+                        $i++;
+                        if($i > 10) exit();
+                    }
                 }
+                at_amazon_feed_set_update($feed->id);
+                at_write_api_log('amazon', 'system', 'end running feed: ' . $feed->category);
             }
-            at_amazon_feed_set_update($feed->id);
-            at_write_api_log('amazon', 'system', 'end running feed: ' . $feed->category);
+            break;
         }
-        break;
     }
     exit();
 }
