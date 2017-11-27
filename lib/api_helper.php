@@ -1384,26 +1384,29 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                         <label class="screen-reader-text" for="cb-select-all-1"><?php _e('Alle auswählen', 'affiliatetheme-amazon'); ?></label
                         <input id="cb-select-all-1" type="checkbox">
                     </th>
-                    <th scope="col" id="productid" class="manage-column column-productid">
+                    <th scope="col" id="productid" class="manage-column column-productid" style="width: 110px">
                         <span><?php _e('ASIN', 'affiliatetheme-amazon'); ?></span>
                     </th>
-                    <th scope="col" id="ean" class="manage-column column-ean">
+                    <th scope="col" id="ean" class="manage-column column-ean" style="width: 110px">
                         <span><?php _e('EAN', 'affiliatetheme-amazon'); ?></span>
                     </th>
-                    <th scope="col" id="title" class="manage-column column-title">
-                        <span><?php _e('Name', 'affiliatetheme-amazon'); ?></span>
+                    <th scope="col" id="image" class="manage-column column-image" style="width: 150px">
+                        <span><?php _e('Vorschau', 'affiliatetheme-amazon'); ?></span>
                     </th>
-                    <th scope="col" id="price" class="manage-column column-price">
+                    <th scope="col" id="title" class="manage-column column-title">
+                        <span><?php _e('Titel', 'affiliatetheme-amazon'); ?></span>
+                    </th>
+                    <th scope="col" id="price" class="manage-column column-price" style="width: 110px">
                         <span><?php _e('Preis', 'affiliatetheme-amazon'); ?></span>
                     </th>
-                    <th scope="col" id="actions" class="manage-column column-action" style="">
+                    <th scope="col" id="actions" class="manage-column column-action" style="width: 110px">
                         <span><?php _e('Aktion', 'affiliatetheme-amazon'); ?></span>
                     </th>
                 </tr>
                 </thead>
                 <tfoot>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <a href="#" class="mass-import button button-primary"><?php _e('Ausgewählte Produkte importieren', 'affiliatetheme-amazon'); ?></a>
                     </td>
                 </tr>
@@ -1461,6 +1464,9 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
 
                     if (data['items']) {
                         for (var x in data['items']) {
+                            if (!data['items'][x].img)
+                                data['items'][x].img = 'assets/images/no.gif';
+
                             if (data['items'][x].exists != "false") {
                                 html += '<tr class="item success" data-id="' + data['items'][x].asin + '">';
                                 html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '" disabled="disabled"></th>';
@@ -1470,6 +1476,11 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                             }
                             html += '<td class="productid">' + data['items'][x].asin + '</td>';
                             html += '<td class="ean">' + (data['items'][x].ean ? data['items'][x].ean : '-') + '</td>';
+                            if(data['items'][x].img !="assets/images/no.gif") {
+                                html += '<td class="image"><img src="' + data['items'][x].img + '"></td>';
+                            } else {
+                                html += '<td class="image">-</td>';
+                            }
                             html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
                             html += '<td class="price">' + data['items'][x].price + '</td>';
                             if (data['items'][x].exists != "false") {
