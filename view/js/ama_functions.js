@@ -338,6 +338,7 @@ var searchAction = function() {
                             html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-' + data['items'][x].asin + ' name="item[]" value="' + data['items'][x].asin + '"></th>';
                         }
                         html += '<td class="asin">' + data['items'][x].asin + '</td>';
+                        html += '<td class="ean">' + data['items'][x].ean + '</td>';
                         if(data['items'][x].img !="assets/images/no.gif") {
                             html += '<td class="image"><img src="' + data['items'][x].img + '"></td>';
                         } else {
