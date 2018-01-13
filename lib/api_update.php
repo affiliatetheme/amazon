@@ -84,6 +84,10 @@ function at_aws_update($args = array()) {
                                 $formattedResponse = $apaiIO->runOperation($lookup);
                                 $item = $formattedResponse->getItem();
 
+                                if ($item instanceof Amazon\SingleResultSet) {
+                                    throw new \Exception($item->getTextContent(), 504);
+                                }
+
                                 if (!($item instanceof Amazon\Item)) {
                                     throw new \Exception(sprintf('Item %s not found on Amazon.', $val[AWS_METAKEY_ID]), 505);
                                 }
@@ -355,7 +359,9 @@ function at_aws_update($args = array()) {
                                     continue;
 
                                 // action
-                                if (505 === $e->getCode()) {
+                                if (504 === $e->getCode()) {
+                                    at_write_api_log('amazon', $product->ID, $e->getMessage());
+                                } else if (505 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?) or product removed completely');
                                 } else if(506 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'product not available (wrong variation?)');

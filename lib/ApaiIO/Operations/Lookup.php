@@ -100,4 +100,20 @@ class Lookup extends AbstractOperation
 
         return $this;
     }
+
+    /**
+     * Sets the availability. Don't use method if you want the default Amazon behaviour.
+     * Only valid value = Available
+     *
+     * @param string $availability
+     * @see http://docs.aws.amazon.com/AWSECommerceService/latest/DG/CHAP_ReturningPriceAndAvailabilityInformation-itemsearch.html
+     *
+     * @return \ApaiIO\Operations\Lookup
+     */
+    public function setAvailability($availability)
+    {
+        $this->parameter['Availability'] = $availability;
+
+        return $this;
+    }
 }

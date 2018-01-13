@@ -109,4 +109,12 @@ class SingleResultSet
 
         return '';
     }
+
+    /**
+     * @return string
+     */
+    public function getTextContent()
+    {
+        return $this->_dom->textContent;
+    }
 }
