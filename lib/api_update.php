@@ -354,12 +354,9 @@ function at_aws_update($args = array()) {
                                     }
                                 }
                             } catch(Exception $e) {
-                                if (!update_post_meta($product->ID, 'product_not_avail', '1'))
-                                    continue;
-
-                                // action
                                 if (504 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'you are submitting requests too quickly. product skipped.');
+                                    continue;
                                 } else if (505 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?) or product removed completely');
                                 } else if(506 === $e->getCode()) {
@@ -368,8 +365,10 @@ function at_aws_update($args = array()) {
                                     at_write_api_log('amazon', $product->ID, 'product not available');
                                 }
 
-                                // produkt nicht verfügbar
+                                // set timestamp & update field for product not avail
                                 update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
+                                if (!update_post_meta($product->ID, 'product_not_avail', '1'))
+                                    continue;
 
                                 switch (get_option('amazon_notification')) {
                                     case 'email':
