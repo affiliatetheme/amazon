@@ -58,6 +58,7 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
                 if(!$direct) $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
                 $amazon_images = $item->getAllImages()->getLargeImages();
                 $images = array();
+                $prime = $item->isPrime();
 
                 // overwrite description
                 if ('1' == get_option('amazon_import_description')) {
@@ -100,6 +101,7 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
         $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
         $images = $_POST['image'];
         $exists = $_POST['ex_page_id'];
+        $prime = $_POST['prime'];
 
         // overwrite description
         if ('1' == get_option('amazon_import_description')) {
@@ -160,8 +162,15 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
             if($ratings) {
                 update_post_meta($post_id, 'product_rating', $ratings);
             }
+
             if($ratings_count) {
                 update_post_meta($post_id, 'product_rating_cnt', $ratings_count);
+            }
+
+            //prime
+            if($prime) {
+                update_post_meta($post_id, 'product_amazon_prime', 'true');
+                update_post_meta($post_id, 'product_amazon_prime_' . $asin, 'true');
             }
 
             //taxonomie

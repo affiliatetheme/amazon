@@ -63,7 +63,7 @@ function at_aws_lookup() {
 			//$ratings_average = $item->getAverageRating();
 			//$ratings_average_rounded = round($ratings_average / .5) * .5;
 			//$ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
-			//$prime = $item->isPrime();
+			$prime = $item->isPrime();
 		    $images = $item->getAllImages()->getLargeImages();
 
 			// overwrite with external images
@@ -309,6 +309,7 @@ function at_aws_lookup() {
 								<input type="hidden" name="currency" value="<?php echo $currency; ?>" />
 								<input type="hidden" name="url" value="<?php echo $url; ?>" />
 								<input type="hidden" name="ean" value="<?php echo $ean; ?>" />
+                                <input type="hidden" name="prime" value="<?php echo $prime; ?>" />
 								<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>" />
 								<input type="hidden" name="action" value="at_aws_import" />
 								<input type="hidden" name="mass" value="false" />

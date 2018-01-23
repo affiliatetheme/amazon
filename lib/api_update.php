@@ -99,6 +99,7 @@ function at_aws_update($args = array()) {
                                 }
 
                                 if ($item) {
+                                    $asin = $val[AWS_METAKEY_ID];
                                     $title = get_the_title($product->ID);
                                     $old_ean = get_post_meta($product->ID, 'product_ean', true);
                                     $ean = $item->getEan();
@@ -108,6 +109,7 @@ function at_aws_update($args = array()) {
                                     $link = ($item->getUrl() ? $item->getUrl() : '');
                                     $old_salesrank = get_post_meta($product->ID, 'amazon_salesrank_' . $key, true);
                                     $salesrank = $item->getSalesRank();
+                                    $prime = $item->isPrime();
 
                                     // update ean
                                     if ($ean && $ean != $old_ean && get_option('amazon_update_ean') != 'no') {
@@ -131,6 +133,14 @@ function at_aws_update($args = array()) {
                                     if ($salesrank != $old_salesrank && $salesrank != "") {
                                         update_post_meta($product->ID, 'amazon_salesrank_' . $key, $salesrank);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
+                                    }
+
+                                    // update prime status
+                                    if($prime) {
+                                        update_post_meta($product->ID, 'product_amazon_prime', 'true');
+                                        update_post_meta($product->ID, 'product_amazon_prime_' . $asin, 'true');
+                                    } else {
+                                        delete_post_meta($product->ID, 'product_amazon_prime_' . $asin, 'true');
                                     }
 
                                     // update external images
