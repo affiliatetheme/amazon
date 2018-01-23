@@ -345,9 +345,21 @@ var searchAction = function() {
                             html += '<td class="image">' + amazon_vars.no_image + '</td>';
                         }
                         if (data['items'][x].external == 1) {
-                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">' + amazon_vars.external_product + '</span><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
+                            html += '<td class="title"><span style="color:#fff; font-size:12px; background:#c01313; border-radius:2px; padding:2px 4px; margin-right:3px ">' + amazon_vars.external_product + '</span><a href="' + data['items'][x].url + '" target="_blank">';
+                            html += data['items'][x].title;
+                            // prime
+                            if(data['items'][x].prime == 1) {
+                                html += ' <i class="at at-prime"></i>';
+                            }
+                            html += '</a></td>';
                         } else {
-                            html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">' + data['items'][x].title + '</a></td>';
+                            html += '<td class="title"><a href="' + data['items'][x].url + '" target="_blank">';
+                            html += data['items'][x].title;
+                            // prime
+                            if(data['items'][x].prime == 1) {
+                                html += ' <i class="at at-prime"></i>';
+                            }
+                            html += '</a></td>';
                         }
 
                         html += '<td class="price">' + data['items'][x].price + '<br>(' + amazon_vars.uvp + ': ' + data['items'][x].price_list + ')</td>';

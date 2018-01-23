@@ -1655,3 +1655,13 @@ if ( ! function_exists( 'at_amazon_add_prime_icon' ) ) {
         return $output;
     }
 }
+
+add_action( 'admin_footer', 'at_amazon_inline_css' );
+add_action( 'wp_footer', 'at_amazon_inline_css' );
+function at_amazon_inline_css() {
+    ?>
+    <style type="text/css">
+        .product-price .at-prime, .import_page_endcore_api_amazon #results .title .at-prime { height: 15px; width: 53px; background: url('<?php echo AWS_URL . 'assets/img/icon-prime.png'; ?>') no-repeat center center; background-size: 53px 15px; display: inline-block; }
+    </style>
+    <?php
+}

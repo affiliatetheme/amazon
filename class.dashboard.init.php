@@ -16,6 +16,7 @@ if(!class_exists('AffiliateTheme_Amazon_Dashboard_Init'))
 
             // vars
             define('AWS_PATH', plugin_dir_path( __FILE__ ) );
+            define('AWS_URL', plugin_dir_url( __FILE__) );
             define('AWS_COUNTRY', get_option('amazon_country'));
             define('AWS_API_KEY', get_option('amazon_public_key'));
             define('AWS_API_SECRET_KEY', get_option('amazon_secret_key'));

@@ -77,6 +77,7 @@ function at_aws_search() {
                     'category' => $singleItem->getBinding(),
                     'category_margin' => $singleItem->getMarginForBinding(),
                     'external' => $singleItem->isExternalProduct(),
+                    'prime' => ($singleItem->isPrime() ? 1 : 0),
                     'exists' => 'false'
                 );
 
