@@ -1597,28 +1597,61 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
     }
 }
 
-add_action('init','at_amazon_feed_create_database');
-function at_amazon_feed_create_database()
-{
-    define('AT_AMAZON_DATABASE_VERSION',"0.8");
-    if(get_option('at_amazon_database_version',"0") != AT_AMAZON_DATABASE_VERSION) {
-        $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
-                id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                keyword text,
-                category text,
-                last_message text,
-                last_update timestamp DEFAULT '0-0-0 00:00:00',
-                status int(1) DEFAULT '0',
-                tax text,
-                images int(1) DEFAULT '1',
-                description int(1) DEFAULT '0',
-                post_status text
-            );";
+if ( ! function_exists( 'at_amazon_feed_create_database' ) ) {
+    /**
+     * at_amazon_feed_create_database
+     */
+    add_action('init', 'at_amazon_feed_create_database');
+    function at_amazon_feed_create_database() {
+        define('AT_AMAZON_DATABASE_VERSION', "0.8");
+        if (get_option('at_amazon_database_version', "0") != AT_AMAZON_DATABASE_VERSION) {
+            $sql = "CREATE TABLE " . AWS_FEED_TABLE . " (
+                    id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                    keyword text,
+                    category text,
+                    last_message text,
+                    last_update timestamp DEFAULT '0-0-0 00:00:00',
+                    status int(1) DEFAULT '0',
+                    tax text,
+                    images int(1) DEFAULT '1',
+                    description int(1) DEFAULT '0',
+                    post_status text
+                );";
 
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
+            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            dbDelta($sql);
 
 
-        update_option('at_amazon_database_version', AT_AMAZON_DATABASE_VERSION);
+            update_option('at_amazon_database_version', AT_AMAZON_DATABASE_VERSION);
+        }
+    }
+}
+
+if ( ! function_exists( 'at_amazon_add_prime_icon' ) ) {
+    /**
+     * at_amazon_add_prime_icon
+     */
+    add_filter('at_product_price', 'at_amazon_add_prime_icon', 10, 3);
+    function at_amazon_add_prime_icon($output, $post_id, $shop_id) {
+        $product_shops = get_field('product_shops', $post_id);
+
+        if (isset($product_shops[$shop_id])) {
+            $current_shop = $product_shops[$shop_id];
+            $current_portal = $current_shop['portal'];
+
+            if ($current_portal == 'amazon') {
+                $asin = $current_shop['amazon_asin'];
+
+                if ($asin) {
+                    $prime = get_post_meta($post_id, 'product_amazon_prime_' . $asin, true);
+
+                    if ($prime == 'true') {
+                        $output .= ' <i class="at at-prime"></i>';
+                    }
+                }
+            }
+        }
+
+        return $output;
     }
 }
