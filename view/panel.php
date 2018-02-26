@@ -568,12 +568,14 @@
 	#at-import-page table.products tbody tr th,
 	#at-import-page table.products tbody tr td { border-top: 1px solid #eee; }
 	#at-import-page table.products tbody tr:first-of-type td { border: none; }
+	/*
 	#at-import-page table.products thead tr th:nth-child(1) { width: 40px; }
 	#at-import-page table.products thead tr th:nth-child(2) { width: 110px; }
 	#at-import-page table.products thead tr th:nth-child(3) { width: 110px; }
     #at-import-page table.products thead tr th:nth-child(4) { width: 150px; }
 	#at-import-page table.products thead tr th:nth-child(5) ~ th,
 	#at-import-page table.products tbody tr td:nth-child(5) ~ td { width: 150px; text-align: right; }
+	*/
 	#at-import-page table.products tfoot .taxonomy-select { display: none; }
 	#at-import-page table.products .taxonomy-select .form-group { background: #fafafa; float: left; padding: 10px; margin: 10px 20px 10px 0 !important; border: 1px solid #eee; }
 	#at-import-page table.products .taxonomy-select .form-control { padding: 5px !important; margin: 5px 0 0 0 !important; border: 0 !important; -webkit-box-shadow: none !important; box-shadow: none !important;  border-bottom: 1px dashed #bbb !important; }
