@@ -680,7 +680,9 @@ if ( ! function_exists( 'at_aws_add_product_tabs_nav' ) ) {
                 return false;
             }
 
-            $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . __('Kundenrezensionen', 'affiliatetheme-amazon') . '</a></li>';
+            $title = apply_filters('at_amazon_reviews_title', __('Kundenrezensionen', 'affiliatetheme-amazon'));
+
+            $content .= '<li><a href="' . $url . '" rel="nofollow" target="_blank">' . $title . '</a></li>';
         }
 
         echo $content;
