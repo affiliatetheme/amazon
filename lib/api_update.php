@@ -450,6 +450,7 @@ function at_aws_update_feeds(){
                     if(!in_array($asin,$all_asins)) {
                         at_aws_import($asin, true, unserialize($feed->tax));
                         $i++;
+	                    sleep(1);
                         if($i > 10) exit();
                     }
                 }
