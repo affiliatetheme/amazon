@@ -109,6 +109,13 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
         }
     }
 
+	if($title == '') {
+		$output['rmessage']['success'] = 'false';
+		$output['rmessage']['reason'] = __('Die Produktdaten konnten nicht korrekt abgerufen werden. Bitte versuche es zu einem späteren Zeitpunkt erneut.', 'affiliatetheme-amazon');
+		$output['rmessage']['post_id'] = 0;
+		return $output;
+	}
+
     // start import
     if (false == ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $asin, 'LIKE'))) {
         if ($exists) {
