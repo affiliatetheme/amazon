@@ -1549,7 +1549,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                             jQuery("#"+pricefield).val(shopinfo['price']);
                             jQuery("#"+priceoldfield).val(shopinfo['price_old']);
                             jQuery("#"+currencyfield).val(shopinfo['currency']);
-                            jQuery("#"+portalfield).val(shopinfo['portal']);
+                            jQuery("#"+portalfield).val(shopinfo['portal']).trigger('change');
                             jQuery("#"+amazonIDfield).val(shopinfo['metakey']);
                             jQuery("#"+shopfield).val(shopinfo['shop']);
                             jQuery("#"+urlfield).val(shopinfo['link']);
