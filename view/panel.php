@@ -57,6 +57,7 @@
 										<option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>><?php _e('Italien', 'affiliatetheme-amazon'); ?></option>
 										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>><?php _e('Spanien', 'affiliatetheme-amazon'); ?></option>
 										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>><?php _e('Indien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="com.tr" <?php if($selected_amazon_country == "com.tr") echo 'selected'; ?>><?php _e('Türkei', 'affiliatetheme-amazon'); ?></option>
 										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>><?php _e('Japan', 'affiliatetheme-amazon'); ?></option>
 										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>><?php _e('Mexiko', 'affiliatetheme-amazon'); ?></option>
 										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
