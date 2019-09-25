@@ -24,6 +24,10 @@ class ComposerStaticInit51a52bd1e916269a2e88f9973b7a4ab8
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'E' => 
+        array (
+            'Endcore\\' => 8,
+        ),
         'A' => 
         array (
             'Amazon\\ProductAdvertisingAPI\\v1\\' => 32,
@@ -46,6 +50,10 @@ class ComposerStaticInit51a52bd1e916269a2e88f9973b7a4ab8
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Endcore\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/endcore',
         ),
         'Amazon\\ProductAdvertisingAPI\\v1\\' => 
         array (
