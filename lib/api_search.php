@@ -59,12 +59,12 @@ function at_aws_search() {
     $search->setPartnerTag($partnerTag);
     $search->setPartnerType(PartnerType::ASSOCIATES);
     $search->setMerchant($merchant);
-//    if ($min_price && $min_price !== 'undefined') {
-//        $search->setMinPrice(new MinPrice(Price::convert($min_price)));
-//    }
-//    if ($max_price && $max_price !== 'undefined') {
-//        $search->setMaxPrice(new MaxPrice(Price::convert($max_price)));
-//    }
+    if ($min_price && $min_price !== 'undefined') {
+        $search->setMinPrice(new MinPrice(Price::convert($min_price)));
+    }
+    if ($max_price && $max_price !== 'undefined') {
+        $search->setMaxPrice(new MaxPrice(Price::convert($max_price)));
+    }
 
     $invalidPropertyList = $search->listInvalidProperties();
     $length = count($invalidPropertyList);
@@ -86,23 +86,23 @@ function at_aws_search() {
         foreach ($formattedResponse as $singleItem) {
             try {
 
-                var_dump($singleItem);die;
+//                var_dump($singleItem);die;
 
                 $data = array(
 //                    'ean' => $singleItem->getParentASIN() . $singleItem->getItemInfo()->get,
                     'asin' => $singleItem->getASIN(),
                     'title' => $singleItem->getItemInfo()->getTitle(),
-                    'description' => DotDotText::truncate($singleItem->getItemInfo()->getContentInfo()),
+                    'description' => DotDotText::truncate($singleItem->getItemInfo()->getFeatures()->getDisplayValues()),
                     'url' => $data['url'] = $singleItem->getDetailPageURL(),
                     'price' => $data['price'] = $singleItem->getOffers()->getListings()[0]->getPrice()->getAmount(),
                     'price' => $data['price'] = $singleItem->getUserFormattedPrice(),
                     'price_list' => ($singleItem->getFormattedListPrice() ? $singleItem->getFormattedListPrice() : 'kA'),
                     'price_amount' => $singleItem->getAmountForAvailability(),
                     'currency' => ($singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() ? $singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() : 'EUR'),
-                    'category' => $singleItem->getBinding(),
+                    'category' => $singleItem->getItemInfo()->getClassifications()->getBinding()->getDisplayValue(),
                     'category_margin' => $singleItem->getMarginForBinding(),
-                    'external' => $singleItem->isExternalProduct(),
-                    'prime' => ($singleItem->isPrime() ? 1 : 0),
+                    'external' => (count($singleItem->getOffers()->getListings()) >= 1) ? 0 : 1,
+                    'prime' => ($singleItem->getOffers()->getListings()[0]->getDeliveryInfo()->getIsPrimeEligible() ? 1 : 0),
                     'exists' => 'false'
                 );
 
