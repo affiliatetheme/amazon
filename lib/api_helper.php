@@ -1667,3 +1667,86 @@ function at_amazon_inline_css() {
     </style>
     <?php
 }
+
+
+/**
+ * Get host and region values
+ */
+function at_amazon_get_host_region() {
+	$amazon_country = get_option('amazon_country');
+	$output = array( 'host' => 'webservices.amazon.de', 'region' => 'eu-west-1' );
+
+	switch ( $amazon_country ) {
+        case '.com.au':
+            $output['host'] = 'webservices.amazon.com.au';
+            $output['region'] = 'us-west-2';
+            break;
+
+        case '.com.br':
+	        $output['host'] = 'webservices.amazon.com.br';
+	        $output['region'] = 'us-east-1';
+	        break;
+
+		case '.ca':
+			$output['host'] = 'webservices.amazon.ca';
+			$output['region'] = 'us-east-1';
+			break;
+
+		case '.fr':
+			$output['host'] = 'webservices.amazon.fr';
+			$output['region'] = 'eu-west-1';
+			break;
+
+		case '.de':
+			$output['host'] = 'webservices.amazon.de';
+			$output['region'] = 'eu-west-1';
+			break;
+
+		case '.in':
+			$output['host'] = 'webservices.amazon.in';
+			$output['region'] = 'eu-west-1';
+			break;
+
+		case '.it':
+			$output['host'] = 'webservices.amazon.it';
+			$output['region'] = 'eu-west-1';
+			break;
+
+		case '.co.jp':
+			$output['host'] = 'webservices.amazon.co.jp';
+			$output['region'] = 'us-west-2';
+			break;
+
+		case '.com.mx':
+			$output['host'] = 'webservices.amazon.com.mx';
+			$output['region'] = 'eu-east-1';
+			break;
+
+		case '.es':
+			$output['host'] = 'webservices.amazon.es';
+			$output['region'] = 'eu-east-1';
+			break;
+
+		case '.com.tr':
+			$output['host'] = 'webservices.amazon.com.tr';
+			$output['region'] = 'eu-east-1';
+			break;
+
+		case '.ae':
+			$output['host'] = 'webservices.amazon.ae';
+			$output['region'] = 'eu-east-1';
+			break;
+
+		case '.co.uk':
+			$output['host'] = 'webservices.amazon.co.uk';
+			$output['region'] = 'eu-east-1';
+			break;
+
+		case '.com':
+			$output['host'] = 'webservices.amazon.com';
+			$output['region'] = 'us-east-1';
+			break;
+    }
+
+    return $output;
+}
