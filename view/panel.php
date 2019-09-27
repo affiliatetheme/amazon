@@ -62,7 +62,9 @@
 										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>><?php _e('Mexiko', 'affiliatetheme-amazon'); ?></option>
 										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
 										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>><?php _e('Brasilien', 'affiliatetheme-amazon'); ?></option>
-									</select>
+                                        <option value="com.au" <?php if($selected_amazon_country == "com.au") echo 'selected'; ?>><?php _e('Australien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="ae" <?php if($selected_amazon_country == "ae") echo 'selected'; ?>><?php _e('United Arab Emirates', 'affiliatetheme-amazon'); ?></option>
+                                    </select>
 								</div>
 								<div class="form-group">
 									<label for="amazon_partner_id"><?php _e('Partner Tag', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
