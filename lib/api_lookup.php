@@ -1,70 +1,68 @@
 <?php
-use ApaiIO\ApaiIO;
-use ApaiIO\Configuration\GenericConfiguration;
-use ApaiIO\Operations\Lookup;
-use ApaiIO\Zend\Service\Amazon;
 
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
+use Amazon\ProductAdvertisingAPI\v1\Configuration;
+use Endcore\AmazonApi;
+use Endcore\FormattedItemResponse;
+
+// http://ama.local/wp-admin/admin-ajax.php?action=amazon_api_lookup&func=modal&asin=B00EXHLKVY&height=700&width=820&random=1570113404346
 add_action('wp_ajax_amazon_api_lookup', 'at_aws_lookup');
 add_action('wp_ajax_at_aws_lookup', 'at_aws_lookup');
 function at_aws_lookup() {
-	$conf = new GenericConfiguration();
-	try {
-	    $conf
-	    ->setCountry(AWS_COUNTRY)
-	    ->setAccessKey(AWS_API_KEY)
-        ->setSecretKey(AWS_API_SECRET_KEY)
-        ->setAssociateTag(AWS_ASSOCIATE_TAG)
-        ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-	} catch (\Exception $e) {
-	    echo $e->getMessage();
-	}
+    $hostAndRegion = at_amazon_get_host_region();
 
-	$apaiIO = new ApaiIO($conf);
+    $config = new Configuration();
+    $config->setAccessKey(AWS_API_KEY);
+    $config->setSecretKey(AWS_API_SECRET_KEY);
+    $partnerTag = AWS_ASSOCIATE_TAG;
+    $config->setHost($hostAndRegion['host']);
+    $config->setRegion($hostAndRegion['region']);
+    $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
 
 	// vars
 	$asin = (isset($_GET['asin']) ? $_GET['asin'] : '');
+	$resources = GetItemsResource::getAllowableEnumValues();
 
-	// start lookup
-	$lookup = new Lookup();
-	$lookup->setItemId($asin);
-    $lookup->setResponseGroup(array('ItemAttributes'));
-    $formattedResponse = $apaiIO->runOperation($lookup);
-    if ($formattedResponse->hasItem()) {
-        $item = $formattedResponse->getItem();
-        $attributes = array();
-        foreach($item as $key => $value){
-            if($key != "ASIN" && $key != "EAN"){
-                if(is_string($value) && $value != "" && strlen($value) >=2){
-                    if(!in_array($value,$attributes)){
-                        $attributes[$key] = $value;
-                    }
-                }
-            }
+	$lookup = new GetItemsRequest();
+	$lookup->setItemIds([$asin]);
+    $lookup->setPartnerTag($partnerTag);
+	$lookup->setPartnerType(PartnerType::ASSOCIATES);
+	$lookup->setResources($resources);
+
+    $invalidPropertyList = $lookup->listInvalidProperties();
+    $length = count($invalidPropertyList);
+    if ($length > 0) {
+        echo "Error forming the request", PHP_EOL;
+        foreach ($invalidPropertyList as $invalidProperty) {
+            echo $invalidProperty, PHP_EOL;
         }
+        return;
     }
-	$lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Reviews', 'Variations', 'SalesRank'));
 
-	/* @var $formattedResponse Amazon\SingleResultSet */
-	$formattedResponse = $apaiIO->runOperation($lookup);
+    $getItemsResponse = $apiInstance->getItems($lookup);
+    $formattedResponse = new FormattedItemResponse($getItemsResponse);
 
-
-	if ($formattedResponse->hasItem()) {
+	if ($formattedResponse->hasResult()) {
 		$item = $formattedResponse->getItem();
+        $attributes = $item->getAttributes();
+
 		if($item) {
-		    $title = $item->Title;
-			$asin = $item->ASIN;
+		    $title = $item->getTitle();
+			$asin = $item->getASIN();
 			$ean = $item->getEan();
-			$price = $item->getAmountForAvailability();
-			$price_list = $item->getAmountListPrice();
-			$salesrank = $item->getSalesRank();
-		    $currency = $item->getCurrencyCode();
+			$price = $item->getPriceAmount();
+			$price_list = $item->getPriceList();
+			$salesRank = $item->getSalesRank();
+		    $currency = $item->getCurrency();
 		    $url = $item->getUrl();
-			$description = $item->getItemDescription();
+			$description = $item->getDescription();
 			//$ratings_average = $item->getAverageRating();
 			//$ratings_average_rounded = round($ratings_average / .5) * .5;
 			//$ratings_count = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
 			$prime = $item->isPrime();
-		    $images = $item->getAllImages()->getLargeImages();
+		    $images = $item->getAllLargeImages();
 
 			// overwrite with external images
 			$amazon_images_external = get_option('amazon_images_external');
@@ -104,7 +102,7 @@ function at_aws_lookup() {
 					<div class="row">
 						<div class="form-group col-xs-4">
 							<label><?php _e('SalesRank', 'affiliatetheme-amazon'); ?></label>
-							<input type="text" id="salesrank" name="salesrank" class="form-control" value="<?php echo $salesrank; ?>" readonly/>
+							<input type="text" id="salesrank" name="salesrank" class="form-control" value="<?php echo $salesRank; ?>" readonly/>
 						</div>
 						
 						<div class="form-group col-xs-4">
@@ -139,7 +137,8 @@ function at_aws_lookup() {
                             </div>
                             <div id="attribute-content" class="inside acf-fields -top" style="display: none;">
 
-                                <?php $counter = 0;
+                                <?php
+                                $counter = 0;
                                 $selector = new acf_field_field_selector();
                                 $fields = $selector->get_selectable_item_fields(null,true);
                                 $selectable = $selector->get_items("", $fields);
