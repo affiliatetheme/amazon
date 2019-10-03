@@ -8,13 +8,10 @@ use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsRequest;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SortBy;
 use Amazon\ProductAdvertisingAPI\v1\Configuration;
-use ApaiIO\ApaiIO;
-use ApaiIO\Helper\DotDotText;
-use ApaiIO\Configuration\GenericConfiguration;
-use ApaiIO\Operations\Search;
 use ApaiIO\Zend\Service\Amazon;
 use Endcore\AmazonApi;
 use Endcore\Price;
+use Endcore\SimpleItem;
 
 add_action('wp_ajax_amazon_api_search', 'at_aws_search');
 add_action('wp_ajax_at_aws_search', 'at_aws_search');
@@ -86,23 +83,23 @@ function at_aws_search() {
         foreach ($formattedResponse as $singleItem) {
             try {
 
-//                var_dump($singleItem);die;
+                var_dump($singleItem);die;
+                $item = new SimpleItem($singleItem);
 
                 $data = array(
-//                    'ean' => $singleItem->getParentASIN() . $singleItem->getItemInfo()->get,
-                    'asin' => $singleItem->getASIN(),
-                    'title' => $singleItem->getItemInfo()->getTitle(),
-                    'description' => DotDotText::truncate($singleItem->getItemInfo()->getFeatures()->getDisplayValues()),
-                    'url' => $data['url'] = $singleItem->getDetailPageURL(),
-                    'price' => $data['price'] = $singleItem->getOffers()->getListings()[0]->getPrice()->getAmount(),
-                    'price' => $data['price'] = $singleItem->getUserFormattedPrice(),
+                    'ean' => $item->getEAN(),
+                    'asin' => $item->getASIN(),
+                    'title' => $item->getTitle(),
+                    'description' => $item->getDescription(),
+                    'url' => $data['url'] = $item->getUrl(),
+                    'price' => $data['price'] = $item->getPrice(),
                     'price_list' => ($singleItem->getFormattedListPrice() ? $singleItem->getFormattedListPrice() : 'kA'),
                     'price_amount' => $singleItem->getAmountForAvailability(),
                     'currency' => ($singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() ? $singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() : 'EUR'),
-                    'category' => $singleItem->getItemInfo()->getClassifications()->getBinding()->getDisplayValue(),
-                    'category_margin' => $singleItem->getMarginForBinding(),
-                    'external' => (count($singleItem->getOffers()->getListings()) >= 1) ? 0 : 1,
-                    'prime' => ($singleItem->getOffers()->getListings()[0]->getDeliveryInfo()->getIsPrimeEligible() ? 1 : 0),
+                    'category' => $item->getCategory(),
+                    'category_margin' => $item->getCategoryMargin(),
+                    'external' => $item->isExternal(),
+                    'prime' => $item->isPrime(),
                     'exists' => 'false'
                 );
 
@@ -110,7 +107,7 @@ function at_aws_search() {
                     $data['img'] = $singleItem->SmallImage->Url->getUri();
                 }
 
-                if ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $singleItem->ASIN, 'LIKE')) {
+                if ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $item->getASIN(), 'LIKE')) {
                     $data['exists'] = $check;
                 }
 
