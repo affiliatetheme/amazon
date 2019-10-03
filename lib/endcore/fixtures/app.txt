@@ -1,0 +1,1131 @@
+object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item)#7451 (1) {
+  ["container":protected]=>
+  array(10) {
+    ["aSIN"]=>
+    string(10) "B00MZI18LK"
+    ["browseNodeInfo"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeInfo)#7452 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["browseNodes"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7453 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7454 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7455 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      NULL
+                      ["contextFreeName"]=>
+                      string(13) "Apps & Spiele"
+                      ["displayName"]=>
+                      string(13) "Apps & Spiele"
+                      ["id"]=>
+                      string(10) "1661648031"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(17) "Apps für Android"
+                  ["displayName"]=>
+                  string(10) "Kategorien"
+                  ["id"]=>
+                  string(10) "1661650031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(6) "Spiele"
+              ["displayName"]=>
+              string(6) "Spiele"
+              ["id"]=>
+              string(10) "1720689031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              NULL
+            }
+          }
+        }
+        ["websiteSalesRank"]=>
+        NULL
+      }
+    }
+    ["detailPageURL"]=>
+    string(74) "https://www.amazon.de/dp/B00MZI18LK?tag=endcore-21&linkCode=osi&th=1&psc=1"
+    ["images"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images)#7456 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["primary"]=>
+        NULL
+        ["variants"]=>
+        array(11) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7457 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7458 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7459 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7460 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [1]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7461 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7462 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7463 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7464 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [2]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7465 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7466 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/51EysUfktSL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7467 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51EysUfktSL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7468 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51EysUfktSL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [3]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7469 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7470 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7471 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7472 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [4]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7473 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7474 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7475 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7476 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [5]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7477 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7478 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7479 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7480 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61Nn5lBI86L._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [6]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7481 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7482 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7483 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7484 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61z-29PUIwL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [7]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7485 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7486 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/51EysUfktSL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7487 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51EysUfktSL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7488 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51EysUfktSL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [8]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7489 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7490 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7491 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7492 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61WIY4sDEiL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [9]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7493 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7494 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL75_.jpg"
+                  ["height"]=>
+                  int(45)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7495 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL160_.jpg"
+                  ["height"]=>
+                  int(96)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7496 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/51ONRia4KCL._SL500_.jpg"
+                  ["height"]=>
+                  int(300)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+          [10]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7497 (1) {
+            ["container":protected]=>
+            array(3) {
+              ["small"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7498 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(58) "https://m.media-amazon.com/images/I/61nX2fd3TGL._SL75_.jpg"
+                  ["height"]=>
+                  int(37)
+                  ["width"]=>
+                  int(75)
+                }
+              }
+              ["medium"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7499 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61nX2fd3TGL._SL160_.jpg"
+                  ["height"]=>
+                  int(78)
+                  ["width"]=>
+                  int(160)
+                }
+              }
+              ["large"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7500 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["uRL"]=>
+                  string(59) "https://m.media-amazon.com/images/I/61nX2fd3TGL._SL500_.jpg"
+                  ["height"]=>
+                  int(244)
+                  ["width"]=>
+                  int(500)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    ["itemInfo"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ItemInfo)#7501 (1) {
+      ["container":protected]=>
+      array(11) {
+        ["byLineInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ByLineInfo)#7502 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["brand"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7503 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(45) "Laxity Media UG (haftungsbeschraenkt) & Co.KG"
+                ["label"]=>
+                string(5) "Brand"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["contributors"]=>
+            NULL
+            ["manufacturer"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7504 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(45) "Laxity Media UG (haftungsbeschraenkt) & Co.KG"
+                ["label"]=>
+                string(12) "Manufacturer"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+          }
+        }
+        ["classifications"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Classifications)#7505 (1) {
+          ["container":protected]=>
+          array(2) {
+            ["binding"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7506 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(3) "App"
+                ["label"]=>
+                string(7) "Binding"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["productGroup"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7507 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(19) "Mobile Applications"
+                ["label"]=>
+                string(12) "ProductGroup"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+          }
+        }
+        ["contentInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ContentInfo)#7508 (1) {
+          ["container":protected]=>
+          array(4) {
+            ["edition"]=>
+            NULL
+            ["languages"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Languages)#7509 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValues"]=>
+                array(21) {
+                  [0]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7510 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Arabisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [1]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7511 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(10) "Chinesisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [2]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7512 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Kornisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [3]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7513 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(11) "Tschechisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [4]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7514 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(15) "Niederländisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [5]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7515 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Englisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [6]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7516 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(12) "Französisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [7]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7517 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(7) "Deutsch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [8]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7518 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(10) "Griechisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [9]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7519 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(10) "Hebräisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [10]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7520 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(5) "Hindi"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [11]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7521 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(11) "Italienisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [12]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7522 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(9) "Japanisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [13]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7523 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(10) "Kasachisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [14]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7524 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(10) "Koreanisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [15]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7525 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Polnisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [16]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7526 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(13) "Portugiesisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [17]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7527 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Russisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [18]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7528 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(8) "Spanisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [19]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7529 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(7) "Tagalog"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                  [20]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7530 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(13) "Vietnamesisch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                }
+                ["label"]=>
+                string(8) "Language"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["pagesCount"]=>
+            NULL
+            ["publicationDate"]=>
+            NULL
+          }
+        }
+        ["contentRating"]=>
+        NULL
+        ["externalIds"]=>
+        NULL
+        ["features"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\MultiValuedAttribute)#7531 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["displayValues"]=>
+            array(5) {
+              [0]=>
+              string(44) "neues Retro Remake des classic Bounce Spiels"
+              [1]=>
+              string(21) "Viele spannende Level"
+              [2]=>
+              string(51) "leicht zu steuern, geeignet für alle Altersklassen"
+              [3]=>
+              string(33) "sprachfrei durch logische Symbole"
+              [4]=>
+              string(43) "poste deinen Level auf Twitter und Facebook"
+            }
+            ["label"]=>
+            string(8) "Features"
+            ["locale"]=>
+            string(5) "de_DE"
+          }
+        }
+        ["manufactureInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ManufactureInfo)#7532 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["itemPartNumber"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7533 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(31) "com.laxitymedia.bounceball.free"
+                ["label"]=>
+                string(10) "PartNumber"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["model"]=>
+            NULL
+            ["warranty"]=>
+            NULL
+          }
+        }
+        ["productInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ProductInfo)#7534 (1) {
+          ["container":protected]=>
+          array(6) {
+            ["color"]=>
+            NULL
+            ["isAdultProduct"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleBooleanValuedAttribute)#7535 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                bool(false)
+                ["label"]=>
+                string(14) "IsAdultProduct"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["itemDimensions"]=>
+            NULL
+            ["releaseDate"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7536 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(24) "2015-03-14T21:09:18.000Z"
+                ["label"]=>
+                string(11) "ReleaseDate"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["size"]=>
+            NULL
+            ["unitCount"]=>
+            NULL
+          }
+        }
+        ["technicalInfo"]=>
+        NULL
+        ["title"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7537 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["displayValue"]=>
+            string(19) "Bounce Classic FREE"
+            ["label"]=>
+            string(5) "Title"
+            ["locale"]=>
+            string(5) "de_DE"
+          }
+        }
+        ["tradeInInfo"]=>
+        NULL
+      }
+    }
+    ["offers"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Offers)#7538 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["listings"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing)#7539 (1) {
+            ["container":protected]=>
+            array(12) {
+              ["availability"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferAvailability)#7540 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["maxOrderQuantity"]=>
+                  NULL
+                  ["message"]=>
+                  string(30) "Jetzt als Download verfügbar."
+                  ["minOrderQuantity"]=>
+                  int(1)
+                  ["type"]=>
+                  string(3) "Now"
+                }
+              }
+              ["condition"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7541 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["displayValue"]=>
+                  NULL
+                  ["label"]=>
+                  NULL
+                  ["locale"]=>
+                  NULL
+                  ["value"]=>
+                  string(3) "New"
+                  ["subCondition"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSubCondition)#7542 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["displayValue"]=>
+                      NULL
+                      ["label"]=>
+                      NULL
+                      ["locale"]=>
+                      NULL
+                      ["value"]=>
+                      string(3) "New"
+                    }
+                  }
+                }
+              }
+              ["deliveryInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferDeliveryInfo)#7543 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["isAmazonFulfilled"]=>
+                  bool(false)
+                  ["isFreeShippingEligible"]=>
+                  bool(false)
+                  ["isPrimeEligible"]=>
+                  bool(false)
+                  ["shippingCharges"]=>
+                  NULL
+                }
+              }
+              ["id"]=>
+              string(162) "MMCGc8UQZOVkDPHne73kVkD5RZBABpsPFukqCRVOWoBmUC9DUPc0XJcNzrRa%2BTShNPfBKSD9HMzwtIrdqYBc75BculeLZP99CsCzF8uYO5weRSCxnjZUCiWVxhv4QehBUNLYPH4aD1MdNEnAcWBt9P5KOlkQ0dQq"
+              ["isBuyBoxWinner"]=>
+              bool(true)
+              ["loyaltyPoints"]=>
+              NULL
+              ["merchantInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferMerchantInfo)#7544 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["defaultShippingCountry"]=>
+                  string(2) "US"
+                  ["id"]=>
+                  string(13) "AZ8B0UT6GFHPA"
+                  ["name"]=>
+                  string(24) "Amazon Media EU S.a.r.l."
+                }
+              }
+              ["price"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7545 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(0)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "0,00 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["programEligibility"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferProgramEligibility)#7546 (1) {
+                ["container":protected]=>
+                array(2) {
+                  ["isPrimeExclusive"]=>
+                  bool(false)
+                  ["isPrimePantry"]=>
+                  bool(false)
+                }
+              }
+              ["promotions"]=>
+              NULL
+              ["savingBasis"]=>
+              NULL
+              ["violatesMAP"]=>
+              bool(false)
+            }
+          }
+        }
+        ["summaries"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary)#7547 (1) {
+            ["container":protected]=>
+            array(4) {
+              ["condition"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7548 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["displayValue"]=>
+                  NULL
+                  ["label"]=>
+                  NULL
+                  ["locale"]=>
+                  NULL
+                  ["value"]=>
+                  string(3) "New"
+                  ["subCondition"]=>
+                  NULL
+                }
+              }
+              ["highestPrice"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7549 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(0)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "0,00 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["lowestPrice"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7550 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(0)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "0,00 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["offerCount"]=>
+              int(1)
+            }
+          }
+        }
+      }
+    }
+    ["parentASIN"]=>
+    NULL
+    ["rentalOffers"]=>
+    NULL
+    ["score"]=>
+    NULL
+    ["variationAttributes"]=>
+    NULL
+  }
+}

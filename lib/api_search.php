@@ -8,8 +8,8 @@ use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsRequest;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResource;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SortBy;
 use Amazon\ProductAdvertisingAPI\v1\Configuration;
-use ApaiIO\Zend\Service\Amazon;
 use Endcore\AmazonApi;
+use Endcore\FormattedResponse;
 use Endcore\Price;
 use Endcore\SimpleItem;
 
@@ -17,12 +17,14 @@ add_action('wp_ajax_amazon_api_search', 'at_aws_search');
 add_action('wp_ajax_at_aws_search', 'at_aws_search');
 add_action('wp_ajax_nopriv_at_aws_search', 'at_aws_search');
 function at_aws_search() {
+    $hostAndRegion = at_amazon_get_host_region();
+
     $config = new Configuration();
     $config->setAccessKey(AWS_API_KEY);
     $config->setSecretKey(AWS_API_SECRET_KEY);
     $partnerTag = AWS_ASSOCIATE_TAG;
-    $config->setHost('webservices.amazon.de');
-    $config->setRegion('eu-west-1');
+    $config->setHost($hostAndRegion['host']);
+    $config->setRegion($hostAndRegion['region']);
     $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
 
     // vars
@@ -31,7 +33,7 @@ function at_aws_search() {
     $title = (isset($_POST['title']) ? $_POST['title'] : '');    
     $category = (isset($_POST['category']) ? $_POST['category'] : 'All');
     $page = (isset($_POST['page']) ? $_POST['page'] : '1');
-    $sort = (isset($_POST['sort']) ? $_POST['sort'] : SortBy::RELEVANCE);
+    $sort = (isset($_POST['sort']) && $_POST['sort'] !== '' ? $_POST['sort'] : SortBy::RELEVANCE);
     $merchant = (isset($_POST['merchant']) ? $_POST['merchant'] : 'All');
     $min_price = (isset($_POST['min_price']) ? $_POST['min_price'] : '');
     $max_price = (isset($_POST['max_price']) ? $_POST['max_price'] : '');
@@ -48,7 +50,7 @@ function at_aws_search() {
     $search->setResources($resources);
     $search->setItemPage((int)$page);
     $search->setSearchIndex($category);
-    $search->setKeywords('mi smart tv 55 4k');
+    $search->setKeywords($keywords);
     if ($title) {
         $search->setTitle($title);
     }
@@ -73,29 +75,26 @@ function at_aws_search() {
         return;
     }
 
-
     $searchItemsResponse = $apiInstance->searchItems($search);
-    $formattedResponse = $searchItemsResponse->getSearchResult()->getItems();
+    $formattedResponse = new FormattedResponse($searchItemsResponse);
+
+    $output = [];
 
     // http://ama.local/wp-admin/admin-ajax.php?action=amazon_api_search&keywords=matrix
-    if($formattedResponse) {
-        /* @var $singleItem Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item */
-        foreach ($formattedResponse as $singleItem) {
+    if($formattedResponse->hasResult()) {
+        /* @var $singleItem SimpleItem */
+        foreach ($formattedResponse->getItems() as $item) {
             try {
-
-                var_dump($singleItem);die;
-                $item = new SimpleItem($singleItem);
-
                 $data = array(
                     'ean' => $item->getEAN(),
                     'asin' => $item->getASIN(),
                     'title' => $item->getTitle(),
                     'description' => $item->getDescription(),
                     'url' => $data['url'] = $item->getUrl(),
-                    'price' => $data['price'] = $item->getPrice(),
-                    'price_list' => ($singleItem->getFormattedListPrice() ? $singleItem->getFormattedListPrice() : 'kA'),
-                    'price_amount' => $singleItem->getAmountForAvailability(),
-                    'currency' => ($singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() ? $singleItem->getOffers()->getListings()[0]->getPrice()->getCurrency() : 'EUR'),
+                    'price' => $data['price'] = $item->getUserPrice(),
+                    'price_list' => $item->getPriceList(),
+                    'price_amount' => $item->getPriceAmount(),
+                    'currency' => $item->getCurrency(),
                     'category' => $item->getCategory(),
                     'category_margin' => $item->getCategoryMargin(),
                     'external' => $item->isExternal(),
@@ -103,8 +102,8 @@ function at_aws_search() {
                     'exists' => 'false'
                 );
 
-                if ($singleItem->SmallImage != null && $singleItem->SmallImage->Url) {
-                    $data['img'] = $singleItem->SmallImage->Url->getUri();
+                if ($item->getSmallImage() !== null) {
+                    $data['img'] = $item->getSmallImage();
                 }
 
                 if ($check = at_get_product_id_by_metakey('product_shops_%_' . AWS_METAKEY_ID, $item->getASIN(), 'LIKE')) {
@@ -120,7 +119,7 @@ function at_aws_search() {
         }
     }
 
-    $output['rmessage']['totalpages'] = $formattedResponse->totalPages();
+    $output['rmessage']['totalpages'] = $formattedResponse->getTotalPages();
     $output['rmessage']['errormsg'] = $formattedResponse->getErrorMessage();
 
     echo json_encode($output);
