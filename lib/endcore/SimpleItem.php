@@ -8,6 +8,7 @@
 namespace Endcore;
 
 
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary;
@@ -216,6 +217,9 @@ class SimpleItem
         return count($this->getImages()) > 0;
     }
 
+    /**
+     * @return \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images
+     */
     public function getImages()
     {
         return $this->item->getImages();
@@ -230,12 +234,155 @@ class SimpleItem
         return null;
     }
 
-    protected function getAwsPriceCondition() {
+    public function getAllSmallImages()
+    {
+        $images = [];
+
+        foreach ($this->getAllImages() as $image) {
+            $images[] = $image->getSmall()->getURL();
+        }
+
+        return $images;
+    }
+
+    public function getAllMediumImages()
+    {
+        $images = [];
+
+        foreach ($this->getAllImages() as $image) {
+            $images[] = $image->getMedium()->getURL();
+        }
+
+        return $images;
+    }
+
+    public function getAllLargeImages()
+    {
+        $images = [];
+
+        foreach ($this->getAllImages() as $image) {
+            $images[] = $image->getLarge()->getURL();
+        }
+
+        return $images;
+    }
+
+    /**
+     * @return ImageType[]
+     */
+    public function getAllImages()
+    {
+        $images = [];
+
+        if ($this->hasImages()) {
+            $images[] = $this->getImages()->getPrimary();
+
+            if ($this->getImages()->getVariants() !== null) {
+                foreach ($this->getImages()->getVariants() as $variant) {
+                    $images[] = $variant;
+                }
+            }
+        }
+
+        return $images;
+    }
+
+    public function getExternalImages()
+    {
+        if ($this->hasImages()) {
+            $size = (get_option('amazon_images_external_size') ? get_option('amazon_images_external_size') : 'SmallImage');
+
+            if ($size == 'SmallImage') {
+                return $this->getAllSmallImages();
+            }
+
+            if ($size == 'MediumImage') {
+                return $this->getAllMediumImages();
+            }
+
+            if ($size == 'LargeImage') {
+                return $this->getAllLargeImages();
+            }
+        }
+
+        return [];
+    }
+
+    protected function getAwsPriceCondition()
+    {
         if (AWS_PRICE === 'default') {
             return 'new';
         }
 
         return AWS_PRICE;
+    }
+
+    public function getSalesRank()
+    {
+        if ($this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
+            return $this->item->getBrowseNodeInfo()->getWebsiteSalesRank()->getSalesRank();
+        }
+
+        return 0;
+    }
+
+    public function getAttributes()
+    {
+        $attributes = array();
+
+        $attributes['Title'] = $this->getTitle();
+
+        if ($this->item->getItemInfo()->getProductInfo() !== null) {
+            $this->setProductInfo($attributes);
+            $this->setReleaseDate($attributes);
+            $this->setSize($attributes);
+        }
+
+
+        return $attributes;
+    }
+
+    public function getTechnicalInfo()
+    {
+        if ($this->item->getItemInfo()->getTechnicalInfo() !== null) {
+            return array(
+                'key'   => $this->item->getItemInfo()->getTechnicalInfo()->getFormats()->getLabel(),
+                'value' => implode(' ', $this->item->getItemInfo()->getTechnicalInfo()->getFormats()->getDisplayValues())
+            );
+        }
+    }
+
+    protected function setProductInfo(&$attributes)
+    {
+
+        if ($this->item->getItemInfo()->getProductInfo()->getColor() !== null) {
+            $color = $this->item->getItemInfo()->getProductInfo()->getColor();
+            $attributes[$color->getLabel()] = $color->getDisplayValue();
+        }
+
+        if ($this->item->getItemInfo()->getProductInfo()->getItemDimensions() !== null) {
+            $dimensions = $this->item->getItemInfo()->getProductInfo()->getItemDimensions();
+            $attributes[$dimensions->getHeight()->getLabel()] = $dimensions->getHeight()->getDisplayValue() . ' ' . $dimensions->getHeight()->getUnit();
+            $attributes[$dimensions->getLength()->getLabel()] = $dimensions->getLength()->getDisplayValue() . ' ' . $dimensions->getLength()->getUnit();
+            $attributes[$dimensions->getWeight()->getLabel()] = $dimensions->getWeight()->getDisplayValue() . ' ' . $dimensions->getWeight()->getUnit();
+            $attributes[$dimensions->getWidth()->getLabel()] = $dimensions->getWidth()->getDisplayValue() . ' ' . $dimensions->getWidth()->getUnit();
+        }
+    }
+
+    protected function setReleaseDate(&$attributes)
+    {
+        if ($this->item->getItemInfo()->getProductInfo()->getReleaseDate() !== null) {
+            $release = $this->item->getItemInfo()->getProductInfo()->getReleaseDate();
+            $attributes[$release->getLabel()] = $release->getDisplayValue();
+        }
+    }
+
+    protected function setSize(&$attributes)
+    {
+        if ($this->item->getItemInfo()->getProductInfo()->getSize() !== null) {
+            $size = $this->item->getItemInfo()->getProductInfo()->getSize();
+            $attributes[$size->getLabel()] = $size->getDisplayValue();
+        }
     }
 
 
