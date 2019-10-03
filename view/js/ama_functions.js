@@ -223,7 +223,7 @@ var checkConnection = function() {
     jQuery('#search-link').attr('disabled', true).append(' <i class="fa fa-circle-o-notch fa-spin"></i>').after(' <small class="status-after" style="margin: 5px;display: inline-block;">' + amazon_vars.connection + '</small>');
 
     var value = 'Matrix'
-    var cat = 'DVD';
+    var cat = 'MoviesAndTV';
     var page = '1';
     var resultContainer = jQuery('#checkConnection');
 

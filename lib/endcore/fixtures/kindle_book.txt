@@ -1,0 +1,963 @@
+object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item)#7427 (1) {
+  ["container":protected]=>
+  array(10) {
+    ["aSIN"]=>
+    string(10) "B06XCL9TM2"
+    ["browseNodeInfo"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeInfo)#7428 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["browseNodes"]=>
+        array(7) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7429 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7430 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7431 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7432 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7433 (1) {
+                            ["container":protected]=>
+                            array(4) {
+                              ["ancestor"]=>
+                              NULL
+                              ["contextFreeName"]=>
+                              string(7) "Bücher"
+                              ["displayName"]=>
+                              string(7) "Bücher"
+                              ["id"]=>
+                              string(6) "186606"
+                            }
+                          }
+                          ["contextFreeName"]=>
+                          string(10) "Kategorien"
+                          ["displayName"]=>
+                          string(10) "Kategorien"
+                          ["id"]=>
+                          string(6) "541686"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(19) "Literatur & Fiktion"
+                      ["displayName"]=>
+                      string(19) "Literatur & Fiktion"
+                      ["id"]=>
+                      string(3) "117"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(34) "Belletristik - Action & Abenteuer"
+                  ["displayName"]=>
+                  string(19) "Action & Abenteuer"
+                  ["id"]=>
+                  string(11) "14166816031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(27) "Abenteuer - Science-Fiction"
+              ["displayName"]=>
+              string(15) "Science-Fiction"
+              ["id"]=>
+              string(11) "14166825031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              NULL
+            }
+          }
+          [1]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7434 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7435 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7436 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7437 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          NULL
+                          ["contextFreeName"]=>
+                          string(7) "Bücher"
+                          ["displayName"]=>
+                          string(7) "Bücher"
+                          ["id"]=>
+                          string(6) "186606"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(10) "Kategorien"
+                      ["displayName"]=>
+                      string(10) "Kategorien"
+                      ["id"]=>
+                      string(6) "541686"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(25) "Science Fiction & Fantasy"
+                  ["displayName"]=>
+                  string(25) "Fantasy & Science Fiction"
+                  ["id"]=>
+                  string(3) "142"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(22) "Science-Fiction-Romane"
+              ["displayName"]=>
+              string(15) "Science Fiction"
+              ["id"]=>
+              string(9) "420058031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              NULL
+            }
+          }
+          [2]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7438 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7439 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7440 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7441 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7442 (1) {
+                            ["container":protected]=>
+                            array(4) {
+                              ["ancestor"]=>
+                              NULL
+                              ["contextFreeName"]=>
+                              string(7) "Bücher"
+                              ["displayName"]=>
+                              string(7) "Bücher"
+                              ["id"]=>
+                              string(6) "186606"
+                            }
+                          }
+                          ["contextFreeName"]=>
+                          string(10) "Kategorien"
+                          ["displayName"]=>
+                          string(10) "Kategorien"
+                          ["id"]=>
+                          string(6) "541686"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(13) "Kinderbücher"
+                      ["displayName"]=>
+                      string(13) "Kinderbücher"
+                      ["id"]=>
+                      string(10) "5452736031"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(24) "Belletristik für Kinder"
+                  ["displayName"]=>
+                  string(12) "Belletristik"
+                  ["id"]=>
+                  string(10) "5452795031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(21) "Abenteuer für Kinder"
+              ["displayName"]=>
+              string(9) "Abenteuer"
+              ["id"]=>
+              string(10) "5452796031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              NULL
+            }
+          }
+          [3]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7443 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7444 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7445 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7446 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          NULL
+                          ["contextFreeName"]=>
+                          string(7) "Bücher"
+                          ["displayName"]=>
+                          string(7) "Bücher"
+                          ["id"]=>
+                          string(6) "186606"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(10) "Kategorien"
+                      ["displayName"]=>
+                      string(10) "Kategorien"
+                      ["id"]=>
+                      string(6) "541686"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(13) "Kinderbücher"
+                  ["displayName"]=>
+                  string(13) "Kinderbücher"
+                  ["id"]=>
+                  string(10) "5452736031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(37) "Science Fiction & Fantasy für Kinder"
+              ["displayName"]=>
+              string(25) "Science Fiction & Fantasy"
+              ["id"]=>
+              string(11) "16381823031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              NULL
+            }
+          }
+          [4]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7447 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7448 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7449 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7450 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7451 (1) {
+                            ["container":protected]=>
+                            array(4) {
+                              ["ancestor"]=>
+                              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7452 (1) {
+                                ["container":protected]=>
+                                array(4) {
+                                  ["ancestor"]=>
+                                  NULL
+                                  ["contextFreeName"]=>
+                                  string(11) "Kindle-Shop"
+                                  ["displayName"]=>
+                                  string(11) "Kindle-Shop"
+                                  ["id"]=>
+                                  string(9) "530484031"
+                                }
+                              }
+                              ["contextFreeName"]=>
+                              string(10) "Kategorien"
+                              ["displayName"]=>
+                              string(10) "Kategorien"
+                              ["id"]=>
+                              string(9) "530485031"
+                            }
+                          }
+                          ["contextFreeName"]=>
+                          string(13) "Kindle eBooks"
+                          ["displayName"]=>
+                          string(13) "Kindle eBooks"
+                          ["id"]=>
+                          string(9) "530886031"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(12) "Belletristik"
+                      ["displayName"]=>
+                      string(12) "Belletristik"
+                      ["id"]=>
+                      string(9) "567111031"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(31) "Action & Abenteuer Belletristik"
+                  ["displayName"]=>
+                  string(18) "Action & Abenteuer"
+                  ["id"]=>
+                  string(10) "6692008031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(30) "Fantasy Abenteuer Belletristik"
+              ["displayName"]=>
+              string(7) "Fantasy"
+              ["id"]=>
+              string(10) "6692009031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              int(122)
+            }
+          }
+          [5]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7453 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7454 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7455 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7456 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7457 (1) {
+                            ["container":protected]=>
+                            array(4) {
+                              ["ancestor"]=>
+                              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7458 (1) {
+                                ["container":protected]=>
+                                array(4) {
+                                  ["ancestor"]=>
+                                  NULL
+                                  ["contextFreeName"]=>
+                                  string(11) "Kindle-Shop"
+                                  ["displayName"]=>
+                                  string(11) "Kindle-Shop"
+                                  ["id"]=>
+                                  string(9) "530484031"
+                                }
+                              }
+                              ["contextFreeName"]=>
+                              string(10) "Kategorien"
+                              ["displayName"]=>
+                              string(10) "Kategorien"
+                              ["id"]=>
+                              string(9) "530485031"
+                            }
+                          }
+                          ["contextFreeName"]=>
+                          string(13) "Kindle eBooks"
+                          ["displayName"]=>
+                          string(13) "Kindle eBooks"
+                          ["id"]=>
+                          string(9) "530886031"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(25) "Science Fiction & Fantasy"
+                      ["displayName"]=>
+                      string(25) "Fantasy & Science Fiction"
+                      ["id"]=>
+                      string(9) "567119031"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(22) "Science Fiction Romane"
+                  ["displayName"]=>
+                  string(15) "Science Fiction"
+                  ["id"]=>
+                  string(9) "620982031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(25) "Science Fiction Abenteuer"
+              ["displayName"]=>
+              string(9) "Abenteuer"
+              ["id"]=>
+              string(10) "8421143031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              int(467)
+            }
+          }
+          [6]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7459 (1) {
+            ["container":protected]=>
+            array(7) {
+              ["ancestor"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7460 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["ancestor"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7461 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["ancestor"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7462 (1) {
+                        ["container":protected]=>
+                        array(4) {
+                          ["ancestor"]=>
+                          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7463 (1) {
+                            ["container":protected]=>
+                            array(4) {
+                              ["ancestor"]=>
+                              NULL
+                              ["contextFreeName"]=>
+                              string(11) "Kindle-Shop"
+                              ["displayName"]=>
+                              string(11) "Kindle-Shop"
+                              ["id"]=>
+                              string(9) "530484031"
+                            }
+                          }
+                          ["contextFreeName"]=>
+                          string(10) "Kategorien"
+                          ["displayName"]=>
+                          string(10) "Kategorien"
+                          ["id"]=>
+                          string(9) "530485031"
+                        }
+                      }
+                      ["contextFreeName"]=>
+                      string(13) "Kindle eBooks"
+                      ["displayName"]=>
+                      string(13) "Kindle eBooks"
+                      ["id"]=>
+                      string(9) "530886031"
+                    }
+                  }
+                  ["contextFreeName"]=>
+                  string(13) "Kinderbücher"
+                  ["displayName"]=>
+                  string(13) "Kinderbücher"
+                  ["id"]=>
+                  string(9) "567124031"
+                }
+              }
+              ["children"]=>
+              NULL
+              ["contextFreeName"]=>
+              string(18) "Romane für Kinder"
+              ["displayName"]=>
+              string(21) "Romane & Erzählungen"
+              ["id"]=>
+              string(9) "621885031"
+              ["isRoot"]=>
+              bool(false)
+              ["salesRank"]=>
+              int(1141)
+            }
+          }
+        }
+        ["websiteSalesRank"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\WebsiteSalesRank)#7464 (1) {
+          ["container":protected]=>
+          array(4) {
+            ["contextFreeName"]=>
+            string(11) "Kindle-Shop"
+            ["displayName"]=>
+            string(11) "Kindle-Shop"
+            ["id"]=>
+            NULL
+            ["salesRank"]=>
+            int(48689)
+          }
+        }
+      }
+    }
+    ["detailPageURL"]=>
+    string(74) "https://www.amazon.de/dp/B06XCL9TM2?tag=endcore-21&linkCode=osi&th=1&psc=1"
+    ["images"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images)#7465 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["primary"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7466 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["small"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7467 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["uRL"]=>
+                string(58) "https://m.media-amazon.com/images/I/51iQc1CZRYL._SL75_.jpg"
+                ["height"]=>
+                int(75)
+                ["width"]=>
+                int(53)
+              }
+            }
+            ["medium"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7468 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["uRL"]=>
+                string(59) "https://m.media-amazon.com/images/I/51iQc1CZRYL._SL160_.jpg"
+                ["height"]=>
+                int(160)
+                ["width"]=>
+                int(113)
+              }
+            }
+            ["large"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7469 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["uRL"]=>
+                string(51) "https://m.media-amazon.com/images/I/51iQc1CZRYL.jpg"
+                ["height"]=>
+                int(500)
+                ["width"]=>
+                int(354)
+              }
+            }
+          }
+        }
+        ["variants"]=>
+        NULL
+      }
+    }
+    ["itemInfo"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ItemInfo)#7470 (1) {
+      ["container":protected]=>
+      array(11) {
+        ["byLineInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ByLineInfo)#7471 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["brand"]=>
+            NULL
+            ["contributors"]=>
+            array(1) {
+              [0]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Contributor)#7472 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["locale"]=>
+                  string(5) "de_DE"
+                  ["name"]=>
+                  string(14) "Pieritz, Karim"
+                  ["role"]=>
+                  string(5) "Autor"
+                }
+              }
+            }
+            ["manufacturer"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7473 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(20) "Verlag Karim Pieritz"
+                ["label"]=>
+                string(12) "Manufacturer"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+          }
+        }
+        ["classifications"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Classifications)#7474 (1) {
+          ["container":protected]=>
+          array(2) {
+            ["binding"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7475 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(14) "Kindle Ausgabe"
+                ["label"]=>
+                string(7) "Binding"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["productGroup"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7476 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(21) "Digital Ebook Purchas"
+                ["label"]=>
+                string(12) "ProductGroup"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+          }
+        }
+        ["contentInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ContentInfo)#7477 (1) {
+          ["container":protected]=>
+          array(4) {
+            ["edition"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7478 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(4) "2018"
+                ["label"]=>
+                string(7) "Edition"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["languages"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Languages)#7479 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValues"]=>
+                array(1) {
+                  [0]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\LanguageType)#7480 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayValue"]=>
+                      string(7) "Deutsch"
+                      ["type"]=>
+                      string(15) "Veröffentlicht"
+                    }
+                  }
+                }
+                ["label"]=>
+                string(8) "Language"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+            ["pagesCount"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleIntegerValuedAttribute)#7481 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                int(206)
+                ["label"]=>
+                string(13) "NumberOfPages"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["publicationDate"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7482 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(24) "2017-02-27T14:36:33.000Z"
+                ["label"]=>
+                string(15) "PublicationDate"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+          }
+        }
+        ["contentRating"]=>
+        NULL
+        ["externalIds"]=>
+        NULL
+        ["features"]=>
+        NULL
+        ["manufactureInfo"]=>
+        NULL
+        ["productInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ProductInfo)#7483 (1) {
+          ["container":protected]=>
+          array(6) {
+            ["color"]=>
+            NULL
+            ["isAdultProduct"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleBooleanValuedAttribute)#7484 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                bool(false)
+                ["label"]=>
+                string(14) "IsAdultProduct"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["itemDimensions"]=>
+            NULL
+            ["releaseDate"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7485 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValue"]=>
+                string(24) "2017-02-27T14:36:33.000Z"
+                ["label"]=>
+                string(11) "ReleaseDate"
+                ["locale"]=>
+                string(5) "en_US"
+              }
+            }
+            ["size"]=>
+            NULL
+            ["unitCount"]=>
+            NULL
+          }
+        }
+        ["technicalInfo"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\TechnicalInfo)#7486 (1) {
+          ["container":protected]=>
+          array(1) {
+            ["formats"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\MultiValuedAttribute)#7487 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["displayValues"]=>
+                array(1) {
+                  [0]=>
+                  string(12) "Kindle eBook"
+                }
+                ["label"]=>
+                string(6) "Format"
+                ["locale"]=>
+                string(5) "de_DE"
+              }
+            }
+          }
+        }
+        ["title"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7488 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["displayValue"]=>
+            string(154) "Die Jagd nach dem geheimnisvollen Rollsiegel (Fantasy-Abenteuer): Jugendbuch-Reihe für coole Jungen und abenteuerlustige Mädchen (Geheimnisvolle Jagd 1)"
+            ["label"]=>
+            string(5) "Title"
+            ["locale"]=>
+            string(5) "de_DE"
+          }
+        }
+        ["tradeInInfo"]=>
+        NULL
+      }
+    }
+    ["offers"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Offers)#7489 (1) {
+      ["container":protected]=>
+      array(2) {
+        ["listings"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing)#7490 (1) {
+            ["container":protected]=>
+            array(12) {
+              ["availability"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferAvailability)#7491 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["maxOrderQuantity"]=>
+                  NULL
+                  ["message"]=>
+                  string(30) "Jetzt als Download verfügbar."
+                  ["minOrderQuantity"]=>
+                  int(1)
+                  ["type"]=>
+                  string(3) "Now"
+                }
+              }
+              ["condition"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7492 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["displayValue"]=>
+                  NULL
+                  ["label"]=>
+                  NULL
+                  ["locale"]=>
+                  NULL
+                  ["value"]=>
+                  string(3) "New"
+                  ["subCondition"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSubCondition)#7493 (1) {
+                    ["container":protected]=>
+                    array(4) {
+                      ["displayValue"]=>
+                      NULL
+                      ["label"]=>
+                      NULL
+                      ["locale"]=>
+                      NULL
+                      ["value"]=>
+                      string(3) "New"
+                    }
+                  }
+                }
+              }
+              ["deliveryInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferDeliveryInfo)#7494 (1) {
+                ["container":protected]=>
+                array(4) {
+                  ["isAmazonFulfilled"]=>
+                  bool(false)
+                  ["isFreeShippingEligible"]=>
+                  bool(false)
+                  ["isPrimeEligible"]=>
+                  bool(false)
+                  ["shippingCharges"]=>
+                  NULL
+                }
+              }
+              ["id"]=>
+              string(164) "LHhsMZhKZjl4FxiZke%2FHoyf1G9WL9IQC25YLtinBz3Qt%2F7j2Ze22GfyIt2VTFNiX5elMm16Xwtw5Ny24LHkYLvdtn%2B516PEKI49%2BaAKbjE5P3P5eblTgwwRBPPlUCc330tF2jZ8SMrnXy2yoSZRAUA%3D%3D"
+              ["isBuyBoxWinner"]=>
+              bool(true)
+              ["loyaltyPoints"]=>
+              NULL
+              ["merchantInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferMerchantInfo)#7495 (1) {
+                ["container":protected]=>
+                array(3) {
+                  ["defaultShippingCountry"]=>
+                  string(2) "DE"
+                  ["id"]=>
+                  string(14) "A2X9BIRDIKC20I"
+                  ["name"]=>
+                  string(26) "Amazon Media EU  S.à r.l."
+                }
+              }
+              ["price"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7496 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(6.99)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "6,99 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["programEligibility"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferProgramEligibility)#7497 (1) {
+                ["container":protected]=>
+                array(2) {
+                  ["isPrimeExclusive"]=>
+                  bool(false)
+                  ["isPrimePantry"]=>
+                  bool(false)
+                }
+              }
+              ["promotions"]=>
+              NULL
+              ["savingBasis"]=>
+              NULL
+              ["violatesMAP"]=>
+              bool(false)
+            }
+          }
+        }
+        ["summaries"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary)#7498 (1) {
+            ["container":protected]=>
+            array(4) {
+              ["condition"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7499 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["displayValue"]=>
+                  NULL
+                  ["label"]=>
+                  NULL
+                  ["locale"]=>
+                  NULL
+                  ["value"]=>
+                  string(3) "New"
+                  ["subCondition"]=>
+                  NULL
+                }
+              }
+              ["highestPrice"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7500 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(6.99)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "6,99 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["lowestPrice"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7501 (1) {
+                ["container":protected]=>
+                array(5) {
+                  ["amount"]=>
+                  float(6.99)
+                  ["currency"]=>
+                  string(3) "EUR"
+                  ["displayAmount"]=>
+                  string(9) "6,99 €"
+                  ["pricePerUnit"]=>
+                  NULL
+                  ["savings"]=>
+                  NULL
+                }
+              }
+              ["offerCount"]=>
+              int(1)
+            }
+          }
+        }
+      }
+    }
+    ["parentASIN"]=>
+    NULL
+    ["rentalOffers"]=>
+    NULL
+    ["score"]=>
+    NULL
+    ["variationAttributes"]=>
+    NULL
+  }
+}

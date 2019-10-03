@@ -9,6 +9,8 @@ namespace Endcore;
 
 
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary;
 use ApaiIO\Helper\DotDotText;
 
 class SimpleItem
@@ -25,6 +27,10 @@ class SimpleItem
 
     public function getEAN()
     {
+        if ($this->item->getItemInfo()->getExternalIds() === null) {
+            return null;
+        }
+
         $values = $this->item->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues();
         if (is_array($values) && count($values) > 0) {
             return $values[0];
@@ -40,11 +46,15 @@ class SimpleItem
 
     public function getTitle()
     {
-        return $this->item->getItemInfo()->getTitle();
+        return $this->item->getItemInfo()->getTitle()->getDisplayValue();
     }
 
     public function getDescription()
     {
+        if ($this->item->getItemInfo()->getFeatures() === null) {
+            return '';
+        }
+
         $values = $this->item->getItemInfo()->getFeatures()->getDisplayValues();
         if (is_array($values)) {
             $values = implode(', ', $values);
@@ -57,28 +67,86 @@ class SimpleItem
         return $this->item->getDetailPageURL();
     }
 
-    public function getPrice()
+    public function getUserPrice()
     {
-        if ($this->hasListing()) {
-            return $this->item->getOffers()->getListings()[0]->getPrice()->getAmount();
+        if (!$this->hasSummaries()) {
+            return '';
         }
 
-        return null;
+        /** @var OfferSummary[] $offers */
+        $offers = [];
+
+        foreach ($this->item->getOffers()->getSummaries() as $offer) {
+            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        }
+
+        if (key_exists(AWS_PRICE, $offers)) {
+            return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
+        }
+
+        return $offers['new']->getLowestPrice()->getDisplayAmount();
     }
 
     public function getPriceList()
     {
+        if (!$this->hasListing()) {
+            return '';
+        }
 
+        /** @var OfferListing[] $offers */
+        $offers = [];
+
+        foreach ($this->item->getOffers()->getListings() as $offer) {
+            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        }
+
+        $condition = $this->getAwsPriceCondition();
+        if (key_exists($condition, $offers) && $offers[$condition]->getSavingBasis() !== null) {
+            return $offers[$condition]->getSavingBasis()->getAmount();
+        }
+
+        return 'kA';
     }
 
+    // getAmountForAvailability
     public function getPriceAmount()
     {
+        if (!$this->hasSummaries()) {
+            return '';
+        }
 
+        /** @var OfferSummary[] $offers */
+        $offers = [];
+
+        foreach ($this->item->getOffers()->getSummaries() as $offer) {
+            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        }
+
+        if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
+        }
+
+        return $offers['new']->getLowestPrice()->getAmount();
     }
 
     public function getCurrency()
     {
+        if (!$this->hasSummaries()) {
+            return '';
+        }
 
+        /** @var OfferSummary[] $offers */
+        $offers = [];
+
+        foreach ($this->item->getOffers()->getSummaries() as $offer) {
+            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        }
+
+        if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getCurrency();
+        }
+
+        return 'EUR';
     }
 
     public function getCategory()
@@ -90,6 +158,7 @@ class SimpleItem
     {
         $marginCategories = array(
             'Kindle Edition'     => 10,
+            'Kindle Ausgabe'     => 10,
             'Gebundene Ausgabe'  => 10,
             'Broschiert'         => 10,
             'Taschenbuch'        => 10,
@@ -135,6 +204,38 @@ class SimpleItem
     protected function hasListing()
     {
         return (count($this->item->getOffers()->getListings()) > 0);
+    }
+
+    protected function hasSummaries()
+    {
+        return (count($this->item->getOffers()->getSummaries()) > 0);
+    }
+
+    protected function hasImages()
+    {
+        return count($this->getImages()) > 0;
+    }
+
+    public function getImages()
+    {
+        return $this->item->getImages();
+    }
+
+    public function getSmallImage()
+    {
+        if ($this->hasImages()) {
+            return $this->getImages()->getPrimary()->getSmall()->getURL();
+        }
+
+        return null;
+    }
+
+    protected function getAwsPriceCondition() {
+        if (AWS_PRICE === 'default') {
+            return 'new';
+        }
+
+        return AWS_PRICE;
     }
 
 
