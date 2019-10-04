@@ -1,8 +1,15 @@
 <?php
+
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
+use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use ApaiIO\ApaiIO;
 use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
 use ApaiIO\Zend\Service\Amazon;
+use Endcore\AmazonApi;
+use Endcore\FormattedItemResponse;
 
 add_action('wp_ajax_amazon_api_import', 'at_aws_import');
 add_action('wp_ajax_at_aws_import', 'at_aws_import');
@@ -21,48 +28,59 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
 
     if ((isset($_POST['func']) && ($_POST['func'] == 'quick-import'))||$direct) {
         // quick import
-        $conf = new GenericConfiguration();
-        try {
-            $conf
-                ->setCountry(AWS_COUNTRY)
-                ->setAccessKey(AWS_API_KEY)
-                ->setSecretKey(AWS_API_SECRET_KEY)
-                ->setAssociateTag(AWS_ASSOCIATE_TAG)
-                ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        $hostAndRegion = at_amazon_get_host_region();
+
+        $config = new Configuration();
+        $config->setAccessKey(AWS_API_KEY);
+        $config->setSecretKey(AWS_API_SECRET_KEY);
+        $partnerTag = AWS_ASSOCIATE_TAG;
+        $config->setHost($hostAndRegion['host']);
+        $config->setRegion($hostAndRegion['region']);
+        $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
+
+        $resources = GetItemsResource::getAllowableEnumValues();
+
+        $lookup = new GetItemsRequest();
+        $lookup->setItemIds([$asin]);
+        $lookup->setPartnerTag($partnerTag);
+        $lookup->setPartnerType(PartnerType::ASSOCIATES);
+        $lookup->setResources($resources);
+
+        $invalidPropertyList = $lookup->listInvalidProperties();
+        $length = count($invalidPropertyList);
+        if ($length > 0) {
+            echo "Error forming the request", PHP_EOL;
+            foreach ($invalidPropertyList as $invalidProperty) {
+                echo $invalidProperty, PHP_EOL;
+            }
+            return;
         }
-        $apaiIO = new ApaiIO($conf);
 
-        $lookup = new Lookup();
-        $lookup->setItemId($asin);
-        $lookup->setResponseGroup(array('Large', 'ItemAttributes', 'EditorialReview', 'OfferSummary', 'Offers', 'OfferFull', 'Images', 'Variations'));
+        $getItemsResponse = $apiInstance->getItems($lookup);
+        $formattedResponse = new FormattedItemResponse($getItemsResponse);
 
-        /* @var $formattedResponse Amazon\SingleResultSet */
-        $formattedResponse = $apaiIO->runOperation($lookup);
-
-        if ($formattedResponse->hasItem()) {
+        if ($formattedResponse->hasResult()) {
             $item = $formattedResponse->getItem();
 
             if($item) {
-                $title = $item->Title;
+                $title = $item->getTitle();
                 $ean = $item->getEan();
                 $description = '';
-                $price = $item->getAmountForAvailability();
-                $price_list = $item->getAmountListPrice();
+                $price = $item->getPriceAmount();
+                $price_list = $item->getPriceList();
                 $salesrank = ($item->getSalesRank() ? $item->getSalesRank() : '');
                 $url = $item->getUrl();
-                $currency = $item->getCurrencyCode();
+                $currency = $item->getCurrency();
                 $ratings = 0;
                 $ratings_count = '';
                 if(!$direct) $taxs = isset($_POST['tax']) ? $_POST['tax'] : array();
-                $amazon_images = $item->getAllImages()->getLargeImages();
+                $amazon_images = $item->getAllLargeImages();
                 $images = array();
                 $prime = $item->isPrime();
 
                 // overwrite description
                 if ('1' == get_option('amazon_import_description')) {
-                    $description = $item->getItemDescription();
+                    $description = $item->getDescription();
                 }
 
                 // overwrite with external images
