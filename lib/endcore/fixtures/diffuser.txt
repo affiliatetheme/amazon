@@ -1,0 +1,944 @@
+object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResponse)#7416 (1) {
+  ["container":protected]=>
+  array(2) {
+    ["searchResult"]=>
+    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchResult)#7417 (1) {
+      ["container":protected]=>
+      array(4) {
+        ["totalResultCount"]=>
+        int(1)
+        ["searchURL"]=>
+        string(89) "https://www.amazon.de/s?k=B07STZDZTQ&rh=p_n_availability%3A-1&tag=endcore-21&linkCode=osi"
+        ["items"]=>
+        array(1) {
+          [0]=>
+          object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item)#7418 (1) {
+            ["container":protected]=>
+            array(10) {
+              ["aSIN"]=>
+              string(10) "B07STZDZTQ"
+              ["browseNodeInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeInfo)#7419 (1) {
+                ["container":protected]=>
+                array(2) {
+                  ["browseNodes"]=>
+                  array(1) {
+                    [0]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNode)#7420 (1) {
+                      ["container":protected]=>
+                      array(7) {
+                        ["ancestor"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7421 (1) {
+                          ["container":protected]=>
+                          array(4) {
+                            ["ancestor"]=>
+                            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7422 (1) {
+                              ["container":protected]=>
+                              array(4) {
+                                ["ancestor"]=>
+                                object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7423 (1) {
+                                  ["container":protected]=>
+                                  array(4) {
+                                    ["ancestor"]=>
+                                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7424 (1) {
+                                      ["container":protected]=>
+                                      array(4) {
+                                        ["ancestor"]=>
+                                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor)#7425 (1) {
+                                          ["container":protected]=>
+                                          array(4) {
+                                            ["ancestor"]=>
+                                            NULL
+                                            ["contextFreeName"]=>
+                                            string(24) "Drogerie & Körperpflege"
+                                            ["displayName"]=>
+                                            string(24) "Drogerie & Körperpflege"
+                                            ["id"]=>
+                                            string(8) "64187031"
+                                          }
+                                        }
+                                        ["contextFreeName"]=>
+                                        string(24) "Drogerie & Körperpflege"
+                                        ["displayName"]=>
+                                        string(10) "Kategorien"
+                                        ["id"]=>
+                                        string(8) "64257031"
+                                      }
+                                    }
+                                    ["contextFreeName"]=>
+                                    string(21) "Medizin & Erste Hilfe"
+                                    ["displayName"]=>
+                                    string(21) "Medizin & Erste Hilfe"
+                                    ["id"]=>
+                                    string(10) "2860338031"
+                                  }
+                                }
+                                ["contextFreeName"]=>
+                                string(19) "Alternative Medizin"
+                                ["displayName"]=>
+                                string(19) "Alternative Medizin"
+                                ["id"]=>
+                                string(10) "2860339031"
+                              }
+                            }
+                            ["contextFreeName"]=>
+                            string(13) "Aromatherapie"
+                            ["displayName"]=>
+                            string(13) "Aromatherapie"
+                            ["id"]=>
+                            string(10) "2860342031"
+                          }
+                        }
+                        ["children"]=>
+                        NULL
+                        ["contextFreeName"]=>
+                        string(17) "Duftöldiffusoren"
+                        ["displayName"]=>
+                        string(17) "Duftöldiffusoren"
+                        ["id"]=>
+                        string(10) "2860343031"
+                        ["isRoot"]=>
+                        bool(false)
+                        ["salesRank"]=>
+                        int(8)
+                      }
+                    }
+                  }
+                  ["websiteSalesRank"]=>
+                  NULL
+                }
+              }
+              ["detailPageURL"]=>
+              string(74) "https://www.amazon.de/dp/B07STZDZTQ?tag=endcore-21&linkCode=osi&th=1&psc=1"
+              ["images"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images)#7426 (1) {
+                ["container":protected]=>
+                array(2) {
+                  ["primary"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7427 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["small"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7428 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["uRL"]=>
+                          string(58) "https://m.media-amazon.com/images/I/41C8itRQtBL._SL75_.jpg"
+                          ["height"]=>
+                          int(75)
+                          ["width"]=>
+                          int(75)
+                        }
+                      }
+                      ["medium"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7429 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["uRL"]=>
+                          string(59) "https://m.media-amazon.com/images/I/41C8itRQtBL._SL160_.jpg"
+                          ["height"]=>
+                          int(160)
+                          ["width"]=>
+                          int(160)
+                        }
+                      }
+                      ["large"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7430 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["uRL"]=>
+                          string(51) "https://m.media-amazon.com/images/I/41C8itRQtBL.jpg"
+                          ["height"]=>
+                          int(500)
+                          ["width"]=>
+                          int(500)
+                        }
+                      }
+                    }
+                  }
+                  ["variants"]=>
+                  array(7) {
+                    [0]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7431 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7432 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/412JbsoDkcL._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7433 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/412JbsoDkcL._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7434 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/412JbsoDkcL.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [1]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7435 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7436 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/41K4I2D5gXL._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7437 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/41K4I2D5gXL._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7438 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/41K4I2D5gXL.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [2]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7439 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7440 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/41EFczfUo0L._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7441 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/41EFczfUo0L._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7442 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/41EFczfUo0L.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [3]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7443 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7444 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/51fcxrz2xbL._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7445 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/51fcxrz2xbL._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7446 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/51fcxrz2xbL.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [4]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7447 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7448 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/41rKuGmhyOL._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7449 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/41rKuGmhyOL._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7450 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/41rKuGmhyOL.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [5]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7451 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7452 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/51NVW7fc98L._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7453 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/51NVW7fc98L._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7454 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/51NVW7fc98L.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                    [6]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType)#7455 (1) {
+                      ["container":protected]=>
+                      array(3) {
+                        ["small"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7456 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(58) "https://m.media-amazon.com/images/I/41c11AnVlHL._SL75_.jpg"
+                            ["height"]=>
+                            int(75)
+                            ["width"]=>
+                            int(75)
+                          }
+                        }
+                        ["medium"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7457 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(59) "https://m.media-amazon.com/images/I/41c11AnVlHL._SL160_.jpg"
+                            ["height"]=>
+                            int(160)
+                            ["width"]=>
+                            int(160)
+                          }
+                        }
+                        ["large"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageSize)#7458 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["uRL"]=>
+                            string(51) "https://m.media-amazon.com/images/I/41c11AnVlHL.jpg"
+                            ["height"]=>
+                            int(500)
+                            ["width"]=>
+                            int(500)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              ["itemInfo"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ItemInfo)#7459 (1) {
+                ["container":protected]=>
+                array(11) {
+                  ["byLineInfo"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ByLineInfo)#7460 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["brand"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7461 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValue"]=>
+                          string(8) "TENSWALL"
+                          ["label"]=>
+                          string(5) "Brand"
+                          ["locale"]=>
+                          string(5) "de_DE"
+                        }
+                      }
+                      ["contributors"]=>
+                      NULL
+                      ["manufacturer"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7462 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValue"]=>
+                          string(8) "TENSWALL"
+                          ["label"]=>
+                          string(12) "Manufacturer"
+                          ["locale"]=>
+                          string(5) "de_DE"
+                        }
+                      }
+                    }
+                  }
+                  ["classifications"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Classifications)#7463 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["binding"]=>
+                      NULL
+                      ["productGroup"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7464 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValue"]=>
+                          string(4) "Home"
+                          ["label"]=>
+                          string(12) "ProductGroup"
+                          ["locale"]=>
+                          string(5) "de_DE"
+                        }
+                      }
+                    }
+                  }
+                  ["contentInfo"]=>
+                  NULL
+                  ["contentRating"]=>
+                  NULL
+                  ["externalIds"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ExternalIds)#7465 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["eANs"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\MultiValuedAttribute)#7466 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValues"]=>
+                          array(1) {
+                            [0]=>
+                            string(13) "0631161810704"
+                          }
+                          ["label"]=>
+                          string(3) "EAN"
+                          ["locale"]=>
+                          string(5) "en_US"
+                        }
+                      }
+                      ["iSBNs"]=>
+                      NULL
+                      ["uPCs"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\MultiValuedAttribute)#7467 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValues"]=>
+                          array(1) {
+                            [0]=>
+                            string(12) "631161810704"
+                          }
+                          ["label"]=>
+                          string(3) "UPC"
+                          ["locale"]=>
+                          string(5) "en_US"
+                        }
+                      }
+                    }
+                  }
+                  ["features"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\MultiValuedAttribute)#7468 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["displayValues"]=>
+                      array(5) {
+                        [0]=>
+                        string(341) "【Ultraschall Aroma Diffusor】Der Aroma Diffusor erzeugt durch Ultraschall-Vernebelungstechnik einen feinen Nebel der durch Zugabe von ätherischen Ölen mit Aromen angereichert werden kann. So lässt sich die Luftfeuchtigkeit im Raum steigern und gleichzeitig verteilen sich die Duftmoleküle im Raum und sorgen für ein angenehmes Klima."
+                        [1]=>
+                        string(301) "【7 Verschiedene LED-Lichtfarbe】:Die farbigen LED lassen sich entweder auf 7 unterschiedliche, sanfte und beruhigende Farben einstellen, oder sie lassen den Diffusor im Farbwechselmodus laufen in dem sich kontinuierlich die Farbe ändert. Der Farbwechsel erfolgt fließend mit sanften Übergängen."
+                        [2]=>
+                        string(330) "【400ml Wasser Kapazität & BPA-Frei】: Erfrischt und befeuchtet Luft in Räumen von 25 - 60 m². Natürliches Stil Holzmaserung passt leicht zu meisten Zimmereinrichtungen. Durch die kalte Vernebelung im BPA-freien Behälter bleiben die ätherischen Öle unverändert und behalten ihre ganzheitlichen Eigenschaften und Wirkung."
+                        [3]=>
+                        string(337) "【Sehr Ruhig & Automatische Abschaltung】: Flüsterleiser Ultraschallbetrieb - Befeuchtung Ihres Wohnraums zur Vermeidung von trockener, stickiger Luft und Grippe-/Erkältungserregern, die Ihre Lieben infizieren. Verhindert trockene und rissige Haut in den trockenen Wintermonaten.schaltet sich automatisch ab wenn das Wasser ausgeht ."
+                        [4]=>
+                        string(191) "【4 Zeiteinstellung und Zwei Dampfmodi】: Zeit einst 1, 3, 6 Stunden oder auch Dauerbetrieb, mit kontinuierlichem starken Nebel oder mit intermittierendem feinen Nebel, mit oder ohne Licht."
+                      }
+                      ["label"]=>
+                      string(8) "Features"
+                      ["locale"]=>
+                      string(5) "de_DE"
+                    }
+                  }
+                  ["manufactureInfo"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ManufactureInfo)#7469 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["itemPartNumber"]=>
+                      object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7470 (1) {
+                        ["container":protected]=>
+                        array(3) {
+                          ["displayValue"]=>
+                          string(4) "502D"
+                          ["label"]=>
+                          string(10) "PartNumber"
+                          ["locale"]=>
+                          string(5) "en_US"
+                        }
+                      }
+                      ["model"]=>
+                      NULL
+                      ["warranty"]=>
+                      NULL
+                    }
+                  }
+                  ["productInfo"]=>
+                  NULL
+                  ["technicalInfo"]=>
+                  NULL
+                  ["title"]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SingleStringValuedAttribute)#7471 (1) {
+                    ["container":protected]=>
+                    array(3) {
+                      ["displayValue"]=>
+                      string(128) "400ml Aroma Diffuser,TENSWALL Luftbefeuchter Ultraschall Duftlampe mit 7 Farben LED für zuhause, Yoga, Büro, SPA, Schlafzimmer"
+                      ["label"]=>
+                      string(5) "Title"
+                      ["locale"]=>
+                      string(5) "de_DE"
+                    }
+                  }
+                  ["tradeInInfo"]=>
+                  NULL
+                }
+              }
+              ["offers"]=>
+              object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Offers)#7472 (1) {
+                ["container":protected]=>
+                array(2) {
+                  ["listings"]=>
+                  array(1) {
+                    [0]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing)#7473 (1) {
+                      ["container":protected]=>
+                      array(12) {
+                        ["availability"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferAvailability)#7474 (1) {
+                          ["container":protected]=>
+                          array(4) {
+                            ["maxOrderQuantity"]=>
+                            NULL
+                            ["message"]=>
+                            string(10) "Auf Lager."
+                            ["minOrderQuantity"]=>
+                            int(1)
+                            ["type"]=>
+                            string(3) "Now"
+                          }
+                        }
+                        ["condition"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7475 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["displayValue"]=>
+                            NULL
+                            ["label"]=>
+                            NULL
+                            ["locale"]=>
+                            NULL
+                            ["value"]=>
+                            string(3) "New"
+                            ["subCondition"]=>
+                            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSubCondition)#7476 (1) {
+                              ["container":protected]=>
+                              array(4) {
+                                ["displayValue"]=>
+                                NULL
+                                ["label"]=>
+                                NULL
+                                ["locale"]=>
+                                NULL
+                                ["value"]=>
+                                string(3) "New"
+                              }
+                            }
+                          }
+                        }
+                        ["deliveryInfo"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferDeliveryInfo)#7477 (1) {
+                          ["container":protected]=>
+                          array(4) {
+                            ["isAmazonFulfilled"]=>
+                            bool(true)
+                            ["isFreeShippingEligible"]=>
+                            bool(true)
+                            ["isPrimeEligible"]=>
+                            bool(true)
+                            ["shippingCharges"]=>
+                            NULL
+                          }
+                        }
+                        ["id"]=>
+                        string(168) "JEhzIgfoMjMVjUrLTjvkZ0%2Fn46u4mY3z%2F%2Fh1lTHIxASRydd0WTpblDua646YNPrFXqs1BF3gyH9ykviftd4cpDuUV%2BqHuTGBAttnBVoTFmYPrUoIdM8YCMKgskrEjIq6b1rVgWB7tB9KAqNQHHS68Jc0c04UE178"
+                        ["isBuyBoxWinner"]=>
+                        bool(true)
+                        ["loyaltyPoints"]=>
+                        NULL
+                        ["merchantInfo"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferMerchantInfo)#7478 (1) {
+                          ["container":protected]=>
+                          array(3) {
+                            ["defaultShippingCountry"]=>
+                            string(2) "CN"
+                            ["id"]=>
+                            string(14) "A18HHI1EPO9GXP"
+                            ["name"]=>
+                            string(6) "ZSY-DE"
+                          }
+                        }
+                        ["price"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7479 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(22.99)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "22,99 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSavings)#7480 (1) {
+                              ["container":protected]=>
+                              array(5) {
+                                ["amount"]=>
+                                float(13)
+                                ["currency"]=>
+                                string(3) "EUR"
+                                ["displayAmount"]=>
+                                string(16) "13,00 € (36%)"
+                                ["percentage"]=>
+                                int(36)
+                                ["pricePerUnit"]=>
+                                NULL
+                              }
+                            }
+                          }
+                        }
+                        ["programEligibility"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferProgramEligibility)#7481 (1) {
+                          ["container":protected]=>
+                          array(2) {
+                            ["isPrimeExclusive"]=>
+                            bool(false)
+                            ["isPrimePantry"]=>
+                            bool(false)
+                          }
+                        }
+                        ["promotions"]=>
+                        NULL
+                        ["savingBasis"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7482 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(35.99)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "35,99 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            NULL
+                          }
+                        }
+                        ["violatesMAP"]=>
+                        bool(false)
+                      }
+                    }
+                  }
+                  ["summaries"]=>
+                  array(2) {
+                    [0]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary)#7483 (1) {
+                      ["container":protected]=>
+                      array(4) {
+                        ["condition"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7484 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["displayValue"]=>
+                            NULL
+                            ["label"]=>
+                            NULL
+                            ["locale"]=>
+                            NULL
+                            ["value"]=>
+                            string(3) "New"
+                            ["subCondition"]=>
+                            NULL
+                          }
+                        }
+                        ["highestPrice"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7485 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(24.99)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "24,99 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            NULL
+                          }
+                        }
+                        ["lowestPrice"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7486 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(22.99)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "22,99 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            NULL
+                          }
+                        }
+                        ["offerCount"]=>
+                        int(2)
+                      }
+                    }
+                    [1]=>
+                    object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary)#7487 (1) {
+                      ["container":protected]=>
+                      array(4) {
+                        ["condition"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferCondition)#7488 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["displayValue"]=>
+                            NULL
+                            ["label"]=>
+                            NULL
+                            ["locale"]=>
+                            NULL
+                            ["value"]=>
+                            string(4) "Used"
+                            ["subCondition"]=>
+                            NULL
+                          }
+                        }
+                        ["highestPrice"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7489 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(21.38)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "21,38 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            NULL
+                          }
+                        }
+                        ["lowestPrice"]=>
+                        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferPrice)#7490 (1) {
+                          ["container":protected]=>
+                          array(5) {
+                            ["amount"]=>
+                            float(21.38)
+                            ["currency"]=>
+                            string(3) "EUR"
+                            ["displayAmount"]=>
+                            string(10) "21,38 €"
+                            ["pricePerUnit"]=>
+                            NULL
+                            ["savings"]=>
+                            NULL
+                          }
+                        }
+                        ["offerCount"]=>
+                        int(1)
+                      }
+                    }
+                  }
+                }
+              }
+              ["parentASIN"]=>
+              NULL
+              ["rentalOffers"]=>
+              NULL
+              ["score"]=>
+              NULL
+              ["variationAttributes"]=>
+              NULL
+            }
+          }
+        }
+        ["searchRefinements"]=>
+        object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchRefinements)#7491 (1) {
+          ["container":protected]=>
+          array(3) {
+            ["browseNode"]=>
+            NULL
+            ["otherRefinements"]=>
+            NULL
+            ["searchIndex"]=>
+            object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Refinement)#7492 (1) {
+              ["container":protected]=>
+              array(3) {
+                ["bins"]=>
+                array(2) {
+                  [0]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\RefinementBin)#7493 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayName"]=>
+                      string(24) "Drogerie & Körperpflege"
+                      ["id"]=>
+                      string(18) "HealthPersonalCare"
+                    }
+                  }
+                  [1]=>
+                  object(Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\RefinementBin)#7494 (1) {
+                    ["container":protected]=>
+                    array(2) {
+                      ["displayName"]=>
+                      string(25) "Küche, Haushalt & Wohnen"
+                      ["id"]=>
+                      string(14) "HomeAndKitchen"
+                    }
+                  }
+                }
+                ["displayName"]=>
+                string(9) "Kategorie"
+                ["id"]=>
+                string(11) "SearchIndex"
+              }
+            }
+          }
+        }
+      }
+    }
+    ["errors"]=>
+    NULL
+  }
+}
