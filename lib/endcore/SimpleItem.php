@@ -152,7 +152,11 @@ class SimpleItem
 
     public function getCategory()
     {
-        return $this->item->getItemInfo()->getClassifications()->getBinding()->getDisplayValue();
+        if ($this->item->getItemInfo()->getClassifications()->getBinding() !== null) {
+            return $this->item->getItemInfo()->getClassifications()->getBinding()->getDisplayValue();
+        }
+
+        return '';
     }
 
     public function getCategoryMargin()
