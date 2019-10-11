@@ -29,9 +29,6 @@ class FormattedResponse
     public function __construct(SearchItemsResponse $response)
     {
         $this->response = $response;
-
-        var_dump($response);die;
-
         $this->result = $response->getSearchResult();
     }
 
