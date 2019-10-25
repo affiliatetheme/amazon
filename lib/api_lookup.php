@@ -41,8 +41,15 @@ function at_aws_lookup() {
         return;
     }
 
-    $getItemsResponse = $apiInstance->getItems($lookup);
-    $formattedResponse = new FormattedItemResponse($getItemsResponse);
+    try {
+        $getItemsResponse = $apiInstance->getItems($lookup);
+        $formattedResponse = new FormattedItemResponse($getItemsResponse);
+    } catch (Exception $e) {
+        at_write_api_log('amazon', 'system', $e->getMessage());
+        http_response_code($e->getCode());
+        exit();
+    }
+
 
 	if ($formattedResponse->hasResult()) {
 		$item = $formattedResponse->getItem();
