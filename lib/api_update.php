@@ -1,8 +1,16 @@
 <?php
+
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
+use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
+use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use ApaiIO\ApaiIO;
 use ApaiIO\Configuration\GenericConfiguration;
 use ApaiIO\Operations\Lookup;
 use ApaiIO\Zend\Service\Amazon;
+use Endcore\AmazonApi;
+use Endcore\FormattedItemResponse;
+use Endcore\SimpleItem;
 
 add_action('wp_ajax_at_aws_update', 'at_aws_update');
 add_action('wp_ajax_nopriv_at_aws_update', 'at_aws_update');
@@ -55,18 +63,15 @@ function at_aws_update($args = array()) {
     at_write_api_log('amazon', 'system', 'start cron');
 
     if ($products) {
-        $conf = new GenericConfiguration();
-        try {
-            $conf
-                ->setCountry(AWS_COUNTRY)
-                ->setAccessKey(AWS_API_KEY)
-                ->setSecretKey(AWS_API_SECRET_KEY)
-                ->setAssociateTag(AWS_ASSOCIATE_TAG)
-                ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-        } catch (\Exception $e) {
-            echo $e->getMessage();
-        }
-        $apaiIO = new ApaiIO($conf);
+        $hostAndRegion = at_amazon_get_host_region();
+
+        $config = new Configuration();
+        $config->setAccessKey(AWS_API_KEY);
+        $config->setSecretKey(AWS_API_SECRET_KEY);
+        $partnerTag = AWS_ASSOCIATE_TAG;
+        $config->setHost($hostAndRegion['host']);
+        $config->setRegion($hostAndRegion['region']);
+        $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
 
         foreach ($products as $product) {
             try {
@@ -76,25 +81,35 @@ function at_aws_update($args = array()) {
                     foreach($shops as $key => $val) {
                         if($val['portal'] == 'amazon') { // check if amazon product
                             try {
-                                // amazon item
-                                $lookup = new Lookup();
-                                $lookup->setItemId($val[AWS_METAKEY_ID]);
-                                $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Images'));
-                                $lookup->setAvailability('Available');
-                                $formattedResponse = $apaiIO->runOperation($lookup);
+
+                                $resources = GetItemsResource::getAllowableEnumValues();
+
+                                $lookup = new GetItemsRequest();
+                                $lookup->setItemIds([$val[AWS_METAKEY_ID]]);
+                                $lookup->setPartnerTag($partnerTag);
+                                $lookup->setPartnerType(PartnerType::ASSOCIATES);
+                                $lookup->setResources($resources);
+
+                                $invalidPropertyList = $lookup->listInvalidProperties();
+                                $length = count($invalidPropertyList);
+                                if ($length > 0) {
+                                    echo "Error forming the request", PHP_EOL;
+                                    foreach ($invalidPropertyList as $invalidProperty) {
+                                        echo $invalidProperty, PHP_EOL;
+                                    }
+                                    return;
+                                }
+
+                                $getItemsResponse = $apiInstance->getItems($lookup);
+                                $formattedResponse = new FormattedItemResponse($getItemsResponse);
+
                                 $item = $formattedResponse->getItem();
 
-                                if (!($item instanceof Amazon\Item)) {
-                                    if ($formattedResponse instanceof Amazon\SingleResultSet) {
-                                        if (strstr($formattedResponse->getTextContent(), 'submitting requests too quickly')) {
-                                            throw new \Exception('You submitting requests too quickly.', 504);
-                                        }
-                                    }
-
+                                if (!($item instanceof SimpleItem)) {
                                     throw new \Exception(sprintf('Item %s not found on Amazon.', $val[AWS_METAKEY_ID]), 505);
                                 }
 
-                                if ($item->getAmountForAvailability() === '') {
+                                if ($item->getPriceAmount() === '') {
                                     throw new \Exception(sprintf('Item %s not available.', $val[AWS_METAKEY_ID]), 506);
                                 }
 
@@ -102,9 +117,9 @@ function at_aws_update($args = array()) {
                                     $asin = $val[AWS_METAKEY_ID];
                                     $title = get_the_title($product->ID);
                                     $old_ean = get_post_meta($product->ID, 'product_ean', true);
-                                    $ean = $item->getEan();
+                                    $ean = $item->getEAN();
                                     $old_price = ($val['price'] ? $val['price'] : '');
-                                    $price = ($item->getAmountForAvailability() ? $item->getAmountForAvailability() : '');
+                                    $price = ($item->getPriceAmount() ? $item->getPriceAmount() : '');
                                     $old_link = ($val['link'] ? $val['link'] : '');
                                     $link = ($item->getUrl() ? $item->getUrl() : '');
                                     $old_salesrank = get_post_meta($product->ID, 'amazon_salesrank_' . $key, true);
@@ -279,7 +294,7 @@ function at_aws_update($args = array()) {
                                                             set_post_thumbnail($product->ID, $attachment->ID);
                                                         }
                                                     } else {
-                                                        $amazon_images = $item->getAllImages()->getLargeImages();
+                                                        $amazon_images = $item->getAllLargeImages();
                                                         if ($amazon_images) {
                                                             foreach ($amazon_images as $image) {
                                                                 $att_id = at_attach_external_image($image, $product->ID, true, get_the_title($product->ID), array('post_title' => get_the_title($product->ID)));
@@ -307,7 +322,7 @@ function at_aws_update($args = array()) {
                                                     }
                                                 } else {
                                                     // fallback to amazon images
-                                                    $amazon_images = $item->getAllImages()->getLargeImages();
+                                                    $amazon_images = $item->getAllLargeImages();
                                                     if ($amazon_images) {
                                                         foreach ($amazon_images as $image) {
                                                             $images[$c]['filename'] = sanitize_title($title . '-' . $c);
