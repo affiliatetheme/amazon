@@ -75,8 +75,14 @@ function at_aws_search() {
         return;
     }
 
-    $searchItemsResponse = $apiInstance->searchItems($search);
-    $formattedResponse = new FormattedResponse($searchItemsResponse);
+    try {
+        $searchItemsResponse = $apiInstance->searchItems($search);
+        $formattedResponse = new FormattedResponse($searchItemsResponse);
+    } catch (\Exception $e) {
+        at_write_api_log('amazon', 'system', $e->getMessage());
+        http_response_code($e->getCode());
+        exit();
+    }
 
     $output = [];
 
