@@ -336,12 +336,15 @@ class SimpleItem
 
         $attributes['Title'] = $this->getTitle();
 
+        /**
+         * 2019-10-29 Christian
+         * Removed not used attributes, throws an 500
+
         if ($this->item->getItemInfo()->getProductInfo() !== null) {
             $this->setProductInfo($attributes);
             $this->setReleaseDate($attributes);
             $this->setSize($attributes);
-        }
-
+        } */
 
         return $attributes;
     }
