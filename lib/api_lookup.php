@@ -102,10 +102,6 @@ function at_aws_lookup() {
 						</div>
 					</div>
 
-					<div class="alert alert-info">
-						<span class="dashicons dashicons-megaphone"></span> &nbsp; <?php _e('Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon'); ?>
-					</div>
-
 					<div class="row">
 						<div class="form-group col-xs-4">
 							<label><?php _e('SalesRank', 'affiliatetheme-amazon'); ?></label>
