@@ -127,6 +127,10 @@ class SimpleItem
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
         }
 
+        if (!array_key_exists('new', $offers)) {
+            return '';
+        }
+
         return $offers['new']->getLowestPrice()->getAmount();
     }
 
