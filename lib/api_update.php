@@ -375,7 +375,7 @@ function at_aws_update($args = array()) {
                                     }
                                 }
                             } catch(Exception $e) {
-                                if (504 === $e->getCode()) {
+                                if (429 === $e->getCode()) {
                                     at_write_api_log('amazon', $product->ID, 'you are submitting requests too quickly. product skipped.');
                                     continue;
                                 } else if (505 === $e->getCode()) {
