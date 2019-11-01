@@ -257,8 +257,14 @@ var checkConnection = function() {
 
             jQuery('.status-after').remove();
         },
-        error: function() {
-            resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '</p></div>');
+        error: function(xhr, status) {
+            var info_link = '';
+
+            if ( xhr.status == 429 ) {
+                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a>)';
+            }
+
+            resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
             resultContainer.fadeIn('fast');
         }
     });
