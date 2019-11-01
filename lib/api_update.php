@@ -26,6 +26,7 @@ function at_aws_update($args = array()) {
     }
 
     $interval = (at_amazon_product_skip_interval() ? at_amazon_product_skip_interval() : 3600);
+    $interval = 1;
 
     // get products
     $products = $wpdb->get_results(
@@ -55,6 +56,7 @@ function at_aws_update($args = array()) {
     );
 
     $products = array_merge($products, $wlProducts);
+
 
     at_write_api_log('amazon', 'system', 'start cron');
 
@@ -353,20 +355,6 @@ function at_aws_update($args = array()) {
                                         }
                                     }
 
-                                    /*update rating
-                                    if (get_option('amazon_update_rating') == 'yes' || get_option('amazon_update_rating') == '1') {
-                                        $rating = $item->getAverageRating();
-                                        $rating_cnt = ($item->getTotalReviews() ? $item->getTotalReviews() : '0');
-
-                                        if ($rating && $rating > 0) {
-                                            //fix rating
-                                            $rating = round($rating * 2) / 2;
-
-                                            update_post_meta($product->ID, 'product_rating', $rating);
-                                            update_post_meta($product->ID, 'product_rating_cnt', $rating_cnt);
-                                        }
-                                    }*/
-
                                     update_post_meta($product->ID, 'product_not_avail', '0');
                                     at_aws_remove_product_notification($product->ID);
 
@@ -375,15 +363,13 @@ function at_aws_update($args = array()) {
                                     }
                                 }
                             } catch(Exception $e) {
-                                if (504 === $e->getCode()) {
-                                    at_write_api_log('amazon', $product->ID, 'you are submitting requests too quickly. product skipped.');
+                                if (429 === $e->getCode()) {
+                                    at_write_api_log('amazon', $product->ID, 'Too many requests. Skipping product and take a little break.');
+                                    sleep(5);
                                     continue;
-                                } else if (505 === $e->getCode()) {
-                                    at_write_api_log('amazon', $product->ID, 'error (no/incorrect asin?) or product removed completely');
-                                } else if(506 === $e->getCode()) {
-                                    at_write_api_log('amazon', $product->ID, 'product not available (wrong variation?)');
                                 } else {
-                                    at_write_api_log('amazon', $product->ID, 'product not available');
+                                    at_write_api_log('amazon', $product->ID, 'Error during request. Statuscode: ' . $e->getCode() . ' - ' . $e->getMessage());
+                                    continue;
                                 }
 
                                 // set timestamp & update field for product not avail
@@ -434,8 +420,11 @@ function at_aws_update($args = array()) {
 
                     update_field('product_shops', $shops, $product->ID);
                     update_post_meta($product->ID, AWS_METAKEY_LAST_UPDATE, time());
+
+                    sleep(2);
                 }
             } catch (\Exception $e) {
+            	sleep(2);
                 continue;
             }
         }
