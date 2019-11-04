@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
             searchAction();
         }
     });
-    
+
     jQuery('#search-link').bind('click', function(event) {
         jQuery('#at-import-window input#page').val('1');
         searchAction();
@@ -76,12 +76,12 @@ jQuery(document).ready(function() {
         event.preventDefault();
     });
 
-	jQuery("input[type=checkbox].unique").live('click', function() {
-    	jQuery("input[type=checkbox].unique").each(function() {
-			jQuery(this)[0].checked = false;
-		});
-		jQuery(this)[0].checked = true;
-	});
+    jQuery("input[type=checkbox].unique").live('click', function() {
+        jQuery("input[type=checkbox].unique").each(function() {
+            jQuery(this)[0].checked = false;
+        });
+        jQuery(this)[0].checked = true;
+    });
 
     /*
      * Stuff
@@ -95,39 +95,39 @@ jQuery(document).ready(function() {
         }
     });
 
-	jQuery("input[type=checkbox].disable-this").live('click', function() {
-		if(jQuery(this).attr('checked')){
-			jQuery(this).closest('.image').css('opacity', '0.5');
-		} else {
-			jQuery(this).closest('.image').css('opacity', '1');
-		}
-	});
+    jQuery("input[type=checkbox].disable-this").live('click', function() {
+        if(jQuery(this).attr('checked')){
+            jQuery(this).closest('.image').css('opacity', '0.5');
+        } else {
+            jQuery(this).closest('.image').css('opacity', '1');
+        }
+    });
 
     // pagination
     jQuery('.next-page').bind('click', function(event) {
-    	if(jQuery(this).attr('disabled') != "disabled") {
-			var current_page = parseInt(jQuery('#page').val());
-			var max_pages = parseInt(jQuery('#max-pages').val());
+        if(jQuery(this).attr('disabled') != "disabled") {
+            var current_page = parseInt(jQuery('#page').val());
+            var max_pages = parseInt(jQuery('#max-pages').val());
 
-			jQuery(this).attr('disabled', true);
+            jQuery(this).attr('disabled', true);
 
-			if(current_page < max_pages) {
-				jQuery('#page').val(current_page + 1);
-			}
-        	searchAction();
-       }
+            if(current_page < max_pages) {
+                jQuery('#page').val(current_page + 1);
+            }
+            searchAction();
+        }
 
-       event.preventDefault();
+        event.preventDefault();
     });
     jQuery('.prev-page').bind('click', function(event) {
-		var current_page = parseInt(jQuery('#page').val());
-		var max_pages = parseInt(jQuery('#max-pages').val());
-		
-		jQuery(this).attr('disabled', true);
-		
-		if(current_page <= max_pages) {
-			jQuery('#page').val(current_page - 1);
-		} 
+        var current_page = parseInt(jQuery('#page').val());
+        var max_pages = parseInt(jQuery('#max-pages').val());
+
+        jQuery(this).attr('disabled', true);
+
+        if(current_page <= max_pages) {
+            jQuery('#page').val(current_page - 1);
+        }
         searchAction();
 
         event.preventDefault();
@@ -261,11 +261,12 @@ var checkConnection = function() {
             var info_link = '';
 
             if ( xhr.status == 429 ) {
+
                 var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
-                resultContainer.append('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
+                resultContainer.html('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + ( xhr.statusText == 'error' ? 'Too Many Requests' : xhr.statusText ) + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
                 resultContainer.fadeIn('fast');
             } else {
-                resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
+                resultContainer.html('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
                 resultContainer.fadeIn('fast');
             }
         }
@@ -310,7 +311,7 @@ var searchAction = function() {
             } else {
                 var totalpages = (totalpages <= 10 ? totalpages : 10);
             }
-            
+
             jQuery('#max-pages').val(totalpages);
             if(totalpages == 1) {
                 jQuery('.page-links').hide();
@@ -408,10 +409,10 @@ var searchAction = function() {
 
             if ( xhr.status == 429 ) {
                 var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
-                statusContainer.append('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
+                statusContainer.html('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + ( xhr.statusText == 'error' ? 'Too Many Requests' : xhr.statusText ) + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
                 statusContainer.fadeIn('fast');
             } else {
-                statusContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
+                statusContainer.html('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
                 statusContainer.fadeIn('fast');
             }
         }
@@ -768,55 +769,55 @@ function isUrlValid(url) {
  * number_format
  */
 function number_format(number, decimals, dec_point, thousands_sep) {
-	number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-	var n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-    s = '',
-    toFixedFix = function (n, prec) {
-      var k = Math.pow(10, prec);
-      return '' + (Math.round(n * k) / k)
-        .toFixed(prec);
-    };
-	//Fix for IE parseFloat(0.55).toFixed(0) = 0;
-	s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-	if (s[0].length > 3) {
-		s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-	}
-	if ((s[1] || '').length < prec) {
-		s[1] = s[1] || '';
-		s[1] += new Array(prec - s[1].length + 1).join('0');
-	}
-	return s.join(dec);
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + (Math.round(n * k) / k)
+                .toFixed(prec);
+        };
+    //Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
 }
 
 /*
  * Tabs
  */
 jQuery(document).ready(function(e) {
-	jQuery("#at-api-tabs a.nav-tab").click(function(e){
-		jQuery("#at-api-tabs a").removeClass("nav-tab-active");
-		jQuery(".at-api-tab").removeClass("active");
+    jQuery("#at-api-tabs a.nav-tab").click(function(e){
+        jQuery("#at-api-tabs a").removeClass("nav-tab-active");
+        jQuery(".at-api-tab").removeClass("active");
 
-		var a = jQuery(this).attr("id").replace("-tab","");
-		jQuery("#"+a).addClass("active");
-		jQuery(this).addClass("nav-tab-active");	
-	});
+        var a = jQuery(this).attr("id").replace("-tab","");
+        jQuery("#"+a).addClass("active");
+        jQuery(this).addClass("nav-tab-active");
+    });
 
-	var a=window.location.hash.replace("#top#","");
-	(""==a||"#_=_"==a) &&(a=jQuery(".at-api-tab").attr("id")),jQuery('#at-api-tabs a').removeClass('nav-tab-active'),jQuery('.at-api-tab').removeClass('active'),jQuery("#"+a).addClass("active"),jQuery("#"+a+"-tab").addClass("nav-tab-active");
+    var a=window.location.hash.replace("#top#","");
+    (""==a||"#_=_"==a) &&(a=jQuery(".at-api-tab").attr("id")),jQuery('#at-api-tabs a').removeClass('nav-tab-active'),jQuery('.at-api-tab').removeClass('active'),jQuery("#"+a).addClass("active"),jQuery("#"+a+"-tab").addClass("nav-tab-active");
 });
 
 function setCurrentTab(item) {
-	var a=window.location.hash.replace("#top#","");
-	
-	if(a == "") {
-		jQuery('#at-api-tabs a').removeClass('nav-tab-active');
-		jQuery('.at-api-tab').removeClass('active')
-		jQuery("#"+item).addClass("active");
-		jQuery("#"+item+"-tab").addClass("nav-tab-active");
-	}
+    var a=window.location.hash.replace("#top#","");
+
+    if(a == "") {
+        jQuery('#at-api-tabs a').removeClass('nav-tab-active');
+        jQuery('.at-api-tab').removeClass('active')
+        jQuery("#"+item).addClass("active");
+        jQuery("#"+item+"-tab").addClass("nav-tab-active");
+    }
 }
 
 /*
@@ -946,4 +947,3 @@ jQuery(document).ready(function() {
         return false;
     });
 });
-
