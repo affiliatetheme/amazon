@@ -262,10 +262,12 @@ var checkConnection = function() {
 
             if ( xhr.status == 429 ) {
                 var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
+                resultContainer.append('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
+                resultContainer.fadeIn('fast');
+            } else {
+                resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
+                resultContainer.fadeIn('fast');
             }
-
-            resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
-            resultContainer.fadeIn('fast');
         }
     });
 };
@@ -406,10 +408,12 @@ var searchAction = function() {
 
             if ( xhr.status == 429 ) {
                 var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
+                statusContainer.append('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
+                statusContainer.fadeIn('fast');
+            } else {
+                statusContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
+                statusContainer.fadeIn('fast');
             }
-
-            statusContainer.html('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
-            statusContainer.fadeIn('fast');
         }
     });
 
