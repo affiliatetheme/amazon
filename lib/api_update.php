@@ -26,7 +26,6 @@ function at_aws_update($args = array()) {
     }
 
     $interval = (at_amazon_product_skip_interval() ? at_amazon_product_skip_interval() : 3600);
-    $interval = 1;
 
     // get products
     $products = $wpdb->get_results(
@@ -56,7 +55,6 @@ function at_aws_update($args = array()) {
     );
 
     $products = array_merge($products, $wlProducts);
-
 
     at_write_api_log('amazon', 'system', 'start cron');
 
@@ -364,12 +362,14 @@ function at_aws_update($args = array()) {
                                 }
                             } catch(Exception $e) {
                                 if (429 === $e->getCode()) {
-                                    at_write_api_log('amazon', $product->ID, 'Too many requests. Skipping product and take a little break.');
+                                    at_write_api_log('amazon', $product->ID, 'Too many requests. Skipping product and take a little break. (Exception: ' . $e->getCode() . ' - ' . $e->getMessage() . ')');
                                     sleep(5);
                                     continue;
+                                } else if ( 403 === $e->getCode() ) {
+	                                at_write_api_log('amazon', $product->ID, 'Access Denied, please check your Login credentials. (Exception: ' . $e->getCode() . ' - ' . $e->getMessage() . ')');
+	                                continue;
                                 } else {
-                                    at_write_api_log('amazon', $product->ID, 'Error during request. Statuscode: ' . $e->getCode() . ' - ' . $e->getMessage());
-                                    continue;
+                                    at_write_api_log('amazon', $product->ID, 'Error during request. (Exception: ' . $e->getCode() . ' - ' . $e->getMessage() . ')');
                                 }
 
                                 // set timestamp & update field for product not avail
