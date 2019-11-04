@@ -81,11 +81,15 @@ class SimpleItem
             $offers[strtolower($offer->getCondition()->getValue())] = $offer;
         }
 
-        if (key_exists(AWS_PRICE, $offers)) {
-            return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
-        }
+	    if ( key_exists( AWS_PRICE, $offers ) ) {
+		    return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
+	    }
 
-        return $offers['new']->getLowestPrice()->getDisplayAmount();
+	    if ( key_exists( 'new', $offers ) ) {
+		    return $offers['new']->getLowestPrice()->getDisplayAmount();
+	    }
+
+	    return false;
     }
 
     public function getPriceList()
