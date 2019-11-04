@@ -261,7 +261,7 @@ var checkConnection = function() {
             var info_link = '';
 
             if ( xhr.status == 429 ) {
-                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a>)';
+                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
             }
 
             resultContainer.append('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
@@ -291,6 +291,7 @@ var searchAction = function() {
     var min_price = jQuery('.tabwrapper .at-api-tab#search input#min_price').val();
     var max_price = jQuery('.tabwrapper .at-api-tab#search input#max_price').val();
     var resultContainer = jQuery('#at-import-window table #results');
+    var statusContainer = jQuery('#checkConnection');
 
     globalRequest = 1;
     jQuery.ajax({
@@ -299,7 +300,7 @@ var searchAction = function() {
         type: 'POST',
         data: "action=at_aws_search&q=" + value + "&category=" + category + "&title=" + title + "&grabbedasins=" + grabbedasins + "&page=" + page + "&sort=" + sort + "&merchant=" + merchant + "&min_price=" + min_price + "&max_price=" + max_price,
         success: function(data){
-            
+            statusContainer.fadeOut('fast');
             var totalpages = data['rmessage']['totalpages'];
 
             if(category == 'All') {
@@ -399,6 +400,16 @@ var searchAction = function() {
 
                 resultContainer.fadeIn('fast');
             });
+        },
+        error: function(xhr, status) {
+            var info_link = '';
+
+            if ( xhr.status == 429 ) {
+                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
+            }
+
+            statusContainer.html('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
+            statusContainer.fadeIn('fast');
         }
     });
 
