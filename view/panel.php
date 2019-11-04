@@ -622,5 +622,6 @@
     #at-import-page table.feed tbody tr.inside td .form-group { width: auto; background: none; border: none; padding: 0; margin-right: 15px; }
 
 	.api-help { text-decoration: none; position: relative; top: 5px; }
-	#checkConnection div.warning { background: #fff; border-left: 4px solid #dcb032; box-shadow: 0 1px 1px 0 rgba(0,0,0,.1); margin: 5px 15px 2px; padding: 1px 12px; }
+	#checkConnection div.warning { background: #fff; border-left: 4px solid #dcb032; box-shadow: 0 1px 1px 0 rgba(0,0,0,.1); margin-bottom: 10px; padding: 1px 12px; }
+    #checkConnection div.warning p.warning { color: #444; }
 </style>
