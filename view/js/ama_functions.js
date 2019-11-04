@@ -265,6 +265,7 @@ var checkConnection = function() {
                 var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
                 resultContainer.html('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + ( xhr.statusText == 'error' ? 'Too Many Requests' : xhr.statusText ) + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
                 resultContainer.fadeIn('fast');
+                jQuery('.status-after').remove();
             } else {
                 resultContainer.html('<div class="error"><p class="error">' + amazon_vars.connection_error + '<br>Statuscode: ' + xhr.status + ' - ' + xhr.statusText + '</p></div>');
                 resultContainer.fadeIn('fast');
