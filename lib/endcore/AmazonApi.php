@@ -9,8 +9,8 @@ namespace Endcore;
 
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\api\DefaultApi;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SignHelper;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
+use EnGuzzleHttp\Psr7\MultipartStream;
+use EnGuzzleHttp\Psr7\Request;
 
 class AmazonApi extends DefaultApi
 {

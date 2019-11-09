@@ -25,7 +25,7 @@ function at_aws_search() {
     $partnerTag = AWS_ASSOCIATE_TAG;
     $config->setHost($hostAndRegion['host']);
     $config->setRegion($hostAndRegion['region']);
-    $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
+    $apiInstance = new AmazonApi(new EnGuzzleHttp\Client(), $config);
 
     // vars
     $grabbedasins = (isset($_POST['grabbedasins']) ? $_POST['grabbedasins'] : '');    
