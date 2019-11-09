@@ -15,13 +15,20 @@
     ],
     "require" : {
         "php" : ">=5.5",
-        "ext-json": "*",
-        "guzzlehttp/guzzle" : "^6.3"
+        "ext-json": "*"
     },
     "autoload": {
+        "files": [
+          "enguzzlehttp/guzzle/src/functions_include.php",
+          "enguzzlehttp/psr7/src/functions_include.php",
+          "enguzzlehttp/promises/src/functions_include.php"
+        ],
         "psr-4": {
           "Amazon\\ProductAdvertisingAPI\\v1\\" : "src/",
-          "Endcore\\": "endcore/"
+          "Endcore\\": "endcore/",
+          "EnGuzzleHttp\\Psr7\\": "enguzzlehttp/psr7/src",
+          "EnGuzzleHttp\\Promise\\": "enguzzlehttp/promises/src",
+          "EnGuzzleHttp\\": "enguzzlehttp/guzzle/src"
         }
     }
 }

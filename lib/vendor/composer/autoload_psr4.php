@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
-    'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
-    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Endcore\\' => array($baseDir . '/endcore'),
+    'EnGuzzleHttp\\Psr7\\' => array($baseDir . '/enguzzlehttp/psr7/src'),
+    'EnGuzzleHttp\\Promise\\' => array($baseDir . '/enguzzlehttp/promises/src'),
+    'EnGuzzleHttp\\' => array($baseDir . '/enguzzlehttp/guzzle/src'),
     'Amazon\\ProductAdvertisingAPI\\v1\\' => array($baseDir . '/src'),
 );
