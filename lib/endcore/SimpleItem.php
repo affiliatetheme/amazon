@@ -70,7 +70,11 @@ class SimpleItem
 
     public function getUserPrice()
     {
-        if (!$this->hasSummaries()) {
+        if ( ! $this->item ) {
+            return '';
+        }
+
+        if ( ! $this->item->getOffers() ) {
             return '';
         }
 
@@ -94,7 +98,11 @@ class SimpleItem
 
     public function getPriceList()
     {
-        if (!$this->hasListing()) {
+        if (!$this->item) {
+            return '';
+        }
+
+        if ( ! $this->item->getOffers() ) {
             return '';
         }
 
@@ -116,7 +124,11 @@ class SimpleItem
     // getAmountForAvailability
     public function getPriceAmount()
     {
-        if (!$this->hasSummaries()) {
+        if (!$this->item) {
+            return '';
+        }
+
+        if ( ! $this->item->getOffers() ) {
             return '';
         }
 
@@ -140,7 +152,11 @@ class SimpleItem
 
     public function getCurrency()
     {
-        if (!$this->hasSummaries()) {
+        if (!$this->item) {
+            return '';
+        }
+
+        if ( ! $this->item->getOffers() ) {
             return '';
         }
 
@@ -202,11 +218,19 @@ class SimpleItem
 
     public function isExternal()
     {
+        if ( ! $this->item->getOffers() ) {
+            return '';
+        }
+        
         return (count($this->item->getOffers()->getListings()) >= 1) ? 0 : 1;
     }
 
     public function isPrime()
     {
+        if ( ! $this->item->getOffers() ) {
+            return '';
+        }
+
         if ($this->hasListing()) {
             return ($this->item->getOffers()->getListings()[0]->getDeliveryInfo()->getIsPrimeEligible() ? 1 : 0);
         }
@@ -216,11 +240,23 @@ class SimpleItem
 
     protected function hasListing()
     {
+        if ( ! $this->item->getOffers() ) {
+            return '';
+        }
+
         return (count($this->item->getOffers()->getListings()) > 0);
     }
 
     protected function hasSummaries()
     {
+        if (!$this->item) {
+            return '';
+        }
+
+        if ( ! $this->item->getOffers() ) {
+            return '';
+        }
+
         return (count($this->item->getOffers()->getSummaries()) > 0);
     }
 

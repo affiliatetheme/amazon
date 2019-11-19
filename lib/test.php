@@ -146,7 +146,7 @@ $host = "webservices.amazon.de";
 $path = "/paapi5/getitems";
 $payload = json_encode ($searchItemRequest);
 //Put your Access Key in place of <ACCESS_KEY> and Secret Key in place of <SECRET_KEY> in double quotes
-$awsv4 = new AwsV4 ('AKIAJW5WARHJX5YO6IGA', '0Q65rgARx6yu/mQyqfvsYCS/yvdAnZ5wXtysJGqZ');
+$awsv4 = new AwsV4 ('', '');
 $awsv4->setRegionName("eu-west-1");
 $awsv4->setServiceName("ProductAdvertisingAPI");
 $awsv4->setPath ($path);
