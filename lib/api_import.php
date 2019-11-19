@@ -36,7 +36,7 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
         $partnerTag = AWS_ASSOCIATE_TAG;
         $config->setHost($hostAndRegion['host']);
         $config->setRegion($hostAndRegion['region']);
-        $apiInstance = new AmazonApi(new GuzzleHttp\Client(), $config);
+        $apiInstance = new AmazonApi(new EnGuzzleHttp\Client(), $config);
 
         $resources = GetItemsResource::getAllowableEnumValues();
 

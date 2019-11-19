@@ -15,11 +15,11 @@
  */
 namespace Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\api;
 
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use EnGuzzleHttp\ClientInterface;
+use EnGuzzleHttp\Exception\RequestException;
+use EnGuzzleHttp\Psr7\MultipartStream;
+use EnGuzzleHttp\Psr7\Request;
+use EnGuzzleHttp\RequestOptions;
 use Amazon\ProductAdvertisingAPI\v1\ApiException;
 use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use Amazon\ProductAdvertisingAPI\v1\HeaderSelector;
