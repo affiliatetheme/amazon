@@ -367,7 +367,7 @@ class SimpleItem
 
     public function getSalesRank()
     {
-        if ($this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
+        if ($this->item->getBrowseNodeInfo() !== null && $this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
             return $this->item->getBrowseNodeInfo()->getWebsiteSalesRank()->getSalesRank();
         }
 
