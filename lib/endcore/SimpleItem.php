@@ -263,7 +263,7 @@ class SimpleItem
     protected function hasImages()
     {
         if (!is_array($this->getImages()) || !is_countable($this->getImages())) {
-
+            return 0;
         }
 
         return count($this->getImages()) > 0;
