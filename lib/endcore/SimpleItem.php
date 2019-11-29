@@ -85,11 +85,11 @@ class SimpleItem
             $offers[strtolower($offer->getCondition()->getValue())] = $offer;
         }
 
-	    if ( key_exists( AWS_PRICE, $offers ) ) {
+	    if (key_exists( AWS_PRICE, $offers ) ) {
 		    return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
 	    }
 
-	    if ( key_exists( 'new', $offers ) ) {
+	    if (key_exists( 'new', $offers) && $offers['new']->getLowestPrice() !== null) {
 		    return $offers['new']->getLowestPrice()->getDisplayAmount();
 	    }
 
@@ -140,6 +140,10 @@ class SimpleItem
         }
 
         if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+                return '';
+            }
+
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
         }
 
@@ -168,6 +172,10 @@ class SimpleItem
         }
 
         if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+                return '';
+            }
+
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getCurrency();
         }
 
