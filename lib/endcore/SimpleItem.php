@@ -262,7 +262,7 @@ class SimpleItem
 
     protected function hasImages()
     {
-        if (!is_array($this->getImages()) || !is_countable($this->getImages())) {
+        if ($this->getImages() === null) {
             return 0;
         }
 
@@ -291,7 +291,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getSmall()->getURL();
+            if ($image !== null) {
+                $images[] = $image->getSmall()->getURL();
+            }
         }
 
         return $images;
@@ -302,7 +304,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getMedium()->getURL();
+            if ($image !== null) {
+                $images[] = $image->getMedium()->getURL();
+            }
         }
 
         return $images;
@@ -313,7 +317,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getLarge()->getURL();
+            if ($image !== null ) {
+                $images[] = $image->getLarge()->getURL();
+            }
         }
 
         return $images;
