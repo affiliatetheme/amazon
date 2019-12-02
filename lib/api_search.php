@@ -28,7 +28,7 @@ function at_aws_search() {
     $apiInstance = new AmazonApi(new EnGuzzleHttp\Client(), $config);
 
     // vars
-    $grabbedasins = (isset($_POST['grabbedasins']) ? $_POST['grabbedasins'] : '');    
+    $grabbedasins = (isset($_POST['grabbedasins']) ? trim($_POST['grabbedasins']) : '');
     $keywords = (isset($_POST['q']) ? $_POST['q'] : '');
     $title = (isset($_POST['title']) ? $_POST['title'] : '');    
     $category = (isset($_POST['category']) ? $_POST['category'] : 'All');

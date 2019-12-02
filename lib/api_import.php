@@ -41,6 +41,11 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
         $resources = GetItemsResource::getAllowableEnumValues();
 
         $lookup = new GetItemsRequest();
+        if (empty($asin) || $asin === '') {
+            at_write_api_log('amazon', 'system', 'Item not found on Amazon.');
+            http_response_code(505);
+            exit();
+        }
         $lookup->setItemIds([$asin]);
         $lookup->setPartnerTag($partnerTag);
         $lookup->setPartnerType(PartnerType::ASSOCIATES);
