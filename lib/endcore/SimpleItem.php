@@ -85,11 +85,11 @@ class SimpleItem
             $offers[strtolower($offer->getCondition()->getValue())] = $offer;
         }
 
-	    if ( key_exists( AWS_PRICE, $offers ) ) {
+	    if (key_exists( AWS_PRICE, $offers ) ) {
 		    return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
 	    }
 
-	    if ( key_exists( 'new', $offers ) ) {
+	    if (key_exists( 'new', $offers) && $offers['new']->getLowestPrice() !== null) {
 		    return $offers['new']->getLowestPrice()->getDisplayAmount();
 	    }
 
@@ -140,6 +140,10 @@ class SimpleItem
         }
 
         if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+                return '';
+            }
+
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
         }
 
@@ -168,6 +172,10 @@ class SimpleItem
         }
 
         if (key_exists($this->getAwsPriceCondition(), $offers)) {
+            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+                return '';
+            }
+
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getCurrency();
         }
 
@@ -262,6 +270,10 @@ class SimpleItem
 
     protected function hasImages()
     {
+        if ($this->getImages() === null) {
+            return 0;
+        }
+
         return count($this->getImages()) > 0;
     }
 
@@ -287,7 +299,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getSmall()->getURL();
+            if ($image !== null) {
+                $images[] = $image->getSmall()->getURL();
+            }
         }
 
         return $images;
@@ -298,7 +312,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getMedium()->getURL();
+            if ($image !== null) {
+                $images[] = $image->getMedium()->getURL();
+            }
         }
 
         return $images;
@@ -309,7 +325,9 @@ class SimpleItem
         $images = [];
 
         foreach ($this->getAllImages() as $image) {
-            $images[] = $image->getLarge()->getURL();
+            if ($image !== null ) {
+                $images[] = $image->getLarge()->getURL();
+            }
         }
 
         return $images;
@@ -367,7 +385,7 @@ class SimpleItem
 
     public function getSalesRank()
     {
-        if ($this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
+        if ($this->item->getBrowseNodeInfo() !== null && $this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
             return $this->item->getBrowseNodeInfo()->getWebsiteSalesRank()->getSalesRank();
         }
 

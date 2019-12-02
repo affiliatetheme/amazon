@@ -81,6 +81,11 @@ function at_aws_update($args = array()) {
                                 $resources = GetItemsResource::getAllowableEnumValues();
 
                                 $lookup = new GetItemsRequest();
+
+                                if (empty($val[AWS_METAKEY_ID]) || $val[AWS_METAKEY_ID] === '') {
+                                    throw new \Exception('Item not found on Amazon.', 505);
+                                }
+
                                 $lookup->setItemIds([$val[AWS_METAKEY_ID]]);
                                 $lookup->setPartnerTag($partnerTag);
                                 $lookup->setPartnerType(PartnerType::ASSOCIATES);
