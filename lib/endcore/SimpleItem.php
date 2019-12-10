@@ -274,7 +274,11 @@ class SimpleItem
             return 0;
         }
 
-        return count($this->getImages()) > 0;
+        if ( is_countable( $this->getImages() ) ) {
+	        return count( $this->getImages() ) > 0;
+        }
+
+        return 0;
     }
 
     /**
