@@ -16,7 +16,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
 
             require 'plugin-update-checker/plugin-update-checker.php';
-            $myUpdateChecker = PucFactory::buildUpdateChecker(
+			$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
                 'http://update.affiliatetheme.io/affiliatetheme-amazon.json',
                 __FILE__
             );
