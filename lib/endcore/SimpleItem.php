@@ -274,7 +274,7 @@ class SimpleItem
             return 0;
         }
 
-        if ( is_countable( $this->getImages() ) ) {
+        if ( is_object( $this->getImages() ) ) {
 	        return count( $this->getImages() ) > 0;
         }
 
