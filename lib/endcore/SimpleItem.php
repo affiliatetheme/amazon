@@ -28,7 +28,11 @@ class SimpleItem
 
     public function getEAN()
     {
-        if ($this->item->getItemInfo()->getExternalIds() === null) {
+        if ( $this->item->getItemInfo()->getExternalIds() === null ) {
+            return null;
+        }
+
+        if ( $this->item->getItemInfo()->getExternalIds()->getEANs() === null ) {
             return null;
         }
 
