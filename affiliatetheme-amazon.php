@@ -3,7 +3,7 @@
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
  * Plugin URI: http://affiliatetheme.io
  * Description: Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle
- * Version: 1.7.2.3
+ * Version: 1.7.2.4
  * Author: endcore Medienagentur
  * Author URI: http://endcore.com
  * License: GPL2
@@ -16,7 +16,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
 
             require 'plugin-update-checker/plugin-update-checker.php';
-            $myUpdateChecker = PucFactory::buildUpdateChecker(
+			$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
                 'http://update.affiliatetheme.io/affiliatetheme-amazon.json',
                 __FILE__
             );
