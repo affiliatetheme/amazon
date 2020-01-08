@@ -122,7 +122,7 @@ class SimpleItem
             return $offers[$condition]->getSavingBasis()->getAmount();
         }
 
-        return 'kA';
+        return 0;
     }
 
     // getAmountForAvailability
