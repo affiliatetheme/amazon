@@ -197,6 +197,9 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
 
             if($ratings) {
                 update_post_meta($post_id, 'product_rating', $ratings);
+            } else {
+                // import empty rating to avoid bug
+                add_post_meta($post_id, 'product_rating', 0);
             }
 
             if($ratings_count) {
