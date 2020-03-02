@@ -98,7 +98,7 @@ function at_aws_search() {
                     'description' => $item->getDescription(),
                     'url' => $data['url'] = $item->getUrl(),
                     'price' => $data['price'] = $item->getUserPrice(),
-                    'price_list' => ( $item->getPriceList() > 0 ? $item->getPriceList() : 'kA' ),
+                    'price_list' => $item->getPriceList(),
                     'price_amount' => $item->getPriceAmount(),
                     'currency' => $item->getCurrency(),
                     'category' => $item->getCategory(),

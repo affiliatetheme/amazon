@@ -2,17 +2,15 @@
 /**
  * Project      affiliatetheme-amazon
  * @author      Giacomo Barbalinardo <info@ready24it.eu>
- * @copyright   2019
+ * @copyright   2020
  */
 
 namespace Endcore;
-
 
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\ImageType;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Item;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferListing;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\OfferSummary;
-use ApaiIO\Helper\DotDotText;
 
 class SimpleItem
 {
@@ -28,11 +26,7 @@ class SimpleItem
 
     public function getEAN()
     {
-        if ( $this->item->getItemInfo()->getExternalIds() === null ) {
-            return null;
-        }
-
-        if ( $this->item->getItemInfo()->getExternalIds()->getEANs() === null ) {
+        if ($this->item->getItemInfo()->getExternalIds() === null) {
             return null;
         }
 
@@ -122,7 +116,7 @@ class SimpleItem
             return $offers[$condition]->getSavingBasis()->getAmount();
         }
 
-        return 0;
+        return 'kA';
     }
 
     // getAmountForAvailability
@@ -278,11 +272,7 @@ class SimpleItem
             return 0;
         }
 
-        if ( is_object( $this->getImages() ) ) {
-	        return count( $this->getImages() ) > 0;
-        }
-
-        return 0;
+        return count($this->getImages()) > 0;
     }
 
     /**

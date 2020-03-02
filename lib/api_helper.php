@@ -944,7 +944,7 @@ if ( ! function_exists( 'at_aws_send_notification_mail' ) ) {
 if( ! function_exists( 'at_aws_search_allowed_sort' )) {
     /**
      * at_aws_search_allowed_sort
-     *
+     * 
      * return allowed search sort
      * @param   array $array
      */
@@ -962,7 +962,7 @@ if( ! function_exists( 'at_aws_search_allowed_sort' )) {
 if( ! function_exists( 'at_aws_search_check_allowed_sort' )) {
     /**
      * at_aws_search_check_allowed_sort
-     *
+     * 
      * check allowed sort
      * @param   string $SearchIndex
      */
@@ -980,7 +980,7 @@ if( ! function_exists( 'at_aws_search_check_allowed_sort' )) {
 if( ! function_exists( 'at_aws_search_allowed_param' )) {
     /**
      * at_aws_search_allowed_param
-     *
+     * 
      * return allowed param
      * @param   string $param
      * @param   boolean $array
@@ -1003,7 +1003,7 @@ if( ! function_exists( 'at_aws_search_allowed_param' )) {
 if( ! function_exists( 'at_aws_search_check_allowed_param' )) {
     /**
      * at_aws_search_check_allowed_param
-     *
+     * 
      * check allowed param
      * @param   string $param
      * @param   string $SearchIndex
@@ -1053,7 +1053,7 @@ if ( ! function_exists('at_amazon_notices') ) {
                 </div>
                 <?php
             }
-        }
+        } 
     }
 }
 
@@ -1402,7 +1402,7 @@ function at_amazon_feed_change_settings($id, $data) {
         $data,
         array( 'id' => $id )
     );
-
+    
     return $status;
 }
 
@@ -1878,27 +1878,27 @@ function at_amazon_get_host_region() {
 
 		case 'com.mx':
 			$output['host'] = 'webservices.amazon.com.mx';
-			$output['region'] = 'us-east-1';
+			$output['region'] = 'eu-east-1';
 			break;
 
 		case 'es':
 			$output['host'] = 'webservices.amazon.es';
-			$output['region'] = 'eu-west-1';
+			$output['region'] = 'eu-east-1';
 			break;
 
 		case 'com.tr':
 			$output['host'] = 'webservices.amazon.com.tr';
-			$output['region'] = 'eu-west-1';
+			$output['region'] = 'eu-east-1';
 			break;
 
 		case 'ae':
 			$output['host'] = 'webservices.amazon.ae';
-			$output['region'] = 'eu-west-1';
+			$output['region'] = 'eu-east-1';
 			break;
 
 		case 'co.uk':
 			$output['host'] = 'webservices.amazon.co.uk';
-			$output['region'] = 'eu-west-1';
+			$output['region'] = 'eu-east-1';
 			break;
 
 		case 'com':

@@ -7,6 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '7b11c4dc42b3b3023073cb14e519683c' => $vendorDir . '/ralouphie/getallheaders/src/getallheaders.php',
+    'c964ee0ededf28c96ebd9db5099ef910' => $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
+    'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
+    '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     '565052bedb81aa25bc73fb41e6edd46f' => $baseDir . '/enguzzlehttp/guzzle/src/functions_include.php',
     '186753722d9b6917628b195e3952a607' => $baseDir . '/enguzzlehttp/psr7/src/functions_include.php',
     '71389d84173da81da22281bd934e5018' => $baseDir . '/enguzzlehttp/promises/src/functions_include.php',

@@ -15,7 +15,8 @@
     ],
     "require" : {
         "php" : ">=5.5",
-        "ext-json": "*"
+        "ext-json": "*",
+        "psr/http-message": "^1.0"
     },
     "autoload": {
         "files": [
