@@ -30,7 +30,12 @@ class SimpleItem
             return null;
         }
 
+        if ($this->item->getItemInfo()->getExternalIds()->getEANs() === null) {
+            return null;
+        }
+
         $values = $this->item->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues();
+
         if (is_array($values) && count($values) > 0) {
             return $values[0];
         }
