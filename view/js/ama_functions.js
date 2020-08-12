@@ -27,14 +27,14 @@ jQuery(document).ready(function() {
     });
 
     // singleImportAction
-    jQuery('.single-import-product:not(.noevent)').live('click', function(event) {
+    jQuery(document.body).on('click', '.single-import-product:not(.noevent)', function(event){
         singleImportAction(this);
 
         event.preventDefault();
     });
 
     // quickImportAction
-    jQuery('.quick-import').live('click', function(event) {
+    jQuery(document.body).on('click', '.quick-import', function(event){
         var id = jQuery(this).attr('data-asin');
 
         quickImportAction(id);
@@ -43,14 +43,14 @@ jQuery(document).ready(function() {
     });
 
     // massImportAction
-    jQuery('.mass-import').live('click', function(event) {
+    jQuery(document.body).on('click', '.mass-import', function(event){
         massImportAction(this);
 
         event.preventDefault();
     });
 
     // grabLink
-    jQuery('#grab-link').live('click', function(event) {
+    jQuery(document.body).on('click', '#grab-link', function(event){
         grabLink(event);
         event.preventDefault();
     });
@@ -76,7 +76,7 @@ jQuery(document).ready(function() {
         event.preventDefault();
     });
 
-    jQuery("input[type=checkbox].unique").live('click', function() {
+    jQuery(document.body).on('click', 'input[type=checkbox].unique', function(){
         jQuery("input[type=checkbox].unique").each(function() {
             jQuery(this)[0].checked = false;
         });
@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
     /*
      * Stuff
      */
-    jQuery("input[type=checkbox].unique").live('click', function() {
+    jQuery(document.body).on('click', 'input[type=checkbox].unique', function(){
         if(jQuery("input[type=checkbox].unique").length > 1) {
             jQuery("input[type=checkbox].unique").each(function() {
                 jQuery(this)[0].checked = false;
@@ -95,7 +95,7 @@ jQuery(document).ready(function() {
         }
     });
 
-    jQuery("input[type=checkbox].disable-this").live('click', function() {
+    jQuery(document.body).on('click', 'input[type=checkbox].disable-this', function(){
         if(jQuery(this).attr('checked')){
             jQuery(this).closest('.image').css('opacity', '0.5');
         } else {
