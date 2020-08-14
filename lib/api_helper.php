@@ -1192,7 +1192,7 @@ if ( ! function_exists('at_amazon_update_v5_hint') ) {
 
         <script type="text/javascript">
             jQuery(function($) {
-                jQuery('.notice[data-action="force-dismiss"] .notice-dismiss').live('click', function(e) {
+                jQuery(document.body).on('click', '.notice[data-action="force-dismiss"] .notice-dismiss', function(e){
                     var option = jQuery(this).closest('.notice').data('name');
                     jQuery.ajax({
                         url: ajaxurl,
@@ -1591,7 +1591,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonQuickImportAction
-                jQuery('.amazon-quick-import').live('click', function (event) {
+                jQuery(document.body).on('click', '.amazon-quick-import', function(event){
                     var id = jQuery(this).attr('data-id');
 
                     amazonQuickImportAction(id);
@@ -1600,7 +1600,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonMassImportAction
-                jQuery('.at-import-window-amazon .mass-import').live('click', function (event) {
+                jQuery(document.body).on('click', '.at-import-window-amazon .mass-import', function(event){
                     amazonMassImportAction(this);
 
                     event.preventDefault();
