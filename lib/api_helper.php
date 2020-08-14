@@ -1883,7 +1883,7 @@ function at_amazon_get_host_region() {
 
 		case 'es':
 			$output['host'] = 'webservices.amazon.es';
-			$output['region'] = 'eu-east-1';
+			$output['region'] = 'eu-west-1';
 			break;
 
 		case 'com.tr':
