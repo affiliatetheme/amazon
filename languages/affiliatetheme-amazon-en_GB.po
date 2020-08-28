@@ -2,122 +2,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AffiliateTheme - Amazon Schnittstelle\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-24 04:36+0000\n"
-"PO-Revision-Date: 2019-10-24 04:36+0000\n"
-"Last-Translator: endcore <mail@endcore.com>\n"
-"Language-Team: English (UK)\n"
-"Language: en-GB\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
+"POT-Creation-Date: 2020-08-28 05:20+0000\n"
+"PO-Revision-Date: 2020-08-28 05:22+0000\n"
+"Last-Translator: \n"
+"Language-Team: English (United States)\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco - https://localise.biz/"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.2; wp-5.5"
 
-#: view/panel.php:60
-msgid "Türkei"
-msgstr ""
-
-#: view/panel.php:65
-msgid "Australien"
-msgstr ""
-
-#: view/panel.php:66
-msgid "United Arab Emirates"
-msgstr ""
-
-#: view/panel.php:84
-msgid "E-Mail Benachrichtigung & Amazon Preis von Preisvergleich entfernen"
-msgstr ""
-
-#: view/panel.php:367
-msgid ""
-"Du kannst bestimmte URLs hinterlegen, welche regelmäßig automatisch aberufen "
-"werden. Nicht importierte Produkte werden dann automatisch angelegt."
-msgstr ""
-
-#: view/panel.php:381
-msgid "Amazon URL"
-msgstr ""
-
-#: view/panel.php:382
-msgid "Hinzugefügt am"
-msgstr ""
-
-#: view/panel.php:383
-msgid "Status"
-msgstr ""
-
-#: view/panel.php:384
-msgid "Aktionen"
-msgstr ""
-
-#: view/panel.php:401
-msgid "pausieren"
-msgstr ""
-
-#: view/panel.php:401
-msgid "aktivieren"
-msgstr ""
-
-#: view/panel.php:401
-msgid "löschen"
-msgstr ""
-
-#: view/panel.php:421
-msgid "Speichern"
-msgstr ""
-
-#: view/panel.php:434
-msgid "Es wurde bisher keine URL hinterlegt"
-msgstr ""
-
-#: view/panel.php:448
-msgid "hinzufügen"
-msgstr ""
-
-#: lib/api_lookup.php:136
-msgid "Produkteigenschaften anzeigen"
-msgstr ""
-
-#: lib/api_helper.php:1190
-#, php-format
-msgid ""
-"Mit der Version 1.7.0 der Amazon Schnittstelle haben wir die Version 5 der "
-"Amazon Product Advertising API von Amazon angebunden. Du musst eventuell "
-"deine Zugangsdaten anpassen. Erfahre <a href=\"%s\" target=\"_blank\">"
-"hier</a> mehr."
-msgstr ""
-"With the version 1.7.0 of the Amazon API we have connected the version 5 of "
-"the Amazon Product Advertising API of Amazon. You may have to change your "
-"access data. Learn <a href=\"%s\" target=\"_blank\">here</a> more."
-
-#: lib/api_helper.php:1344
-msgid "aktiv"
-msgstr ""
-
-#: lib/api_helper.php:1347
-msgid "inaktiv"
-msgstr ""
-
-#: lib/api_helper.php:1655
-msgid "Es wurde kein Produkt gefunden"
-msgstr ""
-
-#: lib/api_import.php:132
-msgid ""
-"Die Produktdaten konnten nicht korrekt abgerufen werden. Bitte versuche es "
-"zu einem späteren Zeitpunkt erneut."
-msgstr ""
-
-#: class.dashboard.init.php:86
+#: class.dashboard.init.php:90
 msgid "Verbindungsaufbau..."
 msgstr "Trying to connect..."
 
-#: class.dashboard.init.php:87
+#: class.dashboard.init.php:91
 msgid "Verbindung erfolgreich hergestellt."
 msgstr "Connection successfully established."
 
-#: class.dashboard.init.php:88
+#: class.dashboard.init.php:92
 msgid ""
 "Eine Verbindung zu Amazon konnte nicht hergestellt werden. Bitte prüfe "
 "deinen Public Key, Secret Key und deine Partner ID."
@@ -125,64 +30,64 @@ msgstr ""
 "A connection to Amazon could not be established. Please check your public "
 "key, secret key and your partner ID."
 
-#: class.dashboard.init.php:89
+#: class.dashboard.init.php:93
 msgid "Kein Bild vorhanden"
 msgstr "No image found"
 
-#: class.dashboard.init.php:90
+#: class.dashboard.init.php:94
 msgid "externes Produkt!"
 msgstr "external product!"
 
-#: class.dashboard.init.php:91 lib/api_lookup.php:315
+#: class.dashboard.init.php:95 lib/api_lookup.php:318
 msgid "Importieren"
 msgstr "Import"
 
-#: class.dashboard.init.php:92
+#: class.dashboard.init.php:96
 msgid "Editieren"
 msgstr "Edit"
 
-#: class.dashboard.init.php:93
+#: class.dashboard.init.php:97
 msgid "Es wurden keine Produkte gefunden. Bitte definiere deine Suche neu."
 msgstr "No products found. Please re-define your search."
 
-#: class.dashboard.init.php:94
+#: class.dashboard.init.php:98
 msgid "Produkt bearbeiten"
 msgstr "Edit product"
 
-#: class.dashboard.init.php:95
+#: class.dashboard.init.php:99
 msgid "Importiere Produkt <span class=\"current\">1</span> von"
 msgstr "Import product <span class=\"current\">1</span> of"
 
-#: class.dashboard.init.php:96
+#: class.dashboard.init.php:100
 msgid "erfolgreich hinzugefügt."
 msgstr "successfully added."
 
-#: class.dashboard.init.php:97
+#: class.dashboard.init.php:101
 msgid "konnte nicht hinzugefügt werden."
 msgstr "could not be added."
 
-#: class.dashboard.init.php:98
+#: class.dashboard.init.php:102
 msgid "Eintrag erfolgreich gelöscht."
 msgstr "Entries successfully deleted."
 
-#: class.dashboard.init.php:99
+#: class.dashboard.init.php:103
 msgid "Eintrag konnte nicht gelöscht werden."
 msgstr "Could not delete entry."
 
-#: class.dashboard.init.php:100
+#: class.dashboard.init.php:104
 msgid "Eintrag erfolgreich aktualisiert."
 msgstr "Entry updated successfully."
 
-#: class.dashboard.init.php:101
+#: class.dashboard.init.php:105
 msgid "Eintrag konnte nicht aktualisiert werden."
 msgstr "Could not update entry."
 
-#: class.dashboard.init.php:102
+#: class.dashboard.init.php:106
 msgid ""
 "Bitte deaktiviere deinen Adblocker um alle Funktionen der API zu nutzen!"
 msgstr "Please deactivate your Adblocker to use all functions of the API!"
 
-#: class.dashboard.init.php:103
+#: class.dashboard.init.php:107
 msgid "UVP"
 msgstr "List price"
 
@@ -194,23 +99,23 @@ msgstr "AffiliateTheme Import » Amazon"
 msgid "Einstellungen"
 msgstr "Settings"
 
-#: view/panel.php:20 view/panel.php:287
+#: view/panel.php:20 view/panel.php:295
 msgid "Suche"
 msgstr "Search"
 
-#: view/panel.php:21 view/panel.php:365
+#: view/panel.php:21 view/panel.php:373
 msgid "Feed"
 msgstr "Feed"
 
-#: view/panel.php:22 view/panel.php:460
+#: view/panel.php:22 view/panel.php:468
 msgid "API Log"
 msgstr "API Log"
 
-#: view/panel.php:23 view/panel.php:507
+#: view/panel.php:23 view/panel.php:515
 msgid "Buttons"
 msgstr "Buttons"
 
-#: view/panel.php:24 view/panel.php:542
+#: view/panel.php:24 view/panel.php:550
 msgid "Fehlerbehandlung"
 msgstr "Troubleshooting"
 
@@ -262,6 +167,10 @@ msgstr "Spain"
 msgid "Indien"
 msgstr "India"
 
+#: view/panel.php:60
+msgid "Türkei"
+msgstr "Turkey"
+
 #: view/panel.php:61
 msgid "Japan"
 msgstr "Japan"
@@ -277,6 +186,14 @@ msgstr "China"
 #: view/panel.php:64
 msgid "Brasilien"
 msgstr "Brazil"
+
+#: view/panel.php:65
+msgid "Australien"
+msgstr "Australia"
+
+#: view/panel.php:66
+msgid "United Arab Emirates"
+msgstr "United Arab Emirates"
 
 #: view/panel.php:70
 msgid "Partner Tag"
@@ -319,6 +236,10 @@ msgstr "E-Mail notification & set product as draft"
 msgid "Amazon Preis von Preisvergleich entfernen"
 msgstr "Remove Amazon price from price comparison"
 
+#: view/panel.php:84
+msgid "E-Mail Benachrichtigung & Amazon Preis von Preisvergleich entfernen"
+msgstr "Remove email notification & Amazon price from price comparison"
+
 #: view/panel.php:86
 msgid "Was soll passieren wenn ein Produkt nicht mehr verfügbar ist?"
 msgstr "What should happen when a product is no longer available?"
@@ -339,7 +260,7 @@ msgstr "Draft"
 msgid "Du kannst Produkte sofort veröffentlichen oder als Entwurf anlegen."
 msgstr "You can publish products immediately or create them as a draft."
 
-#: view/panel.php:98 lib/api_lookup.php:124
+#: view/panel.php:98 lib/api_lookup.php:127
 msgid "Beschreibung"
 msgstr "Description"
 
@@ -387,36 +308,49 @@ msgstr ""
 "We recommend to choose the image size \"Small\" or \"Medium\", the large "
 "images could lead to a longer loading time of your page!"
 
-#: view/panel.php:117 lib/api_helper.php:831
+#: view/panel.php:117 view/panel.php:326 lib/api_lookup.php:117
+#: lib/api_helper.php:1561
+msgid "Preis"
+msgstr "Price"
+
+#: view/panel.php:120
+msgid "Standard Preis"
+msgstr "Default price"
+
+#: view/panel.php:121
+msgid "Niedrigster Preis"
+msgstr "Lowest price"
+
+#: view/panel.php:125 lib/api_helper.php:831
 msgid "Kundenrezensionen"
 msgstr "Customer reviews"
 
-#: view/panel.php:118
+#: view/panel.php:126
 msgid "Kundenrezensionen auf der Produktdetailseite verlinken"
 msgstr "Customer reviews on the product details page"
 
-#: view/panel.php:120
+#: view/panel.php:128
 msgid "Einstellungen für den Update-Prozess"
 msgstr "Update process settings"
 
-#: view/panel.php:121
+#: view/panel.php:129
 #, php-format
 msgid "Nächster Start des Cronjobs: %s"
 msgstr "Next Cronjob Runtime: %s"
 
-#: view/panel.php:123
+#: view/panel.php:131
 msgid "Aktualisierung"
 msgstr "Cronjob"
 
-#: view/panel.php:126
+#: view/panel.php:134
 msgid "Aktiviert"
 msgstr "Activated"
 
-#: view/panel.php:127
+#: view/panel.php:135
 msgid "Deaktiviert"
 msgstr "Deactivated"
 
-#: view/panel.php:129
+#: view/panel.php:137
 msgid ""
 "Mit dieser Einstellung kannst du die automatische Aktualisierung "
 "deaktivieren.<br>Wenn du den Cronjob extern starten möchtest, solltest diese "
@@ -425,32 +359,32 @@ msgstr ""
 "This setting allows you to disable the cronjob.<br>You should disable it, "
 "whenever you run the cronjob external."
 
-#: view/panel.php:132 view/panel.php:309 lib/api_helper.php:1524
+#: view/panel.php:140 view/panel.php:317 lib/api_helper.php:1524
 #: lib/api_helper.php:1552
 msgid "EAN"
 msgstr "EAN"
 
-#: view/panel.php:135 view/panel.php:143 view/panel.php:151 view/panel.php:159
+#: view/panel.php:143 view/panel.php:151 view/panel.php:159 view/panel.php:167
 msgid "Aktualisieren"
 msgstr "Update"
 
-#: view/panel.php:136 view/panel.php:144 view/panel.php:152 view/panel.php:160
+#: view/panel.php:144 view/panel.php:152 view/panel.php:160 view/panel.php:168
 msgid "Nicht aktualisieren"
 msgstr "Do not update"
 
-#: view/panel.php:140
+#: view/panel.php:148
 msgid "Preise"
 msgstr "Prices"
 
-#: view/panel.php:148 view/panel.php:446
+#: view/panel.php:156 view/panel.php:454
 msgid "URL"
 msgstr "URL"
 
-#: view/panel.php:156
+#: view/panel.php:164
 msgid "Bilder"
 msgstr "Images"
 
-#: view/panel.php:163
+#: view/panel.php:171
 msgid ""
 "Mit dieser Einstellungen werden Bilder in deinem Produkt aktualisiert.<br>"
 "<span style=\"color:#c01313\"><strong>Achtung:</strong> Es werden auch "
@@ -461,39 +395,39 @@ msgstr ""
 "style=\"color:#c01313\"><strong>Warning:</strong> Also existing products "
 "that do not use images are updated with images.</span>"
 
-#: view/panel.php:178
+#: view/panel.php:186
 msgid "Aktualisierungsintervall für Produkte"
 msgstr "Update interval for products"
 
-#: view/panel.php:181
+#: view/panel.php:189
 msgid "1 Stunde"
 msgstr "1 hour"
 
-#: view/panel.php:182
+#: view/panel.php:190
 msgid "2 Stunden"
 msgstr "2 hours"
 
-#: view/panel.php:183
+#: view/panel.php:191
 msgid "3 Stunden"
 msgstr "3 hours"
 
-#: view/panel.php:184
+#: view/panel.php:192
 msgid "4 Stunden"
 msgstr "4 hours"
 
-#: view/panel.php:185
+#: view/panel.php:193
 msgid "5 Stunden"
 msgstr "5 hours"
 
-#: view/panel.php:186
+#: view/panel.php:194
 msgid "6 Stunden"
 msgstr "6 hours"
 
-#: view/panel.php:187
+#: view/panel.php:195
 msgid "1 Tag"
 msgstr "1 day"
 
-#: view/panel.php:189
+#: view/panel.php:197
 msgid ""
 "Der Updateprozess wird jede Stunde angestoßen. Produkte werden für eine "
 "gewisse Zeit im Updateprozess ignoriert, damit andere Produkte auch "
@@ -507,35 +441,35 @@ msgstr ""
 "long a product is ignored. This is e.g. meaningful if you feel that not all "
 "products are updated. <br> In this case, you should set the value higher."
 
-#: view/panel.php:204
+#: view/panel.php:212
 msgid "Amazon durchsuchen"
 msgstr "Search on Amazon"
 
-#: view/panel.php:208
+#: view/panel.php:216
 msgid "Suche nach Keyword(s)"
 msgstr "Search by keywords"
 
-#: view/panel.php:212
+#: view/panel.php:220
 msgid "Suche nach Titel"
 msgstr "Search by title"
 
-#: view/panel.php:216 view/panel.php:324
+#: view/panel.php:224 view/panel.php:332
 msgid "Kategorie"
 msgstr "Category"
 
-#: view/panel.php:222
+#: view/panel.php:230
 msgid "Erweiterte Suche"
 msgstr "Advanced Search"
 
-#: view/panel.php:223 view/panel.php:261
+#: view/panel.php:231 view/panel.php:269
 msgid "- ausblenden"
 msgstr "- hide"
 
-#: view/panel.php:223 view/panel.php:223 view/panel.php:261 view/panel.php:261
+#: view/panel.php:231 view/panel.php:269 view/panel.php:269
 msgid "+ anzeigen"
 msgstr "+ show"
 
-#: view/panel.php:228
+#: view/panel.php:236
 msgid ""
 "Die meisten Filtermöglichkeiten sind nur für bestimmte Kategorien möglich, "
 "nicht für \"Alle Kategorien\""
@@ -543,123 +477,167 @@ msgstr ""
 "Most filter options are only available for certain categories, not for \"All "
 "Categories\""
 
-#: view/panel.php:230
+#: view/panel.php:238
 msgid "Merchant"
 msgstr "Merchant"
 
-#: view/panel.php:232
+#: view/panel.php:240
 msgid "Alle"
 msgstr "All"
 
-#: view/panel.php:233
+#: view/panel.php:241
 msgid "Amazon"
 msgstr "Amazon"
 
-#: view/panel.php:237
+#: view/panel.php:245
 msgid "Sortieren nach"
 msgstr "Sort by"
 
-#: view/panel.php:240
+#: view/panel.php:248
 msgid "Sortierung wählen"
 msgstr "Select sorting"
 
-#: view/panel.php:241
+#: view/panel.php:249
 msgid "Preis (Absteigend)"
 msgstr "Price (descending)"
 
-#: view/panel.php:242
+#: view/panel.php:250
 msgid "Preis (Aufsteigend)"
 msgstr "Price (ascending)"
 
-#: view/panel.php:247
+#: view/panel.php:255
 msgid "Minimaler Preis"
 msgstr "Minimum price"
 
-#: view/panel.php:252
+#: view/panel.php:260
 msgid "Maximaler Preis"
 msgstr "Maximum price"
 
-#: view/panel.php:260
+#: view/panel.php:268
 msgid "ASIN Grabber"
 msgstr "ASIN Grabber"
 
-#: view/panel.php:268
+#: view/panel.php:276
 msgid "URL eintragen..."
 msgstr "Submit URL ..."
 
-#: view/panel.php:269
+#: view/panel.php:277
 msgid "Grab ASINs"
 msgstr "Grab ASINs"
 
-#: view/panel.php:276
+#: view/panel.php:284
 msgid "ASINs eintragen..."
 msgstr "Submit ASINs ..."
 
-#: view/panel.php:277
+#: view/panel.php:285
 msgid "Fehlende ASINs..."
 msgstr "Missing ASINs ..."
 
-#: view/panel.php:295 view/panel.php:347
+#: view/panel.php:303 view/panel.php:355
 msgid "Vorherige Seite"
 msgstr "Previous page"
 
-#: view/panel.php:296 view/panel.php:348
+#: view/panel.php:304 view/panel.php:356
 msgid "Nächste Seite"
 msgstr "Next page"
 
-#: view/panel.php:303 lib/api_helper.php:1545
+#: view/panel.php:311 lib/api_helper.php:1545
 msgid "Alle auswählen"
 msgstr "Select all"
 
-#: view/panel.php:306 lib/api_lookup.php:83 lib/api_helper.php:1549
+#: view/panel.php:314 lib/api_lookup.php:90 lib/api_helper.php:1549
 msgid "ASIN"
 msgstr "ASIN"
 
-#: view/panel.php:312 lib/api_helper.php:1555
+#: view/panel.php:320 lib/api_helper.php:1555
 msgid "Vorschau"
 msgstr "Preview"
 
-#: view/panel.php:315 lib/api_lookup.php:77 lib/api_helper.php:1558
+#: view/panel.php:323 lib/api_lookup.php:84 lib/api_helper.php:1558
 msgid "Titel"
 msgstr "Title"
 
-#: view/panel.php:318 lib/api_lookup.php:114 lib/api_helper.php:1561
-msgid "Preis"
-msgstr "Price"
-
-#: view/panel.php:321
+#: view/panel.php:329
 msgid "Provision"
 msgstr "Commission"
 
-#: view/panel.php:339 lib/api_helper.php:1571
+#: view/panel.php:347 lib/api_helper.php:1571
 msgid "Ausgewählte Produkte importieren"
 msgstr "Import selected products"
 
-#: view/panel.php:380 view/panel.php:407 view/panel.php:447
+#: view/panel.php:375
+msgid ""
+"Du kannst bestimmte URLs hinterlegen, welche regelmäßig automatisch aberufen "
+"werden. Nicht importierte Produkte werden dann automatisch angelegt."
+msgstr ""
+"You can define specific URLs which will be called automatically on a regular "
+"basis. Products that are not imported will be created automatically."
+
+#: view/panel.php:388 view/panel.php:415 view/panel.php:455
 msgid "Name"
 msgstr "Name"
 
-#: view/panel.php:462
+#: view/panel.php:389
+msgid "Amazon URL"
+msgstr "Amazon url"
+
+#: view/panel.php:390
+msgid "Hinzugefügt am"
+msgstr "Added on"
+
+#: view/panel.php:391
+msgid "Status"
+msgstr "Status"
+
+#: view/panel.php:392
+msgid "Aktionen"
+msgstr "Actions"
+
+#: view/panel.php:409
+msgid "pausieren"
+msgstr "pause"
+
+#: view/panel.php:409
+msgid "aktivieren"
+msgstr "activate"
+
+#: view/panel.php:409
+msgid "löschen"
+msgstr "delete"
+
+#: view/panel.php:429
+msgid "Speichern"
+msgstr "Save"
+
+#: view/panel.php:442
+msgid "Es wurde bisher keine URL hinterlegt"
+msgstr "No URL has been stored so far"
+
+#: view/panel.php:456
+msgid "hinzufügen"
+msgstr "add"
+
+#: view/panel.php:470
 msgid "Hier werden dir die letzten 200 Einträge der API log angezeigt."
 msgstr "Here you will see the last 200 entries of the API log."
 
-#: view/panel.php:463
+#: view/panel.php:471
 msgid "Log löschen"
 msgstr "Delete log"
 
-#: view/panel.php:467
+#: view/panel.php:475
 msgid "Datum"
 msgstr "Date"
 
-#: view/panel.php:468
+#: view/panel.php:476
 msgid "Typ"
 msgstr "Type"
 
-#: view/panel.php:469
+#: view/panel.php:477
 msgid "Nachricht"
 msgstr "Message"
 
-#: view/panel.php:513
+#: view/panel.php:521
 #, php-format
 msgid ""
 "Wenn du für Amazon Produkte spezielle Button-Texte ausgeben möchtest, kannst "
@@ -670,36 +648,36 @@ msgstr ""
 "If you want a special button value for Amazon products, you can specify them "
 "here.<br> If you want to use the Amazon icon, use <mark>%s</mark>."
 
-#: view/panel.php:518
+#: view/panel.php:526
 msgid "Kaufen Button (kurz)"
 msgstr "Buy Button (short)"
 
-#: view/panel.php:519 lib/api_helper.php:719
+#: view/panel.php:527 lib/api_helper.php:719
 msgid "Kaufen"
 msgstr "Buy now"
 
-#: view/panel.php:522
+#: view/panel.php:530
 msgid "Kaufen Button"
 msgstr "Buy Button"
 
-#: view/panel.php:523 lib/api_helper.php:742
+#: view/panel.php:531 lib/api_helper.php:742
 msgid "Jetzt bei Amazon kaufen"
 msgstr "Buy now on Amazon"
 
-#: view/panel.php:526 view/panel.php:527 lib/api_helper.php:720
+#: view/panel.php:534 view/panel.php:535 lib/api_helper.php:720
 #: lib/api_helper.php:743
 msgid "Nicht Verfügbar"
 msgstr "Not available"
 
-#: view/panel.php:549
+#: view/panel.php:557
 msgid "Produktbilder"
 msgstr "Product images"
 
-#: view/panel.php:550
+#: view/panel.php:558
 msgid "Fehlende Produktbilder (Beitragsbilder) wiederherstellen"
 msgstr "Restore missing product images"
 
-#: view/panel.php:551
+#: view/panel.php:559
 msgid ""
 "Sollten zu deinen Produkten die Beitragsbilder (Hauptbild) fehlen, kannst du "
 "diese mit dieser Option wiederherstellen. Sobald diese Option gesetzt ist, "
@@ -710,40 +688,35 @@ msgstr ""
 "this with this option. Once this option is set, the next update process of "
 "the product will restore the missing posting."
 
-#: lib/api_lookup.php:88
+#: lib/api_lookup.php:95
 msgid "Bewertung"
 msgstr "Rating"
 
-#: lib/api_lookup.php:93
+#: lib/api_lookup.php:100
 msgid "Anzahl der Bewertungen"
 msgstr "Amount of reviews"
 
-#: lib/api_lookup.php:99
-#, php-format
-msgid ""
-"Die Amazon Bewertungen werden nicht mehr über die API übertragen. Erfahre <a "
-"href=\"%s\" target=\"_blank\">hier</a> mehr."
-msgstr ""
-"Amazon reviews aren't available via the API anymore. Learn more <a "
-"href=\"%s\" target=\"_blank\">here</a>."
-
-#: lib/api_lookup.php:104
+#: lib/api_lookup.php:107
 msgid "SalesRank"
 msgstr "SalesRank"
 
-#: lib/api_lookup.php:109
+#: lib/api_lookup.php:112
 msgid "Listenpreis"
 msgstr "Listing price"
 
-#: lib/api_lookup.php:245
+#: lib/api_lookup.php:139
+msgid "Produkteigenschaften anzeigen"
+msgstr "Show product features"
+
+#: lib/api_lookup.php:248
 msgid "Taxonomien"
 msgstr "Taxonomies"
 
-#: lib/api_lookup.php:251
+#: lib/api_lookup.php:254
 msgid "Existierendes Produkt aktualisieren"
 msgstr "Existing product update"
 
-#: lib/api_lookup.php:252
+#: lib/api_lookup.php:255
 msgid ""
 "Mit der Auswahl eines Produktes, wird dieses Amazon Produkt einem "
 "bestehenden Produkt angehängt, somit kannst du einen Preisvergleich der "
@@ -752,31 +725,31 @@ msgstr ""
 "With the selection of a product, this Amazon product is attached to an "
 "existing product, so you can create a price comparison of the supplier."
 
-#: lib/api_lookup.php:260
+#: lib/api_lookup.php:263
 msgid "Produktbild(er)"
 msgstr "Product images"
 
-#: lib/api_lookup.php:260
+#: lib/api_lookup.php:263
 msgid "Alle Bilder überspringen"
 msgstr "Skip all images"
 
-#: lib/api_lookup.php:275
+#: lib/api_lookup.php:278
 msgid "Bildname"
 msgstr "Image name"
 
-#: lib/api_lookup.php:280
+#: lib/api_lookup.php:283
 msgid "ALT-Tag"
 msgstr "ALT-Tag"
 
-#: lib/api_lookup.php:287
+#: lib/api_lookup.php:290
 msgid "Artikelbild"
 msgstr "Product image"
 
-#: lib/api_lookup.php:291
+#: lib/api_lookup.php:294
 msgid "Überspringen"
 msgstr "Skip"
 
-#: lib/api_lookup.php:316
+#: lib/api_lookup.php:319
 msgid "Schließen"
 msgstr "Close"
 
@@ -811,6 +784,26 @@ msgstr ""
 "Warning: You have disabled allow_url_fopen. You need these features to get "
 "the rating from Amazon."
 
+#: lib/api_helper.php:1190
+#, php-format
+msgid ""
+"Mit der Version 1.7.0 der Amazon Schnittstelle haben wir die Version 5 der "
+"Amazon Product Advertising API von Amazon angebunden. Du musst eventuell "
+"deine Zugangsdaten anpassen. Erfahre <a href=\"%s\" target=\"_blank\">"
+"hier</a> mehr."
+msgstr ""
+"With the version 1.7.0 of the Amazon API we have connected the version 5 of "
+"the Amazon Product Advertising API of Amazon. You may have to change your "
+"access data. Learn <a href=\"%s\" target=\"_blank\">here</a> more."
+
+#: lib/api_helper.php:1344
+msgid "aktiv"
+msgstr "active"
+
+#: lib/api_helper.php:1347
+msgid "inaktiv"
+msgstr "inactive"
+
 #: lib/api_helper.php:1498
 msgid "Amazon Preisvergleich"
 msgstr "Amazon price comparison"
@@ -841,7 +834,19 @@ msgstr "Search"
 msgid "Aktion"
 msgstr "Action"
 
-#: lib/api_import.php:281
+#: lib/api_helper.php:1655
+msgid "Es wurde kein Produkt gefunden"
+msgstr "No product was found"
+
+#: lib/api_import.php:139
+msgid ""
+"Die Produktdaten konnten nicht korrekt abgerufen werden. Bitte versuche es "
+"zu einem späteren Zeitpunkt erneut."
+msgstr ""
+"The product data could not be retrieved correctly. Please try again at a "
+"later time."
+
+#: lib/api_import.php:288
 msgid "Dieses Produkt existiert bereits."
 msgstr "This product already exists."
 
