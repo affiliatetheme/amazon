@@ -1591,7 +1591,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonQuickImportAction
-                jQuery(document.body).on('click', '.amazon-quick-import', function(event){
+                jQuery('.amazon-quick-import').live('click', function (event) {
                     var id = jQuery(this).attr('data-id');
 
                     amazonQuickImportAction(id);
@@ -1600,7 +1600,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonMassImportAction
-                jQuery(document.body).on('click', '.at-import-window-amazon .mass-import', function(event){
+                jQuery('.at-import-window-amazon .mass-import').live('click', function (event) {
                     amazonMassImportAction(this);
 
                     event.preventDefault();
@@ -1883,7 +1883,7 @@ function at_amazon_get_host_region() {
 
 		case 'es':
 			$output['host'] = 'webservices.amazon.es';
-			$output['region'] = 'eu-east-1';
+			$output['region'] = 'eu-west-1';
 			break;
 
 		case 'com.tr':
