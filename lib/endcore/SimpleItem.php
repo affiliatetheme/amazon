@@ -19,59 +19,60 @@ class SimpleItem
      */
     private $item;
 
-    public function __construct(Item $item)
+    public function __construct ( Item $item )
     {
         $this->item = $item;
     }
 
-    public function getEAN()
+    public function getEAN ()
     {
-        if ($this->item->getItemInfo()->getExternalIds() === null) {
+        if ( $this->item->getItemInfo()->getExternalIds() === null ) {
             return null;
         }
 
-        if ($this->item->getItemInfo()->getExternalIds()->getEANs() === null) {
+        if ( $this->item->getItemInfo()->getExternalIds()->getEANs() === null ) {
             return null;
         }
 
         $values = $this->item->getItemInfo()->getExternalIds()->getEANs()->getDisplayValues();
 
-        if (is_array($values) && count($values) > 0) {
+        if ( is_array( $values ) && count( $values ) > 0 ) {
             return $values[0];
         }
 
         return null;
     }
 
-    public function getASIN()
+    public function getASIN ()
     {
         return $this->item->getASIN();
     }
 
-    public function getTitle()
+    public function getTitle ()
     {
         return $this->item->getItemInfo()->getTitle()->getDisplayValue();
     }
 
-    public function getDescription()
+    public function getDescription ()
     {
-        if ($this->item->getItemInfo()->getFeatures() === null) {
+        if ( $this->item->getItemInfo()->getFeatures() === null ) {
             return '';
         }
 
         $values = $this->item->getItemInfo()->getFeatures()->getDisplayValues();
-        if (is_array($values)) {
-            $values = implode(', ', $values);
+        if ( is_array( $values ) ) {
+            $values = implode( ', ', $values );
         }
-        return DotDotText::truncate($values);
+
+        return DotDotText::truncate( $values );
     }
 
-    public function getUrl()
+    public function getUrl ()
     {
         return $this->item->getDetailPageURL();
     }
 
-    public function getUserPrice()
+    public function getUserPrice ()
     {
         if ( ! $this->item ) {
             return '';
@@ -84,24 +85,34 @@ class SimpleItem
         /** @var OfferSummary[] $offers */
         $offers = [];
 
-        foreach ($this->item->getOffers()->getSummaries() as $offer) {
-            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        if ( AWS_PRICE == 'default' ) {
+            if ( $this->item->getOffers() != null
+                 and $this->item->getOffers() != null
+                     and $this->item->getOffers()->getListings() != null
+                         and $this->item->getOffers()->getListings()[0]->getPrice() != null
+                             and $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null ) {
+                return $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
+            }
         }
 
-	    if (key_exists( AWS_PRICE, $offers ) ) {
-		    return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
-	    }
+        foreach ( $this->item->getOffers()->getSummaries() as $offer ) {
+            $offers[strtolower( $offer->getCondition()->getValue() )] = $offer;
+        }
 
-	    if (key_exists( 'new', $offers) && $offers['new']->getLowestPrice() !== null) {
-		    return $offers['new']->getLowestPrice()->getDisplayAmount();
-	    }
+        if ( key_exists( AWS_PRICE, $offers ) ) {
+            return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
+        }
 
-	    return false;
+        if ( key_exists( 'new', $offers ) && $offers['new']->getLowestPrice() !== null ) {
+            return $offers['new']->getLowestPrice()->getDisplayAmount();
+        }
+
+        return false;
     }
 
-    public function getPriceList()
+    public function getPriceList ()
     {
-        if (!$this->item) {
+        if ( ! $this->item ) {
             return '';
         }
 
@@ -112,12 +123,12 @@ class SimpleItem
         /** @var OfferListing[] $offers */
         $offers = [];
 
-        foreach ($this->item->getOffers()->getListings() as $offer) {
-            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        foreach ( $this->item->getOffers()->getListings() as $offer ) {
+            $offers[strtolower( $offer->getCondition()->getValue() )] = $offer;
         }
 
         $condition = $this->getAwsPriceCondition();
-        if (key_exists($condition, $offers) && $offers[$condition]->getSavingBasis() !== null) {
+        if ( key_exists( $condition, $offers ) && $offers[$condition]->getSavingBasis() !== null ) {
             return $offers[$condition]->getSavingBasis()->getAmount();
         }
 
@@ -125,9 +136,9 @@ class SimpleItem
     }
 
     // getAmountForAvailability
-    public function getPriceAmount()
+    public function getPriceAmount ()
     {
-        if (!$this->item) {
+        if ( ! $this->item ) {
             return '';
         }
 
@@ -138,28 +149,28 @@ class SimpleItem
         /** @var OfferSummary[] $offers */
         $offers = [];
 
-        foreach ($this->item->getOffers()->getSummaries() as $offer) {
-            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        foreach ( $this->item->getOffers()->getSummaries() as $offer ) {
+            $offers[strtolower( $offer->getCondition()->getValue() )] = $offer;
         }
 
-        if (key_exists($this->getAwsPriceCondition(), $offers)) {
-            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+        if ( key_exists( $this->getAwsPriceCondition(), $offers ) ) {
+            if ( $offers[$this->getAwsPriceCondition()]->getLowestPrice() === null ) {
                 return '';
             }
 
             return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
         }
 
-        if (!array_key_exists('new', $offers)) {
+        if ( ! array_key_exists( 'new', $offers ) ) {
             return '';
         }
 
         return $offers['new']->getLowestPrice()->getAmount();
     }
 
-    public function getCurrency()
+    public function getCurrency ()
     {
-        if (!$this->item) {
+        if ( ! $this->item ) {
             return '';
         }
 
@@ -170,12 +181,12 @@ class SimpleItem
         /** @var OfferSummary[] $offers */
         $offers = [];
 
-        foreach ($this->item->getOffers()->getSummaries() as $offer) {
-            $offers[strtolower($offer->getCondition()->getValue())] = $offer;
+        foreach ( $this->item->getOffers()->getSummaries() as $offer ) {
+            $offers[strtolower( $offer->getCondition()->getValue() )] = $offer;
         }
 
-        if (key_exists($this->getAwsPriceCondition(), $offers)) {
-            if ($offers[$this->getAwsPriceCondition()]->getLowestPrice() === null) {
+        if ( key_exists( $this->getAwsPriceCondition(), $offers ) ) {
+            if ( $offers[$this->getAwsPriceCondition()]->getLowestPrice() === null ) {
                 return '';
             }
 
@@ -185,16 +196,16 @@ class SimpleItem
         return 'EUR';
     }
 
-    public function getCategory()
+    public function getCategory ()
     {
-        if ($this->item->getItemInfo()->getClassifications()->getBinding() !== null) {
+        if ( $this->item->getItemInfo()->getClassifications()->getBinding() !== null ) {
             return $this->item->getItemInfo()->getClassifications()->getBinding()->getDisplayValue();
         }
 
         return '';
     }
 
-    public function getCategoryMargin()
+    public function getCategoryMargin ()
     {
         $marginCategories = array(
             'Kindle Edition'     => 10,
@@ -220,47 +231,47 @@ class SimpleItem
             'Textilien'          => 10
         );
 
-        if (in_array($this->getCategory(), array_keys($marginCategories))) {
+        if ( in_array( $this->getCategory(), array_keys( $marginCategories ) ) ) {
             return $marginCategories[$this->getCategory()];
         }
 
         return 0;
     }
 
-    public function isExternal()
+    public function isExternal ()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
         }
-        
-        return (count($this->item->getOffers()->getListings()) >= 1) ? 0 : 1;
+
+        return ( count( $this->item->getOffers()->getListings() ) >= 1 ) ? 0 : 1;
     }
 
-    public function isPrime()
+    public function isPrime ()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
         }
 
-        if ($this->hasListing()) {
-            return ($this->item->getOffers()->getListings()[0]->getDeliveryInfo()->getIsPrimeEligible() ? 1 : 0);
+        if ( $this->hasListing() ) {
+            return ( $this->item->getOffers()->getListings()[0]->getDeliveryInfo()->getIsPrimeEligible() ? 1 : 0 );
         }
 
         return 0;
     }
 
-    protected function hasListing()
+    protected function hasListing ()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
         }
 
-        return (count($this->item->getOffers()->getListings()) > 0);
+        return ( count( $this->item->getOffers()->getListings() ) > 0 );
     }
 
-    protected function hasSummaries()
+    protected function hasSummaries ()
     {
-        if (!$this->item) {
+        if ( ! $this->item ) {
             return '';
         }
 
@@ -268,41 +279,41 @@ class SimpleItem
             return '';
         }
 
-        return (count($this->item->getOffers()->getSummaries()) > 0);
+        return ( count( $this->item->getOffers()->getSummaries() ) > 0 );
     }
 
-    protected function hasImages()
+    protected function hasImages ()
     {
-        if ($this->getImages() === null) {
+        if ( $this->getImages() === null ) {
             return 0;
         }
 
-        return count($this->getImages()) > 0;
+        return count( $this->getImages() ) > 0;
     }
 
     /**
      * @return \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images
      */
-    public function getImages()
+    public function getImages ()
     {
         return $this->item->getImages();
     }
 
-    public function getSmallImage()
+    public function getSmallImage ()
     {
-        if ($this->hasImages()) {
+        if ( $this->hasImages() ) {
             return $this->getImages()->getPrimary()->getSmall()->getURL();
         }
 
         return null;
     }
 
-    public function getAllSmallImages()
+    public function getAllSmallImages ()
     {
         $images = [];
 
-        foreach ($this->getAllImages() as $image) {
-            if ($image !== null) {
+        foreach ( $this->getAllImages() as $image ) {
+            if ( $image !== null ) {
                 $images[] = $image->getSmall()->getURL();
             }
         }
@@ -310,12 +321,12 @@ class SimpleItem
         return $images;
     }
 
-    public function getAllMediumImages()
+    public function getAllMediumImages ()
     {
         $images = [];
 
-        foreach ($this->getAllImages() as $image) {
-            if ($image !== null) {
+        foreach ( $this->getAllImages() as $image ) {
+            if ( $image !== null ) {
                 $images[] = $image->getMedium()->getURL();
             }
         }
@@ -323,12 +334,12 @@ class SimpleItem
         return $images;
     }
 
-    public function getAllLargeImages()
+    public function getAllLargeImages ()
     {
         $images = [];
 
-        foreach ($this->getAllImages() as $image) {
-            if ($image !== null ) {
+        foreach ( $this->getAllImages() as $image ) {
+            if ( $image !== null ) {
                 $images[] = $image->getLarge()->getURL();
             }
         }
@@ -339,15 +350,15 @@ class SimpleItem
     /**
      * @return ImageType[]
      */
-    public function getAllImages()
+    public function getAllImages ()
     {
         $images = [];
 
-        if ($this->hasImages()) {
+        if ( $this->hasImages() ) {
             $images[] = $this->getImages()->getPrimary();
 
-            if ($this->getImages()->getVariants() !== null) {
-                foreach ($this->getImages()->getVariants() as $variant) {
+            if ( $this->getImages()->getVariants() !== null ) {
+                foreach ( $this->getImages()->getVariants() as $variant ) {
                     $images[] = $variant;
                 }
             }
@@ -356,20 +367,20 @@ class SimpleItem
         return $images;
     }
 
-    public function getExternalImages()
+    public function getExternalImages ()
     {
-        if ($this->hasImages()) {
-            $size = (get_option('amazon_images_external_size') ? get_option('amazon_images_external_size') : 'SmallImage');
+        if ( $this->hasImages() ) {
+            $size = ( get_option( 'amazon_images_external_size' ) ? get_option( 'amazon_images_external_size' ) : 'SmallImage' );
 
-            if ($size == 'SmallImage') {
+            if ( $size == 'SmallImage' ) {
                 return $this->getAllSmallImages();
             }
 
-            if ($size == 'MediumImage') {
+            if ( $size == 'MediumImage' ) {
                 return $this->getAllMediumImages();
             }
 
-            if ($size == 'LargeImage') {
+            if ( $size == 'LargeImage' ) {
                 return $this->getAllLargeImages();
             }
         }
@@ -377,25 +388,25 @@ class SimpleItem
         return [];
     }
 
-    protected function getAwsPriceCondition()
+    protected function getAwsPriceCondition ()
     {
-        if (AWS_PRICE === 'default') {
+        if ( AWS_PRICE === 'default' ) {
             return 'new';
         }
 
         return AWS_PRICE;
     }
 
-    public function getSalesRank()
+    public function getSalesRank ()
     {
-        if ($this->item->getBrowseNodeInfo() !== null && $this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null) {
+        if ( $this->item->getBrowseNodeInfo() !== null && $this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null ) {
             return $this->item->getBrowseNodeInfo()->getWebsiteSalesRank()->getSalesRank();
         }
 
         return 0;
     }
 
-    public function getAttributes()
+    public function getAttributes ()
     {
         $attributes = array();
 
@@ -404,55 +415,54 @@ class SimpleItem
         /**
          * 2019-10-29 Christian
          * Removed not used attributes, throws an 500
-
-        if ($this->item->getItemInfo()->getProductInfo() !== null) {
-            $this->setProductInfo($attributes);
-            $this->setReleaseDate($attributes);
-            $this->setSize($attributes);
-        } */
+         *
+         * if ($this->item->getItemInfo()->getProductInfo() !== null) {
+         * $this->setProductInfo($attributes);
+         * $this->setReleaseDate($attributes);
+         * $this->setSize($attributes);
+         * } */
 
         return $attributes;
     }
 
-    public function getTechnicalInfo()
+    public function getTechnicalInfo ()
     {
-        if ($this->item->getItemInfo()->getTechnicalInfo() !== null) {
+        if ( $this->item->getItemInfo()->getTechnicalInfo() !== null ) {
             return array(
                 'key'   => $this->item->getItemInfo()->getTechnicalInfo()->getFormats()->getLabel(),
-                'value' => implode(' ', $this->item->getItemInfo()->getTechnicalInfo()->getFormats()->getDisplayValues())
+                'value' => implode( ' ', $this->item->getItemInfo()->getTechnicalInfo()->getFormats()->getDisplayValues() )
             );
         }
     }
 
-    protected function setProductInfo(&$attributes)
+    protected function setProductInfo ( &$attributes )
     {
-
-        if ($this->item->getItemInfo()->getProductInfo()->getColor() !== null) {
-            $color = $this->item->getItemInfo()->getProductInfo()->getColor();
+        if ( $this->item->getItemInfo()->getProductInfo()->getColor() !== null ) {
+            $color                          = $this->item->getItemInfo()->getProductInfo()->getColor();
             $attributes[$color->getLabel()] = $color->getDisplayValue();
         }
 
-        if ($this->item->getItemInfo()->getProductInfo()->getItemDimensions() !== null) {
-            $dimensions = $this->item->getItemInfo()->getProductInfo()->getItemDimensions();
+        if ( $this->item->getItemInfo()->getProductInfo()->getItemDimensions() !== null ) {
+            $dimensions                                       = $this->item->getItemInfo()->getProductInfo()->getItemDimensions();
             $attributes[$dimensions->getHeight()->getLabel()] = $dimensions->getHeight()->getDisplayValue() . ' ' . $dimensions->getHeight()->getUnit();
             $attributes[$dimensions->getLength()->getLabel()] = $dimensions->getLength()->getDisplayValue() . ' ' . $dimensions->getLength()->getUnit();
             $attributes[$dimensions->getWeight()->getLabel()] = $dimensions->getWeight()->getDisplayValue() . ' ' . $dimensions->getWeight()->getUnit();
-            $attributes[$dimensions->getWidth()->getLabel()] = $dimensions->getWidth()->getDisplayValue() . ' ' . $dimensions->getWidth()->getUnit();
+            $attributes[$dimensions->getWidth()->getLabel()]  = $dimensions->getWidth()->getDisplayValue() . ' ' . $dimensions->getWidth()->getUnit();
         }
     }
 
-    protected function setReleaseDate(&$attributes)
+    protected function setReleaseDate ( &$attributes )
     {
-        if ($this->item->getItemInfo()->getProductInfo()->getReleaseDate() !== null) {
-            $release = $this->item->getItemInfo()->getProductInfo()->getReleaseDate();
+        if ( $this->item->getItemInfo()->getProductInfo()->getReleaseDate() !== null ) {
+            $release                          = $this->item->getItemInfo()->getProductInfo()->getReleaseDate();
             $attributes[$release->getLabel()] = $release->getDisplayValue();
         }
     }
 
-    protected function setSize(&$attributes)
+    protected function setSize ( &$attributes )
     {
-        if ($this->item->getItemInfo()->getProductInfo()->getSize() !== null) {
-            $size = $this->item->getItemInfo()->getProductInfo()->getSize();
+        if ( $this->item->getItemInfo()->getProductInfo()->getSize() !== null ) {
+            $size                          = $this->item->getItemInfo()->getProductInfo()->getSize();
             $attributes[$size->getLabel()] = $size->getDisplayValue();
         }
     }

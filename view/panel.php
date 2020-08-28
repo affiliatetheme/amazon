@@ -14,7 +14,7 @@
 		<h1><? _e('AffiliateTheme Import » Amazon', 'affiliatetheme-amazon'); ?></h1>
 
 		<div id="checkConnection"></div>
-		
+
 		<h2 class="nav-tab-wrapper" id="at-api-tabs">
 			<a class="nav-tab nav-tab-active" id="settings-tab" href="#top#settings"><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" id="search-tab" href="#top#search"><?php _e('Suche', 'affiliatetheme-amazon'); ?></a>
@@ -24,7 +24,7 @@
 			<a class="nav-tab" id="errorhandling-tab" href="#top#errorhandling"><?php _e('Fehlerbehandlung', 'affiliatetheme-amazon'); ?></a>
 			<a class="nav-tab" href="<?php echo at_amazon_get_forum_url(); ?>" target="_blank"><span class="dashicons dashicons-sos"></span> <?php _e('Hilfe', 'affiliatetheme-amazon'); ?></a>
 		</h2>
-		
+
 		<div class="tabwrapper">
 			<!-- START: Settings Tab-->
 			<div id="settings" class="at-api-tab active">
@@ -40,7 +40,7 @@
 									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
 									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 								</div>
-								<div class="form-group">	
+								<div class="form-group">
 									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
 									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
@@ -113,6 +113,14 @@
 									</select>
 									<p class="form-hint"><?php _e('Wir empfehlen die Bildgröße "Klein" oder "Mittel" zu wählen, die großen Bilder könnten zu einer längeren Ladezeit deiner Seite führen!', 'affiliatetheme-amazon'); ?></p>
 								</div>
+                                <div class="form-group">
+                                    <label for="amazon_price"><?php _e('Preis', 'affiliatetheme-amazon'); ?></label>
+                                    <?php $selected_amazon_price = get_option('amazon_price'); ?>
+                                    <select name="amazon_price" id="amazon_price">
+                                        <option value="default"  <?php if($selected_amazon_price == 'default' || $selected_amazon_price == '') echo 'selected'; ?>><?php _e('Standard Preis', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="lowest" <?php if($selected_amazon_price == 'lowest') echo 'selected'; ?>><?php _e('Niedrigster Preis', 'affiliatetheme-amazon'); ?></option>
+                                    </select>
+                                </div>
 								<div class="form-group">
 									<label for="amazon_show_reviews"><?php _e('Kundenrezensionen', 'affiliatetheme-amazon'); ?></label>
 									<input type="checkbox" name="amazon_show_reviews" id="amazon_show_reviews" value="1" <?php if('1' == get_option('amazon_show_reviews')) echo 'checked'; ?>> <?php _e('Kundenrezensionen auf der Produktdetailseite verlinken', 'affiliatetheme-amazon'); ?>
@@ -196,8 +204,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- END: Settings Tab-->	
-			
+			<!-- END: Settings Tab-->
+
 			<!-- START: Search Tab-->
 			<div id="search" class="at-api-tab">
 				<div id="at-import-window" class="metabox-holder postbox">
@@ -287,15 +295,15 @@
 								<button id="search-link" class="button button-primary"><?php _e('Suche', 'affiliatetheme-amazon'); ?></button>
 							</div>
 						</div>
-					
-				
+
+
 						<div id="info-title"></div>
-						
+
 						<div class="page-links" style="margin-bottom:15px;">
 							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-amazon'); ?></button>
 							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-amazon'); ?> »</button>
 						</div>
-										
+
 						<table class="wp-list-table widefat fixed products">
 							<thead>
 								<tr>
@@ -347,7 +355,7 @@
 							<button class="prev-page button">« <?php _e('Vorherige Seite', 'affiliatetheme-amazon'); ?></button>
 							<button class="next-page button"><?php _e('Nächste Seite', 'affiliatetheme-amazon'); ?> »</button>
 						</div>
-						
+
 						<?php add_thickbox(); ?>
 						<div id="my-content-id" style="display:none;">
 							 <p>
@@ -470,7 +478,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<?php 
+								<?php
 								$log = get_option('at_amazon_api_log');
 								if($log) {
 									$log = array_reverse($log);
@@ -480,7 +488,7 @@
 										<tr>
 											<td><?php echo date('d.m.Y H:i:s', $item['time']); ?></td>
 											<td>
-												<?php 
+												<?php
 												if('system' != ($item['post_id'])) {
 													?><a href="<?php echo admin_url('post.php?post='.$item["post_id"].'&action=edit'); ?>" target="_blank"><?php echo get_the_title($item['post_id']); ?></a><?php
 												} else {
@@ -490,7 +498,7 @@
 											</td>
 											<td><?php echo $item['msg']; ?></td>
 										</tr>
-										<?php 
+										<?php
 									}
 								}
 								?>

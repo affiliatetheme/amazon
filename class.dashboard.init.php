@@ -24,7 +24,7 @@ if ( ! class_exists( 'AffiliateTheme_Amazon_Dashboard_Init' ) ) {
             define( 'AWS_API_KEY', get_option( 'amazon_public_key' ) );
             define( 'AWS_API_SECRET_KEY', get_option( 'amazon_secret_key' ) );
             define( 'AWS_ASSOCIATE_TAG', get_option( 'amazon_partner_id' ) );
-            define( 'AWS_PRICE', 'default' );
+            define( 'AWS_PRICE', get_option( 'amazon_price' ) ? get_option( 'amazon_price' ) : 'default' );
             define( 'AWS_METAKEY_ID', 'amazon_asin' );
             define( 'AWS_METAKEY_LAST_UPDATE', 'last_product_price_check' );
             define( 'AWS_CRON_HASH', md5( get_option( 'amazon_public_key' ) . get_option( 'amazon_secret_key' ) ) );
@@ -55,6 +55,7 @@ if ( ! class_exists( 'AffiliateTheme_Amazon_Dashboard_Init' ) ) {
             register_setting( 'endcore_api_amazon_options', 'amazon_import_description' );
             register_setting( 'endcore_api_amazon_options', 'amazon_images_external' );
             register_setting( 'endcore_api_amazon_options', 'amazon_images_external_size' );
+            register_setting( 'endcore_api_amazon_options', 'amazon_price' );
             register_setting( 'endcore_api_amazon_options', 'amazon_show_reviews' );
             register_setting( 'endcore_api_amazon_options', 'amazon_update_run_cronjob' );
             register_setting( 'endcore_api_amazon_options', 'amazon_update_ean' );
