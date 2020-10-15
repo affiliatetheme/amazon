@@ -326,7 +326,8 @@ var searchAction = function() {
                 resultContainer.html('');
 
                 if(data['items']) {
-                    for (var x in data['items']) {
+                    console.log(data['items']);
+                    jQuery.each( data['items'], function( x, val ) {
                         removeItemFromList(data['items'][x].asin);
 
                         if (!data['items'][x].price)
@@ -379,7 +380,7 @@ var searchAction = function() {
                             var margin_sale_val = (((data['items'][x].price_amount/119)*100)/100) * data['items'][x].category_margin;
                             var margin_sale = number_format(margin_sale_val, 2, ',', '.')
 
-                            html += data['items'][x].category_margin + '%<br>(' + data['items'][x].currency.toUpperCase() + ' ' + margin_sale + ' / Sale)';
+                            html += data['items'][x].category_margin + '%<br>(' + ( data['items'][x].currency ? data['items'][x].currency.toUpperCase() : '' ) + ' ' + margin_sale + ' / Sale)';
                         } else { html += 'kA'; }
                         html += '</td>';
                         html += '<td class="category">' + (data['items'][x].category != null ? data['items'][x].category : '-') + '</td>';
@@ -392,7 +393,7 @@ var searchAction = function() {
 
                         resultContainer.append(html);
                         jQuery('table.products tfoot .taxonomy-select').fadeIn();
-                    }
+                    } );
                 } else {
                     html += '<tr class="item error" data-asin="">';
                     html += '<th scope="row" class="check-column"><input type="checkbox" id="cb-select-1 name="item[]" value="0" disabled="disabled"></th>';
@@ -428,8 +429,6 @@ function removeItemFromList(asin) {
     replaced = jQuery('#at-import-window textarea#grabbedasins').val();
 
     for (var rAsin in asinContainer) {
-        console.log(asinContainer[rAsin]);
-
         replaced = replaced.replace(asinContainer[rAsin], '');
     }
 
