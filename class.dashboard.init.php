@@ -17,7 +17,7 @@ if ( ! class_exists( 'AffiliateTheme_Amazon_Dashboard_Init' ) ) {
             add_action( 'init', array( &$this, 'load_textdomain' ) );
 
             // vars
-            define( 'AWS_VERSION', '1.7.3.2' );
+            define( 'AWS_VERSION', '1.7.3.3' );
             define( 'AWS_PATH', plugin_dir_path( __FILE__ ) );
             define( 'AWS_URL', plugin_dir_url( __FILE__ ) );
             define( 'AWS_COUNTRY', get_option( 'amazon_country' ) );
