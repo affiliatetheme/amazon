@@ -1591,7 +1591,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonQuickImportAction
-                jQuery('.amazon-quick-import').live('click', function (event) {
+                jQuery(document.body).on('click', '.amazon-quick-import', function(event){
                     var id = jQuery(this).attr('data-id');
 
                     amazonQuickImportAction(id);
@@ -1600,7 +1600,7 @@ if ( ! function_exists( 'at_amazon_compare_box_callback' ) ) {
                 });
 
                 // amazonMassImportAction
-                jQuery('.at-import-window-amazon .mass-import').live('click', function (event) {
+                jQuery(document.body).on('click', '.at-import-window-amazon .mass-import', function(event){
                     amazonMassImportAction(this);
 
                     event.preventDefault();
