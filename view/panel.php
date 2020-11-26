@@ -48,22 +48,30 @@
 								<div class="form-group">
 									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
+                                    <?php
+                                    /**
+                                     * @doc https://webservices.amazon.com/paapi5/documentation/common-request-parameters.html
+                                     */
+                                    ?>
 									<select name="amazon_country" id="amazon_country">
-										<option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>><?php _e('Deutschland', 'affiliatetheme-amazon'); ?></option>
-										<option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>><?php _e('USA', 'affiliatetheme-amazon'); ?></option>
-										<option value="ca" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>><?php _e('Kanada', 'affiliatetheme-amazon'); ?></option>
-										<option value="co.uk" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>><?php _e('Vereinigtes Königreich (UK)', 'affiliatetheme-amazon'); ?></option>
-										<option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>><?php _e('Frankreich', 'affiliatetheme-amazon'); ?></option>
-										<option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>><?php _e('Italien', 'affiliatetheme-amazon'); ?></option>
-										<option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>><?php _e('Spanien', 'affiliatetheme-amazon'); ?></option>
-										<option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>><?php _e('Indien', 'affiliatetheme-amazon'); ?></option>
-                                        <option value="com.tr" <?php if($selected_amazon_country == "com.tr") echo 'selected'; ?>><?php _e('Türkei', 'affiliatetheme-amazon'); ?></option>
-										<option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>><?php _e('Japan', 'affiliatetheme-amazon'); ?></option>
-										<option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>><?php _e('Mexiko', 'affiliatetheme-amazon'); ?></option>
-										<option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
-										<option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>><?php _e('Brasilien', 'affiliatetheme-amazon'); ?></option>
                                         <option value="com.au" <?php if($selected_amazon_country == "com.au") echo 'selected'; ?>><?php _e('Australien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>><?php _e('Brasilien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>><?php _e('Deutschland', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>><?php _e('Frankreich', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>><?php _e('Italien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="in" <?php if($selected_amazon_country == "in") echo 'selected'; ?>><?php _e('Indien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="co.jp" <?php if($selected_amazon_country == "co.jp") echo 'selected'; ?>><?php _e('Japan', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="ca" <?php if($selected_amazon_country == "ca") echo 'selected'; ?>><?php _e('Kanada', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="com.mx" <?php if($selected_amazon_country == "com.mx") echo 'selected'; ?>><?php _e('Mexiko', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="nl" <?php if($selected_amazon_country == "nl") echo 'selected'; ?>><?php _e('Niederlande', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="se" <?php if($selected_amazon_country == "se") echo 'selected'; ?>><?php _e('Schweden', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="es" <?php if($selected_amazon_country == "es") echo 'selected'; ?>><?php _e('Spanien', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="sg" <?php if($selected_amazon_country == "sg") echo 'selected'; ?>><?php _e('Singapur', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="com.tr" <?php if($selected_amazon_country == "com.tr") echo 'selected'; ?>><?php _e('Türkei', 'affiliatetheme-amazon'); ?></option>
                                         <option value="ae" <?php if($selected_amazon_country == "ae") echo 'selected'; ?>><?php _e('United Arab Emirates', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="com" <?php if($selected_amazon_country == "com") echo 'selected'; ?>><?php _e('USA', 'affiliatetheme-amazon'); ?></option>
+										<option value="co.uk" <?php if($selected_amazon_country == "co.uk") echo 'selected'; ?>><?php _e('Vereinigtes Königreich (UK)', 'affiliatetheme-amazon'); ?></option>
                                     </select>
 								</div>
 								<div class="form-group">
