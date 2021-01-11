@@ -131,24 +131,28 @@ function at_aws_update($args = array()) {
                                     if ($ean && $ean != $old_ean && get_option('amazon_update_ean') != 'no') {
                                         update_post_meta($product->ID, 'product_ean', $ean);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') updated ean from ' . $old_ean . ' to ' . $ean);
+                                        do_action( 'at_amazon_updated_ean', $product->ID, $ean, $old_ean );
                                     }
 
                                     // update price
                                     if ($price != $old_price && get_option('amazon_update_price') != 'no') {
                                         $shops[$key]['price'] = $price;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') updated price from ' . $old_price . ' to ' . $price);
+                                        do_action( 'at_amazon_updated_price', $product->ID, $price, $old_price );
                                     }
 
                                     // update url
                                     if ($link != $old_link && get_option('amazon_update_url') != 'no') {
                                         $shops[$key]['link'] = $link;
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon url');
+                                        do_action( 'at_amazon_updated_url', $product->ID, $link, $old_link );
                                     }
 
                                     // update salesrank
                                     if ($salesrank != $old_salesrank && $salesrank != "") {
                                         update_post_meta($product->ID, 'amazon_salesrank_' . $key, $salesrank);
                                         at_write_api_log('amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank);
+                                        do_action( 'at_amazon_updated_ean', $product->ID, $salesrank, $old_salesrank );
                                     }
 
                                     // update prime status
