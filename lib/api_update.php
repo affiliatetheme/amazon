@@ -366,8 +366,6 @@ function at_aws_update( $args = array() )
                                     update_post_meta( $product->ID, 'product_not_avail', '0' );
                                     at_aws_remove_product_notification( $product->ID );
 
-                                    do_action( 'at_amazon_updated', $product->ID );
-
                                     if ( get_option( 'amazon_notification' ) == 'draft' || get_option( 'amazon_notification' ) == 'email_draft' ) {
                                         wp_publish_post( $product->ID );
                                     }
@@ -432,6 +430,8 @@ function at_aws_update( $args = array() )
 
                     update_field( 'product_shops', $shops, $product->ID );
                     update_post_meta( $product->ID, AWS_METAKEY_LAST_UPDATE, time() );
+
+                    do_action( 'at_amazon_updated', $product->ID );
 
                     sleep( 2 );
                 }
