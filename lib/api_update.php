@@ -153,7 +153,7 @@ function at_aws_update( $args = array() )
                                     if ( $salesrank != $old_salesrank && $salesrank != "" ) {
                                         update_post_meta( $product->ID, 'amazon_salesrank_' . $key, $salesrank );
                                         at_write_api_log( 'amazon', $product->ID, '(' . $key . ') changed amazon salesrank from ' . $old_salesrank . ' to ' . $salesrank );
-                                        do_action( 'at_amazon_updated_ean', $product->ID, $salesrank, $old_salesrank );
+                                        do_action( 'at_amazon_updated_salesrank', $product->ID, $salesrank, $old_salesrank );
                                     }
 
                                     // update prime status
