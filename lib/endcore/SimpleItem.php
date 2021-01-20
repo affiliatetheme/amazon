@@ -19,12 +19,12 @@ class SimpleItem
      */
     private $item;
 
-    public function __construct ( Item $item )
+    public function __construct( Item $item )
     {
         $this->item = $item;
     }
 
-    public function getEAN ()
+    public function getEAN()
     {
         if ( $this->item->getItemInfo()->getExternalIds() === null ) {
             return null;
@@ -43,17 +43,17 @@ class SimpleItem
         return null;
     }
 
-    public function getASIN ()
+    public function getASIN()
     {
         return $this->item->getASIN();
     }
 
-    public function getTitle ()
+    public function getTitle()
     {
         return $this->item->getItemInfo()->getTitle()->getDisplayValue();
     }
 
-    public function getDescription ()
+    public function getDescription()
     {
         if ( $this->item->getItemInfo()->getFeatures() === null ) {
             return '';
@@ -67,12 +67,12 @@ class SimpleItem
         return DotDotText::truncate( $values );
     }
 
-    public function getUrl ()
+    public function getUrl()
     {
         return $this->item->getDetailPageURL();
     }
 
-    public function getUserPrice ()
+    public function getUserPrice( $formatted = true )
     {
         if ( ! $this->item ) {
             return '';
@@ -87,11 +87,15 @@ class SimpleItem
 
         if ( AWS_PRICE == 'default' ) {
             if ( $this->item->getOffers() != null
-                 and $this->item->getOffers() != null
-                     and $this->item->getOffers()->getListings() != null
-                         and $this->item->getOffers()->getListings()[0]->getPrice() != null
-                             and $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null ) {
-                return $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
+                and $this->item->getOffers() != null
+                and $this->item->getOffers()->getListings() != null
+                and $this->item->getOffers()->getListings()[0]->getPrice() != null
+                and $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount() != null ) {
+                if ( $formatted ) {
+                    return $this->item->getOffers()->getListings()[0]->getPrice()->getDisplayAmount();
+                } else {
+                    return $this->item->getOffers()->getListings()[0]->getPrice()->getAmount();
+                }
             }
         }
 
@@ -100,17 +104,25 @@ class SimpleItem
         }
 
         if ( key_exists( AWS_PRICE, $offers ) ) {
-            return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
+            if ( $formatted ) {
+                return $offers[AWS_PRICE]->getLowestPrice()->getDisplayAmount();
+            } else {
+                return $offers[AWS_PRICE]->getLowestPrice()->getAmount();
+            }
         }
 
         if ( key_exists( 'new', $offers ) && $offers['new']->getLowestPrice() !== null ) {
-            return $offers['new']->getLowestPrice()->getDisplayAmount();
+            if ( $formatted ) {
+                return $offers['new']->getLowestPrice()->getDisplayAmount();
+            } else {
+                return $offers['new']->getLowestPrice()->getAmount();
+            }
         }
 
         return false;
     }
 
-    public function getPriceList ()
+    public function getPriceList()
     {
         if ( ! $this->item ) {
             return '';
@@ -136,39 +148,12 @@ class SimpleItem
     }
 
     // getAmountForAvailability
-    public function getPriceAmount ()
+    public function getPriceAmount()
     {
-        if ( ! $this->item ) {
-            return '';
-        }
-
-        if ( ! $this->item->getOffers() ) {
-            return '';
-        }
-
-        /** @var OfferSummary[] $offers */
-        $offers = [];
-
-        foreach ( $this->item->getOffers()->getSummaries() as $offer ) {
-            $offers[strtolower( $offer->getCondition()->getValue() )] = $offer;
-        }
-
-        if ( key_exists( $this->getAwsPriceCondition(), $offers ) ) {
-            if ( $offers[$this->getAwsPriceCondition()]->getLowestPrice() === null ) {
-                return '';
-            }
-
-            return $offers[$this->getAwsPriceCondition()]->getLowestPrice()->getAmount();
-        }
-
-        if ( ! array_key_exists( 'new', $offers ) ) {
-            return '';
-        }
-
-        return $offers['new']->getLowestPrice()->getAmount();
+        return $this->getUserPrice( false );
     }
 
-    public function getCurrency ()
+    public function getCurrency()
     {
         if ( ! $this->item ) {
             return '';
@@ -196,7 +181,7 @@ class SimpleItem
         return 'EUR';
     }
 
-    public function getCategory ()
+    public function getCategory()
     {
         if ( $this->item->getItemInfo()->getClassifications()->getBinding() !== null ) {
             return $this->item->getItemInfo()->getClassifications()->getBinding()->getDisplayValue();
@@ -205,7 +190,7 @@ class SimpleItem
         return '';
     }
 
-    public function getCategoryMargin ()
+    public function getCategoryMargin()
     {
         $marginCategories = array(
             'Kindle Edition'     => 10,
@@ -238,7 +223,7 @@ class SimpleItem
         return 0;
     }
 
-    public function isExternal ()
+    public function isExternal()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
@@ -247,7 +232,7 @@ class SimpleItem
         return ( count( $this->item->getOffers()->getListings() ) >= 1 ) ? 0 : 1;
     }
 
-    public function isPrime ()
+    public function isPrime()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
@@ -260,7 +245,7 @@ class SimpleItem
         return 0;
     }
 
-    protected function hasListing ()
+    protected function hasListing()
     {
         if ( ! $this->item->getOffers() ) {
             return '';
@@ -269,7 +254,7 @@ class SimpleItem
         return ( count( $this->item->getOffers()->getListings() ) > 0 );
     }
 
-    protected function hasSummaries ()
+    protected function hasSummaries()
     {
         if ( ! $this->item ) {
             return '';
@@ -282,7 +267,7 @@ class SimpleItem
         return ( count( $this->item->getOffers()->getSummaries() ) > 0 );
     }
 
-    protected function hasImages ()
+    protected function hasImages()
     {
         if ( $this->getImages() === null ) {
             return 0;
@@ -298,12 +283,12 @@ class SimpleItem
     /**
      * @return \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\Images
      */
-    public function getImages ()
+    public function getImages()
     {
         return $this->item->getImages();
     }
 
-    public function getSmallImage ()
+    public function getSmallImage()
     {
         if ( $this->hasImages() ) {
             return $this->getImages()->getPrimary()->getSmall()->getURL();
@@ -312,7 +297,7 @@ class SimpleItem
         return null;
     }
 
-    public function getAllSmallImages ()
+    public function getAllSmallImages()
     {
         $images = [];
 
@@ -325,7 +310,7 @@ class SimpleItem
         return $images;
     }
 
-    public function getAllMediumImages ()
+    public function getAllMediumImages()
     {
         $images = [];
 
@@ -338,7 +323,7 @@ class SimpleItem
         return $images;
     }
 
-    public function getAllLargeImages ()
+    public function getAllLargeImages()
     {
         $images = [];
 
@@ -354,7 +339,7 @@ class SimpleItem
     /**
      * @return ImageType[]
      */
-    public function getAllImages ()
+    public function getAllImages()
     {
         $images = [];
 
@@ -371,7 +356,7 @@ class SimpleItem
         return $images;
     }
 
-    public function getExternalImages ()
+    public function getExternalImages()
     {
         if ( $this->hasImages() ) {
             $size = ( get_option( 'amazon_images_external_size' ) ? get_option( 'amazon_images_external_size' ) : 'SmallImage' );
@@ -392,7 +377,7 @@ class SimpleItem
         return [];
     }
 
-    protected function getAwsPriceCondition ()
+    protected function getAwsPriceCondition()
     {
         if ( AWS_PRICE === 'default' ) {
             return 'new';
@@ -401,7 +386,7 @@ class SimpleItem
         return AWS_PRICE;
     }
 
-    public function getSalesRank ()
+    public function getSalesRank()
     {
         if ( $this->item->getBrowseNodeInfo() !== null && $this->item->getBrowseNodeInfo()->getWebsiteSalesRank() !== null ) {
             return $this->item->getBrowseNodeInfo()->getWebsiteSalesRank()->getSalesRank();
@@ -410,7 +395,7 @@ class SimpleItem
         return 0;
     }
 
-    public function getAttributes ()
+    public function getAttributes()
     {
         $attributes = array();
 
@@ -429,7 +414,7 @@ class SimpleItem
         return $attributes;
     }
 
-    public function getTechnicalInfo ()
+    public function getTechnicalInfo()
     {
         if ( $this->item->getItemInfo()->getTechnicalInfo() !== null ) {
             return array(
@@ -439,7 +424,7 @@ class SimpleItem
         }
     }
 
-    protected function setProductInfo ( &$attributes )
+    protected function setProductInfo( &$attributes )
     {
         if ( $this->item->getItemInfo()->getProductInfo()->getColor() !== null ) {
             $color                          = $this->item->getItemInfo()->getProductInfo()->getColor();
@@ -455,7 +440,7 @@ class SimpleItem
         }
     }
 
-    protected function setReleaseDate ( &$attributes )
+    protected function setReleaseDate( &$attributes )
     {
         if ( $this->item->getItemInfo()->getProductInfo()->getReleaseDate() !== null ) {
             $release                          = $this->item->getItemInfo()->getProductInfo()->getReleaseDate();
@@ -463,7 +448,7 @@ class SimpleItem
         }
     }
 
-    protected function setSize ( &$attributes )
+    protected function setSize( &$attributes )
     {
         if ( $this->item->getItemInfo()->getProductInfo()->getSize() !== null ) {
             $size                          = $this->item->getItemInfo()->getProductInfo()->getSize();
