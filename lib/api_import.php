@@ -170,7 +170,7 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
             $shop_info[] = array(
                 'price' => $price,
                 'price_old' => ($price_list ? $price_list : ''),
-                'currency' => $currency,
+                'currency' => strtolower($currency),
                 'portal' => 'amazon',
                 'amazon_asin' => $asin,
                 'shop' => (at_aws_get_amazon_shop_id() ? at_aws_get_amazon_shop_id() : ''),
