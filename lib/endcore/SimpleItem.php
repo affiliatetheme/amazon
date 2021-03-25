@@ -54,8 +54,15 @@ class SimpleItem {
 		}
 
 		$values = $this->item->getItemInfo()->getFeatures()->getDisplayValues();
+
 		if ( is_array( $values ) ) {
-			$values = implode( ', ', $values );
+			$html = '<ul class="amazon-features">';
+			foreach ( $values as $value ) {
+				$html .= '<li>' . $value . '</li>';
+			}
+			$html .= '</ul>';
+
+			return $html;
 		}
 
 		return $values;
