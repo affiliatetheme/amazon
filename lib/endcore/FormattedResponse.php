@@ -10,74 +10,71 @@ namespace Endcore;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResponse;
 use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchResult;
 
-class FormattedResponse
-{
-    /**
-     * @var SearchResult
-     */
-    private $result;
+class FormattedResponse {
+	/**
+	 * @var SearchResult
+	 */
+	private $result;
 
-    /**
-     * @var SearchItemsResponse
-     */
-    private $response;
+	/**
+	 * @var SearchItemsResponse
+	 */
+	private $response;
 
-    /**
-     * FormattedResponse constructor.
-     * @param SearchItemsResponse $response
-     */
-    public function __construct(SearchItemsResponse $response)
-    {
-        $this->response = $response;
-        $this->result = $response->getSearchResult();
-    }
+	/**
+	 * FormattedResponse constructor.
+	 *
+	 * @param SearchItemsResponse $response
+	 */
+	public function __construct( SearchItemsResponse $response ) {
+		$this->response = $response;
+		$this->result   = $response->getSearchResult();
+	}
 
-    /**
-     * @param int $itemsPerPage
-     * @return float|int
-     */
-    public function getTotalPages($itemsPerPage = 10)
-    {
-        if ($this->hasResult()) {
-            return ceil($this->result->getTotalResultCount() / $itemsPerPage);
-        }
+	/**
+	 * @param int $itemsPerPage
+	 *
+	 * @return float|int
+	 */
+	public function getTotalPages( $itemsPerPage = 10 ) {
+		if ( $this->hasResult() ) {
+			return ceil( $this->result->getTotalResultCount() / $itemsPerPage );
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    /**
-     * @return SimpleItem[]|bool
-     */
-    public function getItems()
-    {
-        if ($this->hasResult()) {
-            $items = array_map(function($item) {
-                return new SimpleItem($item);
-            }, $this->result->getItems());
+	/**
+	 * @return SimpleItem[]|bool
+	 */
+	public function getItems() {
+		if ( $this->hasResult() ) {
+			$items = array_map( function ( $item )
+			{
+				return new SimpleItem( $item );
+			}, $this->result->getItems() );
 
-            return $items;
-        }
+			return $items;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        if (count($this->response->getErrors()) > 0) {
-            return $this->response->getErrors()[0]->getMessage();
-        }
+	/**
+	 * @return string
+	 */
+	public function getErrorMessage() {
+		if ( is_countable( $this->response->getErrors() ) && count( $this->response->getErrors() ) > 0 ) {
+			return $this->response->getErrors()[0]->getMessage();
+		}
 
-        return '';
-    }
+		return '';
+	}
 
-    /**
-     * @return bool
-     */
-    public function hasResult()
-    {
-        return $this->result !== null;
-    }
+	/**
+	 * @return bool
+	 */
+	public function hasResult() {
+		return $this->result !== null;
+	}
 }

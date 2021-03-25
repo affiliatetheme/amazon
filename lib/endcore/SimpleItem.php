@@ -256,7 +256,7 @@ class SimpleItem {
 		}
 
 		if ( is_array( $this->getImages() ) || is_object( $this->getImages() ) ) {
-			return ( count( $this->getImages() ) > 0 );
+			return true;
 		}
 
 		return 0;
