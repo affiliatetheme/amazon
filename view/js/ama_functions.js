@@ -324,9 +324,9 @@ var searchAction = function() {
 
             resultContainer.fadeOut('fast', function() {
                 resultContainer.html('');
+                var html;
 
                 if(data['items']) {
-                    console.log(data['items']);
                     jQuery.each( data['items'], function( x, val ) {
                         removeItemFromList(data['items'][x].asin);
 
