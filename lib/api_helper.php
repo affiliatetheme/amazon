@@ -832,7 +832,7 @@ if ( ! function_exists( 'at_aws_add_product_tabs_nav' ) ) {
 			// check current amazon country
 			if ( $link ) {
 				preg_match_all( "/\\.[a-z]{2,3}(\\.[a-z]{2,3})?/m", $link, $amazon_tld );
-				if ( $amazon_tld ) {
+				if ( $amazon_tld && isset($amazon_tld[0][1]) ) {
 					if ( $tld = $amazon_tld[0][1] ) {
 						$url = 'https://www.amazon' . $tld . '/product-reviews/' . $asin . '/?tag=' . $partner_tag;
 					}
