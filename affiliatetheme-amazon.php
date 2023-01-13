@@ -81,7 +81,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
             $plugins = json_decode( $r['body']['plugins'], true );
 
             // Remove the plugin from the check
-            $active_index = array_search( plugin_basename( __FILE__ ), $plugins['active'] );
+            $active_index = array_search( plugin_basename( __FILE__ ), isset($plugins['active'])&&is_array($plugins['active']) ? $plugins['active'] : [] );
             unset( $plugins['active'][ $active_index ] );
             unset( $plugins['plugins'][ plugin_basename( __FILE__ ) ] );
 

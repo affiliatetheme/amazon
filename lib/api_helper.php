@@ -825,8 +825,8 @@ if ( ! function_exists( 'at_aws_add_product_tabs_nav' ) ) {
 		$product_shops = get_field( 'product_shops', $post_id );
 		$shop_id       = getRepeaterRowID( $product_shops, 'portal', 'amazon', false );
 		if ( $shop_id !== null ) {
-			$asin = $product_shops[ $shop_id ]['amazon_asin'];
-			$link = $product_shops[ $shop_id ]['link'];
+			$asin = isset($product_shops[ $shop_id ]['amazon_asin']) ? $product_shops[ $shop_id ]['amazon_asin'] : '';
+			$link = isset($product_shops[ $shop_id ]['link']) ? $product_shops[ $shop_id ]['link'] : '';
 			$url  = 'https://www.amazon.de/product-reviews/' . $asin . '/?tag=' . $partner_tag;
 
 			// check current amazon country
