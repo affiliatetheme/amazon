@@ -1127,7 +1127,7 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 
 		$recurrence = apply_filters( 'at_amazon_cronjob_recurrence', 'hourly' );
 		$hook       = 'affiliatetheme_amazon_api_update';
-		$args       = array( 'hash' => AWS_CRON_HASH );
+        $args       = array( AWS_CRON_HASH );
 
 		if ( $amazon_update_run_cronjob == 'no' ) {
 			wp_clear_scheduled_hook( $hook, $args );
@@ -1154,7 +1154,7 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 
 		$recurrence = apply_filters( 'at_amazon_cronjob_recurrence', '5min' );
 		$hook       = 'affiliatetheme_amazon_api_update_feeds';
-		$args       = array( 'hash' => AWS_CRON_HASH );
+		$args       = array( AWS_CRON_HASH );
 
 		if ( ! $public_key || ! $secret_key ) {
 			wp_clear_scheduled_hook( $hook, $args );
