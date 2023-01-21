@@ -59,8 +59,8 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 		 */     
 		public static function deactivate()
 		{
-            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array('hash' => AWS_CRON_HASH));
-            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update_feeds', array('hash' => AWS_CRON_HASH));
+            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array(AWS_CRON_HASH));
+            wp_clear_scheduled_hook('affiliatetheme_amazon_api_update_feeds', array(AWS_CRON_HASH));
 		}
 
         /**

@@ -1188,7 +1188,7 @@ if ( ! function_exists( 'at_amazon_cronjob_next_run' ) ) {
 	 *
 	 */
 	function at_amazon_cronjob_next_run() {
-		$args = array( 'hash' => AWS_CRON_HASH );
+		$args = array( AWS_CRON_HASH );
 
 		$timestamp = wp_next_scheduled( 'affiliatetheme_amazon_api_update', $args );
 
