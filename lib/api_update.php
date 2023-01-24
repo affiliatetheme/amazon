@@ -21,8 +21,11 @@ function at_aws_update( $args = array() )
     $hash       = AWS_CRON_HASH;
     $check_hash = ( $args ? $args : ( isset( $_GET['hash'] ) ? $_GET['hash'] : '' ) );
 
+    // Clear old cron
+    wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array('hash' => AWS_CRON_HASH));
+
     if ( $check_hash != $hash ) {
-        wp_clear_scheduled_hook( 'affiliatetheme_amazon_api_update', $args = array( 'hash' => $check_hash ) );
+        wp_clear_scheduled_hook( 'affiliatetheme_amazon_api_update', $args = array( $check_hash ) );
         die( 'Security check failed.' );
     }
 

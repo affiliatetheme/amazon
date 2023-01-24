@@ -1156,6 +1156,7 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 		$hook       = 'affiliatetheme_amazon_api_update_feeds';
 		$args       = array( AWS_CRON_HASH );
 
+        wp_clear_scheduled_hook($hook, array('hash' => AWS_CRON_HASH)); // clear old cron
 		if ( ! $public_key || ! $secret_key ) {
 			wp_clear_scheduled_hook( $hook, $args );
 
