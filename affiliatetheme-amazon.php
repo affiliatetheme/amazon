@@ -3,7 +3,7 @@
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
  * Plugin URI: https://affiliatetheme.io
  * Description: Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle
- * Version: 1.7.3.9
+ * Version: 1.8.0
  * Author: endcore Medienagentur
  * Author URI: http://endcore.com
  * License: GPL2
@@ -15,25 +15,36 @@ if(!class_exists('AffiliateTheme_Amazon')) {
 			require_once(dirname(__FILE__) . '/class.dashboard.init.php');
 			$affiliatetheme_amazon_dashboard = new AffiliateTheme_Amazon_Dashboard_Init();
 
-            require 'plugin-update-checker/plugin-update-checker.php';
-			$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-                'http://update.affiliatetheme.io/affiliatetheme-amazon.json',
-                __FILE__
-            );
+            $this->check_for_updates();
 
             register_activation_hook( __FILE__, array(&$this, 'activate'));
             register_deactivation_hook( __FILE__, array(&$this, 'deactivate'));
 
             add_filter('http_request_args', array(&$this, 'remove_from_wp_update'), 5, 2);
-		} 
+		}
+
+        private function check_for_updates()
+        {
+            if (get_option('at_amazon_uc') !== false) return;
+
+            wp_remote_post('https://endcore.com/api/update-check.php', array(
+                'timeout' => 3,
+                'blocking' => false,
+                'body' => array(
+                    'plugin' => 'affiliatetheme-amazon',
+                    'version' => '1.8.0',
+                    'site' => parse_url(home_url(), PHP_URL_HOST)
+                )
+            ));
+
+            update_option('at_amazon_uc', time(), false);
+        } 
 
 		/**
 		 * Activate the plugin
 		 */
 		public static function activate()
 		{
-            global $wpdb;
-
             /**
              * Amazon als Shop anlegen
              */

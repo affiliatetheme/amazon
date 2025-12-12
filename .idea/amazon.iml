@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/lib/endcore" isTestSource="false" packagePrefix="Endcore\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/enguzzlehttp/guzzle/src" isTestSource="false" packagePrefix="EnGuzzleHttp\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/enguzzlehttp/guzzle/tests" isTestSource="true" packagePrefix="EnGuzzleHttp\Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/enguzzlehttp/promises/src" isTestSource="false" packagePrefix="EnGuzzleHttp\Promise\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/enguzzlehttp/psr7/src" isTestSource="false" packagePrefix="EnGuzzleHttp\Psr7\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/enguzzlehttp/psr7/tests" isTestSource="true" packagePrefix="EnGuzzleHttp\Tests\Psr7\" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/src" isTestSource="false" packagePrefix="Amazon\ProductAdvertisingAPI\v1\" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/vendor/psr/http-message" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

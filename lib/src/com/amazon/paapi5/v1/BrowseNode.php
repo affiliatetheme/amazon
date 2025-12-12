@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2024 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -13,6 +14,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 namespace Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1;
 
 use \ArrayAccess;
@@ -43,7 +45,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
       */
     protected static $swaggerTypes = [
         'ancestor' => '\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeAncestor',
-        'children' => '\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChildren',
+        'children' => '\Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChild[]',
         'contextFreeName' => 'string',
         'displayName' => 'string',
         'id' => 'string',
@@ -173,9 +175,9 @@ class BrowseNode implements ModelInterface, ArrayAccess
         return self::$swaggerModelName;
     }
 
-    
 
-    
+
+
 
     /**
      * Associative array for storing property values
@@ -190,7 +192,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->container['ancestor'] = isset($data['ancestor']) ? $data['ancestor'] : null;
         $this->container['children'] = isset($data['children']) ? $data['children'] : null;
@@ -221,8 +223,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      */
     public function valid()
     {
-
-        return true;
+        return count($this->listInvalidProperties()) === 0;
     }
 
 
@@ -253,7 +254,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
     /**
      * Gets children
      *
-     * @return \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChildren
+     * @return \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChild[]
      */
     public function getChildren()
     {
@@ -263,7 +264,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
     /**
      * Sets children
      *
-     * @param \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChildren $children children
+     * @param \Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\BrowseNodeChild[] $children children
      *
      * @return $this
      */
@@ -400,7 +401,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      *
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->container[$offset]);
     }
@@ -412,7 +413,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      *
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
@@ -425,7 +426,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      *
      * @return void
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (is_null($offset)) {
             $this->container[] = $value;
@@ -441,7 +442,7 @@ class BrowseNode implements ModelInterface, ArrayAccess
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->container[$offset]);
     }
@@ -463,5 +464,3 @@ class BrowseNode implements ModelInterface, ArrayAccess
         return json_encode(ObjectSerializer::sanitizeForSerialization($this));
     }
 }
-
-
