@@ -1202,42 +1202,6 @@ if ( ! function_exists( 'at_amazon_cronjob_next_run' ) ) {
 	}
 }
 
-if ( ! function_exists( 'at_amazon_update_v5_hint' ) ) {
-	/**
-	 * at_amazon_rating_hint function.
-	 *
-	 */
-	add_action( 'admin_notices', 'at_amazon_update_v5_hint' );
-	function at_amazon_update_v5_hint() {
-		$option = get_option( 'v5-updated-hint' );
-		if ( $option == 'dismissed' ) {
-			return;
-		}
-		?>
-        <div class="notice notice-info is-dismissible" data-action="force-dismiss" data-name="v5-updated-hint">
-            <p><span class="dashicons dashicons-megaphone"></span> &nbsp; <?php printf( __( 'Mit der Version 1.7.0 der Amazon Schnittstelle haben wir die Version 5 der Amazon Product Advertising API von Amazon angebunden. Du musst eventuell deine Zugangsdaten anpassen. Erfahre <a href="%s" target="_blank">hier</a> mehr.', 'affiliatetheme-amazon' ), 'https://affiliatetheme.io/wichtiger-hinweis-zum-update-der-amazon-schnittstelle/' ); ?></p>
-        </div>
-
-        <script type="text/javascript">
-            jQuery(function ($) {
-                jQuery(document.body).on('click', '.notice[data-action="force-dismiss"] .notice-dismiss', function (event) {
-                    var option = jQuery(this).closest('.notice').data('name');
-                    jQuery.ajax({
-                        url: ajaxurl,
-                        dataType: 'json',
-                        type: 'POST',
-                        data: "action=at_amazon_set_option&option=" + option + "&value=dismissed",
-                        success: function (data) {
-                        }
-                    });
-                    e.preventDefault();
-                });
-            });
-        </script>
-		<?php
-	}
-}
-
 if ( ! function_exists( 'at_amazon_set_option' ) ) {
 	/**
 	 * at_amazon_set_option function.
@@ -1269,22 +1233,6 @@ if ( ! function_exists( 'at_amazon_get_current_lang' ) ) {
 		}
 
 		return 'en';
-	}
-}
-
-if ( ! function_exists( 'at_amazon_get_forum_url' ) ) {
-	/**
-	 * at_amazon_get_forum_url function.
-	 *
-	 */
-	function at_amazon_get_forum_url() {
-		$locale = at_amazon_get_current_lang();
-
-		if ( $locale == 'de' ) {
-			return 'https://affiliatetheme.io/forum/foren/support/schnittstellen/';
-		}
-
-		return 'https://affiliatetheme.io/forum/foren/support-english/apis/';
 	}
 }
 

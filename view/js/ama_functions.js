@@ -272,7 +272,7 @@ var checkConnection = function() {
 
             if ( xhr.status == 429 ) {
 
-                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
+                var info_link = ' (siehe API Log Tab für Details)';
                 resultContainer.html('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + ( xhr.statusText == 'error' ? 'Too Many Requests' : xhr.statusText ) + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
                 resultContainer.fadeIn('fast');
                 jQuery('.status-after').remove();
@@ -420,7 +420,7 @@ var searchAction = function() {
             var info_link = '';
 
             if ( xhr.status == 429 ) {
-                var info_link = '(<a href="https://docs.aws.amazon.com/en_pv/AWSECommerceService/latest/DG/TroubleshootingApplications.html" target="_blank">Get more informations</a> and <a href="https://affiliatetheme.io/forum/thema/aws-access-key-id-you-are-submitting-requests-too-quickly/" target="_blank">check our support forum</a>)';
+                var info_link = ' (siehe API Log Tab für Details)';
                 statusContainer.html('<div class="warning"><p class="warning">' + amazon_vars.connection_ok + '<br>Statuscode: ' + xhr.status + ' - ' + ( xhr.statusText == 'error' ? 'Too Many Requests' : xhr.statusText ) + ( info_link ? ' ' + info_link : '' ) + '</p></div>');
                 statusContainer.fadeIn('fast');
             } else {

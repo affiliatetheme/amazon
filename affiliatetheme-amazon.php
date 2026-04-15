@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
- * Plugin URI: https://affiliatetheme.io
  * Description: Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle
  * Version: 2.0.0
  * Requires PHP: 8.2

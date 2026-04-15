@@ -442,8 +442,8 @@ Das Secret wird nur einmal angezeigt. Wenn du es verloren hast:
 
 - Offizielle Amazon-Ankündigungen findest du im Associates-Newsletter
   und im Developer-Portal deiner Marketplace-Region.
-- AffiliateTheme informiert über neue Plugin-Versionen im Dashboard
-  unter "Plugins" sowie auf https://affiliatetheme.io.
+- AffiliateTheme informiert über neue Plugin-Versionen im WordPress-Dashboard
+  unter "Plugins".
 
 ---
 
