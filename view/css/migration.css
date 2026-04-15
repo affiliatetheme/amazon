@@ -1,0 +1,80 @@
+/* Migration Tab Styles */
+
+/* Highlight für den Tab-Link in der Tab-Bar, wenn Migration notwendig ist */
+.at-tab-urgent {
+    border-color: #d63638 !important;
+    color: #d63638 !important;
+    font-weight: 600 !important;
+}
+
+/* Abstand zwischen postboxes */
+#migration .postbox { margin-bottom: 20px; }
+#migration h3.hndle { background: #fafafa; }
+#migration .inside { padding: 18px 20px; }
+
+/* Checklisten */
+#migration .mig-checklist { list-style: none; padding-left: 0; margin-left: 0; }
+#migration .mig-checklist li { padding: 6px 0; line-height: 1.5; }
+#migration .mig-checklist input[type="checkbox"] { margin-right: 8px; transform: scale(1.1); vertical-align: middle; }
+
+/* Code-Formatierung */
+#migration pre.at-code {
+    background: #1d2327;
+    color: #f0f0f1;
+    padding: 12px 14px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+#migration code {
+    background: #f6f7f7;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+}
+#migration pre.at-code code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+/* Callouts für Hinweise */
+#migration .mig-callout {
+    border-left: 4px solid #dba617;
+    background: #fcf9e8;
+    padding: 12px 14px;
+    margin: 14px 0;
+}
+#migration .mig-callout-danger {
+    border-left-color: #d63638;
+    background: #fcf0f1;
+}
+#migration .mig-callout-info {
+    border-left-color: #72aee6;
+    background: #f6fbfe;
+}
+#migration .mig-callout p:first-child { margin-top: 0; }
+#migration .mig-callout p:last-child { margin-bottom: 0; }
+
+/* Tabellen (Marketplaces) */
+#migration table.mig-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0;
+}
+#migration table.mig-table th,
+#migration table.mig-table td {
+    border: 1px solid #e5e7eb;
+    padding: 8px 12px;
+    text-align: left;
+}
+#migration table.mig-table th {
+    background: #f6f7f7;
+    font-weight: 600;
+}
+
+/* TOC-Liste etwas luftiger */
+#migration ol.mig-toc { line-height: 1.9; }

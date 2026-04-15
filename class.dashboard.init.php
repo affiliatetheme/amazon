@@ -110,6 +110,7 @@ if ( ! class_exists( 'AffiliateTheme_Amazon_Dashboard_Init' ) ) {
             }
 
             wp_enqueue_style( 'at-select2', plugin_dir_url( __FILE__ ) . 'view/css/select2.min.css', '', '4.0.13' );
+            wp_enqueue_style( 'at-amazon-migration', plugin_dir_url( __FILE__ ) . 'view/css/migration.css', '', AWS_VERSION );
             wp_enqueue_script( 'at-select2', plugin_dir_url( __FILE__ ) . 'view/js/select2.min.js', '', '4.0.13', false );
             wp_enqueue_script( 'at-amazon-functions', plugin_dir_url( __FILE__ ) . 'view/js/ama_functions.js', '', AWS_VERSION, false );
 
