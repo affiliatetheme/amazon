@@ -3,95 +3,105 @@
  * Project      affiliatetheme-amazon
  * @author      Giacomo Barbalinardo <info@ready24it.eu>
  * @copyright   2019
+ *
+ * Rewritten 2026: Consumes Amazon Creators API GetItems responses
+ * (associative array, JSON-decoded).
  */
 
 namespace Endcore;
 
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResponse;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchItemsResponse;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SearchResult;
+class FormattedItemResponse {
 
-class FormattedItemResponse
-{
-    /**
-     * @var SearchResult
-     */
-    private $result;
+	/**
+	 * Full Creators-API response (associative array).
+	 *
+	 * @var array
+	 */
+	private $response;
 
-    /**
-     * @var GetItemsResponse
-     */
-    private $response;
+	/**
+	 * The "itemsResult" sub-array, or null if not present.
+	 *
+	 * @var array|null
+	 */
+	private $result;
 
-    /**
-     * FormattedResponse constructor.
-     * @param GetItemsResponse $response
-     */
-    public function __construct(GetItemsResponse $response)
-    {
-        $this->response = $response;
-        $this->result = $response->getItemsResult();
-    }
+	/**
+	 * @param array $response
+	 */
+	public function __construct( $response ) {
+		$this->response = is_array( $response ) ? $response : array();
+		$this->result   = isset( $this->response['itemsResult'] ) && is_array( $this->response['itemsResult'] )
+			? $this->response['itemsResult']
+			: null;
+	}
 
-    /**
-     * @param int $itemsPerPage
-     * @return float|int
-     */
-    public function getTotalPages($itemsPerPage = 10)
-    {
-        if ($this->hasResult()) {
-            return ceil($this->result->getTotalResultCount() / $itemsPerPage);
-        }
+	/**
+	 * @param int $itemsPerPage
+	 * @return float|int
+	 */
+	public function getTotalPages( $itemsPerPage = 10 ) {
+		if ( ! $this->hasResult() ) {
+			return 0;
+		}
 
-        return 0;
-    }
+		$total = isset( $this->result['totalResultCount'] ) ? (int) $this->result['totalResultCount'] : 0;
 
-    /**
-     * @return SimpleItem[]|bool
-     */
-    public function getItems()
-    {
-        if ($this->hasResult()) {
-            $items = array_map(function($item) {
-                return new SimpleItem($item);
-            }, $this->result->getItems());
+		if ( $itemsPerPage <= 0 ) {
+			return 0;
+		}
 
-            return $items;
-        }
+		return ceil( $total / $itemsPerPage );
+	}
 
-        return false;
-    }
+	/**
+	 * @return SimpleItem[]|bool
+	 */
+	public function getItems() {
+		if ( ! $this->hasResult() ) {
+			return false;
+		}
 
-    /**
-     * @return SimpleItem|null
-     */
-    public function getItem() {
-        $items = $this->getItems();
+		$items = isset( $this->result['items'] ) && is_array( $this->result['items'] )
+			? $this->result['items']
+			: array();
 
-        if ($items) {
-            return $items[0];
-        }
+		return array_map( function ( $item ) {
+			return new SimpleItem( $item );
+		}, $items );
+	}
 
-        return null;
-    }
+	/**
+	 * @return SimpleItem|null
+	 */
+	public function getItem() {
+		$items = $this->getItems();
 
-    /**
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        if (count($this->response->getErrors()) > 0) {
-            return $this->response->getErrors()[0]->getMessage();
-        }
+		if ( is_array( $items ) && count( $items ) > 0 ) {
+			return $items[0];
+		}
 
-        return '';
-    }
+		return null;
+	}
 
-    /**
-     * @return bool
-     */
-    public function hasResult()
-    {
-        return $this->result !== null;
-    }
+	/**
+	 * @return string
+	 */
+	public function getErrorMessage() {
+		if ( isset( $this->response['errors'] ) && is_array( $this->response['errors'] ) && count( $this->response['errors'] ) > 0 ) {
+			$first = $this->response['errors'][0];
+			if ( is_array( $first ) && isset( $first['message'] ) ) {
+				return $first['message'];
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasResult() {
+		return $this->result !== null;
+	}
 }

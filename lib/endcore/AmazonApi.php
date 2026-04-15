@@ -3,94 +3,309 @@
  * Project      affiliatetheme-amazon
  * @author      Giacomo Barbalinardo <info@ready24it.eu>
  * @copyright   2019
+ *
+ * Rewritten 2026: Migrated from Amazon PAAPI 5 SDK + Guzzle to Amazon Creators
+ * API (Jakiboy/apaapi v2.0.5 vendored in lib/apaapi/).
+ *
+ * This class is a thin adapter that keeps the historical call surface
+ * (`searchItems($args)` / `getItems($asins)`) used by the 5 `api_*.php` call
+ * sites, while internally talking to the Creators API through apaapi.
+ *
+ * The OAuth2 access token is cached per AmazonApi instance because apaapi
+ * caches it on the Request object; we therefore reuse ONE Request instance
+ * across multiple operations for the lifetime of this adapter.
  */
 
 namespace Endcore;
 
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\api\DefaultApi;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\SignHelper;
-use EnGuzzleHttp\Psr7\MultipartStream;
-use EnGuzzleHttp\Psr7\Request;
+use Apaapi\lib\Request;
+use Apaapi\lib\Response;
+use Apaapi\operations\SearchItems;
+use Apaapi\operations\GetItems;
 
-class AmazonApi extends DefaultApi
+class AmazonApi
 {
-    protected function getItemsRequest($getItemsRequest)
-    {
-        // verify the required parameter 'getItemsRequest' is set
-        if ($getItemsRequest === null) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter $getItemsRequest when calling getItems'
-            );
+    /**
+     * apaapi Request instance, reused across operations so the OAuth token
+     * stays cached for the lifetime of this adapter instance.
+     *
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * Amazon partner tag (associate tag) used for all operations.
+     *
+     * @var string
+     */
+    private $partnerTag;
+
+    /**
+     * Locale/TLD (e.g. 'de', 'com', 'co.uk').
+     *
+     * @var string
+     */
+    private $country;
+
+    /**
+     * Credentials cached so we can rebuild the Request on 401 (forced token refresh).
+     */
+    private $credentialId;
+    private $credentialSecret;
+    private $version;
+
+    /**
+     * @param string      $credentialId     Creators API credential ID
+     * @param string      $credentialSecret Creators API credential secret
+     * @param string      $partnerTag       Amazon Associates partner tag
+     * @param string      $country          TLD part after 'amazon.' (de, com, co.uk, ...)
+     * @param string|null $version          Optional explicit version override (2.1/2.2/2.3)
+     */
+    public function __construct(
+        string $credentialId,
+        string $credentialSecret,
+        string $partnerTag,
+        string $country,
+        ?string $version = null
+    ) {
+        self::bootstrapAutoloader();
+
+        $this->partnerTag       = $partnerTag;
+        $this->country          = $country;
+        $this->credentialId     = $credentialId;
+        $this->credentialSecret = $credentialSecret;
+
+        if ($version === null) {
+            $version = self::countryToVersion($country);
         }
+        $this->version = $version;
 
-        $operation = 'GetItems';
-        $resourcePath = '/paapi5/getitems';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-        $awsv4 = $this->getRequestSignature($getItemsRequest, $resourcePath, $operation);
-
-        $request = new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath,
-            $awsv4->getHeaders(),
-            $getItemsRequest->__toString()
-        );
-
-        return $request;
+        $this->buildRequest();
     }
 
-    protected function searchItemsRequest($searchItemsRequest)
+    /**
+     * (Re)build the Request instance. Used on construction and on forced
+     * token refresh after a 401 response.
+     */
+    private function buildRequest() : void
     {
-        // verify the required parameter 'searchItemsRequest' is set
-        if ($searchItemsRequest === null) {
+        $this->request = new Request($this->credentialId, $this->credentialSecret, $this->version);
+        $this->request->setLocale($this->country);
+    }
+
+    /**
+     * Build an AmazonApi instance from WordPress options.
+     * Reads: amazon_credential_id, amazon_credential_secret,
+     *        amazon_partner_id, amazon_country.
+     *
+     * @return self
+     */
+    public static function fromWpOptions() : self
+    {
+        $credentialId     = (string) get_option('amazon_credential_id');
+        $credentialSecret = (string) get_option('amazon_credential_secret');
+        $partnerTag       = (string) get_option('amazon_partner_id');
+        $country          = (string) get_option('amazon_country');
+
+        if ($country === '') {
+            $country = 'de';
+        }
+
+        return new self($credentialId, $credentialSecret, $partnerTag, $country);
+    }
+
+    /**
+     * Map an Amazon country/TLD to the Creators API credential version.
+     *
+     * @param  string $country TLD (without 'amazon.' prefix)
+     * @return string '2.1' (NA) | '2.2' (EU) | '2.3' (FE)
+     * @throws \InvalidArgumentException for unsupported locales (e.g. cn)
+     */
+    public static function countryToVersion(string $country) : string
+    {
+        $country = strtolower($country);
+
+        $na = ['com', 'ca', 'com.mx', 'com.br'];
+        $eu = ['de', 'fr', 'co.uk', 'it', 'es', 'nl', 'se', 'in', 'ae', 'com.tr', 'sa', 'eg', 'pl'];
+        $fe = ['co.jp', 'com.au', 'sg'];
+
+        if (in_array($country, $na, true)) {
+            return '2.1';
+        }
+        if (in_array($country, $eu, true)) {
+            return '2.2';
+        }
+        if (in_array($country, $fe, true)) {
+            return '2.3';
+        }
+
+        if ($country === 'cn') {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $searchItemsRequest when calling searchItems'
+                'Amazon China (cn) is not supported by the Creators API.'
             );
         }
 
-        $operation = 'SearchItems';
-        $resourcePath = '/paapi5/searchitems';
-        $formParams = [];
-        $queryParams = [];
-        $headerParams = [];
-        $httpBody = '';
-        $multipart = false;
-
-
-        $awsv4 = $this->getRequestSignature($searchItemsRequest, $resourcePath, $operation);
-
-//        $query = \GuzzleHttp\Psr7\build_query($queryParams);
-        return new Request(
-            'POST',
-            $this->config->getHost() . $resourcePath,
-            $awsv4->getHeaders(),
-            $searchItemsRequest->__toString()
+        throw new \InvalidArgumentException(
+            sprintf('Unsupported Amazon country/TLD: "%s".', $country)
         );
     }
 
     /**
-     * @param $request
-     * @param $resourcePath
-     * @param $operation
-     * @return AwsV4
+     * Run a SearchItems operation.
+     *
+     * Accepted $args keys (all optional unless noted):
+     *   keywords     (string)  search keywords
+     *   title        (string)  search by title
+     *   searchIndex  (string)  category, default 'All'
+     *   itemPage     (int)     1-based page, default 1
+     *   itemCount    (int)     items per page, default 10
+     *   sortBy       (string)  Relevance | Featured | NewestArrivals |
+     *                          Price:LowToHigh | Price:HighToLow |
+     *                          AvgCustomerReviews
+     *   merchant     (string)  All | Amazon, default 'All'
+     *   availability (string)  Available | IncludeOutOfStock
+     *   minPrice     (int)     min price (currency minor units, i.e. cents)
+     *   maxPrice     (int)     max price (currency minor units, i.e. cents)
+     *   brand        (string)
+     *   browseNodeId (string)
+     *   resources    (array)   optional override; if omitted apaapi uses its
+     *                          own sensible SearchItems defaults
+     *
+     * @param  array $args
+     * @return array Raw JSON-decoded Creators API response
+     * @throws \Exception on API error (code = HTTP status or 500)
      */
-    protected function getRequestSignature($request, $resourcePath, $operation)
+    public function searchItems(array $args = []) : array
     {
-        $awsv4 = new AwsV4($this->config->getAccessKey(), $this->config->getSecretKey());
-        $awsv4->setRegionName($this->config->getRegion());
-        $awsv4->setServiceName("ProductAdvertisingAPI");
-        $awsv4->setPath($resourcePath);
-        $awsv4->setPayload($request->__toString());
-        $awsv4->setRequestMethod("POST");
-        $awsv4->addHeader('content-encoding', 'amz-1.0');
-        $awsv4->addHeader('content-type', 'application/json; charset=utf-8');
-        $awsv4->addHeader('host', str_replace('https://', '', $this->config->getHost()));
-        $awsv4->addHeader('x-amz-target', 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.' . $operation);
-        return $awsv4;
+        $op = new SearchItems();
+        $op->setPartnerTag($this->partnerTag);
+
+        if (isset($args['keywords']) && $args['keywords'] !== '') {
+            $op->setKeywords((string) $args['keywords']);
+        }
+        if (isset($args['title']) && $args['title'] !== '') {
+            $op->setTitle((string) $args['title']);
+        }
+        if (isset($args['searchIndex']) && $args['searchIndex'] !== '') {
+            $op->setSearchIndex((string) $args['searchIndex']);
+        }
+        if (isset($args['itemPage'])) {
+            $op->setItemPage((int) $args['itemPage']);
+        }
+        if (isset($args['itemCount'])) {
+            $op->setItemCount((int) $args['itemCount']);
+        }
+        if (isset($args['sortBy']) && $args['sortBy'] !== '') {
+            $op->setSortBy((string) $args['sortBy']);
+        }
+        if (isset($args['merchant']) && $args['merchant'] !== '') {
+            $op->setMerchant((string) $args['merchant']);
+        }
+        if (isset($args['availability']) && $args['availability'] !== '') {
+            $op->setAvailability((string) $args['availability']);
+        }
+        if (isset($args['minPrice']) && $args['minPrice'] !== '') {
+            $op->setMinPrice((int) $args['minPrice']);
+        }
+        if (isset($args['maxPrice']) && $args['maxPrice'] !== '') {
+            $op->setMaxPrice((int) $args['maxPrice']);
+        }
+        if (isset($args['brand']) && $args['brand'] !== '') {
+            $op->setBrand((string) $args['brand']);
+        }
+        if (isset($args['browseNodeId']) && $args['browseNodeId'] !== '') {
+            $op->setBrowseNodeId((string) $args['browseNodeId']);
+        }
+        if (isset($args['resources']) && is_array($args['resources']) && !empty($args['resources'])) {
+            $op->setResources($args['resources']);
+        }
+
+        return $this->execute($op);
     }
 
+    /**
+     * Run a GetItems operation.
+     *
+     * @param  array $asins List of ASINs
+     * @return array Raw JSON-decoded Creators API response
+     * @throws \Exception on API error (code = HTTP status or 500)
+     */
+    public function getItems(array $asins) : array
+    {
+        $op = new GetItems();
+        $op->setPartnerTag($this->partnerTag);
+        $op->setItemIds(array_values($asins));
+
+        return $this->execute($op);
+    }
+
+    /**
+     * Execute an apaapi operation and return the decoded response data.
+     * Throws \Exception with the response error message on failure.
+     *
+     * @param  object $op apaapi Operation
+     * @return array
+     * @throws \Exception
+     */
+    private function execute($op) : array
+    {
+        $this->request->setPayload($op);
+        // Force a fresh client per operation (payload/headers change),
+        // but the OAuth token cached on $this->request is reused.
+        $this->request->setClient();
+
+        // NOCACHE because the Cache::getKey signature requires a RequestInterface
+        // and we want predictable per-call freshness for writes & paginated reads.
+        $response = new CodedResponse($this->request, false, Response::NOCACHE);
+
+        // On 401 (expired/invalid access token) force a token refresh by
+        // rebuilding the Request and retry the call exactly once.
+        if ($response->getStatusCode() === 401) {
+            $this->buildRequest();
+            $this->request->setPayload($op);
+            $this->request->setClient();
+            $response = new CodedResponse($this->request, false, Response::NOCACHE);
+        }
+
+        if ($response->hasError()) {
+            $message = $response->getError();
+            if ($message === '') {
+                $message = 'Unknown Amazon Creators API error.';
+            }
+            $code = self::extractHttpCode($response);
+            throw new \Exception($message, $code);
+        }
+
+        return $response->get();
+    }
+
+    /**
+     * Extract HTTP status code from response for exception propagation.
+     * Falls back to 500 if unavailable.
+     *
+     * @param  CodedResponse $response
+     * @return int
+     */
+    private static function extractHttpCode(CodedResponse $response) : int
+    {
+        $code = $response->getStatusCode();
+        return $code > 0 ? $code : 500;
+    }
+
+    /**
+     * Ensure apaapi's standalone autoloader is registered.
+     * Idempotent — safe to call multiple times.
+     */
+    private static function bootstrapAutoloader() : void
+    {
+        if (!class_exists('\\Apaapi\\Autoloader', false)) {
+            $file = dirname(__DIR__) . '/apaapi/Autoloader.php';
+            if (is_file($file)) {
+                require_once $file;
+            }
+        }
+        if (class_exists('\\Apaapi\\Autoloader', false)) {
+            \Apaapi\Autoloader::init();
+        }
+    }
 }
