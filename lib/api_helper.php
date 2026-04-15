@@ -1121,8 +1121,6 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 	add_action( 'init', 'at_amazon_start_cronjob' );
 	add_action( 'init', 'at_amazon_start_feed_cronjob' );
 	function at_amazon_start_cronjob() {
-		$public_key                = get_option( 'amazon_public_key' );
-		$secret_key                = get_option( 'amazon_secret_key' );
 		$amazon_update_run_cronjob = get_option( 'amazon_update_run_cronjob' );
 
 		$recurrence = apply_filters( 'at_amazon_cronjob_recurrence', 'hourly' );
@@ -1135,7 +1133,9 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 			return false;
 		}
 
-		if ( ! $public_key || ! $secret_key ) {
+		$has_new_creds = ( get_option( 'amazon_credential_id' ) && get_option( 'amazon_credential_secret' ) );
+		$has_old_creds = ( get_option( 'amazon_public_key' ) && get_option( 'amazon_secret_key' ) );
+		if ( ! $has_new_creds && ! $has_old_creds ) {
 			wp_clear_scheduled_hook( $hook, $args );
 
 			return false;
@@ -1149,15 +1149,13 @@ if ( ! function_exists( 'at_amazon_start_cronjob' ) ) {
 	}
 
 	function at_amazon_start_feed_cronjob() {
-		$public_key = get_option( 'amazon_public_key' );
-		$secret_key = get_option( 'amazon_secret_key' );
-
 		$recurrence = apply_filters( 'at_amazon_cronjob_recurrence', '5min' );
 		$hook       = 'affiliatetheme_amazon_api_update_feeds';
 		$args       = array( AWS_CRON_HASH );
 
-        wp_clear_scheduled_hook($hook, array('hash' => AWS_CRON_HASH)); // clear old cron
-		if ( ! $public_key || ! $secret_key ) {
+		$has_new_creds = ( get_option( 'amazon_credential_id' ) && get_option( 'amazon_credential_secret' ) );
+		$has_old_creds = ( get_option( 'amazon_public_key' ) && get_option( 'amazon_secret_key' ) );
+		if ( ! $has_new_creds && ! $has_old_creds ) {
 			wp_clear_scheduled_hook( $hook, $args );
 
 			return false;

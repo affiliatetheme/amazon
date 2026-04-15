@@ -1,9 +1,5 @@
 <?php
 
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
-use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use Endcore\AmazonApi;
 use Endcore\FormattedItemResponse;
 
@@ -13,56 +9,41 @@ function at_aws_import($asin = '', $direct = false, $taxs = array()) {
     global $wpdb;
 
     if(!$direct) {
+        if ( ! current_user_can( 'edit_posts' ) ) {
+            wp_die( '-1', 403 );
+        }
         if (!wp_verify_nonce($_POST['_wpnonce'], 'at_amazon_import_wpnonce')) {
             die('Security Check failed');
         }
     }
 
     // vars
-    if(!$direct) $asin = (isset($_POST['asin']) ? $_POST['asin'] : '');
+    if(!$direct) {
+        $asin_raw = isset( $_POST['asin'] ) ? (string) $_POST['asin'] : '';
+        $asin     = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', $asin_raw ) );
+        if ( ! preg_match( '/^[A-Z0-9]{10}$/', $asin ) ) {
+            wp_die( 'Invalid ASIN', '', [ 'response' => 400 ] );
+        }
+    }
     $amazon_images_external = get_option('amazon_images_external');
 
     if ((isset($_POST['func']) && ($_POST['func'] == 'quick-import'))||$direct) {
         // quick import
-        $hostAndRegion = at_amazon_get_host_region();
+        $apiInstance = AmazonApi::fromWpOptions();
 
-        $config = new Configuration();
-        $config->setAccessKey(AWS_API_KEY);
-        $config->setSecretKey(AWS_API_SECRET_KEY);
-        $partnerTag = AWS_ASSOCIATE_TAG;
-        $config->setHost($hostAndRegion['host']);
-        $config->setRegion($hostAndRegion['region']);
-        $apiInstance = new AmazonApi(new EnGuzzleHttp\Client(), $config);
-
-        $resources = GetItemsResource::getAllowableEnumValues();
-
-        $lookup = new GetItemsRequest();
         if (empty($asin) || $asin === '') {
             at_write_api_log('amazon', 'system', 'Item not found on Amazon.');
             http_response_code(505);
             exit();
         }
-        $lookup->setItemIds([$asin]);
-        $lookup->setPartnerTag($partnerTag);
-        $lookup->setPartnerType(PartnerType::ASSOCIATES);
-        $lookup->setResources($resources);
-
-        $invalidPropertyList = $lookup->listInvalidProperties();
-        $length = count($invalidPropertyList);
-        if ($length > 0) {
-            echo "Error forming the request", PHP_EOL;
-            foreach ($invalidPropertyList as $invalidProperty) {
-                echo $invalidProperty, PHP_EOL;
-            }
-            return;
-        }
 
         try {
-            $getItemsResponse = $apiInstance->getItems($lookup);
+            $getItemsResponse = $apiInstance->getItems([$asin]);
             $formattedResponse = new FormattedItemResponse($getItemsResponse);
         } catch (\Exception $e) {
             at_write_api_log('amazon', 'system', $e->getMessage());
-            http_response_code($e->getCode());
+            $code = (int) $e->getCode();
+            http_response_code( $code >= 100 && $code < 600 ? $code : 500 );
             exit();
         }
 

@@ -1,32 +1,28 @@
 <?php
 
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
-use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use Endcore\AmazonApi;
 use Endcore\FormattedItemResponse;
 use Endcore\SimpleItem;
 
 add_action( 'wp_ajax_at_aws_update', 'at_aws_update' );
-add_action( 'wp_ajax_nopriv_at_aws_update', 'at_aws_update' );
 add_action( 'wp_ajax_amazon_api_update', 'at_aws_update' );
-add_action( 'wp_ajax_nopriv_amazon_api_update', 'at_aws_update' );
 add_action( 'affiliatetheme_amazon_api_update', 'at_aws_update' );
 add_action( 'affiliatetheme_amazon_api_update_feeds', 'at_aws_update_feeds' );
 function at_aws_update( $args = array() )
 {
     global $wpdb;
 
+    if ( ! wp_doing_cron() && ! $args && ! current_user_can( 'manage_options' ) ) {
+        wp_die( '-1', 403 );
+    }
+
+    if ( function_exists( 'set_time_limit' ) ) { @set_time_limit( 0 ); }
+
     $hash       = AWS_CRON_HASH;
     $check_hash = ( $args ? $args : ( isset( $_GET['hash'] ) ? $_GET['hash'] : '' ) );
 
-    // Clear old cron
-    wp_clear_scheduled_hook('affiliatetheme_amazon_api_update', array('hash' => AWS_CRON_HASH));
-
     if ( $check_hash != $hash ) {
-        wp_clear_scheduled_hook( 'affiliatetheme_amazon_api_update', $args = array( $check_hash ) );
-        die( 'Security check failed.' );
+        die( 'Invalid hash' );
     }
 
     $interval = ( at_amazon_product_skip_interval() ? at_amazon_product_skip_interval() : 3600 );
@@ -63,15 +59,7 @@ function at_aws_update( $args = array() )
     at_write_api_log( 'amazon', 'system', 'start cron' );
 
     if ( $products ) {
-        $hostAndRegion = at_amazon_get_host_region();
-
-        $config = new Configuration();
-        $config->setAccessKey( AWS_API_KEY );
-        $config->setSecretKey( AWS_API_SECRET_KEY );
-        $partnerTag = AWS_ASSOCIATE_TAG;
-        $config->setHost( $hostAndRegion['host'] );
-        $config->setRegion( $hostAndRegion['region'] );
-        $apiInstance = new AmazonApi( new EnGuzzleHttp\Client(), $config );
+        $apiInstance = AmazonApi::fromWpOptions();
 
         foreach ( $products as $product ) {
             try {
@@ -81,31 +69,11 @@ function at_aws_update( $args = array() )
                     foreach ( $shops as $key => $val ) {
                         if ( $val['portal'] == 'amazon' ) { // check if amazon product
                             try {
-                                $resources = GetItemsResource::getAllowableEnumValues();
-
-                                $lookup = new GetItemsRequest();
-
                                 if ( empty( $val[AWS_METAKEY_ID] ) || $val[AWS_METAKEY_ID] === '' ) {
                                     throw new \Exception( 'Item not found on Amazon.', 505 );
                                 }
 
-                                $lookup->setItemIds( [ $val[AWS_METAKEY_ID] ] );
-                                $lookup->setPartnerTag( $partnerTag );
-                                $lookup->setPartnerType( PartnerType::ASSOCIATES );
-                                $lookup->setResources( $resources );
-
-                                $invalidPropertyList = $lookup->listInvalidProperties();
-                                $length              = count( $invalidPropertyList );
-                                if ( $length > 0 ) {
-                                    echo "Error forming the request", PHP_EOL;
-                                    foreach ( $invalidPropertyList as $invalidProperty ) {
-                                        echo $invalidProperty, PHP_EOL;
-                                    }
-
-                                    return;
-                                }
-
-                                $getItemsResponse  = $apiInstance->getItems( $lookup );
+                                $getItemsResponse  = $apiInstance->getItems( [ $val[AWS_METAKEY_ID] ] );
                                 $formattedResponse = new FormattedItemResponse( $getItemsResponse );
 
                                 $item = $formattedResponse->getItem();

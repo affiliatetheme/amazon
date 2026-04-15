@@ -1,15 +1,15 @@
 <?php
 
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsRequest;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\GetItemsResource;
-use Amazon\ProductAdvertisingAPI\v1\com\amazon\paapi5\v1\PartnerType;
-use Amazon\ProductAdvertisingAPI\v1\Configuration;
 use Endcore\AmazonApi;
 use Endcore\FormattedItemResponse;
 
 add_action('wp_ajax_at_amazon_add_acf', 'at_amazon_add_acf');
 function at_amazon_add_acf()
 {
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_die( '-1', 403 );
+    }
+
     $nonce = $_POST['_wpnonce'];
 
     if (!wp_verify_nonce($nonce, 'at_amazon_import_wpnonce')) {
@@ -17,42 +17,22 @@ function at_amazon_add_acf()
     }
 
     // quick import
-    $hostAndRegion = at_amazon_get_host_region();
-
-    $config = new Configuration();
-    $config->setAccessKey(AWS_API_KEY);
-    $config->setSecretKey(AWS_API_SECRET_KEY);
-    $partnerTag = AWS_ASSOCIATE_TAG;
-    $config->setHost($hostAndRegion['host']);
-    $config->setRegion($hostAndRegion['region']);
-    $apiInstance = new AmazonApi(new EnGuzzleHttp\Client(), $config);
+    $apiInstance = AmazonApi::fromWpOptions();
 
     // vars
-    $id = $_POST['id'];
-    $resources = GetItemsResource::getAllowableEnumValues();
-
-    $lookup = new GetItemsRequest();
-    $lookup->setItemIds([$id]);
-    $lookup->setPartnerTag($partnerTag);
-    $lookup->setPartnerType(PartnerType::ASSOCIATES);
-    $lookup->setResources($resources);
-
-    $invalidPropertyList = $lookup->listInvalidProperties();
-    $length = count($invalidPropertyList);
-    if ($length > 0) {
-        echo "Error forming the request", PHP_EOL;
-        foreach ($invalidPropertyList as $invalidProperty) {
-            echo $invalidProperty, PHP_EOL;
-        }
-        return;
+    $asin_raw = isset( $_POST['id'] ) ? (string) $_POST['id'] : '';
+    $id       = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', $asin_raw ) );
+    if ( ! preg_match( '/^[A-Z0-9]{10}$/', $id ) ) {
+        wp_die( 'Invalid ASIN', '', [ 'response' => 400 ] );
     }
 
     try {
-        $getItemsResponse = $apiInstance->getItems($lookup);
+        $getItemsResponse = $apiInstance->getItems([$id]);
         $formattedResponse = new FormattedItemResponse($getItemsResponse);
     } catch (Exception $e) {
         at_write_api_log('amazon', 'system', $e->getMessage());
-        http_response_code($e->getCode());
+        $code = (int) $e->getCode();
+        http_response_code( $code >= 100 && $code < 600 ? $code : 500 );
         exit();
     }
 

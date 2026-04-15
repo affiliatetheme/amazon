@@ -1,60 +1,46 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('error_reporting', E_ALL);
-ini_set('max_execution_time', 180);
+/**
+ * Smoke-Test für die neue Amazon Creators API.
+ *
+ * Nicht produktiv eingebunden — nur für Developer-Debugging.
+ * Aufruf via WP-AJAX: /wp-admin/admin-ajax.php?action=at_aws_test&asin=B00EXHLKVY
+ */
 
-use ApaiIO\ApaiIO;
-use ApaiIO\Configuration\GenericConfiguration;
-use ApaiIO\Operations\Lookup;
-use ApaiIO\Zend\Service\Amazon;
+add_action( 'wp_ajax_amazon_api_test', 'at_aws_test' );
+add_action( 'wp_ajax_at_aws_test', 'at_aws_test' );
 
-add_action('wp_ajax_amazon_api_test', 'at_aws_test');
-add_action('wp_ajax_at_aws_test', 'at_aws_test');
 function at_aws_test() {
-    $conf = new GenericConfiguration();
+    if ( ! ( defined( 'WP_DEBUG' ) && WP_DEBUG && current_user_can( 'manage_options' ) ) ) {
+        wp_die( '-1', 403 );
+    }
+
+    if ( function_exists( 'set_time_limit' ) ) {
+        @set_time_limit( 180 );
+    }
+
+    $asin_raw = isset( $_GET['asin'] ) ? (string) $_GET['asin'] : 'B00EXHLKVY';
+    $asin     = strtoupper( preg_replace( '/[^A-Za-z0-9]/', '', $asin_raw ) );
+    if ( ! preg_match( '/^[A-Z0-9]{10}$/', $asin ) ) {
+        wp_die( 'Invalid ASIN', '', array( 'response' => 400 ) );
+    }
+
+    if ( ! class_exists( '\\Endcore\\AmazonApi' ) ) {
+        echo "AmazonApi class not found. Make sure the Creators API client is loaded.\n";
+        die;
+    }
+
     try {
-        $conf
-            ->setCountry(AWS_COUNTRY)
-            ->setAccessKey(AWS_API_KEY)
-            ->setSecretKey(AWS_API_SECRET_KEY)
-            ->setAssociateTag(AWS_ASSOCIATE_TAG)
-            ->setResponseTransformer('\ApaiIO\ResponseTransformer\XmlToSingleResponseSet');
-    } catch (\Exception $e) {
-        echo $e->getMessage();
+        $api = \Endcore\AmazonApi::fromWpOptions();
+        $response = $api->getItems( array( $asin ) );
+
+        echo "<pre>";
+        var_dump( $response );
+        echo "</pre>";
+    } catch ( \Throwable $e ) {
+        echo "ERROR: " . $e->getMessage() . "\n";
+        echo "File:  " . $e->getFile() . ':' . $e->getLine() . "\n";
+        echo "<pre>" . $e->getTraceAsString() . "</pre>";
     }
 
-    $apaiIO = new ApaiIO($conf);
-
-    // vars
-    $asin = (isset($_GET['asin']) ? $_GET['asin'] : '');
-
-
-    for ($i = 0; $i < 1000; $i++) {
-        $lookup = new Lookup();
-        $lookup->setItemId($asin);
-        $lookup->setResponseGroup(array('ItemAttributes', 'OfferSummary', 'Offers', 'OfferFull', 'Variations', 'SalesRank', 'Images'));
-        $lookup->setAvailability('Available');
-        $formattedResponse = $apaiIO->runOperation($lookup);
-        $item = $formattedResponse->getItem();
-
-        if (!($item instanceof Amazon\Item)) {
-            var_dump('ERROR');
-//            var_dump($formattedResponse);
-            var_dump($formattedResponse->getTextContent());
-
-            if ($item instanceof Amazon\SingleResultSet) {
-                throw new \Exception($item->getErrorMessage(), 505);
-            }
-            die;
-        } else {
-
-        }
-    }
-
-    echo '0K';
-
-    var_dump('done');
     die;
-
-    exit();
 }
