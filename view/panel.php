@@ -1,4 +1,3 @@
-<?php date_default_timezone_set( 'Europe/Berlin' ); ?>
 <div class="at-ajax-loader">
 	<div class="inner">
 		<p></p>
@@ -11,7 +10,7 @@
 
 <div class="wrap" id="at-import-page" data-url="<?php echo admin_url(); ?>" data-nonce="<?php echo wp_create_nonce("at_amazon_import_wpnonce"); ?>">
 	<div class="at-inner">
-		<h1><? _e('AffiliateTheme Import » Amazon', 'affiliatetheme-amazon'); ?></h1>
+		<h1><?php _e('AffiliateTheme Import » Amazon', 'affiliatetheme-amazon'); ?></h1>
 
 		<div id="checkConnection"></div>
 
@@ -31,22 +30,65 @@
 				<div id="at-import-settings" class="metabox-holder postbox">
 					<h3 class="hndle"><span><?php _e('Einstellungen', 'affiliatetheme-amazon'); ?></span></h3>
 					<div class="inside">
+						<?php
+						$amazon_credential_id_val     = get_option('amazon_credential_id');
+						$amazon_credential_secret_val = get_option('amazon_credential_secret');
+						$amazon_legacy_pk             = get_option('amazon_public_key');
+						$amazon_legacy_sk             = get_option('amazon_secret_key');
+						$amazon_migration_url         = 'https://affiliatetheme.io/amazon-creators-api-migration/';
+						$amazon_credentials_help      = 'https://affiliatetheme.io/amazon-creators-api-credentials-erstellen/';
+						$amazon_migration_md_url      = defined('AWS_URL') ? AWS_URL . 'MIGRATION.md' : plugins_url('MIGRATION.md', dirname(__FILE__) . '/affiliatetheme-amazon.php');
+
+						$has_new  = ! empty($amazon_credential_id_val) && ! empty($amazon_credential_secret_val);
+						$has_old  = ! empty($amazon_legacy_pk) && ! empty($amazon_legacy_sk);
+						$deadline = new DateTime('2026-04-30');
+						$today    = new DateTime();
+						$days_left = max(0, (int) $today->diff($deadline)->format('%r%a'));
+						$deadline_text = $days_left > 0
+							? sprintf( _n( 'Noch %d Tag bis zur Abschaltung am 30. April 2026.', 'Noch %d Tage bis zur Abschaltung am 30. April 2026.', $days_left, 'affiliatetheme-amazon' ), $days_left )
+							: __( 'Die alte Amazon-API wurde am 30. April 2026 abgeschaltet.', 'affiliatetheme-amazon' );
+						?>
+
+						<?php if ( ! $has_new && $has_old ): // Bestandsnutzer mit alten Keys ?>
+						<div class="notice notice-error" style="margin:15px 0; padding:15px;">
+							<h3 style="margin-top:0;"><?php _e( 'Migration erforderlich', 'affiliatetheme-amazon' ); ?></h3>
+							<p><strong><?php echo esc_html( $deadline_text ); ?></strong></p>
+							<p><?php _e( 'Amazon hat die alte Product Advertising API (AWS Access Keys) abgekündigt. Ab dem 30. April 2026 kann dieses Plugin ohne neue Zugangsdaten keine Produkte mehr importieren oder Preise aktualisieren. Bitte migriere jetzt auf die neue Creators API.', 'affiliatetheme-amazon' ); ?></p>
+							<p>
+								<a href="<?php echo esc_url( $amazon_migration_md_url ); ?>" class="button button-primary" target="_blank"><?php _e( 'Anleitung öffnen', 'affiliatetheme-amazon' ); ?></a>
+								<a href="<?php echo esc_url( $amazon_migration_url ); ?>" target="_blank"><?php _e( 'Weitere Hilfe im Web', 'affiliatetheme-amazon' ); ?></a>
+							</p>
+						</div>
+						<?php elseif ( ! $has_new && ! $has_old ): // Neu-Nutzer, frische Installation ?>
+						<div class="notice notice-warning" style="margin:15px 0; padding:15px;">
+							<h3 style="margin-top:0;"><?php _e( 'Willkommen — noch keine Zugangsdaten hinterlegt', 'affiliatetheme-amazon' ); ?></h3>
+							<p><?php _e( 'Um das Plugin zu nutzen, benötigst du Zugangsdaten aus der Amazon Creators API. Diese legst du einmalig in deinem Amazon-Partner-Konto an.', 'affiliatetheme-amazon' ); ?></p>
+							<p>
+								<a href="<?php echo esc_url( $amazon_migration_md_url ); ?>" class="button button-primary" target="_blank"><?php _e( 'Einrichtungsanleitung', 'affiliatetheme-amazon' ); ?></a>
+							</p>
+						</div>
+						<?php elseif ( $has_new && $has_old ): // Legacy noch nicht aufgeräumt ?>
+						<div class="notice notice-info" style="margin:15px 0; padding:15px;">
+							<p><?php _e( 'Die neuen Creators-API-Zugangsdaten sind aktiv. Du kannst die alten AWS-Zugangsdaten jetzt entfernen — sie werden nicht mehr verwendet.', 'affiliatetheme-amazon' ); ?></p>
+						</div>
+						<?php endif; ?>
+
 						<form action="options.php" method="post" id="<?php echo $plugin_options; ?>_form" name="<?php echo $plugin_options; ?>_form">
 							<?php settings_fields($plugin_options); ?>
 							<?php do_settings_sections( $plugin_options ); ?>
 							<div class="form-container">
 								<div class="form-group">
-									<label for="amazon_public_key"><?php _e('Access Key ID', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
-									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo get_option('amazon_public_key'); ?>" />
-									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
+									<label for="amazon_credential_id"><?php _e('Credential ID', 'affiliatetheme-amazon'); ?> <sup>*</sup></label><input type="password" name="amazon_credential_id" id="amazon_credential_id" value="<?php echo esc_attr($amazon_credential_id_val); ?>" /><a class="api-help" href="<?php echo esc_url($amazon_credentials_help); ?>" target="_blank"><span class="dashicons dashicons-editor-help"></span></a></div><div class="form-group"><label for="amazon_credential_secret"><?php _e('Credential Secret', 'affiliatetheme-amazon'); ?> <sup>*</sup></label><input type="password" name="amazon_credential_secret" id="amazon_credential_secret" value="<?php echo esc_attr($amazon_credential_secret_val); ?>" /><a class="api-help" href="<?php echo esc_url($amazon_credentials_help); ?>" target="_blank"><span class="dashicons dashicons-editor-help"></span></a></div><?php if ( ! empty($amazon_legacy_pk) || ! empty($amazon_legacy_sk) ) : ?><div class="form-group" style="background:#fff8e1;border-left:4px solid #dcb032;padding:10px 12px;margin-bottom:15px;"><p style="margin:0;color:#8a6d3b;"><strong><?php _e('Diese Felder sind veraltet und werden nicht mehr verwendet.', 'affiliatetheme-amazon'); ?></strong> <?php _e('Bitte migriere zu den neuen Credentials.', 'affiliatetheme-amazon'); ?> <a href="<?php echo esc_url($amazon_migration_url); ?>" target="_blank"><?php _e('Anleitung ansehen', 'affiliatetheme-amazon'); ?></a></p></div><div class="form-group"><label for="amazon_public_key"><?php _e('Access Key ID (veraltet)', 'affiliatetheme-amazon'); ?></label>
+									<input type="password" name="amazon_public_key" id="amazon_public_key" value="<?php echo esc_attr($amazon_legacy_pk); ?>" disabled />
+									<a class="api-help" href="https://affiliatetheme.io/amazon-creators-api-credentials-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 								</div>
 								<div class="form-group">
-									<label for="amazon_secret_key"><?php _e('Secret Access Key', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
-									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo get_option('amazon_secret_key'); ?>" />
-									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
+									<label for="amazon_secret_key"><?php _e('Secret Access Key (veraltet)', 'affiliatetheme-amazon'); ?></label>
+									<input type="password" name="amazon_secret_key" id="amazon_secret_key" value="<?php echo esc_attr($amazon_legacy_sk); ?>" disabled />
+									<a class="api-help" href="https://affiliatetheme.io/amazon-creators-api-credentials-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 								</div>
 								<div class="form-group">
-									<label for="amazon_country"><?php _e('Land', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
+									</div><?php endif; ?><div class="form-group"><label for="amazon_country"><?php _e('Land', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<?php $selected_amazon_country = get_option('amazon_country'); ?>
                                     <?php
                                     /**
@@ -56,7 +98,7 @@
 									<select name="amazon_country" id="amazon_country">
                                         <option value="com.au" <?php if($selected_amazon_country == "com.au") echo 'selected'; ?>><?php _e('Australien', 'affiliatetheme-amazon'); ?></option>
                                         <option value="com.br" <?php if($selected_amazon_country == "com.br") echo 'selected'; ?>><?php _e('Brasilien', 'affiliatetheme-amazon'); ?></option>
-                                        <option value="cn" <?php if($selected_amazon_country == "cn") echo 'selected'; ?>><?php _e('China', 'affiliatetheme-amazon'); ?></option>
+                                        <option value="cn" disabled><?php _e('China', 'affiliatetheme-amazon'); ?> (<?php _e('derzeit nicht unterstützt', 'affiliatetheme-amazon'); ?>)</option>
                                         <option value="de" <?php if($selected_amazon_country == "de") echo 'selected'; ?>><?php _e('Deutschland', 'affiliatetheme-amazon'); ?></option>
                                         <option value="fr" <?php if($selected_amazon_country == "fr") echo 'selected'; ?>><?php _e('Frankreich', 'affiliatetheme-amazon'); ?></option>
                                         <option value="it" <?php if($selected_amazon_country == "it") echo 'selected'; ?>><?php _e('Italien', 'affiliatetheme-amazon'); ?></option>
@@ -77,7 +119,7 @@
 								<div class="form-group">
 									<label for="amazon_partner_id"><?php _e('Partner Tag', 'affiliatetheme-amazon'); ?> <sup>*</sup></label>
 									<input type="text" name="amazon_partner_id" value="<?php echo get_option('amazon_partner_id'); ?>" />
-									<a class="api-help" href="http://affiliatetheme.io/amazon-aws-access-key-und-secret-key-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
+									<a class="api-help" href="https://affiliatetheme.io/amazon-creators-api-credentials-erstellen/" target="_blank"><span class="dashicons dashicons-editor-help"></span></a>
 									<p class="form-hint"><?php _e('Damit die Produkt-Links dem richtigen Partner zugeordnet werden, trage hier deinen Partner Tag ein (z.B. superaffiliate-21).<br><strong>Wichtiger Hinweis:</strong> Wenn du diese Partner ID im späteren Verlauf änderst, werden alle Links in der Datenbank nach und nach mit dem neuen Partner Tag ausgestattet.', 'affiliatetheme-amazon'); ?></p>
 								</div>
 								<div class="form-group">

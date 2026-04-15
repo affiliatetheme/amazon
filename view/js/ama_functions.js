@@ -6,11 +6,21 @@ jQuery(document).ready(function() {
     // checkAdblock
     checkAdblock();
 
-    // checkConnection
-    if (jQuery('#amazon_public_key').val().length > 0 && jQuery('#amazon_secret_key').val().length > 0) {
+    // checkConnection — neue Creators API Credentials (Credential ID + Credential Secret)
+    if (jQuery('#amazon_credential_id').length && jQuery('#amazon_credential_secret').length
+        && jQuery('#amazon_credential_id').val() && jQuery('#amazon_credential_secret').val()) {
         checkConnection();
     } else {
-        return;
+        // Zeige Hinweis im Checkconnection-Container wenn Felder leer
+        if (jQuery('#checkConnection').length) {
+            jQuery('#checkConnection').html(
+                '<div class="notice notice-warning inline" style="padding:10px; margin:10px 0;"><p>' +
+                (typeof amazon_vars !== 'undefined' && amazon_vars.connection_empty
+                    ? amazon_vars.connection_empty
+                    : 'Bitte hinterlege deine Credential ID und dein Credential Secret, um die Verbindung zu testen.') +
+                '</p></div>'
+            );
+        }
     }
 
     // searchAction
