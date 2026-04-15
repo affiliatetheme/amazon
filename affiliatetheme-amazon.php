@@ -3,11 +3,18 @@
  * Plugin Name: AffiliateTheme - Amazon Schnittstelle
  * Plugin URI: https://affiliatetheme.io
  * Description: Dieses Plugin erweitert das AffiliateTheme um eine Amazon Schnittstelle
- * Version: 1.8.0
+ * Version: 2.0.0
+ * Requires PHP: 8.2
  * Author: endcore Medienagentur
  * Author URI: http://endcore.com
  * License: GPL2
- */ 
+ */
+if ( version_compare( PHP_VERSION, '8.2', '<' ) ) {
+    add_action( 'admin_notices', function() {
+        echo '<div class="notice notice-error"><p><strong>AffiliateTheme Amazon:</strong> Diese Plugin-Version benötigt PHP 8.2 oder höher. Dein Server nutzt PHP ' . esc_html( PHP_VERSION ) . '. Bitte kontaktiere deinen Hoster, bevor du aktualisierst.</p></div>';
+    } );
+    return; // Lade das Plugin nicht.
+}
 if(!class_exists('AffiliateTheme_Amazon')) {
 	class AffiliateTheme_Amazon {
 		public function __construct()
@@ -32,7 +39,7 @@ if(!class_exists('AffiliateTheme_Amazon')) {
                 'blocking' => false,
                 'body' => array(
                     'plugin' => 'affiliatetheme-amazon',
-                    'version' => '1.8.0',
+                    'version' => '2.0.0',
                     'site' => parse_url(home_url(), PHP_URL_HOST)
                 )
             ));
