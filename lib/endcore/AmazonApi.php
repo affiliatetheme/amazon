@@ -59,7 +59,7 @@ class AmazonApi
      * @param string      $credentialSecret Creators API credential secret
      * @param string      $partnerTag       Amazon Associates partner tag
      * @param string      $country          TLD part after 'amazon.' (de, com, co.uk, ...)
-     * @param string|null $version          Optional explicit version override (2.1/2.2/2.3)
+     * @param string|null $version          Optional explicit version override (2.1/2.2/2.3/3.1/3.2/3.3)
      */
     public function __construct(
         string $credentialId,
@@ -76,7 +76,7 @@ class AmazonApi
         $this->credentialSecret = $credentialSecret;
 
         if ($version === null) {
-            $version = self::countryToVersion($country);
+            $version = self::detectVersion($country, $credentialId);
         }
         $this->version = $version;
 
@@ -115,13 +115,36 @@ class AmazonApi
     }
 
     /**
+     * Detect the Creators API credential version from country + credential format.
+     *
+     * Amazon issues two credential families:
+     *   - Cognito (v2.x) — pre-Feb-2026, no specific prefix
+     *   - LWA     (v3.x) — since Feb 2026, credential ID starts with
+     *                       "amzn1.application-oa2-client."
+     *
+     * We pick the credential family from the ID prefix, then map the country
+     * to the regional sub-version (NA/EU/FE).
+     *
+     * @param  string $country      TLD (without 'amazon.' prefix)
+     * @param  string $credentialId Credential ID from Associates Central
+     * @return string '2.1'/'2.2'/'2.3' (Cognito) or '3.1'/'3.2'/'3.3' (LWA)
+     * @throws \InvalidArgumentException for unsupported locales (e.g. cn)
+     */
+    public static function detectVersion(string $country, string $credentialId) : string
+    {
+        $isLwa = strpos($credentialId, 'amzn1.application-oa2-client.') === 0;
+        return self::countryToVersion($country, $isLwa);
+    }
+
+    /**
      * Map an Amazon country/TLD to the Creators API credential version.
      *
      * @param  string $country TLD (without 'amazon.' prefix)
-     * @return string '2.1' (NA) | '2.2' (EU) | '2.3' (FE)
+     * @param  bool   $isLwa   True for LWA (v3.x) credentials, false for Cognito (v2.x)
+     * @return string '2.1'/'3.1' (NA) | '2.2'/'3.2' (EU) | '2.3'/'3.3' (FE)
      * @throws \InvalidArgumentException for unsupported locales (e.g. cn)
      */
-    public static function countryToVersion(string $country) : string
+    public static function countryToVersion(string $country, bool $isLwa = false) : string
     {
         $country = strtolower($country);
 
@@ -129,14 +152,16 @@ class AmazonApi
         $eu = ['de', 'fr', 'co.uk', 'it', 'es', 'nl', 'se', 'in', 'ae', 'com.tr', 'sa', 'eg', 'pl'];
         $fe = ['co.jp', 'com.au', 'sg'];
 
+        $major = $isLwa ? '3' : '2';
+
         if (in_array($country, $na, true)) {
-            return '2.1';
+            return "{$major}.1";
         }
         if (in_array($country, $eu, true)) {
-            return '2.2';
+            return "{$major}.2";
         }
         if (in_array($country, $fe, true)) {
-            return '2.3';
+            return "{$major}.3";
         }
 
         if ($country === 'cn') {
